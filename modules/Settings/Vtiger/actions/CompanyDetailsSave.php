@@ -34,29 +34,14 @@ class Settings_Vtiger_CompanyDetailsSave_Action extends Settings_Vtiger_Basic_Ac
 			$saveLogo = $status = true;
 			$logoName = false;
 			if(!empty($_FILES['logo']['name'])) {
-				$logoDetails = $_FILES['logo'];
-				$fileType = explode('/', $logoDetails['type']);
-				$fileType = $fileType[1];
-
-				if (!$logoDetails['size'] || !in_array($fileType, Settings_Vtiger_CompanyDetails_Model::$logoSupportedFormats)) {
-					$saveLogo = false;
-				}
-
-				//mime type check
-				$mimeType = mime_content_type($logoDetails['tmp_name']);
-				$mimeTypeContents = explode('/', $mimeType);
-				if (!$logoDetails['size'] || $mimeTypeContents[0] != 'image' || !in_array($mimeTypeContents[1], Settings_Vtiger_CompanyDetails_Model::$logoSupportedFormats)) {
-					$saveLogo = false;
-				}
-
-				// Check for php code injection
-				$imageContents = file_get_contents($logoDetails["tmp_name"]);
-				if (preg_match('/(<\?php?(.*?))/i', $imageContents) == 1) {
-					$saveLogo = false;
-				}
-				if ($saveLogo) {
-					$logoName = ltrim(basename(' '.Vtiger_Util_Helper::sanitizeUploadFileName($logoDetails['name'], vglobal('upload_badext'))));
+                                $logoDetails = $_FILES['logo'];
+				$saveLogo = Vtiger_Functions::validateImage($logoDetails);
+                                global $upload_badext;// from config.inc.php
+				$binFileName = sanitizeUploadFileName($logoDetails['name'], $upload_badext);
+				if ($saveLogo && pathinfo($binFileName, PATHINFO_EXTENSION) != 'txt') {
 					$moduleModel->saveLogo($logoName);
+                                } else {
+					$saveLogo = false;
 				}
 			}else{
 				$saveLogo = true;
