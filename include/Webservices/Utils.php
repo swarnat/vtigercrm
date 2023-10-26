@@ -487,10 +487,10 @@ function vtws_CreateCompanyLogoFile($fieldname) {
             copy($uploaddir.$binFile, $uploaddir.'application.ico');
             return $binFile;
         }
-        throw new WebServiceException(WebServiceErrorCode::$INVALIDTOKEN,
+        throw new WebServiceException(WebServiceErrorCode::$FAILED_TO_UPDATE,
             "$fieldname wrong file type given for upload");
     }
-    throw new WebServiceException(WebServiceErrorCode::$INVALIDTOKEN, "$fieldname file upload failed");
+    throw new WebServiceException(WebServiceErrorCode::$FAILED_TO_UPDATE, "$fieldname file upload failed");
 }
 
 function vtws_getActorEntityName ($name, $idList) {

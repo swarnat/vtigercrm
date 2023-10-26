@@ -653,8 +653,7 @@ class Vtiger_Functions {
         if ($saveimage) {
             $mimeType = mime_content_type($file_details['tmp_name']);
             list($mimeTypeContents, $mimeSubtype) = explode('/', $mimeType);
-
-            if (strtolower($mimeContents) !== 'image' || !in_array($mimeSubtype, $allowedImageFormats)) {
+            if (strtolower($mimeTypeContents) !== 'image' || !in_array($mimeSubtype, $allowedImageFormats)) {
                 $saveimage = false;
             }
         }
