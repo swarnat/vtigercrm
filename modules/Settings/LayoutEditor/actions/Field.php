@@ -98,7 +98,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action {
         }
 
         $defaultValue = $fieldInstance->get('defaultvalue');
-        if(!is_null($request->get('fieldDefaultValue', null))) {
+        if (!empty($request->get('fieldDefaultValue'))) {
             $defaultValue = decode_html($request->get('fieldDefaultValue'));
             $fieldInstance->set('defaultvalue', $defaultValue);
         }
