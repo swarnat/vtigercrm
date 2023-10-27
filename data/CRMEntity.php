@@ -186,7 +186,7 @@ class CRMEntity {
 			$save_file = validateImageFile($file_details);
 		}
                 $log->debug("File Validation status in Check1 save_file => $save_file");
-		if ($save_file == 'false') {
+		if (!$save_file) {
 			return false;
 		}
 
