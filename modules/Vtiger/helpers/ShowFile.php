@@ -72,7 +72,6 @@ class Vtiger_ShowFile_Helper {
 			header("Content-Disposition: attachment; filename=\"$sanitizedFileName\"");
 		}
 		header("Content-Type: $fileType;charset=UTF-8");
-                ob_end_clean();
 		echo $contents;
 	}
 }
