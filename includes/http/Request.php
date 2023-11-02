@@ -72,13 +72,8 @@ class Vtiger_Request implements ArrayAccess {
 			}
 		}
 		if($isJSON) {
-			$oldValue = Zend_Json::$useBuiltinEncoderDecoder;
-			Zend_Json::$useBuiltinEncoderDecoder = false;
 			$decodeValue = json_decode($value, true);
-			if(isset($decodeValue)) {
-				$value = $decodeValue;
-			}
-			Zend_Json::$useBuiltinEncoderDecoder  = $oldValue;
+                        $value = json_last_error() ? $value : $decodeValue;
 		}
 
         //Handled for null because vtlib_purify returns empty string
