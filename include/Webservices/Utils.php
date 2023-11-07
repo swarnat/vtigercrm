@@ -482,7 +482,7 @@ function vtws_CreateCompanyLogoFile($fieldname) {
         $uploaddir = $root_directory ."/test/logo/";
         $binFile = $_FILES[$fieldname]['name'];
         $saveLogo = validateImageFile($_FILES[$fieldname]);
-        if($saveLogo == 'true') {
+        if($saveLogo) {
             move_uploaded_file($_FILES[$fieldname]["tmp_name"], $uploaddir.$binFile);
             copy($uploaddir.$binFile, $uploaddir.'application.ico');
             return $binFile;

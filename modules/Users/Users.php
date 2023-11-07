@@ -1042,12 +1042,12 @@ class Users extends CRMEntity {
 		if(!isset($ownerid) || $ownerid=='')
 			$ownerid = $current_user->id;
 
-		$save_file = 'true';
+		$save_file =  true;
 		//only images are allowed for these modules
 		if($module == 'Users') {
 			$save_file = validateImageFile($file_details);
 		}
-		if ($save_file == 'false') {
+		if (!$save_file) {
 			return;
 		}
 
