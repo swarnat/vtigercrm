@@ -64,6 +64,7 @@ class Vtiger_ShowFile_Helper {
 	 * @param type $fileType - image file type
 	 */
 	static function show($finalFilePath, $fileType, $sanitizedFileName=false) {
+                ob_end_clean();
 		$handle = fopen($finalFilePath, "rb");
 		$contents = fread($handle, filesize($finalFilePath));
 		fclose($handle);
