@@ -21,16 +21,15 @@ require_once('config.php');
 
 // Performance Optimization: Configure the log folder
 @include_once('config.performance.php');
+require_once 'modules/Vtiger/helpers/VtigerLogger.php';
+
 global $PERFORMANCE_CONFIG;
-if(isset($PERFORMANCE_CONFIG) && isset($PERFORMANCE_CONFIG['LOG4PHP_DEBUG']) && $PERFORMANCE_CONFIG['LOG4PHP_DEBUG']) {
-        define('LOG4PHP_DIR', 'libraries/log4php');
+if(isset($PERFORMANCE_CONFIG) && isset($PERFORMANCE_CONFIG['LOGLEVEl_DEBUG']) && $PERFORMANCE_CONFIG['LOGLEVEl_DEBUG']) {
+    VtigerLogger::$filePath = "logs/vtigercrm.log"; // Default log file path.
+    VtigerLogger::$logLevel = 100; // Default debug level defined in Monolog.
 } else {
-        define('LOG4PHP_DIR', 'libraries/log4php');
+    VtigerLogger::$logLevel = 0;
 }
 // END
-
-define('LOG4PHP_DEFAULT_INIT_OVERRIDE', true);
-require_once(LOG4PHP_DIR.'/Logger.php');
-Logger::configure('log4php.properties');
 
 ?>

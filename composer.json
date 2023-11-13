@@ -21,6 +21,7 @@
         "smarty/smarty": "^4.3",
         "dg/rss-php": "^1.5",
         "ezyang/htmlpurifier": "^4.16",
-        "tecnickcom/tcpdf": "^6.6"
+        "tecnickcom/tcpdf": "^6.6",
+	"monolog/monolog": "*"
     }
 }
