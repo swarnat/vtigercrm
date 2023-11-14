@@ -22,6 +22,6 @@
         "dg/rss-php": "^1.5",
         "ezyang/htmlpurifier": "^4.16",
         "tecnickcom/tcpdf": "^6.6",
-	"monolog/monolog": "*"
+	"monolog/monolog": "^3.5"
     }
 }

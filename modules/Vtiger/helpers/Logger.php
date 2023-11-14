@@ -25,7 +25,7 @@ class Logger {
 
     /**
      * Constructor to initialize the logger
-     * @global type $PERFORMANCE_CONFIG 
+     * @global type $PERFORMANCE_CONFIG  [Enable LOGLEVEL_DEBUG falg in config.performance.php]
      */
     public function __construct() {
         // Check if the logger is not already initialized
