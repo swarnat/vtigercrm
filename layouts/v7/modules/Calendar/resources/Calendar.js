@@ -749,7 +749,7 @@ Vtiger.Class("Calendar_Calendar_Js", {
 		};
 		app.request.post({'data': params}).then(function (e, result) {
 			if (!e) {
-				if (result['success']) {
+				if (!result['success']) {
 					aDeferred.resolve(result);
 				} else {
 					aDeferred.reject(result);
