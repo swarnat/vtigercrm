@@ -71,6 +71,11 @@ class Logger {
     public function debug($message) {
         // Logging debug not implemented
     }
+    
+    public function fatal($message) {}
+    public function warn($message) {}
+    public function error($message) {}
+
 }
 
 // Define a custom log formatter
