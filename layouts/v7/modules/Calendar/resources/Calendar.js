@@ -749,7 +749,7 @@ Vtiger.Class("Calendar_Calendar_Js", {
 		};
 		app.request.post({'data': params}).then(function (e, result) {
 			if (!e) {
-				if (!result['success']) {
+				if (result['success']) {
 					aDeferred.resolve(result);
 				} else {
 					aDeferred.reject(result);
@@ -788,12 +788,12 @@ Vtiger.Class("Calendar_Calendar_Js", {
 			}
 
 			thisInstance.checkDuplicateFeed(moduleName, fieldName, selectedColor, conditions).then(
-					function (result) {
-						thisInstance.saveFeedSettings(modalContainer);
+					function(result) {
+					    app.helper.showErrorNotification({'message':result['message']});
+					    currentTarget.removeAttr('disabled');
 					},
-					function (result) {
-						app.helper.showErrorNotification({'message': result['message']});
-						currentTarget.removeAttr('disabled');
+					function() {
+					    thisInstance.saveFeedSettings(modalContainer);
 					});
 		});
 	},
