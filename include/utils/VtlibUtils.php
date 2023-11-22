@@ -665,18 +665,16 @@ function vtlib_purify($input, $ignore = false) {
     static $purified_cache = array();
     $value = $input;
 
-	$encryptInput = null;
     if (!is_array($input)) {
-        $encryptInput = hash('sha256',$input);
-        if (array_key_exists($encryptInput, $purified_cache)) {
-            $value = $purified_cache[$encryptInput];
+        $md5OfInput = md5($input);
+        if (array_key_exists($md5OfInput, $purified_cache)) {
+            $value = $purified_cache[$md5OfInput];
             //to escape cleaning up again
             $ignore = true;
         }
     }
     $use_charset = $default_charset;
     $use_root_directory = $root_directory;
-
 
     if (!$ignore) {
         // Initialize the instance if it has not yet done
@@ -702,6 +700,7 @@ function vtlib_purify($input, $ignore = false) {
             $config->set('CSS.AllowTricky', true);
             $config->set('URI.AllowedSchemes', $allowedSchemes);
             $config->set('Attr.EnableID', true);
+            $config->set('HTML.TargetBlank', true);
 
             $__htmlpurifier_instance = new HTMLPurifier($config);
         }
@@ -717,14 +716,9 @@ function vtlib_purify($input, $ignore = false) {
                 $value = purifyHtmlEventAttributes($value, true);
             }
         }
-        if ($encryptInput != null) {
-			$purified_cache[$encryptInput] = $value;
-    	}
-	}
-
-	if ($value && !is_array($value)) {
-		$value = str_replace('&amp;', '&', $value);
-	}
+        $purified_cache[$md5OfInput] = $value;
+    }
+    $value = str_replace('&amp;', '&', $value);
     return $value;
 }
 
@@ -764,7 +758,7 @@ $htmlEventAttributes = "onerror|onblur|onchange|oncontextmenu|onfocus|oninput|on
         //remove script tag with contents
         $value = purifyScript($value);
         //purify javascript alert from the tag contents
-        $value = purifyJavascriptAlert($value); 
+        $value = purifyJavascriptAlert($value);
 	
     } else {
         if (preg_match("/\s*(" . $htmlEventAttributes . ")\s*=/i", $value)) {
@@ -810,8 +804,8 @@ function purifyJavascriptAlert($value){
             $javaScriptRegex = '/(&.*?lt;|<).?'.$tag.'[^>]*(j[\s]?a[\s]?v[\s]?a[\s]?s[\s]?c[\s]?r[\s]?i[\s]?p[\s]?t[\s]*[=&%#:])[^>]*?(>|&.*?gt;)/i';
             foreach($matches[0] as $matchedValue){
                 //strict check addded - if &tab;/&newLine added in the above tags we are replacing it to spaces.
-                $purifyContent = preg_replace('/&NewLine;|&amp;NewLine;|&Tab;|&amp;Tab;|\t/i',' ',$purifyContent);
-		$purifyContent = preg_replace($javaScriptRegex,"<$tag>",decode_html($matchedValue));
+                $purifyContent = preg_replace('/&NewLine;|&amp;NewLine;|&Tab;|&amp;Tab;|\t/i',' ',decode_html($matchedValue));
+                $purifyContent = preg_replace($javaScriptRegex,"<$tag>",$purifyContent);
                 $value = str_replace($matchedValue, $purifyContent, $value);
                 
                 /*

@@ -647,53 +647,64 @@ class Vtiger_Functions {
             $file_details['type'] = mime_content_type($file_details['tmp_name']);
         }
 
-        $filetype = strtolower(pathinfo($file_details['name'], PATHINFO_EXTENSION));
-        $saveimage = in_array($filetype, $allowedImageFormats);
+        $mimeTypesList = array_merge($allowedImageFormats, array('x-ms-bmp')); //bmp another format
+        $file_type_details = explode("/", $file_details['type']);
+        $filetype = $file_type_details['1'];
+        if ($filetype) {
+            $filetype = strtolower($filetype);
+        }
 
-        if ($saveimage) {
+        $saveimage = 'true';
+        if (!in_array($filetype, $allowedImageFormats)) {
+            $saveimage = 'false';
+        }
+
+        //mime type check
+        if ($saveimage == 'true') {
             $mimeType = mime_content_type($file_details['tmp_name']);
-            list($mimeTypeContents, $mimeSubtype) = explode('/', $mimeType);
-            if (strtolower($mimeTypeContents) !== 'image' || !in_array($mimeSubtype, $allowedImageFormats)) {
-                $saveimage = false;
+            $mimeTypeContents = explode('/', $mimeType);
+            if (!$file_details['size'] || strtolower($mimeTypeContents[0]) !== 'image' || !in_array($mimeTypeContents[1], $mimeTypesList)) {
+                $saveimage = 'false';
             }
         }
 
+        //metadata check
         $shortTagSupported = ini_get('short_open_tag') ? true : false;
-
-        if ($saveimage) {
+        if ($saveimage == 'true') {
             $tmpFileName = $file_details['tmp_name'];
 
-            if (in_array($file_details['type'], ['image/jpeg', 'image/tiff'])) {
-                $exifdata = @exif_read_data($tmpFileName);
+            if ($file_details['type'] == 'image/jpeg' || $file_details['type'] == 'image/tiff') {
+                $exifdata = @exif_read_data($file_details['tmp_name']);
                 if ($exifdata && !self::validateImageMetadata($exifdata, $shortTagSupported)) {
-                    $saveimage = false;
+                    $saveimage = 'false';
                 }
-
-                if ($saveimage && $file_details['type'] == 'image/jpeg' && extension_loaded('gd') && function_exists('gd_info')) {
+                //131225968::remove sensitive information(like,GPS or camera information) from the image
+                if (($saveimage == 'true' ) && ($file_details['type'] == 'image/jpeg' ) && extension_loaded('gd') && function_exists('gd_info')) {
                     $img = imagecreatefromjpeg($tmpFileName);
                     imagejpeg($img, $tmpFileName);
                 }
             }
         }
 
-        if ($saveimage) {
+        if ($saveimage == 'true') {
             $imageContents = file_get_contents($tmpFileName);
-            $shortTag = $shortTagSupported ? "<?" : "<?php";
-            if (stripos($imageContents, $shortTag) !== false) {
-                $saveimage = false;
+            if (stripos($imageContents, $shortTagSupported ? "<?" : "<?php") !== false) { // suspicious dynamic content.
+                $saveimage = 'false';
             }
         }
 
-        if ($saveimage && in_array($filetype, ['svg+xml', $mimeSubtype])) {
-            // Remove malicious HTML attributes with values from the contents.
+        if (($filetype == 'svg+xml' || $mimeTypeContents[1] == 'svg+xml') && $saveimage == 'true') {
+            //remove malicious html attributes with its value from the contents.
             $imageContents = purifyHtmlEventAttributes($imageContents, true);
-            file_put_contents($tmpFileName, $imageContents);
+            $filePointer = fopen("$tmpFileName", "w");
+            fwrite($filePointer, $imageContents);
+            fclose($filePointer);
         }
 
-        if ($saveimage) {
+        if ($saveimage == 'true') {
             /*
              * File functions like  filegroup(), fileowner(), filesize(), filetype(), fileperms() and few others,caches file information, we need to clear the cache so it will not return the cache value if we perform/call same function after updating the file
-            */
+             */
             clearstatcache();
         }
 
