@@ -32,29 +32,33 @@ class Settings_Vtiger_CompanyDetailsSave_Action extends Settings_Vtiger_Basic_Ac
 		$status = false;
 		if ($request->get('organizationname')) {
 			$saveLogo = $status = true;
-			$logoName = false;
+			$binFileName = false;
 			if(!empty($_FILES['logo']['name'])) {
-                                $logoDetails = $_FILES['logo'];
+				$logoDetails = $_FILES['logo'];
 				$saveLogo = Vtiger_Functions::validateImage($logoDetails);
-                                global $upload_badext;// from config.inc.php
-				$logoName = sanitizeUploadFileName($logoDetails['name'], $upload_badext);
-				if ($saveLogo && pathinfo($logoName, PATHINFO_EXTENSION) != 'txt') {
-					$moduleModel->saveLogo($logoName);
-                                } else {
-					$saveLogo = false;
+				if (is_string($saveLogo)) $saveLogo = ($saveLogo == 'false')? false : true;
+
+				global $upload_badext;//from config.inc.php
+				$binFileName = sanitizeUploadFileName($logoDetails['name'], $upload_badext);
+				if ($saveLogo && pathinfo($binFileName, PATHINFO_EXTENSION) != 'txt') {
+					$moduleModel->saveLogo($binFileName);
+				}else{
+					throw new Exception(vtranslate('LBL_INVALID_IMAGE'),103);
 				}
-			}else{
+			} else {
 				$saveLogo = true;
 			}
 			$fields = $moduleModel->getFields();
 			foreach ($fields as $fieldName => $fieldType) {
 				$fieldValue = $request->get($fieldName);
 				if ($fieldName === 'logoname') {
-					if (!empty($logoDetails['name']) && $logoName) {
-						$fieldValue = decode_html(ltrim(basename(" " . $logoName)));
+					if (!empty($logoDetails['name']) && $binFileName) {
+						$fieldValue = decode_html(ltrim(basename(" " . $binFileName)));
 					} else {
 						$fieldValue = decode_html($moduleModel->get($fieldName));
 					}
+				} else {
+					$fieldValue = strip_tags(decode_html($fieldValue));
 				}
 				// In OnBoard company detail page we will not be sending all the details
 				if($request->has($fieldName) || ($fieldName == "logoname")) {
@@ -74,7 +78,7 @@ class Settings_Vtiger_CompanyDetailsSave_Action extends Settings_Vtiger_Basic_Ac
 		}
 		return;
 	}
-
+	
 	public function validateRequest(Vtiger_Request $request) {
 		$request->validateWriteAccess();
 	}
