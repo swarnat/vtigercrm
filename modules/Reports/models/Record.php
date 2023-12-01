@@ -651,7 +651,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 			$db->pquery('DELETE FROM vtiger_relcriteria_grouping WHERE queryid = ?', array($reportId));
 
 			foreach($advancedFilter as $groupIndex => $groupInfo) {
-				if(empty($groupInfo)) continue;
+				if(!is_array($groupInfo)) continue;
 
 				$groupColumns = $groupInfo['columns'];
 				$groupCondition = $groupInfo['condition'];
@@ -1079,6 +1079,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 		$advancedFilterCriteriaGroup = array();
 		if(is_array($advancedFilter)) {
 			foreach($advancedFilter as $groupIndex => $groupInfo) {
+                            if(!is_array($groupInfo)) continue;
 				$groupColumns = $groupInfo['columns'];
 				$groupCondition = $groupInfo['condition'];
 
