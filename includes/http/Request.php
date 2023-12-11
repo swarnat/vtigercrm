@@ -8,27 +8,12 @@
  * All Rights Reserved.
  ************************************************************************************/
 
-class Vtiger_Request implements ArrayAccess {
+class Vtiger_Request {
 
 	// Datastore
 	private $valuemap;
 	private $rawvaluemap;
 	private $defaultmap = array();
-
-	// ArrayAccess Start
-	public function offsetExists($key) {
-		return $this->has($key);
-	}
-	public function offsetSet($key, $value) {
-		$this->set($key, $value);
-	}
-	public function offsetGet($key) {
-		return $this->get($key);
-	}
-	public function offsetUnset($key) {
-		// Ignore
-	}
-	// ArrayAccess End
 
 	/**
 	 * Default constructor
@@ -72,10 +57,17 @@ class Vtiger_Request implements ArrayAccess {
 			}
 		}
 		if($isJSON) {
-			$decodeValue = json_decode($value, true);
-                        $value = json_last_error() ? $value : $decodeValue;
-		}
-
+//                    $decodeValue = json_decode($value, true);
+//                    $value = json_last_error() ? $value : $decodeValue;
+                    $oldValue = Zend_Json::$useBuiltinEncoderDecoder;
+		    Zend_Json::$useBuiltinEncoderDecoder = false;
+		    $decodeValue = Zend_Json::decode($value);
+		    if(isset($decodeValue)) {
+		            $value = $decodeValue;
+		    }
+		    Zend_Json::$useBuiltinEncoderDecoder  = $oldValue;
+                }
+                
         //Handled for null because vtlib_purify returns empty string
         if(!empty($value)){
             $value = vtlib_purify($value);
