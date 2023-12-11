@@ -709,7 +709,7 @@ function vtlib_purify($input, $ignore = false) {
             if (is_array($input)) {
                 $value = array();
                 foreach ($input as $k => $v) {
-                    $value[$k] = vtlib_purify($v, $ignore);
+                    $value[$k] = str_replace('&amp;', '&', vtlib_purify($v, $ignore));
                 }
             } else { // Simple type
                 $value = $__htmlpurifier_instance->purify($input);
@@ -717,8 +717,9 @@ function vtlib_purify($input, $ignore = false) {
             }
         }
         $purified_cache[$md5OfInput] = $value;
+    } else {
+        $value = str_replace('&amp;', '&', $value);
     }
-    $value = str_replace('&amp;', '&', $value);
     return $value;
 }
 

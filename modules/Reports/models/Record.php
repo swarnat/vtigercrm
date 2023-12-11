@@ -821,7 +821,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 		$tmpDir = vglobal('tmp_dir');
 
 		$tempFileName = tempnam($rootDirectory.$tmpDir, 'xls');
-		$fileName = decode_html($this->getName()).'.xls';
+		$fileName = decode_html(str_replace(' ', '_', $this->getName())).'_'.date('Ymd_His').'.xls';
 		$reportRun->writeReportToExcelFile($tempFileName, $advanceFilterSql);
 
 		if(isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE')) {
@@ -850,21 +850,20 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 
 		$tempFileName = tempnam($rootDirectory.$tmpDir, 'csv');
 		$reportRun->writeReportToCSVFile($tempFileName, $advanceFilterSql);
-		$fileName = decode_html($this->getName()).'.csv';
+		$fileName = decode_html(str_replace(' ', '_', $this->getName())).'_'.date('Ymd_His').'.csv';
 
 		if(isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'],'MSIE')) {
 			header('Pragma: public');
 			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		}
 
+                ob_clean();
 		// we are adding UTF-8 Byte Order Mark - BOM at the bottom so the size should be + 8 of the file size
-		$fileSize = @filesize($tempFileName) + 8;
+		$fileSize = @filesize($tempFileName);
 		header('Content-Encoding: UTF-8');
 		header('Content-type: text/csv; charset=UTF-8');
 		header('Content-Length: '.$fileSize);
 		header('Content-disposition: attachment; filename="'.$fileName.'"');
-		// UTF-8 Byte Order Mark - BOM (Source : http://stackoverflow.com/questions/4348802/how-can-i-output-a-utf-8-csv-in-php-that-excel-will-read-properly)
-		echo "\xEF\xBB\xBF";
 
 		$fp = fopen($tempFileName, 'rb');
 		fpassthru($fp);
