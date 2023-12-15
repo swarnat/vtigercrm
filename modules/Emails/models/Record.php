@@ -57,7 +57,7 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 		$userName = $currentUserModel->getName();
 
 		// To eliminate the empty value of an array
-		$toEmailInfo = array_filter($this->get('toemailinfo'));
+		$toEmailInfo = $this->get('toemailinfo') ? array_filter($this->get('toemailinfo')) : array();
 		$emailsInfo = array();
 		foreach ($toEmailInfo as $id => $emails) {
 			foreach($emails as $key => $value){

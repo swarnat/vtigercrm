@@ -47,7 +47,7 @@
                 data-specific-rules='{ZEND_JSON::encode($FIELD_INFO["validator"])}'
             {/if}
             />
-        <a href="#" class="clearReferenceSelection {if $FIELD_VALUE eq 0}hide{/if}"> x </a>
+        <a href="#" class="clearReferenceSelection {if empty($FIELD_VALUE) || $FIELD_VALUE lte 0}hide{/if}"> x </a>
             <span class="input-group-addon relatedPopup cursorPointer" title="{vtranslate('LBL_SELECT', $MODULE)}">
                 <i id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_select" class="fa fa-search"></i>
             </span>
