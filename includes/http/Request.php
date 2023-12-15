@@ -57,14 +57,19 @@ class Vtiger_Request {
 			}
 		}
 		if($isJSON) {
-                    $decodeValue = json_decode($value, true);
-                    $value = json_last_error() ? $value : $decodeValue;
+                    $oldValue = Zend_Json::$useBuiltinEncoderDecoder;
+                    Zend_Json::$useBuiltinEncoderDecoder = false;
+                    $decodeValue = Zend_Json::decode($value);
+                    if(isset($decodeValue)) {
+                            $value = $decodeValue;
+                    }
+                    Zend_Json::$useBuiltinEncoderDecoder  = $oldValue;
+		}
+
+                //Handled for null because vtlib_purify returns empty string
+                if(!empty($value)){
+                    $value = vtlib_purify($value);
                 }
-                
-        //Handled for null because vtlib_purify returns empty string
-        if(!empty($value)){
-            $value = vtlib_purify($value);
-        }
 		return $value;
 	}
 
