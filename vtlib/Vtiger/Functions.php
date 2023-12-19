@@ -654,46 +654,46 @@ class Vtiger_Functions {
             $filetype = strtolower($filetype);
         }
 
-        $saveimage = 'true';
+        $saveimage = true;
         if (!in_array($filetype, $allowedImageFormats)) {
-            $saveimage = 'false';
+            $saveimage = false;
         }
 
         //mime type check
-        if ($saveimage == 'true') {
+        if ($saveimage) {
             $mimeType = mime_content_type($file_details['tmp_name']);
             $mimeTypeContents = explode('/', $mimeType);
             if (!$file_details['size'] || strtolower($mimeTypeContents[0]) !== 'image' || !in_array($mimeTypeContents[1], $mimeTypesList)) {
-                $saveimage = 'false';
+                $saveimage = false;
             }
         }
 
         //metadata check
         $shortTagSupported = ini_get('short_open_tag') ? true : false;
-        if ($saveimage == 'true') {
+        if ($saveimage) {
             $tmpFileName = $file_details['tmp_name'];
 
             if ($file_details['type'] == 'image/jpeg' || $file_details['type'] == 'image/tiff') {
                 $exifdata = @exif_read_data($file_details['tmp_name']);
                 if ($exifdata && !self::validateImageMetadata($exifdata, $shortTagSupported)) {
-                    $saveimage = 'false';
+                    $saveimage = false;
                 }
                 //131225968::remove sensitive information(like,GPS or camera information) from the image
-                if (($saveimage == 'true' ) && ($file_details['type'] == 'image/jpeg' ) && extension_loaded('gd') && function_exists('gd_info')) {
+                if ($saveimage && ($file_details['type'] == 'image/jpeg' ) && extension_loaded('gd') && function_exists('gd_info')) {
                     $img = imagecreatefromjpeg($tmpFileName);
                     imagejpeg($img, $tmpFileName);
                 }
             }
         }
 
-        if ($saveimage == 'true') {
+        if ($saveimage) {
             $imageContents = file_get_contents($tmpFileName);
             if (stripos($imageContents, $shortTagSupported ? "<?" : "<?php") !== false) { // suspicious dynamic content.
-                $saveimage = 'false';
+                $saveimage = false;
             }
         }
 
-        if (($filetype == 'svg+xml' || $mimeTypeContents[1] == 'svg+xml') && $saveimage == 'true') {
+        if (($filetype == 'svg+xml' || $mimeTypeContents[1] == 'svg+xml') && $saveimage) {
             //remove malicious html attributes with its value from the contents.
             $imageContents = purifyHtmlEventAttributes($imageContents, true);
             $filePointer = fopen("$tmpFileName", "w");
@@ -701,7 +701,7 @@ class Vtiger_Functions {
             fclose($filePointer);
         }
 
-        if ($saveimage == 'true') {
+        if ($saveimage) {
             /*
              * File functions like  filegroup(), fileowner(), filesize(), filetype(), fileperms() and few others,caches file information, we need to clear the cache so it will not return the cache value if we perform/call same function after updating the file
              */
