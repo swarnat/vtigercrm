@@ -718,8 +718,24 @@ function vtlib_purify($input, $ignore = false) {
         }
         $purified_cache[$md5OfInput] = $value;
     }
-    $value = str_replace('&amp;', '&', $value);
+    
+    if(is_array($value)) {
+        $value = str_replace_json('&amp;', '&', $value);
+    } else {
+        $value = str_replace('&amp;', '&', $value);
+    }
     return $value;
+}
+
+/**
+ * Function to replace values in multi dimentional array (str_replace will support only one level of array)
+ * @param type $search
+ * @param type $replace
+ * @param type $subject
+ * @return <array>
+ */
+function str_replace_json($search, $replace, $subject){
+    return json_decode(str_replace($search, $replace,  json_encode($subject)), true);
 }
 
 /**
