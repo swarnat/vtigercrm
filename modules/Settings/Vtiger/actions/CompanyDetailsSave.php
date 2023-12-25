@@ -36,9 +36,7 @@ class Settings_Vtiger_CompanyDetailsSave_Action extends Settings_Vtiger_Basic_Ac
 			if(!empty($_FILES['logo']['name'])) {
 				$logoDetails = $_FILES['logo'];
 				$saveLogo = Vtiger_Functions::validateImage($logoDetails);
-				if (is_string($saveLogo)) $saveLogo = ($saveLogo == 'false')? false : true;
-
-				global $upload_badext;//from config.inc.php
+                                global $upload_badext;// from config.inc.php
 				$binFileName = sanitizeUploadFileName($logoDetails['name'], $upload_badext);
 				if ($saveLogo && pathinfo($binFileName, PATHINFO_EXTENSION) != 'txt') {
 					$moduleModel->saveLogo($binFileName);
