@@ -47,7 +47,7 @@ class Vtiger_ShowWidget_View extends Vtiger_IndexAjax_View {
 						$widget->set('data', $request->get('data'));
 					}
 		    		$widget->add();
-		    		$request->set('widgetid', $widget->get('id'));
+				  //$request->set('widgetid', $widget->get('id'));
 				}
 				
 				//Date conversion from user format to database format
