@@ -277,8 +277,11 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 		$viewer->assign('SEARCH_DETAILS', $searchParams);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('VIEW', $request->get('view'));
-
-		if (PerformancePrefs::getBoolean('LISTVIEW_COMPUTE_PAGE_COUNT', false)) {
+		/**
+		 * it returns false , if(false) is false it will not enter function , since we made negation ... 
+		 * negation(false) is true
+		 */
+		if (!PerformancePrefs::getBoolean('LISTVIEW_COMPUTE_PAGE_COUNT', false)) {
 			if(!$this->listViewCount){
 				$this->listViewCount = $listViewModel->getListViewCount();
 			}
