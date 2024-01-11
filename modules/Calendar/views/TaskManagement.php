@@ -99,7 +99,7 @@ class Calendar_TaskManagement_View extends Vtiger_Index_View {
 		if (!$request->get('colors')) {
 			$colors = array();
 			foreach ($priorities as $key => $value) {
-				$colors[$key] = $this->getColor($key);
+				$colors[$key] = $this->getColor($key,$field->getName());
 			}
 		} else {
 			$colors = $request->get('colors');
@@ -107,17 +107,34 @@ class Calendar_TaskManagement_View extends Vtiger_Index_View {
 		return $colors;
 	}
 
-	public function getColor($priority) {
-		$color = '';
-		switch ($priority) {
-			case 'High'		:	$color = '#FF5555';	break;
-			case 'Medium'	:	$color = '#03C04A';	break;
-			case 'Low'		:	$color = '#54A7F5';	break;
-			default			:	$color = '#'.dechex(rand(0x000000, 0xFFFFFF));
-								break;
+	public function getColor($priorities,$fieldname){
+		$db=PearDatabase::getInstance();
+		if(isset($priorities)){
+			$tableName = "vtiger_$fieldname";
+			$result=$db->pquery("SELECT color FROM $tableName WHERE $fieldname=?",array($priorities));
+			$no_of_row=$db->num_rows($result);
+			for($i=0;$i<$no_of_row;$i++){
+				$color = $db->query_result($result,$i,'color');
+			}
+		}
+		if(($color=='#ffffff') || ($color=' '))
+		{
+			$color = '#'.dechex(rand(0x000000, 0xFFFFFF));
 		}
 		return $color;
 	}
+
+	// public function getColor($priority) {
+	// 	$color = '';
+	// 	switch ($priority) {
+	// 		case 'High'		:	$color = '#FF5555';	break;
+	// 		case 'Medium'	:	$color = '#03C04A';	break;
+	// 		case 'Low'		:	$color = '#54A7F5';	break;
+	// 		default			:	$color = '#'.dechex(rand(0x000000, 0xFFFFFF));
+	// 							break;
+	// 	}
+	// 	return $color;
+	// }
 
 	protected function setFiltersInSession($filters) {
 		if (!isset($filters['status'])) {
