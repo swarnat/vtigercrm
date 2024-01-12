@@ -52,13 +52,8 @@ class gd {
             $height = @imagesy($image);
 
         } elseif (is_array($image)) {
-            $key = key($image);
-            $width = current($image);
-            next($image);
-
-            $key = key($image);
-            $height = current($image);
-            next($image);
+            list($key, $width) = each($image);
+            list($key, $height) = each($image);
             $image = imagecreatetruecolor($width, $height);
 
         } elseif (false !== (list($width, $height, $type) = @getimagesize($image))) {
@@ -76,8 +71,8 @@ class gd {
         }
 
         $return = (
-            ((is_resource($image) && get_resource_type($image) === 'gd') ||
-            (is_object($image) && $image instanceof \GDImage)) &&
+            is_resource($image) &&
+            (get_resource_type($image) == "gd") &&
             isset($width) &&
             isset($height) &&
             (preg_match('/^[1-9][0-9]*$/', $width) !== false) &&
