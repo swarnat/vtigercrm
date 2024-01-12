@@ -479,13 +479,20 @@ function vtws_CreateCompanyLogoFile($fieldname) {
     $fileSize = $_FILES[$fieldname]['size'];
     if($fileSize != 0) {
         global $root_directory;
-        $uploaddir = $root_directory ."/test/logo/";
-        $binFile = $_FILES[$fieldname]['name'];
-        $saveLogo = validateImageFile($_FILES[$fieldname]);
-        if($saveLogo) {
-            move_uploaded_file($_FILES[$fieldname]["tmp_name"], $uploaddir.$binFile);
-            copy($uploaddir.$binFile, $uploaddir.'application.ico');
-            return $binFile;
+        //Support formats allowed to upload as per CRM UI.
+        $logoSupportedFormats = array('jpeg', 'jpg', 'png', 'gif', 'pjpeg', 'x-png');
+        
+        $file_type_details = explode("/", $_FILES[$fieldname]['type']);
+        $filetype = $file_type_details['1'];
+        if(in_array($filetype, $logoSupportedFormats)) {
+            $uploaddir = $root_directory ."/test/logo/";
+            $binFile = $_FILES[$fieldname]['name'];
+            $saveLogo = validateImageFile($_FILES[$fieldname]);
+            if($saveLogo) {
+                move_uploaded_file($_FILES[$fieldname]["tmp_name"], $uploaddir.$binFile);
+                copy($uploaddir.$binFile, $uploaddir.'application.ico');
+                return $binFile;
+            }
         }
         throw new WebServiceException(WebServiceErrorCode::$FAILED_TO_UPDATE,
             "$fieldname wrong file type given for upload");
