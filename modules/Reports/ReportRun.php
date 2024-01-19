@@ -4680,42 +4680,46 @@ class ReportRun extends CRMEntity {
 			}
 		}
 		fclose($fp);
-        /**
-         * Adding $totalcsv to generate report getting data from fromat = "CSV"
-         */
+		/**
+		 * Adding $totalcsv to generate report getting data from fromat = "CSV"
+		 */
 		$totalcsv = $this->GenerateReport("CSV", $filterlist, false, false, false, 'CsvExport');
-		if(!empty($totalcsv)) {
+		if (!empty($totalcsv)) {
 
-		$fp = fopen($fileName, 'a+');
-		fputcsv($fp, array());
+			$fp = fopen($fileName, 'a+');
+			fputcsv($fp, array());
 
-		$size = sizeof($totalcsv);
+			$size = sizeof($totalcsv);
 
-		$headerCount = $totalcsv[$size - 1];
+			$headerCount = $totalcsv[$size - 1];
 
-		$headers = array('Field Names' => 'Field Names');
+			$headers = array('Field Names' => 'Field Names');
 
-		if($headerCount['sumcount'] > 0)$headers = array_merge($headers,array('SUM' => 'SUM'));
-		if($headerCount['avgcount'] > 0)$headers = array_merge($headers,array('AVG' => 'AVG'));
-		if($headerCount['mincount'] > 0)$headers = array_merge($headers,array('MIN' => 'MIN'));
-		if($headerCount['maxcount'] > 0)$headers = array_merge($headers,array('MAX' => 'MAX'));
+			if ($headerCount['sumcount'] > 0)
+				$headers = array_merge($headers, array('SUM' => 'SUM'));
+			if ($headerCount['avgcount'] > 0)
+				$headers = array_merge($headers, array('AVG' => 'AVG'));
+			if ($headerCount['mincount'] > 0)
+				$headers = array_merge($headers, array('MIN' => 'MIN'));
+			if ($headerCount['maxcount'] > 0)
+				$headers = array_merge($headers, array('MAX' => 'MAX'));
 
-		unset($totalcsv[$size - 1]);
+			unset($totalcsv[$size - 1]);
 
-		$colTotHdrs = array('0' => $headers);
+			$colTotHdrs = array('0' => $headers);
 
 
-		foreach ($colTotHdrs as $key => $hdr) {
-		$hdr_values = $hdr;
-		fputcsv($fp, $hdr_values);
-		}
+			foreach ($colTotHdrs as $key => $hdr) {
+				$hdr_values = $hdr;
+				fputcsv($fp, $hdr_values);
+			}
 
-		foreach ($totalcsv as $key => $value) {
-		$csv_values = array_map('decode_html', $value);
-		fputcsv($fp, $csv_values);
-		}
-		ob_clean();
-		fclose($fp);
+			foreach ($totalcsv as $key => $value) {
+				$csv_values = array_map('decode_html', $value);
+				fputcsv($fp, $csv_values);
+			}
+			ob_clean();
+			fclose($fp);
 		}
 	}
 
