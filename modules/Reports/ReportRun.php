@@ -1375,16 +1375,24 @@ class ReportRun extends CRMEntity {
 						} else if ($comparator == 'ny') {
 							if ($fieldInfo['uitype'] == '10' || isReferenceUIType($fieldInfo['uitype']))
 								$fieldvalue = "(" . $selectedfields[0] . "." . $selectedfields[1] . " IS NOT NULL AND " . $selectedfields[0] . "." . $selectedfields[1] . " != '' AND " . $selectedfields[0] . "." . $selectedfields[1] . "  != '0')";
-							else
+							elseif (($fieldInfo['uitype'] == '23' || $fieldInfo['uitype'] == '5' || $fieldInfo['uitype'] == '70' ||$fieldInfo['uitype'] == '55')){
+								$fieldvalue = "(" . $selectedfields[0] . "." . $selectedfields[1] . " IS NOT NULL)";
+							}
+							else {
 								$fieldvalue = "(" . $selectedfields[0] . "." . $selectedfields[1] . " IS NOT NULL AND " . $selectedfields[0] . "." . $selectedfields[1] . " != '')";
+							     }	
 						}elseif ($comparator == 'y' || ($comparator == 'e' && (trim($value) == "NULL" || trim($value) == ''))) {
 							if ($selectedfields[0] == 'vtiger_inventoryproductrel') {
 								$selectedfields[0] = 'vtiger_inventoryproductreltmp' . $moduleName;
 							}
 							if ($fieldInfo['uitype'] == '10' || isReferenceUIType($fieldInfo['uitype']))
 								$fieldvalue = "(" . $selectedfields[0] . "." . $selectedfields[1] . " IS NULL OR " . $selectedfields[0] . "." . $selectedfields[1] . " = '' OR " . $selectedfields[0] . "." . $selectedfields[1] . " = '0')";
-							else
+							elseif (($fieldInfo['uitype'] == '23' || $fieldInfo['uitype'] == '5' || $fieldInfo['uitype'] == '70' ||$fieldInfo['uitype'] == '55')) {
+							    $fieldvalue = "(" . $selectedfields[0] . "." . $selectedfields[1] . " IS NULL)";
+							}
+							else {
 								$fieldvalue = "(" . $selectedfields[0] . "." . $selectedfields[1] . " IS NULL OR " . $selectedfields[0] . "." . $selectedfields[1] . " = '')";
+							    }
 						} elseif ($selectedfields[0] == 'vtiger_inventoryproductrel') {
 							$selectedfields[0] = $selectedfields[0]. 'tmp';
 							if ($selectedfields[1] == 'productid') {
