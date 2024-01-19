@@ -38,9 +38,10 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action {
 						$displayValue = $fieldModel->getDisplayValue($fieldValue, $recordModel->getId()); 
 					}
 					if ($fieldModel->getFieldDataType() == 'currency') {
-						$displayValue = Vtiger_Currency_UIType::transformDisplayValue($fieldValue);
+						$displayValue = Vtiger_Currency_UIType::transformDisplayValue(Vtiger_Currency_UIType::convertToDBFormat($fieldValue));
 					}
-					if(!empty($picklistColorMap)) {
+                                        
+					if(!empty($picklistColorMap) && ($fieldModel->getFieldDataType() == 'picklist' || $fieldModel->getFieldDataType() == 'multipicklist')) {
 						$result[$fieldName] = array('value' => $fieldValue, 'display_value' => $displayValue, 'colormap' => $picklistColorMap);
 					} else {
 						$result[$fieldName] = array('value' => $fieldValue, 'display_value' => $displayValue);
