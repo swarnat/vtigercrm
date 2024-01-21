@@ -197,12 +197,7 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 					 * For Normal documents: rawFileName is not exist in the attachments info. So it fallback to normal filename
 					 */
 					$rawFileName = $existingAttachInfo['attachment'];
-
-					if (!$rawFileName) {
-						$rawFileName = $existingAttachInfo['attachment'];
-					}
 					$file_name = $existingAttachInfo['storedname'];
-
 					$path = $existingAttachInfo['path'];
 					$fileId = $existingAttachInfo['fileid'];
 
@@ -212,12 +207,7 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 						$oldFileName = $existingAttachInfo['fileid'].'_'.$file_name;
 					}
 					$oldFilePath = $path.'/'.$oldFileName;
-
-
-					$binFile = sanitizeUploadFileName($rawFileName, $upload_badext); // 
-
-
-
+					$binFile = sanitizeUploadFileName($rawFileName, $upload_badext);
 
 					$current_id = $adb->getUniqueID("vtiger_crmentity");
 
@@ -230,23 +220,20 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 					$encryptFileName = Vtiger_Util_Helper::getEncryptedFileName($binFile);
 					$newFilePath = $upload_file_path . $current_id . "_" . $encryptFileName;
 
-
-
 					copy($oldFilePath, $newFilePath);
 
 					$sql1 = "insert into vtiger_crmentity (crmid,smcreatorid,smownerid,setype,description,createdtime,modifiedtime) values(?, ?, ?, ?, ?, ?, ?)";
 					$params1 = array($current_id, $current_user->getId(), $ownerId, $moduleName . " Attachment", $recordModel->get('description'), $adb->formatDate($date_var, true), $adb->formatDate($date_var, true));
 					$adb->pquery($sql1, $params1);
 
+					// Inserting $encrypedFilename into the sql query 
 					$sql2 = "INSERT INTO vtiger_attachments(attachmentsid, name, description, type, path, storedname) values(?, ?, ?, ?, ?, ?)";
 					$params2 = array($current_id, $filename, $this->column_fields['description'], $filetype, $upload_file_path, $encryptFileName);
 					$adb->pquery($sql2, $params2);
-					
 					// NOTE: Missing storedname columns in below code
 					// $sql2 = "insert into vtiger_attachments(attachmentsid, name, description, type, path) values(?, ?, ?, ?, ?)";
 					// $params2 = array($current_id, $filename, $recordModel->get('description'), $filetype, $upload_file_path);
 					// $result = $adb->pquery($sql2, $params2);
-
 
 					$sql3 = 'insert into vtiger_seattachmentsrel values(?,?)';
 					$adb->pquery($sql3, array($recordModel->getId(), $current_id));
