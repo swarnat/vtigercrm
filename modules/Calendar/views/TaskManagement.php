@@ -117,7 +117,7 @@ class Calendar_TaskManagement_View extends Vtiger_Index_View {
 				$color = $db->query_result($result,$i,'color');
 			}
 		}
-		if(($color=='#ffffff') || ($color=' '))
+		if(($color=='#ffffff') || ($color==' '))
 		{
 			$color = '#'.dechex(rand(0x000000, 0xFFFFFF));
 		}
