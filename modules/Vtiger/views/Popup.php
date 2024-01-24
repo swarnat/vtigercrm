@@ -277,6 +277,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 		$viewer->assign('SEARCH_DETAILS', $searchParams);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('VIEW', $request->get('view'));
+
 		if (PerformancePrefs::getBoolean('LISTVIEW_COMPUTE_PAGE_COUNT', false)) {
 			if(!$this->listViewCount){
 				$this->listViewCount = $listViewModel->getListViewCount();
@@ -376,5 +377,4 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 	public function transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel) {
 		return Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel);
 	}
-
 }
