@@ -37,7 +37,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action {
 			if (isset($defaultValue)) {
 				if ($defaultValue && $fieldInfo['type'] == 'date') {
 					$defaultValue = DateTimeField::convertToUserFormat($defaultValue);
-				} else if (!$defaultValue) {
+				} else if ($defaultValue) {
 					$defaultValue = $fieldModel->getDisplayValue($defaultValue);
 				} else if (is_array($defaultValue)) {
 					foreach ($defaultValue as $key => $value) {
