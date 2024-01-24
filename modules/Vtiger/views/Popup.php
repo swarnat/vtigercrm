@@ -377,4 +377,5 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 	public function transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel) {
 		return Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel);
 	}
+
 }
