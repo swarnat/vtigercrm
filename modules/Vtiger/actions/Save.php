@@ -157,6 +157,9 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller {
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
 			$fieldValue = $request->get($fieldName, null);
 			$fieldDataType = $fieldModel->getFieldDataType();
+			if(is_array($fieldValue) && $fieldDataType == 'multipicklist'){
+				$fieldValue=implode(' |##| ',$fieldValue);
+			}
 			if($fieldDataType == 'time' && $fieldValue !== null){
 				$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
 			}
