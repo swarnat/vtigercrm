@@ -37,7 +37,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action {
 			if (isset($defaultValue)) {
 				if ($defaultValue && $fieldInfo['type'] == 'date') {
 					$defaultValue = DateTimeField::convertToUserFormat($defaultValue);
-				} else if (!$defaultValue) {
+				} else if ($defaultValue) {
 					$defaultValue = $fieldModel->getDisplayValue($defaultValue);
 				} else if (is_array($defaultValue)) {
 					foreach ($defaultValue as $key => $value) {
@@ -104,6 +104,10 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action {
                 $defaultValue=decode_html(implode(' |##| ',$request->get('fieldDefaultValue')));
             } else {
                 $defaultValue = decode_html($request->get('fieldDefaultValue'));
+            }
+            if(preg_match('/AM|PM/',$defaultValue) && ($fieldInstance->get('uitype') =='14'))
+            {
+                $defaultValue=Vtiger_Time_UIType::getTimeValueWithSeconds($defaultValue);
             }
 
             $fieldInstance->set('defaultvalue', $defaultValue);
