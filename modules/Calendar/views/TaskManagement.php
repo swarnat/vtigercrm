@@ -98,8 +98,8 @@ class Calendar_TaskManagement_View extends Vtiger_Index_View {
 
 		if (!$request->get('colors')) {
 			$colors = array();
-			foreach ($priorities as $key => $value) {
-				$colors[$key] = $this->getColors($key,$field->getName());
+			foreach ($priorities as $priority => $value) {
+                            $colors[$key] = $this->getColors($priority,$field->getName());
 			}
 		} else {
 			$colors = $request->get('colors');
@@ -107,11 +107,11 @@ class Calendar_TaskManagement_View extends Vtiger_Index_View {
 		return $colors;
 	}
 
-	public function getColors($priorities,$fieldname){
+	public function getColors($priority,$fieldname){
 		$db=PearDatabase::getInstance();
 		if(isset($priorities)){
 			$tableName = "vtiger_$fieldname";
-			$result=$db->pquery("SELECT color FROM $tableName WHERE $fieldname=?",array($priorities));
+			$result=$db->pquery("SELECT color FROM $tableName WHERE $fieldname=?",array($priority));
 			$no_of_row=$db->num_rows($result);
 			for($i=0;$i<$no_of_row;$i++){
 				$color = $db->query_result($result,$i,'color');
