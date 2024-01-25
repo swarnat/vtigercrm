@@ -118,7 +118,8 @@ class Calendar_TaskManagement_View extends Vtiger_Index_View {
 			}
 		}
 		if($color=='#ffffff' || empty($color)) {
-			$color = '#'.dechex(rand(0x000000, 0xFFFFFF));
+			$color = '#' . str_pad(dechex(rand(0, 50)), 2, '0') . str_pad(dechex(rand(0, 50)), 2, '0') . str_pad(dechex(rand(0, 50)), 2, '0');
+
 		}
 		return $color;
 	}
