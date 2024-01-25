@@ -16,7 +16,7 @@ class Calendar_Datetime_UIType extends Vtiger_Datetime_UIType {
                         $fieldInstance = $this->get('field')->getWebserviceFieldObject();
                         $moduleName = $this->get('field')->getModule()->getName();
 			$fieldName = $fieldInstance->getFieldName();
-                        if($fieldName == 'date_start') {
+                        if($fieldName == 'date_start' || $fieldName == 'due_date') {
                             return self::getDisplayDateTimeValue($value);
                         } else {
                             return parent::getDisplayValue($value);
