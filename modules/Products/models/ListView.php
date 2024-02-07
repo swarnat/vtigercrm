@@ -93,6 +93,8 @@ class Products_ListView_Model extends Vtiger_ListView_Model {
 		if(($sourceModule !== 'PriceBooks' && $sourceField !== 'priceBookRelatedList')
 				&& ($sourceModule !== 'Products' && $sourceField !== 'productsList')) {
 			$listQuery .= " LIMIT $startIndex,".($pageLimit+1);
+		} else {
+			$listQuery .= " LIMIT $startIndex,".($pageLimit); // select limit was only updating for other modules, the limit was not set.
 		}
 
 		$listResult = $db->pquery($listQuery, array());
