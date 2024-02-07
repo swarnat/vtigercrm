@@ -116,10 +116,10 @@
 															<i class="fa fa-user userDefaultIcon"></i>
 														</div>
 													{/if}
-													<div class="usersinfo col-lg-12 textOverflowEllipsis" title="{$LISTVIEW_ENTRY->get('last_name')}">
+													<div class="usersinfo col-lg-9 textOverflowEllipsis" title="{$LISTVIEW_ENTRY->get('last_name')}">
 														<a href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)} {$LISTVIEW_ENTRY->get('last_name')}</a>
 													</div>
-													<div class="usersinfo col-lg-12 textOverflowEllipsis">
+													<div class="usersinfo col-lg-9 textOverflowEllipsis">
 														{$LISTVIEW_ENTRY->get('email1')}
 													</div>
 												</div>
