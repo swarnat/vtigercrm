@@ -138,6 +138,9 @@ class VTUpdateFieldsTask extends VTTask {
 						$currencyfieldConvertedValue = $focus->column_fields[$fieldValue . "_raw_converted"];
 
 						$fieldValue = $focus->column_fields[$fieldValue];
+						if($rightOperandFieldType == 'multipicklist' && $fieldDataType='string'){
+							$fieldValue = str_replace(' |##| ', ' ', $fieldValue);
+						}
 					}
 					$fieldValueInDB = $fieldValue;
 
