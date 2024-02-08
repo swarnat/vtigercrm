@@ -37,7 +37,6 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 	 * @param <Vtiger_Request> $request
 	 */
 	public function massSave(Vtiger_Request $request) {
-		// echo'<pre>';print_r($request);die
 		global $upload_badext;
 		$adb = PearDatabase::getInstance();
 
