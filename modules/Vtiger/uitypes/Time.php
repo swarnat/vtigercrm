@@ -119,4 +119,11 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType {
 		return 'uitypes/TimeFieldSearchView.tpl';
 	}
 
+	public function getDBInsertValue($value) {
+		if(preg_match('/AM|PM/',$value)){
+			$value=Vtiger_Time_UIType::getTimeValueWithSeconds($value);
+		}
+		return $value;
+	}
+
 }
