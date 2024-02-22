@@ -18,7 +18,13 @@ class Migration_Index_View extends Vtiger_View_Controller {
 	}
 
 	public function checkPermission(Vtiger_Request $request){
-		return true;
+		global $current_user;
+		$isAdmin = is_admin($current_user);
+		if ($isAdmin == true) {
+			return true;
+		} else {
+			throw new Exception('ADMIN USERS CAN ONLY ACCESS');
+		}
 	}
 
 	public function process(Vtiger_Request $request) {

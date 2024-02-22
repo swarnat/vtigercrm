@@ -9,6 +9,17 @@
  ************************************************************************************/
 
 class Migration_DisableModules_Action extends Vtiger_Action_Controller {
+	
+	public function checkPermission(\Vtiger_Request $request) {
+		global $current_user;
+		$isAdmin = is_admin($current_user);
+		if ($isAdmin == true) {
+			return true;
+		} else {
+			throw new Exception(vtranslate('LBL_ONLY_ADMINS_CAN_ACCESS'));
+		}
+		return parent::checkPermission($request);
+	}
 
 	public function process(Vtiger_Request $request) {
 		$modulesList = $request->get('modulesList');
