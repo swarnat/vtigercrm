@@ -421,7 +421,8 @@ class SalesOrder extends CRMEntity {
 		if(empty($return_module) || empty($return_id)) return;
 
 		if($return_module == 'Accounts') {
-			$this->trash('SalesOrder',$id);
+			$relation_query = 'UPDATE vtiger_salesorder SET accountid=? WHERE salesorderid=?';
+			$this->db->pquery($relation_query, array(null, $id));
 		}
 		elseif($return_module == 'Quotes') {
 			$relation_query = 'UPDATE vtiger_salesorder SET quoteid=? WHERE salesorderid=?';
