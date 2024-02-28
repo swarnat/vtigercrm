@@ -21,15 +21,15 @@ class Migration_Extract_Action extends Vtiger_Action_Controller {
 
 		$user = CRMEntity::getInstance('Users');
 		$user->column_fields['user_name'] = $userName;
+		$userid = $user->retrieve_user_id($userName);
+		$userRecordModel = Users_Privileges_Model::getInstanceById($userid, 'Users');
 		if ($user->doLogin($password)) {
-			if($user->is_admin == 'on') {
+			if($userRecordModel->get('is_admin') == 'on') {
 				$zip = new ZipArchive();
 				$fileName = 'vtiger8.zip';
 				if ($zip->open($fileName)) {
 					if ($zip->extractTo($root_directory)) {
 						$zip->close();
-
-						$userid = $user->retrieve_user_id($userName);
 						$_SESSION['authenticated_user_id'] = $userid;
 						$_SESSION['app_unique_key'] = vglobal('application_unique_key');
 
@@ -46,7 +46,7 @@ class Migration_Extract_Action extends Vtiger_Action_Controller {
 					$errorMessage = 'ERROR READING MIGRATION ZIP FILE!';
 					header('Location: migrate/index.php?error='.$errorMessage);
 				}
-			}else{
+			} else {
 				$errorMessage = 'PERMISSION DENIED! ONLY ADMIN USERS CAN ACCESS';
 				header('Location: migrate/index.php?error='.$errorMessage);
 			}

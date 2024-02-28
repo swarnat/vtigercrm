@@ -16,7 +16,7 @@ class Migration_DisableModules_Action extends Vtiger_Action_Controller {
 		if ($isAdmin == true) {
 			return true;
 		} else {
-			throw new Exception(vtranslate('LBL_ONLY_ADMINS_CAN_ACCESS'));
+			throw new Exception('Permission Denied! Only admins can access');
 		}
 		return parent::checkPermission($request);
 	}
