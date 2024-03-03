@@ -814,6 +814,14 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 										break;
 					case "datetime":	$value = Vtiger_Date_UIType::getDisplayDateValue($value);
 										break;
+
+					case "time":		$value = Vtiger_Time_UIType::getDisplayTimeValue($value);
+										$value = $fieldModel->getDisplayValue($value);
+										$hourFormat = $userModel->get('hour_format');
+										if($hourFormat == '24') {
+											$value= date('H:i', strtotime($value));
+										}
+										break;
 				}
 				$basicInfo[$fieldName] = $value;
 			}
