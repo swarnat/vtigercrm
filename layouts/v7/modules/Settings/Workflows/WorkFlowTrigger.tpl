@@ -133,7 +133,7 @@
                               </label>
                               <div class="col-sm-2 controls" id='schtime'>
                                   <div class="input-group time" >
-                                      <input type='text' data-format='24' name='schtime' value="{$WORKFLOW_MODEL_OBJ->schtime}" data-rule-required="true" class="timepicker-default inputElement"/>
+                                      <input type='text' data-format='{$CURRENT_USER->get('hour_format')}' name='schtime' value="{$WORKFLOW_MODEL_OBJ->schtime}" data-rule-required="true" class="timepicker-default inputElement"/>
                                       <span  class="input-group-addon">
                                           <i  class="fa fa-clock-o"></i>
                                       </span>
