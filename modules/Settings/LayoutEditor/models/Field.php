@@ -439,7 +439,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model {
 
 		if ($defaultValue) {
 			if ($this->getFieldDataType() == 'currency') {
-				$defaultValue = $this->getCurrencyDisplayValue($defaultValue, false);
+				$defaultValue = $this->getCurrencyDisplayValue($defaultValue, true);
 			} else {
 				$defaultValue = $this->getDisplayValue($defaultValue);
 			}
