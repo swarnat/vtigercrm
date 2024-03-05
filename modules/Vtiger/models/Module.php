@@ -472,8 +472,13 @@ class Vtiger_Module_Model extends Vtiger_Module {
 		foreach($blocksList as $blockName => $blockModel) {
 			$fieldList = $blockModel->getFields();
 			foreach($fieldList as $fieldName => $fieldModel) {
+				if ($fieldName == 'time_start' && $blockModel->get('id') == 19){
+					$quickCreateFieldList[$fieldName] = $fieldModel;
+				}
+				else {
 					if($fieldModel->isQuickCreateEnabled() && $fieldModel->isEditable()) {
 						$quickCreateFieldList[$fieldName] = $fieldModel;
+					}
 				}
 			}
 		}
