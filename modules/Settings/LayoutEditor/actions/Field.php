@@ -109,9 +109,6 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action {
             {
                 $defaultValue=Vtiger_Time_UIType::getTimeValueWithSeconds($defaultValue);
             }
-            if ($defaultValue && $fieldInstance->get('uitype')=='5') {
-                $defaultValue = Vtiger_Date_UIType::getDBInsertedValue($defaultValue);
-            }
 
             $fieldInstance->set('defaultvalue', $defaultValue);
         }
