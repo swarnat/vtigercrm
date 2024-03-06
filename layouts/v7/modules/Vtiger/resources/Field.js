@@ -450,7 +450,7 @@ Vtiger_Field_Js('Vtiger_Boolean_Field_Js',{},{
 	 * @return - checkbox element
 	 */
 	getUi : function() {
-		var	html = '<input type="hidden" name="'+this.getName() +'"/><input class="inputElement" type="checkbox" name="'+ this.getName() +'" ';
+		var	html = '<input type="hidden" name="'+this.getName() +'" value="0"/><input class="inputElement" type="checkbox" name="'+ this.getName() +'" ';
 		if(this.isChecked()) {
 			html += 'checked';
 		}
