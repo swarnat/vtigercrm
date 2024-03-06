@@ -472,7 +472,7 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 	addToEmails : function(mailInfo){
 		var toEmails = this.getMassEmailForm().find('[name="to"]');
 		var value = JSON.parse(toEmails.val());
-		if(value == "" || value == null){
+		if(value == ""){
 			value = new Array();
 		}
 		value.push(mailInfo.emailid);
