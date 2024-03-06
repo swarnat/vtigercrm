@@ -102,7 +102,7 @@
 									<td data-name="{$LISTVIEW_HEADER->get('name')}" data-rawvalue="{$LISTVIEW_ENTRY_RAWVALUE}" data-type="{$LISTVIEW_HEADER->getFieldDataType()}">
 										<span class="fieldValue">
 											<span class="value textOverflowEllipsis">
-												<div style="margin-left: -13px; width:350px">
+												<div style="margin-left: -13px;">
 													{assign var=IMAGE_DETAILS value=$LISTVIEW_ENTRY->getImageDetails()}
 													{foreach item=IMAGE_INFO from=$IMAGE_DETAILS}
 														{if !empty($IMAGE_INFO.url)}
