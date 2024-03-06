@@ -183,7 +183,7 @@
                             {assign var=TAG_MODEL value=Vtiger_Tag_Model::getCleanInstance()}
                             {include file="Tag.tpl"|vtemplate_path:$MODULE NO_DELETE=true}
                         </div>
-                        <div class="editTagContainer hide">
+                        <div id="editTagContainer" class="hide">
                             <input type="hidden" name="id" value="" />
                             <div class="editTagContents">
                                 <div>
