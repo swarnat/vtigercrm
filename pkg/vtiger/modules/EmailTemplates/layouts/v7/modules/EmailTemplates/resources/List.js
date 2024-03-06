@@ -45,7 +45,6 @@ Vtiger_List_Js("EmailTemplates_List_Js", {
                                     }
                                     listInstance.clearList();
                                     listInstance.loadListViewRecords();
-                                    Vtiger_List_Js.listInstance=false;
                                 }
                         );
                     })
