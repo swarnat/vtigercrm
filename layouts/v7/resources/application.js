@@ -399,16 +399,7 @@ window.app = (function () {
 		},
 		convertTojQueryDatePickerFormat: function (dateFormat) {
 			var i = 0;
-			if (dateFormat.includes('.')) {
-				separator = '.';
-				splitDateFormat = dateFormat.split('.');
-			} else if (dateFormat.includes('/')) {
-				separator = '/';
-				splitDateFormat = dateFormat.split('/');
-			} else if (dateFormat.includes('-')) {
-				separator = '-';
-				splitDateFormat = dateFormat.split('-');
-			}
+			splitDateFormat = dateFormat.split('-');
 			for (var i in splitDateFormat) {
 				var sectionDate = splitDateFormat[i];
 				var sectionCount = sectionDate.length;
@@ -417,7 +408,7 @@ window.app = (function () {
 					splitDateFormat[i] = strippedString;
 				}
 			}
-			var joinedDateFormat = splitDateFormat.join(separator);
+			var joinedDateFormat = splitDateFormat.join('-');
 			return joinedDateFormat;
 		},
 		getDateInVtigerFormat: function (dateFormat, dateObject) {
