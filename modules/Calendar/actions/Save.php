@@ -150,6 +150,9 @@ class Calendar_Save_Action extends Vtiger_Save_Action {
 			if($fieldDataType == 'time' && $fieldValue !== null){
 				$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
             }
+			if(is_array($fieldValue) && $fieldDataType == 'multipicklist'){
+				$fieldValue=implode(' |##| ',$fieldValue);
+			}
             // End
             if ($fieldName === $request->get('field')) {
 				$fieldValue = $request->get('value');
