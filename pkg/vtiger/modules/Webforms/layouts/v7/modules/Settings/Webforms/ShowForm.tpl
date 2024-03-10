@@ -55,7 +55,7 @@
 											{else}
 												{assign var=PICKLIST_DATA_LABEL value=$FIELD_MODEL->get('name')}
 											{/if}
-										{else if ($DATA_TYPE eq "salutation") or ($DATA_TYPE eq "string") or ($DATA_TYPE eq "time") or ($DATA_TYPE eq "currency") or ($DATA_TYPE eq "url") or ($DATA_TYPE eq "phone")}
+										{else if ($DATA_TYPE eq "salutation") or ($DATA_TYPE eq "string") or ($DATA_TYPE eq "currency") or ($DATA_TYPE eq "url") or ($DATA_TYPE eq "phone")}
 											{assign var=TYPE value="text"}
 										{else if ($DATA_TYPE eq "text")}
 											{assign var=TYPE value="text"}
@@ -71,6 +71,8 @@
 											{assign var=TYPE value="checkbox"}
 										{else if ($DATA_TYPE eq "date")}
 											{assign var=TYPE value="date"}
+										{else if ($DATA_TYPE eq "time")}
+											{assign var=TYPE value="time"}
 										{/if}
 										{if $HIDDEN_STATUS eq 1}
 											{assign var=TYPE value=hidden}
