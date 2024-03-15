@@ -24,7 +24,7 @@ class Migration_Extract_Action extends Vtiger_Action_Controller {
 		$userid = $user->retrieve_user_id($userName);
 		$userRecordModel = Users_Privileges_Model::getInstanceById($userid, 'Users');
 		if ($user->doLogin($password)) {
-			if($userRecordModel->get('is_admin') == 'on') {
+			if($userRecordModel->isAdminUser()) {
 				$zip = new ZipArchive();
 				$fileName = 'vtiger8.zip';
 				if ($zip->open($fileName)) {

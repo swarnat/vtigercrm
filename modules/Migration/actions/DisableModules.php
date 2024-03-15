@@ -11,14 +11,12 @@
 class Migration_DisableModules_Action extends Vtiger_Action_Controller {
 	
 	public function checkPermission(\Vtiger_Request $request) {
-		global $current_user;
-		$isAdmin = is_admin($current_user);
-		if ($isAdmin == true) {
-			return true;
-		} else {
-			throw new Exception('Permission Denied! Only admins can access');
+		parent::checkPermission($request);
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		if(!$currentUserModel->isAdminUser()) {
+			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', 'Vtiger'));
 		}
-		return parent::checkPermission($request);
+        return true;
 	}
 
 	public function process(Vtiger_Request $request) {
