@@ -263,16 +263,12 @@ class Vtiger_Util_Helper {
 		}
 
 		list($dateInUserFormat, $timeInUserFormat) = explode(' ', $dateTimeInUserFormat);
-		
-		if($meridiem && $currentUser->get('hour_format') === '12' ){
-			$displayTime = $timeInUserFormat.' '.$meridiem;
-		} else {
-			list($hours, $minutes, $seconds) = explode(':', $timeInUserFormat);
-			$displayTime = $hours .':'. $minutes;
-			if ($currentUser->get('hour_format') === '12') {
-				$displayTime = Vtiger_Time_UIType::getTimeValueInAMorPM($displayTime);
+		list($hours, $minutes, $seconds) = explode(':', $timeInUserFormat);
+
+		$displayTime = $hours .':'. $minutes;
+		if ($currentUser->get('hour_format') === '12') {
+			$displayTime = Vtiger_Time_UIType::getTimeValueInAMorPM($displayTime);
 		}
-	}
 
 		/**
 		 * To support strtotime() for 'mm-dd-yyyy' format the separator should be '/'
