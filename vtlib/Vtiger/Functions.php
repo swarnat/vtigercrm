@@ -661,13 +661,19 @@ class Vtiger_Functions {
 		
 		//Check if the filename starts with the '.' character and it is not accepted those files.
 		if ($saveimage) {
-			$firstCharacter = $file_details['name'][0];
 			$fileExtensionPath = pathinfo($file_details['name'], PATHINFO_EXTENSION);
-			if ($firstCharacter == '.' || !in_array(strtolower($fileExtensionPath), $allowedImageFormats)) {
+			if (!in_array(strtolower($fileExtensionPath), $allowedImageFormats)) {
 				$saveimage = false;
 			}
 		}
 
+		if ($saveimage) {
+			$firstCharacter = $file_details['name'][0];
+			if ($firstCharacter == '.') {
+				$saveimage = false;
+			}
+		}
+		
         //mime type check
         if ($saveimage) {
             $mimeType = mime_content_type($file_details['tmp_name']);
