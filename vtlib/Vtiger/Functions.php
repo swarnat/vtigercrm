@@ -659,7 +659,7 @@ class Vtiger_Functions {
             $saveimage = false;
         }
 		
-		//Check if the filename starts with the '.' character and it is not accepted those files.
+		//Checking the path of the file 
 		if ($saveimage) {
 			$fileExtensionPath = pathinfo($file_details['name'], PATHINFO_EXTENSION);
 			if (!in_array(strtolower($fileExtensionPath), $allowedImageFormats)) {
@@ -667,6 +667,7 @@ class Vtiger_Functions {
 			}
 		}
 
+		//checking the filename has dot character
 		if ($saveimage) {
 			$firstCharacter = $file_details['name'][0];
 			if ($firstCharacter == '.') {
