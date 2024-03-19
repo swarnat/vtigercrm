@@ -104,6 +104,9 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action {
 					$fieldValue = $request->get('value');
 				}
 				$fieldDataType = $fieldModel->getFieldDataType();
+				if(is_array($fieldValue) && $fieldDataType == 'multipicklist'){
+					$fieldValue=implode(' |##| ',$fieldValue);
+				}
 				if ($fieldDataType == 'time' && $fieldValue !== null) {
 					$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
 				}
