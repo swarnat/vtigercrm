@@ -603,7 +603,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
    isEmptyFieldSelected: function (fieldSelect) {
       var selectedOption = fieldSelect.find('option:selected');
       //assumption that empty field will be having value none
-      if (selectedOption.val() == 'none') {
+      if (selectedOption.val() == 'none' || selectedOption.val() === '') {
          return true;
       }
       return false;
