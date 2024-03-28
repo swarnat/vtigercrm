@@ -207,6 +207,10 @@
 			global $adb,$log;
 			$references = $meta->getReferenceFieldDetails();
 			foreach($references as $field=>$typeList){
+				if($meta->getEntityName() == 'Users' && $field == 'roleid'){
+					$found = true;
+					break;
+				}
 				if(strtolower($meta->getEntityName()) == "emails"){
 					if(isset($row['parent_id'])){
 						list($row['parent_id'], $fieldId) = explode('@', $row['parent_id']);
