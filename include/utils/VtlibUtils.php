@@ -882,10 +882,10 @@ function jsEscape($str) {
         switch ($chr) {
             case "'":
             case '"':
-            case "\n";
-            case "\r";
-            case "&";
-            case "\\";
+            case "\n":
+            case "\r":
+            case "&":
+            case "\\":
             case "<":
             case ">":
                 $output .= sprintf("\\u%04x", $chrNum);
