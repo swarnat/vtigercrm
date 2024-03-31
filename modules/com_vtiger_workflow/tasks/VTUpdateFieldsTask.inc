@@ -269,6 +269,17 @@ class VTUpdateFieldsTask extends VTTask {
 					$fieldValueInDB = $fieldValue;
 				}
 
+				if ($fieldInstance && $fieldInstance->getUIType() === '7') {
+					if (in_array($fieldInstance->getFieldDataType(), array('N', 'NN'))) {
+						$decimalSeparator = str_replace("\xC2\xA0", ' ', html_entity_decode($current_user->currency_decimal_separator, ENT_QUOTES, $default_charset));
+						file_put_contents('mylog.log', print_r( $decimalSeparator, true), FILE_APPEND);
+						file_put_contents('mylog.log', print_r( "\n", true), FILE_APPEND);
+						if(empty($decimalSeparator)) $decimalSeparator = ' ';
+						$fieldValue = str_replace(".", "$decimalSeparator", $fieldValue);
+						$fieldValueInDB = $fieldValue;
+					}
+				}
+
 				if($fieldInstance && $fieldInstance->getFieldDataType() == 'reference') {
 						$referenceModuleList = $fieldInstance->getReferenceList();
 						$fieldReferenceModule = $referenceModuleList[0];
