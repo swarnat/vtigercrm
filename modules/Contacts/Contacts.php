@@ -788,7 +788,7 @@ class Contacts extends CRMEntity {
 			}
 		}
         
-        $relatedIds = array_merge(array($id), $this->getRelatedPotentialIds($id), $this->getRelatedTicketIds($id));
+        $relatedIds = array_merge(array($id), $this->getRelatedPotentialIds($id), $this->getRelatedTicketIds($id), $this->getRelatedProjectIds($id));
         $relatedIds = implode(', ', $relatedIds);
 
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>
@@ -1611,6 +1611,19 @@ function get_contactsforol($user_name)
 		for ($i = 0; $i < $db->num_rows($result); $i++) {
             $relatedIds[] = $db->query_result($result, $i, 'crmid');
         }
+        return $relatedIds;
+    }
+
+	function getRelatedProjectIds($id) {
+		$relatedIds = array();
+		$db = PearDatabase::getInstance();
+		$query = "SELECT DISTINCT vtiger_crmentity.crmid FROM vtiger_contactdetails LEFT JOIN vtiger_project ON
+		(vtiger_project.linktoaccountscontacts = vtiger_contactdetails.contactid) INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_project.projectid
+		WHERE vtiger_crmentity.deleted = 0 AND vtiger_contactdetails.contactid = ?";
+		$result = $db->pquery($query, array($id));
+		for ($i = 0; $i < $db->num_rows($result); $i++) {
+			$relatedIds[] = $db->query_result($result, $i, 'crmid');
+		}
         return $relatedIds;
     }
 
