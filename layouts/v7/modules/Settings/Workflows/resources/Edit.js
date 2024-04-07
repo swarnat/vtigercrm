@@ -951,7 +951,8 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
          jQuery('.btn-success').on('click', function(event) {
             var enteredValue = fieldSpecificUi.val().trim();
             if (!editablePicklistValues.includes(enteredValue)) {
-               alert('Invalid value entered for picklist field: ' + enteredValue);
+               var message = app.vtranslate('INVALID PICKLIST');
+               app.helper.showErrorNotification({'message': message})
                event.preventDefault();
             }
          });
