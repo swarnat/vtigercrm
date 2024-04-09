@@ -41,13 +41,11 @@ class Settings_Webforms_Save_Action extends Settings_Vtiger_Index_Action {
 			if (!$fieldValue) {
 				$fieldValue = $fieldModel->get('defaultvalue');
 			}
-			
 			if($fieldModel->isMandatory() && empty(trim($fieldValue))) {
                 throw new AppException(vtranslate('LBL_MANDATORY_FIELD_MISSING'));
 			}else if($fieldName == 'targetmodule' && !array_key_exists($fieldValue,$supportedModules)){
 				throw new Exception('Target module is not supported to create webform');
 			}
-			
 			$recordModel->set($fieldName, $fieldValue);
 		}
 
