@@ -981,7 +981,12 @@ function getInventorySHTaxPercent($id, $taxname, $taxnum=null)
 	//To get the values from the vtiger_inventorychargesrel where the actual shiiping and handling tax info of particular record stored.
 	if($adb->num_rows($res) < 1){
 		$j=$taxnum+1;
-		$charges_result = $adb->pquery("SELECT JSON_EXTRACT(charges, '$.1.taxes.$j') as charges FROM vtiger_inventorychargesrel WHERE recordid=?", array($id));
+		$charges_result = $adb->pquery(
+            "SELECT JSON_UNQUOTE(JSON_EXTRACT(charges, CONCAT('$.\"1\".taxes.\"', ? ,'\"'))) as charges 
+             FROM vtiger_inventorychargesrel 
+             WHERE recordid = ?", 
+            array($j, $id)
+        );
 		$rowData = $adb->fetch_array($charges_result);
 		$charges = Zend_Json::decode(html_entity_decode($rowData['charges']));
 		$taxpercentage = $charges;
