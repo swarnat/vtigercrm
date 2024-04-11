@@ -1613,7 +1613,17 @@ class Vtiger_Functions {
 		}
 		return $publicUrl;
 	}
-
+	
+	/**
+	 * Function to get logo public url
+	 * @param <String> $logoName
+	 * @return <String> $sourceUrl
+	 */
+	public static function getLogoPublicURL($logoName) {
+		$publicUrl = "public.php?type=logo&key=$logoName";
+		return $publicUrl;
+	}
+	
     /**
      * Function to get the attachmentsid to given crmid
      * @param type $crmid
