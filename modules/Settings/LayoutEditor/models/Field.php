@@ -439,6 +439,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model {
 
 		if ($defaultValue) {
 			if ($this->getFieldDataType() == 'currency') {
+				//The argument for $skipformatting parameter is passed false to get value with user preference.
 				$defaultValue = $this->getCurrencyDisplayValue($defaultValue, false);
 			} else {
 				$defaultValue = $this->getDisplayValue($defaultValue);
