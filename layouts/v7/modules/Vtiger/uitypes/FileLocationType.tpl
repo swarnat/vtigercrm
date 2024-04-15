@@ -11,6 +11,7 @@
 -->*}
 {strip}
 {assign var=FIELD_VALUES value=$FIELD_MODEL->getFileLocationType()}
+{* The options displayed based on the file location type received on request *}
 <select class="select2" name="{$FIELD_MODEL->getFieldName()}" {if $FILE_LOCATION_TYPE eq 'I' OR $FILE_LOCATION_TYPE eq 'E'} disabled {/if}>
 {foreach item=TYPE key=KEY from=$FIELD_VALUES}
     {if $FILE_LOCATION_TYPE eq 'I'}
