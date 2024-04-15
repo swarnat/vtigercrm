@@ -237,9 +237,8 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 			foreach($conditions as $index => $info) {
 				$columnName = $info['fieldname'];
 				$value = $info['value'];
-				$value_with_escapes = str_replace("/","\\/",$value);
 				// To convert date value from yyyy-mm-dd format to user format
-				$valueArray = explode(',', $value_with_escapes);
+				$valueArray = explode(',', $value);
 				$isDateValue = false;
 				for($i = 0; $i < php7_count($valueArray); $i++) {
 					if(Vtiger_Functions::isDateValue($valueArray[$i])) {
