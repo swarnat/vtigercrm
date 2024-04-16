@@ -200,6 +200,21 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action {
 			foreach($fieldIds as $fieldId) {
 				$fieldModel = Settings_LayoutEditor_Field_Model::getInstance($fieldId);
 				$fieldInfo = $fieldModel->getFieldInfo();
+                //The default value is set to response after reactivating the field.
+                $defaultValue = $fieldModel->getDefaultFieldValue();
+                if (isset($defaultValue)) {
+                    if ($defaultValue && $fieldInfo['type'] == 'date') {
+                        $defaultValue = DateTimeField::convertToUserFormat($defaultValue);
+                    } else if (!$defaultValue) {
+                        $defaultValue = $fieldInstance->getDisplayValue($defaultValue);
+                    } else if (is_array($defaultValue)) {
+                        foreach ($defaultValue as $key => $value) {
+                            $defaultValue[$key] = $fieldInstance->getDisplayValue($value);
+                        }
+                        $defaultValue = Zend_Json::encode($defaultValue);
+                    }
+            }
+            $fieldInfo['fieldDefaultValue'] = $defaultValue;
 				$responseData[] = array_merge(array('id'=>$fieldModel->getId(), 'blockid'=>$fieldModel->get('block')->id, 'customField'=>$fieldModel->isCustomField()),$fieldInfo);
 			}
             $response->setResult($responseData);
