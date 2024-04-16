@@ -200,6 +200,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action {
 			foreach($fieldIds as $fieldId) {
 				$fieldModel = Settings_LayoutEditor_Field_Model::getInstance($fieldId);
 				$fieldInfo = $fieldModel->getFieldInfo();
+                //The default value is set to response after reactivating the field.
                 $defaultValue = $fieldModel->getDefaultFieldValue();
                 if (isset($defaultValue)) {
                     if ($defaultValue && $fieldInfo['type'] == 'date') {
