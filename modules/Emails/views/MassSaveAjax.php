@@ -196,10 +196,10 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 					 * Ex: for PDF: if filename - abc_md5(abc).pdf then raw filename - abc.pdf
 					 * For Normal documents: rawFileName is not exist in the attachments info. So it fallback to normal filename
 					 */
-					$rawFileName = $existingAttachInfo['storedname'];
+					$rawFileName = $existingAttachInfo['attachment'];
 					$file_name = $existingAttachInfo['storedname'];
-					if(!$rawFileName) {
-						$rawFileName = $existingAttachInfo['attachment'];
+					// Checking becuase the pdf sent from sales order will not have the storedname
+					if(!$file_name) {
 						$file_name = $existingAttachInfo['attachment'];
 					}
 					$path = $existingAttachInfo['path'];
