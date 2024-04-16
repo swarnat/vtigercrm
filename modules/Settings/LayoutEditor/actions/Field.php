@@ -97,7 +97,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action {
             $fieldInstance->set('masseditable', $massEditable);
         }
 
-        $defaultValue = $fieldInstance->get('defaultvalue');
+        $defaultValue = decode_html($fieldInstance->get('defaultvalue'));
         if(!is_null($request->get('fieldDefaultValue', null))) {
 
             if(is_array($request->get('fieldDefaultValue'))) {
