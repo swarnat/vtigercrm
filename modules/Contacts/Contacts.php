@@ -1614,6 +1614,7 @@ function get_contactsforol($user_name)
         return $relatedIds;
     }
 
+	// The function to get projectIds related to contacts.
 	function getRelatedProjectIds($id) {
 		$relatedIds = array();
 		$db = PearDatabase::getInstance();
