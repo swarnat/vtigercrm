@@ -278,6 +278,7 @@ class Vtiger_Util_Helper {
 		if ($currentUser->get('date_format') === 'mm-dd-yyyy') {
 			$dateInUserFormat = str_replace('-', '/', $dateInUserFormat);
 		} else if ($currentUser->get('date_format') === 'dd/mm/yyyy'){
+			// strtotime expects the format m/d/y making changes to its convenient
 			$dateArray = explode('/', $dateInUserFormat);
 			$temp = $dateArray[0];
 			$dateArray[0] = $dateArray[1];
