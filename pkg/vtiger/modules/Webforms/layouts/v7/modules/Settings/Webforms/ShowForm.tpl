@@ -105,7 +105,7 @@
 											{/if}
 										{elseif ($DATA_TYPE neq "text") and ($DATA_TYPE neq "boolean")}
 											<input type="{$TYPE}" name="{urlencode($FIELD_MODEL->getFieldName())}" data-label="{$FIELD_MODEL->get('neutralizedFieldName')}" value="{$FIELD_MODEL->get('fieldvalue')}" {if ($FIELD_MODEL->get('required') eq 1) || ($FIELD_MODEL->isMandatory(true))} required{/if} {if ($DATA_TYPE eq "double")} datatype="{$DATA_TYPE}" step="any" {/if}/>
-											{if ($DATA_TYPE eq "date") and ($FIELD_MODEL->get('hidden') neq 1)}(yyyy-mm-dd){/if}
+											{if ($DATA_TYPE eq "date") and ($FIELD_MODEL->get('hidden') neq 1)}{/if}
 										{/if}
 									</td>
 								</tr>
