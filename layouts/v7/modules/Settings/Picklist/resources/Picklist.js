@@ -306,6 +306,7 @@ var Settings_Picklist_Js = {
         var form = container.find('[name="addItemForm"]');
         var params = {
             submitHandler: function(form) {
+				// detect characters that would break convention for css-class names
                 var specialChars = /[\<\>\"\,\[\]\{\}\'\!\@\#\$\%\^\&\*\(\)\+\=\?\|\\\;\:\/]/;
 				var newValueEle = jQuery('[name="newValue"]', container);
 				var newValues = newValueEle.val();
