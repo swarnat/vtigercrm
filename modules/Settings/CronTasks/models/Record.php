@@ -97,6 +97,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model {
 				return $lastScannedTime;
 		    } else {
 				$dateTimeList = explode(" ", $lastScannedTime);
+				// hour:min AM/PM in 12 hour format (there is no seconds)
                 return $dateTimeList[0]." ".date('g:i A', strtotime($dateTimeList[1]));
 			}
 		} else {
