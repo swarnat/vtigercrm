@@ -388,7 +388,6 @@ Vtiger_Time_Field_Js('Workflows_Time_Field_Js',{},{
 	 * Function to get the user time format
 	 */
     getTimeFormat : function(){
-        console.log(this.get('time-format'))
         return this.get('time-format');
     },
     
