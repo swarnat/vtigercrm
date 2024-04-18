@@ -31,13 +31,7 @@ Class Google_Contacts_Connector extends WSAPP_TargetConnector {
     const CONTACTS_BATCH_DELETE_URI = 'https://people.googleapis.com/v1/people:batchDeleteContacts';
 
 	const USER_PROFILE_INFO = 'https://www.googleapis.com/oauth2/v1/userinfo';
-
-	// protected $NS = array(
-	// 	'gd' => 'http://schemas.google.com/g/2005',
-	// 	'gContact' => 'http://schemas.google.com/contact/2008',
-	// 	'batch' => 'http://schemas.google.com/gdata/batch'
-	// );
-
+	
 	protected $apiVersion = '3.0';
 
 	private $groups = null;
@@ -83,16 +77,11 @@ Class Google_Contacts_Connector extends WSAPP_TargetConnector {
 			'name' => 'gContact:event',
 			'types' => array('anniversary','custom')
 		),
-		// 'description' => array(
-		// 	'name' => 'content'
-		// ),
+		
 		'custom' => array(
 			'name' => 'gContact:userDefinedField'
 		),
-		// 'url' => array(
-		// 	'name' => 'gContact:website',
-		// 	'types' => array('profile','blog','home-page','work','custom')
-		// )
+		
 	);
 
 	public function __construct($oauth2Connection) {
@@ -167,17 +156,12 @@ Class Google_Contacts_Connector extends WSAPP_TargetConnector {
 				$addresses = $googleRecord->getAddresses();
 				$googleFieldValue = $this->getMappedValue($addresses, $googleFieldDetails);
 				break;
-			// case 'content' : 
-			// 	$googleFieldValue = $googleRecord->getDescription();
-			// 	break;
+			
 			case 'gContact:userDefinedField' : 
 				$userDefinedFields = $googleRecord->getUserDefineFieldsValues();
 				$googleFieldValue = $this->getMappedValue($userDefinedFields, $googleFieldDetails);
 				break;
-			// case 'gContact:website' : 
-			// 	$websites = $googleRecord->getUrlFields();
-			// 	$googleFieldValue = $this->getMappedValue($websites, $googleFieldDetails);
-			// 	break;
+			
 		}
 		return $googleFieldValue;
 	}
@@ -284,10 +268,8 @@ Class Google_Contacts_Connector extends WSAPP_TargetConnector {
 	}
 
 	function fetchContactsFeed($query) {
-		// $query['alt'] = 'json';
 		if($this->apiConnection->isTokenExpired()) $this->apiConnection->refreshToken();
 		$headers = array(
-			// 'GData-Version' => $this->apiVersion,
 			'Authorization' => $this->apiConnection->token['access_token']['token_type'] . ' ' . 
 							   $this->apiConnection->token['access_token']['access_token'],
 		);
@@ -298,7 +280,6 @@ Class Google_Contacts_Connector extends WSAPP_TargetConnector {
 	function getContactListFeed($query) {
 		$feed = $this->fetchContactsFeed($query);
 		$decoded_feed = json_decode($feed,true);
-		// return $decoded_feed['feed'];
 		return $decoded_feed;
 	}
 
