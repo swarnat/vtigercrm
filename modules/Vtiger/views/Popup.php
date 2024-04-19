@@ -180,8 +180,8 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 			foreach ($searchParams as $fieldListGroup) {
 				foreach ($fieldListGroup as $fieldSearchInfo) {
 					$fieldModel = $moduleFields[$fieldSearchInfo[0]];
-					$tableName = $fieldModel->get('table');
-					$column = $fieldModel->get('column');
+					$tableName = Vtiger_Util_Helper::validateStringForSql($fieldModel->get('table'));
+					$column = Vtiger_Util_Helper::validateStringForSql($fieldModel->get('column'));
 					$whereCondition[$fieldSearchInfo[0]] = array($tableName.'.'.$column, $fieldSearchInfo[1], $fieldSearchInfo[2]);
 				}
 			}
