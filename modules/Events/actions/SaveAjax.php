@@ -160,6 +160,7 @@ class Events_SaveAjax_Action extends Events_Save_Action {
 			$this->setRecurrenceInfo($recordModel);
 		}
 
+		// Setting default values to save automatically with the record when it's saved from quick create.
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$fieldModelList = $moduleModel->getFields();
