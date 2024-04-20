@@ -22,4 +22,7 @@ if (defined('VTIGER_UPGRADE')) {
     	}
 	}
 
+	// Resize column width to text (instead of varchar)
+	$db->pquery("ALTER TABLE vtiger_shorturls MODIFY COLUMN handler_data text");
+
 }
