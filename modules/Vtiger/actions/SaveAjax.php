@@ -138,6 +138,10 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action {
 				if ($fieldDataType == 'time' && $fieldValue !== null) {
 					$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
 				}
+				// Concatenating the array values of a multipicklist using implode to store them in the database
+				if(is_array($fieldValue) && $fieldDataType == 'multipicklist'){
+					$fieldValue=implode(' |##| ',$fieldValue);
+				}
                 $fieldValue = $this->purifyCkeditorField($fieldName, $fieldValue);
 				if ($fieldValue !== null) {
 					if (!is_array($fieldValue)) {
