@@ -50,7 +50,7 @@ class Logger {
         
         // Check if log level is set (logger is initialized)
         if (self::$logLevel) {
-            $log = new MonologLogger($channel);
+            $log = new MonologLoggerEx($channel);
             $handler = new StreamHandler(self::$filePath, self::$logLevel);
 
             // Set a custom formatter if customFormatter is true
@@ -76,6 +76,13 @@ class Logger {
     public function warn($message) {}
     public function error($message) {}
 
+}
+
+// Define extended version of Monolog Logger to support functions
+class MonologLoggerEx extends MonologLogger {
+    function fatal($message, $context = array()) {
+        $this->error($message, $context);
+    }
 }
 
 // Define a custom log formatter
