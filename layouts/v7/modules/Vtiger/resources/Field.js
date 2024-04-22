@@ -564,7 +564,7 @@ Vtiger_Field_Js('Vtiger_Time_Field_Js',{},{
 	 */
 	getUi : function() {
 		var html = '<div class="">'+'<div class="input-group time">'+
-						'<input class="timepicker-default form-control inputElement" type="text" data-format="'+ this.getTimeFormat() +'" name="'+ this.getName() +'" value="'+ this.getValue() + '" />'+
+						'<input class="timepicker-default form-control inputElement" type="text" data-rule-time="true" data-format="'+ this.getTimeFormat() +'" name="'+ this.getName() +'" value="'+ this.getValue() + '" />'+
 						'<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>'+
 					'</div>'+'</div>';
 		var element = jQuery(html);
