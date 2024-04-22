@@ -28,4 +28,8 @@ if (defined('VTIGER_UPGRADE')) {
     // Disabling the mass edit for the inventory line item discount fields.
     $db->pquery("UPDATE vtiger_field set masseditable = 0 where columnname in ('discount_percent','discount_amount') 
     and tablename in ('vtiger_quotes','vtiger_purchaseorder','vtiger_salesorder','vtiger_invoice')", array());
+
+    // Set value to 0 to avoid NaN troubles.
+    $db->pquery("UPDATE vtiger_inventorycharges SET value = 0 WHERE  name = 'Shipping & Handling' and value IS NULL",array());
+
 }
