@@ -121,20 +121,39 @@ class Vtiger_Utils {
 		$realfilepath = str_replace('\\', '/', $realfilepath);
 		$rootdirpath  = str_replace('\\', '/', $rootdirpath);
 
-		if(stripos($realfilepath, $rootdirpath) !== 0) {
-                    if($dieOnFail) {
-                        $a = debug_backtrace();
-                        $backtrace = 'Traced on '.date('Y-m-d H:i:s')."\n";
-                        $backtrace .= "FileAccess - \n";
-                        foreach ($a as $b) {
-                              $backtrace .=  $b['file'] . '::' . $b['function'] . '::' . $b['line'] . '<br>'.PHP_EOL;
-                        }
-                        Vtiger_Utils::writeLogFile('fileMissing.log', $backtrace);
-                        die('Sorry! Attempt to access restricted file.');
-                    }
-			return false;
+		/** Assume not matching. */
+		$ok = false;
+
+		if(stripos($realfilepath, $rootdirpath) === 0) {
+			/** Safe path. */
+			if (is_null($relpaths) || empty($relpaths)) {
+				/** No specific path to check. */
+				$ok = true;
+			} else if (is_array($relpaths)) {
+				/* Check relfilepath against accepted ones. */
+				$relfilepath = str_replace(rtrim($rootdirpath, "/"). "/", "", $realfilepath);
+				foreach ($relpaths as $relpathok) {
+					if (strpos($relfilepath, $relpathok) === 0) {
+						/** found a match - break early. */
+						$ok = true;
+						break;
+					}
+				}
+			}
 		}
-		return true;
+
+		if (!$ok && $dieOnFail) {
+			$a = debug_backtrace();
+			$backtrace = 'Traced on '.date('Y-m-d H:i:s')."\n";
+			$backtrace .= "FileAccess - \n";
+			foreach ($a as $b) {
+					$backtrace .=  $b['file'] . '::' . $b['function'] . '::' . $b['line'] . '<br>'.PHP_EOL;
+			}
+			Vtiger_Utils::writeLogFile('fileMissing.log', $backtrace);
+			die('Sorry! Attempt to access restricted file.');
+		}
+
+		return $ok;
 	}
 
 	/**
