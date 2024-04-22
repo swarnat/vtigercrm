@@ -223,7 +223,8 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 					Vtiger_Utils::checkFileAccess($oldFilePath);
 
 					//restrict attachment only from storage directory
-					if (strpos($oldFilePath, "storage/") !== 0) {
+					$oldFileRelPath = str_replace('\\', '/', str_replace(realpath($root_directory).DIRECTORY_SEPARATOR, "", realpath($oldFilePath)));
+					if (strpos($oldFileRelPath, "storage/") !== 0) {
                                                 throw new Exception("Attachment access denied");
                                         }
 					copy($oldFilePath, $newFilePath);
