@@ -32,4 +32,8 @@ if (defined('VTIGER_UPGRADE')) {
     // Set value to 0 to avoid NaN troubles.
     $db->pquery("UPDATE vtiger_inventorycharges SET value = 0 WHERE  name = 'Shipping & Handling' and value IS NULL",array());
 
+    // Increase column length of product and service name.
+    $db->pquery("ALTER TABLE vtiger_products MODIFY COLUMN productname VARCHAR(255)", array());
+    $db->pquery("ALTER TABLE vtiger_service MODIFY COLUMN servicename VARCHAR(255)", array());
+
 }
