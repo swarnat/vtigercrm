@@ -198,10 +198,6 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 					 */
 					$rawFileName = $existingAttachInfo['attachment'];
 					$file_name = $existingAttachInfo['storedname'];
-					// Checking becuase the pdf sent from sales order will not have the storedname
-					if(!$file_name) {
-						$file_name = $existingAttachInfo['attachment'];
-					}
 					$path = $existingAttachInfo['path'];
 					$fileId = $existingAttachInfo['fileid'];
 
