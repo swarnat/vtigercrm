@@ -220,13 +220,9 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 					$encryptFileName = Vtiger_Util_Helper::getEncryptedFileName($binFile);
 					$newFilePath = $upload_file_path . $current_id . "_" . $encryptFileName;
 
-					Vtiger_Utils::checkFileAccess($oldFilePath);
-
-					//restrict attachment only from storage directory
-					$oldFileRelPath = str_replace('\\', '/', str_replace(realpath($root_directory).DIRECTORY_SEPARATOR, "", realpath($oldFilePath)));
-					if (strpos($oldFileRelPath, "storage/") !== 0) {
-                                                throw new Exception("Attachment access denied");
-                                        }
+					//expect attachment only from storage directory
+					Vtiger_Utils::checkFileAccessIn($oldFilePath, ["storage"]);
+					
 					copy($oldFilePath, $newFilePath);
 
 					$sql1 = "insert into vtiger_crmentity (crmid,smcreatorid,smownerid,setype,description,createdtime,modifiedtime) values(?, ?, ?, ?, ?, ?, ?)";

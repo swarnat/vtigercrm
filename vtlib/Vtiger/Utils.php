@@ -88,11 +88,21 @@ class Vtiger_Utils {
 	}
 
 	/** 
-	 * Function to check the file access is made within web root directory. 
+	 * Function to check the file access is made within web root directory.
 	 * @param String File path to check
 	 * @param Boolean False to avoid die() if check fails
 	 */
 	static function checkFileAccess($filepath, $dieOnFail=true) {
+		return checkFileAccessIn($filepath, null, $dieOnFail);
+	}
+
+	/** 
+	 * Function to check the file access is made within web root directory (with optional sub-directories)
+	 * @param String File path to check
+	 * @param Array Relative paths within web root directory.
+	 * @param Boolean False to avoid die() if check fails
+	 */
+	static function checkFileAccessIn($filepath, array $relpaths = null, $dieOnFail=true) {
 		global $root_directory;
 
 		// Set the base directory to compare with
