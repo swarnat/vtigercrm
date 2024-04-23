@@ -68,7 +68,6 @@ class Migration_Index_View extends Vtiger_View_Controller {
 		$cssFileNames = array(
 			'~/layouts/vlayout/modules/Migration/css/style.css',
 			'~/layouts/vlayout/modules/Migration/css/mkCheckbox.css',
-			'~/libraries/bootstrap/css/bootstrap-responsive.css',
 			'~/libraries/bootstrap/css/bootstrap.min.css',
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
