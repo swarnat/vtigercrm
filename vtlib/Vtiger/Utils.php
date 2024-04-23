@@ -93,7 +93,7 @@ class Vtiger_Utils {
 	 * @param Boolean False to avoid die() if check fails
 	 */
 	static function checkFileAccess($filepath, $dieOnFail=true) {
-		return checkFileAccessIn($filepath, null, $dieOnFail);
+		return static::checkFileAccessIn($filepath, null, $dieOnFail);
 	}
 
 	/** 
