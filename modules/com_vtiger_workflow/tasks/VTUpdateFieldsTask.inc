@@ -139,7 +139,7 @@ class VTUpdateFieldsTask extends VTTask {
 
 						$fieldValue = $focus->column_fields[$fieldValue];
 						if($rightOperandFieldType == 'multipicklist' && $fieldDataType=='string'){
-							$fieldValue = str_replace(' |##| ', ' ', $fieldValue);
+							$fieldValue = str_replace(' |##| ', ',', $fieldValue);
 						}
 					}
 					$fieldValueInDB = $fieldValue;
