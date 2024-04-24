@@ -792,6 +792,7 @@ class Vtiger_Field_Model extends Vtiger_Field {
 		$nextweek1 = date("Y-m-d", strtotime("+1 week $prvDay"));
 
 		$next7days = date("Y-m-d", mktime(0, 0, 0, $m, $d + 6, $y));
+		$next14days = date("Y-m-d", mktime(0, 0, 0, $m, $d + 13, $y));
 		$next30days = date("Y-m-d", mktime(0, 0, 0, $m, $d + 29, $y));
 		$next60days = date("Y-m-d", mktime(0, 0, 0, $m, $d + 59, $y));
 		$next90days = date("Y-m-d", mktime(0, 0, 0, $m, $d + 89, $y));
@@ -872,6 +873,9 @@ class Vtiger_Field_Model extends Vtiger_Field {
 		} elseif ($type == "next7days") {
 			$dateValues[0] = $today;
 			$dateValues[1] = $next7days;
+		} elseif ($type == "next14days") {
+			$dateValues[0] = $today;
+			$dateValues[1] = $next14days;
 		} elseif ($type == "next30days") {
 			$dateValues[0] = $today;
 			$dateValues[1] = $next30days;
@@ -961,10 +965,13 @@ class Vtiger_Field_Model extends Vtiger_Field {
 								'last60days' => array('label' => 'LBL_LAST_60_DAYS'),
 								'last90days' => array('label' => 'LBL_LAST_90_DAYS'),
 								'last120days' => array('label' => 'LBL_LAST_120_DAYS'),
+								'next7days' => array('label' => 'LBL_NEXT_7_DAYS'),
+								'next14days' => array('label' => 'LBL_NEXT_14_DAYS'),
 								'next30days' => array('label' => 'LBL_NEXT_30_DAYS'),
 								'next60days' => array('label' => 'LBL_NEXT_60_DAYS'),
 								'next90days' => array('label' => 'LBL_NEXT_90_DAYS'),
-								'next120days' => array('label' => 'LBL_NEXT_120_DAYS')
+								'next120days' => array('label' => 'LBL_NEXT_120_DAYS'),
+								
 							);
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$userPeferredDayOfTheWeek = $currentUserModel->get('dayoftheweek');
