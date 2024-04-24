@@ -722,7 +722,14 @@ class Vtiger_Field_Model extends Vtiger_Field {
 		}
 
 		if($this->getFieldDataType() == 'reference') {
-			$this->fieldInfo['referencemodules'] = $this->getReferenceList();
+				$this->fieldInfo['referencemodules'] = $this->getReferenceList();
+
+				// special case handling for (last-modified-by) which is reference of Users module.
+				if (count($this->fieldInfo['referencemodules']) == 1 && $this->fieldInfo['referencemodules'][0] == "Users") {
+						$picklistValues = array();
+						$picklistValues[vtranslate('LBL_USERS', $this->getModuleName())] = $currentUser->getAccessibleUsers();
+						$this->fieldInfo['picklistvalues'] = $picklistValues;
+				}
 		}
 
 		$this->fieldInfo['validator'] = $this->getValidator();
