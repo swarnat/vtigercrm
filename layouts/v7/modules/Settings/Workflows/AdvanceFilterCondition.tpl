@@ -80,7 +80,6 @@
 	</span>
 	<span class="col-lg-4 col-md-4 col-sm-4  fieldUiHolder">
 		<input name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}" data-value="value" class="inputElement col-lg-12" type="text" value="{$CONDITION_INFO['value']|escape}" />
-			{$CONDITION_INFO|@debug_print_var}
 	</span>
 	<span class="hide">
 		<!-- TODO : see if you need to respect CONDITION_INFO condition or / and  -->
