@@ -36,4 +36,9 @@ if (defined('VTIGER_UPGRADE')) {
     $db->pquery("ALTER TABLE vtiger_products MODIFY COLUMN productname VARCHAR(255)", array());
     $db->pquery("ALTER TABLE vtiger_service MODIFY COLUMN servicename VARCHAR(255)", array());
 
+    // Shipping & Handling tax column data-type should be consistent (for Invoice fixed in 660 migration).
+    $db->pquery('ALTER TABLE vtiger_salesorder MODIFY s_h_percent DECIMAL(25,3)', array());
+    $db->pquery('ALTER TABLE vtiger_purchaseorder MODIFY s_h_percent DECIMAL(25,3)', array());
+    $db->pquery('ALTER TABLE vtiger_quotes MODIFY s_h_percent DECIMAL(25,3)', array());
+
 }
