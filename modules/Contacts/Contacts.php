@@ -787,8 +787,13 @@ class Contacts extends CRMEntity {
 				$button .= "<input title='". getTranslatedString('LBL_ADD_NEW')." ". getTranslatedString($singular_modname)."' accessyKey='F' class='crmbutton small create' onclick='fnvshobj(this,\"sendmail_cont\");sendmail(\"$this_module\",$id);' type='button' name='button' value='". getTranslatedString('LBL_ADD_NEW')." ". getTranslatedString($singular_modname)."'></td>";
 			}
 		}
+
+		$projectModuleInstance = Vtiger_Module_Model::getInstance("Project");
+		//checking the project module is active.
+		$isProjectModuleActive = $projectModuleInstance ? $projectModuleInstance->isActive() : false;
         
-        $relatedIds = array_merge(array($id), $this->getRelatedPotentialIds($id), $this->getRelatedTicketIds($id), $this->getRelatedProjectIds($id));
+		//getting related project ids only if the Project module is active
+        $relatedIds = array_merge(array($id), $this->getRelatedPotentialIds($id), $this->getRelatedTicketIds($id), $isProjectModuleActive ? $this->getRelatedProjectIds($id):array());
         $relatedIds = implode(', ', $relatedIds);
 
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>
