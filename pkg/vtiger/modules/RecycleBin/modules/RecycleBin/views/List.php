@@ -10,7 +10,7 @@
 
 class RecycleBin_List_View extends Vtiger_Index_View {
 
-	protected $fncalled = false;
+	protected $listviewinitcalled = false;
 
 	function checkPermission(Vtiger_Request $request) {
 		$moduleName = $request->getModule();
@@ -71,7 +71,7 @@ class RecycleBin_List_View extends Vtiger_Index_View {
 	 */
 	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer) {
 
-		if($this->fncalled==false){
+		if($this-> listviewinitcalled == false){
 			$moduleName = $request->getModule();
 			$sourceModule = $request->get('sourceModule');
 
@@ -222,7 +222,7 @@ class RecycleBin_List_View extends Vtiger_Index_View {
 		}
 		$viewer->assign('IS_MODULE_DELETABLE', $listViewModel->getModule()->isPermitted('Delete'));
 
-		$this->fncalled = true;
+		$this-> listviewinitcalled = true;
 
 	}
 }

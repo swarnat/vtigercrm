@@ -16,7 +16,7 @@ class Vtiger_List_View extends Vtiger_Index_View {
 	protected $noOfEntries = false;
 	protected $pagingModel = false;
 	protected $listViewModel = false;
-	protected $fncalled= false;
+	protected $listviewinitcalled = false;
 	function __construct() {
 		parent::__construct();
 	}
@@ -161,7 +161,7 @@ class Vtiger_List_View extends Vtiger_Index_View {
 	 */
 	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer) {
 
-		if($this->fncalled==false){
+		if($this->listviewinitcalled == false){
 			$moduleName = $request->getModule();
 			$cvId = $this->viewName;
 			$pageNumber = $request->get('page');
@@ -439,7 +439,7 @@ class Vtiger_List_View extends Vtiger_Index_View {
 		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE',Zend_Json::encode($picklistDependencyDatasource));
 
-		$this->fncalled=true;
+		$this->listviewinitcalled = true;
 	}
 }
 

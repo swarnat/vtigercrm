@@ -10,7 +10,7 @@
 
 class Vtiger_FindDuplicates_View extends Vtiger_List_View {
 
-	protected $fncalled = false;
+	protected $listviewinitcalled = false;
 
 	function preProcess(Vtiger_Request $request, $display = true) {
 		$viewer = $this->getViewer ($request);
@@ -58,7 +58,7 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View {
 	 */
 	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer) {
 
-		if($this->fncalled == false){
+		if($this->listviewinitcalled == false){
 			$currentUser = vglobal('current_user');
 			$viewer = $this->getViewer ($request);
 			$module = $request->getModule();
@@ -124,7 +124,7 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View {
 		$customViewModel = CustomView_Record_Model::getAllFilterByModule($module);
 		$viewer->assign('VIEW_NAME', $customViewModel->getId());
 
-		$this->fncalled = true;
+		$this->listviewinitcalled = true;
 	}
 }
 

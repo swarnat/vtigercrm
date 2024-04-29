@@ -11,7 +11,7 @@
 class EmailTemplates_List_View extends Vtiger_Index_View {
 
 
-	protected $fncalled = false;
+	protected $listviewinitcalled = false;
 
 	function __construct() {
 		parent::__construct();
@@ -87,7 +87,7 @@ class EmailTemplates_List_View extends Vtiger_Index_View {
 	 */
 	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer) {
 
-		if($this->fncalled == false){
+		if($this->listviewinitcalled == false){
 			$moduleName = $request->getModule();
 			$cvId = $request->get('viewname');
 			$viewType = $request->get('viewType');
@@ -226,7 +226,7 @@ class EmailTemplates_List_View extends Vtiger_Index_View {
 		$viewer->assign('IS_MODULE_EDITABLE', $listViewModel->getModule()->isPermitted('EditView'));
 		$viewer->assign('IS_MODULE_DELETABLE', $listViewModel->getModule()->isPermitted('Delete'));
 
-		$this->fncalled = true;
+		$this->listviewinitcalled = true;
 	}
 }
 

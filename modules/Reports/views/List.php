@@ -13,7 +13,7 @@ class Reports_List_View extends Vtiger_Index_View {
 	protected $listViewHeaders = false;
 	protected $listViewEntries = false;
 	protected $listViewCount   = false;
-	protected $fncalled        = false;
+	protected $listviewinitcalled = false;
 
 	function preProcess(Vtiger_Request $request, $display=true) {
 		parent::preProcess($request, false);
@@ -100,7 +100,7 @@ class Reports_List_View extends Vtiger_Index_View {
 
 	public function initializeListViewContents(Vtiger_Request $request) {
 
-		if($this->fncalled == false){
+		if($this->listviewinitcalled == false){
 			$moduleName = $request->getModule();
 			$viewer = $this->getViewer($request);
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
@@ -238,7 +238,7 @@ class Reports_List_View extends Vtiger_Index_View {
 		}
 		$viewer->assign('DASHBOARD_TABS', $activeTabs);
 
-		$this->fncalled=true;
+		$this->listviewinitcalled=true;
 	}
 }
 

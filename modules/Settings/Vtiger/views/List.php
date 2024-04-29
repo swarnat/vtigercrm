@@ -11,7 +11,7 @@
 class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View {
 	protected $listViewEntries = false;
 	protected $listViewHeaders = false;
-	protected $fncalled        = false;
+	protected $listviewinitcalled = false;
 
 	function __construct() {
 		parent::__construct();
@@ -38,7 +38,7 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View {
 	 */
 	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer) {
 
-		if($this->fncalled==false){
+		if($this->listviewinitcalled ==false){
 			$moduleName = $request->getModule();
 			$qualifiedModuleName = $request->getModule(false);
 			$pageNumber = $request->get('page');
@@ -139,7 +139,7 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View {
 			$viewer->assign('LISTVIEW_COUNT', $totalCount);
 		}
 
-		$this->fncalled=true;
+		$this->listviewinitcalled =true;
 	}
 }
     
