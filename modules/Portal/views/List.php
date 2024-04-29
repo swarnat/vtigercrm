@@ -40,7 +40,10 @@ class Portal_List_View extends Vtiger_Index_View {
 
 	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer) {
 
-	if($this->listviewinitcalled == false){
+	if($this->listviewinitcalled){
+		return;
+	}
+
 		$moduleName = $request->getModule();
 		$pageNumber = $request->get('page');
 		$orderBy = $request->get('orderby');
@@ -131,7 +134,6 @@ class Portal_List_View extends Vtiger_Index_View {
 		$viewer->assign('NO_OF_ENTRIES', count($listviewEntries));
 
 		$this->listviewinitcalled = true;
-	}
 	}
 	function getHeaderScripts(Vtiger_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);

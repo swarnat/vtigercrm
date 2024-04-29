@@ -100,7 +100,9 @@ class Reports_List_View extends Vtiger_Index_View {
 
 	public function initializeListViewContents(Vtiger_Request $request) {
 
-		if($this->listviewinitcalled == false){
+		if($this->listviewinitcalled){
+			return;
+		}
 			$moduleName = $request->getModule();
 			$viewer = $this->getViewer($request);
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
@@ -238,8 +240,7 @@ class Reports_List_View extends Vtiger_Index_View {
 		}
 		$viewer->assign('DASHBOARD_TABS', $activeTabs);
 
-		$this->listviewinitcalled=true;
-	}
+		$this->listviewinitcalled=true;  // to make a early exit if it is called more than once
 }
 
 	/**

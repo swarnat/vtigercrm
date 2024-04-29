@@ -58,7 +58,9 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View {
 	 */
 	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer) {
 
-		if($this->listviewinitcalled == false){
+		if($this->listviewinitcalled){
+			return;
+		}
 			$currentUser = vglobal('current_user');
 			$viewer = $this->getViewer ($request);
 			$module = $request->getModule();
@@ -124,9 +126,8 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View {
 		$customViewModel = CustomView_Record_Model::getAllFilterByModule($module);
 		$viewer->assign('VIEW_NAME', $customViewModel->getId());
 
-		$this->listviewinitcalled = true;
+		$this->listviewinitcalled = true; // to make a early exit if it is called more than once
 	}
-}
 
 	/**
 	 * Function returns the number of records for the current filter

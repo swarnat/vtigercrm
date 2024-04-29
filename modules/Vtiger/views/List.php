@@ -161,7 +161,9 @@ class Vtiger_List_View extends Vtiger_Index_View {
 	 */
 	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer) {
 
-		if($this->listviewinitcalled == false){
+		if($this->listviewinitcalled){
+			return;
+		}
 			$moduleName = $request->getModule();
 			$cvId = $this->viewName;
 			$pageNumber = $request->get('page');
@@ -439,9 +441,8 @@ class Vtiger_List_View extends Vtiger_Index_View {
 		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE',Zend_Json::encode($picklistDependencyDatasource));
 
-		$this->listviewinitcalled = true;
+		$this->listviewinitcalled = true; // to make a early exit if it is called more than once
 	}
-}
 
 	protected function assignCustomViews(Vtiger_Request $request, Vtiger_Viewer $viewer) {
 		$allCustomViews = CustomView_Record_Model::getAllByGroup($request->getModule());

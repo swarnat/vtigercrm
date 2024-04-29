@@ -87,7 +87,9 @@ class EmailTemplates_List_View extends Vtiger_Index_View {
 	 */
 	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer) {
 
-		if($this->listviewinitcalled == false){
+		if($this->listviewinitcalled){
+			return;
+		}
 			$moduleName = $request->getModule();
 			$cvId = $request->get('viewname');
 			$viewType = $request->get('viewType');
@@ -226,9 +228,8 @@ class EmailTemplates_List_View extends Vtiger_Index_View {
 		$viewer->assign('IS_MODULE_EDITABLE', $listViewModel->getModule()->isPermitted('EditView'));
 		$viewer->assign('IS_MODULE_DELETABLE', $listViewModel->getModule()->isPermitted('Delete'));
 
-		$this->listviewinitcalled = true;
+		$this->listviewinitcalled = true; // to make a early exit if it is called more than once
 	}
-}
 
 	/**
 	 * Function returns the number of records for the current filter

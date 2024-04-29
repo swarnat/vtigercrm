@@ -38,7 +38,9 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View {
 	 */
 	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer) {
 
-		if($this->listviewinitcalled ==false){
+		if($this->listviewinitcalled){
+			return;
+		}
 			$moduleName = $request->getModule();
 			$qualifiedModuleName = $request->getModule(false);
 			$pageNumber = $request->get('page');
@@ -139,9 +141,8 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View {
 			$viewer->assign('LISTVIEW_COUNT', $totalCount);
 		}
 
-		$this->listviewinitcalled =true;
+		$this->listviewinitcalled =true; // to make a early exit if it is called more than once
 	}
-}
     
     public function postProcess(Vtiger_Request $request) {
         $viewer = $this->getViewer($request);
