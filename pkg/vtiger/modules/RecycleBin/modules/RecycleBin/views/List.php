@@ -71,7 +71,7 @@ class RecycleBin_List_View extends Vtiger_Index_View {
 	 */
 	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer) {
 
-		if($this-> listviewinitcalled){
+		if($this->listviewinitcalled){
 			return;
 		}
 			$moduleName = $request->getModule();
@@ -224,7 +224,7 @@ class RecycleBin_List_View extends Vtiger_Index_View {
 		}
 		$viewer->assign('IS_MODULE_DELETABLE', $listViewModel->getModule()->isPermitted('Delete'));
 
-		$this-> listviewinitcalled = true; // to make a early exit if it is called more than once
+		$this->listviewinitcalled = true; // to make a early exit if it is called more than once
 
 	}
 
