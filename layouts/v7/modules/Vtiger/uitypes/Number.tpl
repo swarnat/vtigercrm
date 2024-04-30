@@ -15,8 +15,7 @@
 {if $MODULE eq 'HelpDesk' && ($FIELD_MODEL->get('name') eq 'days' || $FIELD_MODEL->get('name') eq 'hours')}
 	{assign var="FIELD_VALUE" value=$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}
 {else if $FIELD_MODEL->getFieldDataType() eq 'double'}
-   <!-- Converting the decimal value to user format, considering the number of decimals and decimal separator -->
-	{assign var="FIELD_VALUE" value=CurrencyField::convertToUserFormat($FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue')))}
+	{assign var="FIELD_VALUE" value=$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}
 {else}
 	{assign var="FIELD_VALUE" value=$FIELD_MODEL->get('fieldvalue')}
 {/if}

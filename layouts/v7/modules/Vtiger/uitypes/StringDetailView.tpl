@@ -41,9 +41,6 @@
     {/if}
 {else if  $FIELD_MODEL->get('name') eq 'signature'}
 	{decode_html($FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId(), $RECORD))}
-{else if $FIELD_MODEL->getFieldDataType() eq 'double'}
-    <!-- Converting the decimal value to user format, considering the number of decimals and decimal separator -->
-    {CurrencyField::convertToUserFormat($FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId(), $RECORD))}
 {else}
     {$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId(), $RECORD)}
 {/if}

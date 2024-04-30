@@ -405,8 +405,7 @@ class ListViewController {
 						}
 					}
 				} elseif ($fieldDataType == 'double') {
-					//Converting the decimal value to user preferred format, considering number of decimals and decimal separator
-					$value = CurrencyField::convertToUserFormat(decimalFormat($value));
+					$value = decimalFormat($value);
 				} elseif($fieldDataType == 'url') {
 					$matchPattern = "^[\w]+:\/\/^";
 					preg_match($matchPattern, $rawValue, $matches);

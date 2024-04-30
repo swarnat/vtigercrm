@@ -105,9 +105,6 @@
 										{assign var=FIELD_VALUE value=$FIELD_MODEL->get('fieldvalue')}
 										{if $fieldDataType eq 'multipicklist'}
 											{assign var=FIELD_DISPLAY_VALUE value=$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}
-										{else if $fieldDataType eq 'double'}
-											 <!-- Converting the decimal value to user format, considering the number of decimals and decimal separator and assigning the value-->
-											{assign var=FIELD_DISPLAY_VALUE value=Vtiger_Util_Helper::toSafeHTML(CurrencyField::convertToUserFormat($FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))))}
 										{else}
 											{assign var=FIELD_DISPLAY_VALUE value=Vtiger_Util_Helper::toSafeHTML($FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue')))}
 										{/if}
