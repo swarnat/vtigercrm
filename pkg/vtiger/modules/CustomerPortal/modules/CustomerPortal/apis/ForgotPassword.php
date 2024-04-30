@@ -80,7 +80,7 @@ class CustomerPortal_ForgotPassword extends CustomerPortal_API_Abstract {
 			$response->setError('1412', 'Invalid email');
 		}
 
-		return $neutralResponse ? $neturalResponse : $response;
+		return $neutralResponse ? $neutralResponse : $response;
 	}
 
 	function authenticatePortalUser($username, $password) {
