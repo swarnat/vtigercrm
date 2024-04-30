@@ -23,8 +23,8 @@ class Migration_Extract_Action extends Vtiger_Action_Controller {
 		$user->column_fields['user_name'] = $userName;
 		$userid = $user->retrieve_user_id($userName);
 		$userRecordModel = Users_Privileges_Model::getInstanceById($userid, 'Users');
-		if ($user->doLogin($password)) {
-			if($userRecordModel->isAdminUser()) {
+		if($userRecordModel->isAdminUser()) {
+			if ($user->doLogin($password)) {
 				$zip = new ZipArchive();
 				$fileName = 'vtiger8.zip';
 				if ($zip->open($fileName)) {
@@ -47,11 +47,11 @@ class Migration_Extract_Action extends Vtiger_Action_Controller {
 					header('Location: migrate/index.php?error='.$errorMessage);
 				}
 			} else {
-				$errorMessage = 'PERMISSION DENIED! ONLY ADMIN USERS CAN ACCESS';
+				$errorMessage = 'INVALID CREDENTIALS';
 				header('Location: migrate/index.php?error='.$errorMessage);
 			}
 		} else {
-			$errorMessage = 'INVALID CREDENTIALS';
+			$errorMessage = 'PERMISSION DENIED! ONLY ADMIN USERS CAN ACCESS';
 			header('Location: migrate/index.php?error='.$errorMessage);
 		}
 	}
