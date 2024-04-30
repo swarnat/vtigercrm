@@ -2303,8 +2303,8 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
                 'animation' : true,
                 'title' : deductTaxesTriggerer.text(),
                 'trigger' : 'manual',
-                'template' : popOverTemplate
-                
+                'template' : popOverTemplate[0].outerHTML,
+				'sanitize' : false, /* to allow buttons or anchor tag */                
         });
 
 		deductTaxesTriggerer.on('shown.bs.popover', function(){
