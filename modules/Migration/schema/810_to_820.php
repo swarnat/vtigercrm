@@ -41,6 +41,9 @@ if (defined('VTIGER_UPGRADE')) {
     $db->pquery('ALTER TABLE vtiger_purchaseorder MODIFY s_h_percent DECIMAL(25,3)', array());
     $db->pquery('ALTER TABLE vtiger_quotes MODIFY s_h_percent DECIMAL(25,3)', array());
 
+    // Make hidden mandatory fields optional
+    $db->pquery("UPDATE vtiger_field SET typeofdata = replace(typeofdata,'~M','~O') where presence =1 and typeofdata like '%~M%'", array());
+
 	// START - Adding htaccess to upload_badext array in config file.
 	// Updating the config file
 	$fileName = 'config.inc.php';
