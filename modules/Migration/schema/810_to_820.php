@@ -44,4 +44,25 @@ if (defined('VTIGER_UPGRADE')) {
     // Make hidden mandatory fields optional
     $db->pquery("UPDATE vtiger_field SET typeofdata = replace(typeofdata,'~M','~O') where presence =1 and typeofdata like '%~M%'", array());
 
+	// START - Adding htaccess to upload_badext array in config file.
+	// Updating the config file
+	$fileName = 'config.inc.php';
+	if (file_exists($fileName)) {
+		// Read the contents of the file
+		$completeData = file_get_contents('config.inc.php');
+		$pattern = "/upload_badext\s*=+\s*array\(?...+\);/i";
+		
+		if (preg_match($pattern, $completeData, $matches)) {
+			$arrayString = $matches[0];
+			$content = '/htaccess/i';
+			if (!preg_match($content, $arrayString)) {
+				$updateStringPattern = "/upload_badext\s*=+\s*array\(?...+'/i";
+				preg_match($updateStringPattern,$completeData,$matches);
+				$updatedContent = preg_replace($updateStringPattern, "$matches[0],'htaccess'", $completeData);
+				// Put the new contents into the file
+				file_put_contents($fileName, $updatedContent);
+			}
+		}
+	}
+	//END
 }
