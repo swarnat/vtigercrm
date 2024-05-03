@@ -561,7 +561,7 @@ Vtiger.Class("Calendar_Calendar_Js", {
 					//replacing module name prefix with translated module name and concatinating with field name
 					var feedIndicatorModuleEndIndex = feedIndicatorTitle.indexOf('('); // Events (ActivityType) - title...
 					if (feedIndicatorModuleEndIndex == -1) { // ModuleName - title...
-							feedIndicatorModuleEndIndex = feedInicatorTitle.indexOf('-');
+							feedIndicatorModuleEndIndex = feedIndicatorTitle.indexOf('-');
 					}
 					feedIndicatorTitle = translatedModuleName + feedIndicatorTitle.substr(feedIndicatorModuleEndIndex);
 					newFeedIndicator.find('span:first').text(feedIndicatorTitle);
