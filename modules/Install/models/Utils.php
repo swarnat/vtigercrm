@@ -73,19 +73,6 @@ class Install_Utils_Model {
 			$directiveValues['max_execution_time'] = ini_get('max_execution_time');
 		if (ini_get('memory_limit') < 32)
 			$directiveValues['memory_limit'] = ini_get('memory_limit');
-			$errorReportingValue = E_WARNING & ~E_NOTICE;
-                if(version_compare(PHP_VERSION, '5.5.0') >= 0){
-                    $errorReportingValue = E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT;
-                }
-                else if(version_compare(PHP_VERSION, '5.3.0') >= 0) {
-			$errorReportingValue = E_WARNING & ~E_NOTICE & ~E_DEPRECATED;
-		}
-		if (ini_get('error_reporting') != $errorReportingValue)
-			$directiveValues['error_reporting'] = 'NOT RECOMMENDED';
-		if (ini_get('log_errors') == '1' || stripos(ini_get('log_errors'), 'On') > -1)
-			$directiveValues['log_errors'] = 'On';
-		if (ini_get('short_open_tag') == '1' || stripos(ini_get('short_open_tag'), 'On') > -1)
-			$directiveValues['short_open_tag'] = 'On';
 
 		return $directiveValues;
 	}
@@ -101,10 +88,7 @@ class Install_Utils_Model {
 		'register_globals' => 'On',
 		'output_buffering' => 'On',
 		'max_execution_time' => '0',
-		'memory_limit' => '32',
-		'error_reporting' => 'E_WARNING & ~E_NOTICE',
-		'log_errors' => 'Off',
-		'short_open_tag' => 'Off'
+		'memory_limit' => '32'
 	);
 
 	/**
