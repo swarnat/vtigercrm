@@ -96,12 +96,6 @@ class Install_Utils_Model {
 	 * @return type
 	 */
 	public static function getRecommendedDirectives(){
-            if(version_compare(PHP_VERSION, '5.5.0') >= 0){
-                self::$recommendedDirectives['error_reporting'] = 'E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT';
-            }
-	    else if(version_compare(PHP_VERSION, '5.3.0') >= 0) {
-			self::$recommendedDirectives['error_reporting'] = 'E_WARNING & ~E_NOTICE & ~E_DEPRECATED';
-		}
 		return self::$recommendedDirectives;
 	}
 
