@@ -101,6 +101,8 @@ function get_available_module_picklist($picklist_details){
  * @return array $arr - the array containing the picklist values
  */
 function getAllPickListValues($fieldName,$lang = Array() ){
+	$lang = vtlib_array($lang);
+	
 	global $adb;
 	if(Vtiger_Cache::get('AllPicklistValues',$fieldName)){
 		return Vtiger_Cache::get('AllPicklistValues',$fieldName);

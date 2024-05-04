@@ -598,7 +598,8 @@ class Users_Record_Model extends Vtiger_Record_Model {
 	function getTagCloudStatus() {
 		$db = PearDatabase::getInstance();
 		$query = "SELECT visible FROM vtiger_homestuff WHERE userid=? AND stufftype='Tag Cloud'";
-		$visibility = $db->query_result($db->pquery($query, array($this->getId())), 0, 'visible');
+		$rs = $db->pquery($query, array($this->getId()));
+		$visibility = $db->query_result($rs, 0, 'visible');
 		if($visibility == 0) {
 			return true;
 		} 

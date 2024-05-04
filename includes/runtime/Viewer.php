@@ -70,6 +70,30 @@ class Vtiger_Viewer extends Smarty {
 			
 			$this->log("URI: $debugViewerURI, TYPE: " . $_SERVER['REQUEST_METHOD']);
 		}
+
+		$classes = array('Vtiger_MenuStructure_Model', 'Users_Privileges_Model', 
+			'Vtiger_Module_Model', 'Settings_MenuEditor_Module_Model', 'Vtiger_Util_Helper', 
+			'ZEND_JSON', 'Zend_Json', 'Zend_JSON',
+			'Vtiger_Theme', 'Users_Record_Model', 'Vtiger_Module_Model', 'Vtiger_Field_Model', 
+			'Settings_Picklist_Module_Model', 'CustomView_Record_Model', 'Vtiger_Extension_View',
+			'Vtiger_Tag_Model',
+			'Vtiger_Functions', 'Users', 'CurrencyField');
+		foreach ($classes as $clazz) {
+			if (class_exists($clazz)) {
+				$this->registerClass($clazz, $clazz);
+			}
+		}
+
+		$modifiers = array('vtranslate', 'vtlib_isModuleActive', 'vimage_path', 'strstr', 'stripos', 'strpos', 'date', 'vtemplate_path', 'vresource_url', 
+			'decode_html', 'vtlib_purify', 'php7_count', 'getUserFullName', 'array_flip', 'explode', 'trim', 'array_push',
+			'array_map', 'array_key_exists', 'get_class', 'vtlib_array', 'getDuplicatesPreventionMessage', 'htmlentities',
+			'getCurrencySymbolandCRate', 'mb_substr', 'isPermitted', 'getEntityName',
+			'strtolower', 'strtoupper');
+		foreach ($modifiers as $modifier) {
+			if (function_exists($modifier)) {
+				$this->registerPlugin('modifier', $modifier, $modifier);
+			}
+		}
 	}
 
 	// Backward compatible to SmartyBC

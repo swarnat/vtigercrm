@@ -35,6 +35,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType {
 	 */
 	public static function getTimeValueInAMorPM($time) {
 		if($time){
+			if (substr_count($time, ':') < 2) $time .= ':'; /* to overcome notice of missing index 2 (seconds) below */
 			list($hours, $minutes, $seconds) = explode(':', $time);
 			$format = vtranslate('PM');
 

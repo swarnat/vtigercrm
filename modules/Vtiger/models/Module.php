@@ -1229,6 +1229,7 @@ class Vtiger_Module_Model extends Vtiger_Module {
 	public function getOwnerWhereConditionForDashBoards ($owner) {
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$sharingAccessModel = Settings_SharingAccess_Module_Model::getInstance($this->getName());
+		$ownerSql = '';
 		$params = array();
 		if(!empty($owner) && $currentUserModel->isAdminUser()) {//If admin user, then allow users data
 			$ownerSql =  ' smownerid = '. $owner;

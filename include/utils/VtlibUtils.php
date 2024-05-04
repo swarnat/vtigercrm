@@ -103,8 +103,8 @@ function vtlib_isModuleActive($module) {
 
 	if(!isset($__cache_module_activeinfo[$module])) {
 		include 'tabdata.php';
-		$tabId = $tab_info_array[$module];
-		$presence = $tab_seq_array[$tabId];
+		$tabId = vtlib_array($tab_info_array)[$module];
+		$presence = vtlib_array($tab_seq_array)[$tabId];
 		$__cache_module_activeinfo[$module] = $presence;
 	} else {
 		$presence = $__cache_module_activeinfo[$module];
@@ -722,7 +722,9 @@ function vtlib_purify($input, $ignore = false) {
                 $value = purifyHtmlEventAttributes($value, true);
             }
         }
-        $purified_cache[$md5OfInput] = $value;
+		if (isset($md5OfInput)) {
+			$purified_cache[$md5OfInput] = $value;
+		}
     }
     
     if(is_array($value)) {
@@ -978,6 +980,14 @@ function vtlib_addSettingsLink($linkName, $linkURL, $blockName = false) {
 		}
 	}
 	return $success;
+}
+
+/**
+ * PHP Strict helpers.
+ */
+require_once "vtlib/Vtiger/Utils/GuardedArray.php";
+function vtlib_array($data = null) {
+	return new Vtiger_GuardedArray($data);
 }
 
 /**
