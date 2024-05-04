@@ -73,7 +73,7 @@ class Vtiger_Viewer extends Smarty {
 
 		$classes = array('Vtiger_MenuStructure_Model', 'Users_Privileges_Model', 
 			'Vtiger_Module_Model', 'Settings_MenuEditor_Module_Model', 'Vtiger_Util_Helper', 
-			'ZEND_JSON', 'Zend_Json', 'Zend_JSON',
+			'ZEND_JSON', 'Zend_Json', 'Zend_JSON', 'ZEND_json',
 			'Vtiger_Theme', 'Users_Record_Model', 'Vtiger_Module_Model', 'Vtiger_Field_Model', 
 			'Settings_Picklist_Module_Model', 'CustomView_Record_Model', 'Vtiger_Extension_View',
 			'Vtiger_Tag_Model',
@@ -87,8 +87,8 @@ class Vtiger_Viewer extends Smarty {
 		$modifiers = array('vtranslate', 'vtlib_isModuleActive', 'vimage_path', 'strstr', 'stripos', 'strpos', 'date', 'vtemplate_path', 'vresource_url', 
 			'decode_html', 'vtlib_purify', 'php7_count', 'getUserFullName', 'array_flip', 'explode', 'trim', 'array_push',
 			'array_map', 'array_key_exists', 'get_class', 'vtlib_array', 'getDuplicatesPreventionMessage', 'htmlentities',
-			'getCurrencySymbolandCRate', 'mb_substr', 'isPermitted', 'getEntityName',
-			'strtolower', 'strtoupper');
+			'getCurrencySymbolandCRate', 'mb_substr', 'isPermitted', 'getEntityName', 'function_exists',
+			'strtolower', 'strtoupper', 'str_replace', 'urlencode', 'getTranslatedCurrencyString', 'getTranslatedString', 'is_object', 'is_numeric');
 		foreach ($modifiers as $modifier) {
 			if (function_exists($modifier)) {
 				$this->registerPlugin('modifier', $modifier, $modifier);

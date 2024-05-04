@@ -463,9 +463,11 @@ class Vtiger_Functions {
 			while ($row = $adb->fetch_array($result)) {
 				$moduleFieldInfo[$module][$row['fieldname']] = $row;
 			}
-			Vtiger_Cache::set('ModuleFieldInfo',$module,$moduleFieldInfo[$module]);
+			if (isset($moduleFieldInfo[$module])) {
+				Vtiger_Cache::set('ModuleFieldInfo',$module,$moduleFieldInfo[$module]);
+			}
 		}
-		return $moduleFieldInfo[$module] ? $moduleFieldInfo[$module] : NULL;
+		return isset($moduleFieldInfo[$module]) ? $moduleFieldInfo[$module] : NULL;
 	}
 
 	static function getModuleFieldInfoWithId($fieldid) {

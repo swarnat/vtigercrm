@@ -156,7 +156,8 @@ if (defined('VTIGER_UPGRADE')) {
 	$packageModules = array('Project', 'ProjectTask', 'ProjectMilestone'); /* Projects zip is bundle */
 	$packageZips = glob("packages/vtiger/*/*.zip");
 	foreach ($packageZips as $zipfile) {
-		$packageModules[] = str_replace('.zip', '', array_pop(explode("/", $zipfile)));
+		$parts = explode("/", $zipfile);
+		$packageModules[] = str_replace('.zip', '', array_pop($parts));
 	}
 
 	$db->pquery('UPDATE vtiger_tab SET source="custom" WHERE version IS NOT NULL AND name NOT IN ('.generateQuestionMarks($packageModules).')', $packageModules);

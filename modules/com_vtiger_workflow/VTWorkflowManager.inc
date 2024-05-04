@@ -354,6 +354,10 @@ class Workflow{
 		$this->conditionStrategy = new VTJsonCondition();
 	}
 
+	function __get($name) {
+		return property_exists($this, $name) ? $this->$name : null;
+	}
+
 	function setup($row) {
 		$this->id = $row['workflow_id'];
 		$this->moduleName = $row['module_name'];

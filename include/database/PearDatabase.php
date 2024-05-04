@@ -306,7 +306,7 @@ class PearDatabase{
 	$this->executeSetNamesUTF8SQL();
 
 	$sql_start_time = microtime(true);
-	$result = & $this->database->Execute($sql);
+	$result = $this->database->Execute($sql);
 	$this->logSqlTiming($sql_start_time, microtime(true), $sql);
 
 	$this->lastmysqlrow = -1;

@@ -12,7 +12,7 @@ class Vtiger_GuardedArray implements \ArrayAccess {
     private $data;
 
     function __construct($data = null) {
-        $this->data = is_null($data) ? array() : $data;
+        $this->data = is_null($data) || $data === false ? array() : $data;
     }
 
     function offsetExists($key) {
