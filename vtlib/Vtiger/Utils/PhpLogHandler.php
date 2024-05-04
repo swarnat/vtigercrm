@@ -8,19 +8,19 @@
  * All Rights Reserved.
  *************************************************************************************/
 
-/**
- * USAGE: For E_ALL strict development - create (config_override.php) with code below.
- * 
- * ini_set("display_errors", "off");
- * error_reporting(E_ALL);
- * ini_set("log_errors", "on");
- * ini_set("error_log", "logs/phperr.log");
- * require_once "vtlib/Vtiger/Utils/PhpLogHandler.php";
- * set_error_handler(Vtiger_PhpLogHandler::getErrorHandler(__DIR__));
- * set_exception_handler(Vtiger_PhpLogHandler::getExceptionHandler(__DIR__));
- */
-
 class Vtiger_PhpLogHandler {
+
+    /**
+     * Enable strict mode.
+     */
+    public static function enableStrictLogging($basedir, $logfile) {
+        ini_set("display_errors", "off");
+        error_reporting(E_ALL);
+        ini_set("log_errors", "on");
+        ini_set("error_log", $logfile);
+        set_error_handler(Vtiger_PhpLogHandler::getErrorHandler($basedir));
+        set_exception_handler(Vtiger_PhpLogHandler::getExceptionHandler($basedir));
+    }
 
     /**
      * Capture context of request in Log to review later.
@@ -30,7 +30,7 @@ class Vtiger_PhpLogHandler {
         if (isset($_SERVER)) {
             $ctx = $_SERVER["REQUEST_METHOD"] . " " . str_replace("?" . $_SERVER["QUERY_STRING"], "", $_SERVER["REQUEST_URI"]);
             $params = [];
-            foreach (["module", "view", "action", "mode"] as $key) {
+            foreach (["module", "view", "action", "mode", "record"] as $key) {
                 if (isset($_REQUEST[$key])) $params[$key] = $_REQUEST[$key];
             }
             $ctx .= "?" . http_build_query($params);
@@ -49,8 +49,9 @@ class Vtiger_PhpLogHandler {
         if (!$logfile) $logfile = ini_get('error_log');
 
         $logctx = Vtiger_PhpLogHandler::getRequestContextToLog();
+        $reqtm  = date("[Y-m-d H:i:s]");
 
-        return function($errno, $errstr, $errfile, $errline) use ($display_errors, $log_errors, $basedir, $logfile, $logctx) {
+        return function($errno, $errstr, $errfile, $errline) use ($display_errors, $log_errors, $basedir, $logfile, $logctx, $reqtm) {
             // nothing todo return early.
             if (!$display_errors && !$log_errors && ($log_errors && !$logfile)) {
                 return;
@@ -79,7 +80,7 @@ class Vtiger_PhpLogHandler {
             // format message same as default PHP
             $msg = sprintf("%s: %s in %s on line %s\n", $errtype, $errstr, $errfilerel, $errline);
             if ($logfile) {
-                $tmstamp = date("[Y-m-d H:i:s]");
+                $tmstamp = $reqtm . "@". date("[H:i:s]");
                 $fullmsg = $tmstamp . " ". $logctx . "\n" . $tmstamp . " " . $msg;
                 file_put_contents($logfile, $fullmsg, FILE_APPEND | LOCK_EX);
             }
@@ -103,8 +104,9 @@ class Vtiger_PhpLogHandler {
         if (!$logfile) $logfile = ini_get('error_log');
 
         $logctx = Vtiger_PhpLogHandler::getRequestContextToLog();
+        $reqtm  = date("[Y-m-d H:i:s]");
 
-        return function(Throwable $e) use ($display_errors, $log_errors, $basedir, $logfile, $logctx) {
+        return function(Throwable $e) use ($display_errors, $log_errors, $basedir, $logfile, $logctx, $reqtm) {
             // nothing todo return early.
             if (!$display_errors && !$log_errors && ($log_errors && !$logfile)) {
                 return;
@@ -117,7 +119,7 @@ class Vtiger_PhpLogHandler {
             // format message same as default PHP
             $msg = sprintf("Fatal error: %s in %s:%d\nStack trace:\n%s\n    thrown in %s on line %d\n", $e->getMessage(), $errfile, $e->getLine(), $errstack, $errfile, $e->getLine());
             if ($logfile) {
-                $tmstamp = date("[Y-m-d H:i:s]");
+                $tmstamp = $reqtm . "@" . date("[H:i:s]");
                 $fullmsg = $tmstamp . " ". $logctx . "\n" . $tmstamp . " " . $msg;
                 file_put_contents($logfile, $fullmsg, FILE_APPEND | LOCK_EX);
             } 
