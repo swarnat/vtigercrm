@@ -358,7 +358,7 @@ class Install_Utils_Model {
 		if($db_type) {
 			// Backward compatible mode for adodb library.
 			if ($db_type == 'mysqli') {
-				mysqli_report(MYSQLI_REPORT_ALL ^ MYSQLI_REPORT_STRICT);
+				mysqli_report(MYSQLI_REPORT_ALL ^ MYSQLI_REPORT_STRICT ^ MYSQLI_REPORT_INDEX);
 			}
 			
 			$conn = NewADOConnection($db_type);
