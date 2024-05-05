@@ -28,6 +28,7 @@ require_once('include/utils/UserInfoUtil.php');
 require_once("include/Zend/Json.php");
 require_once 'include/RelatedListView.php';
 
+#[\AllowDynamicProperties]
 class CRMEntity {
 
 	var $ownedby;

@@ -938,7 +938,7 @@ class PearDatabase{
 		$schema = new adoSchema( $db );
 		
 		//Debug Adodb XML Schema
-		$schema->XMLS_DEBUG = TRUE;
+		// $schema->XMLS_DEBUG = TRUE; // adoSchema does not support AllowDynamicProperties
 		//Debug Adodb
 		$schema->debug = true;
 		$sql = $schema->ParseSchema( $schemaFile );

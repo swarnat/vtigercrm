@@ -23,6 +23,7 @@ require_once 'includes/runtime/Cache.php';
  * Provides API to work with vtiger CRM Module
  * @package vtlib
  */
+#[\AllowDynamicProperties]
 class Vtiger_ModuleBasic {
 	/** ID of this instance */
 	var $id = false;

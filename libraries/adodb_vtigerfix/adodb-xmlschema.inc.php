@@ -111,6 +111,7 @@ if( !defined( '_ADODB_LAYER' ) ) {
 * @package axmls
 * @access private
 */
+#[\AllowDynamicProperties]
 class dbObject {
 
 	/**
@@ -1665,7 +1666,7 @@ class adoSchema {
 	*
 	* @access private
 	*/
-	function _tag_open( &$parser, $tag, $attributes ) {
+	function _tag_open( $parser, $tag, $attributes ) {
 		switch( strtoupper( $tag ) ) {
 			case 'TABLE':
 				$this->obj = new dbTable( $this, $attributes );
@@ -1688,7 +1689,7 @@ class adoSchema {
 	*
 	* @access private
 	*/
-	function _tag_cdata( &$parser, $cdata ) {
+	function _tag_cdata( $parser, $cdata ) {
 	}
 
 	/**
@@ -1697,7 +1698,7 @@ class adoSchema {
 	* @access private
 	* @internal
 	*/
-	function _tag_close( &$parser, $tag ) {
+	function _tag_close( $parser, $tag ) {
 
 	}
 
