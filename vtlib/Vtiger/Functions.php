@@ -164,7 +164,13 @@ class Vtiger_Functions {
 				self::$moduleNameIdCache[$row['name']]  = $row;
 			}
 		}
-		return $id ? self::$moduleIdNameCache[$id] : self::$moduleNameIdCache[$name];
+		if ($id && isset(self::$moduleIdNameCache[$id])) {
+			return self::$moduleIdNameCache[$id];
+		}
+		if ($name && isset(self::$moduleNameIdCache[$name])) {
+			return self::$moduleNameIdCache[$name];
+		}
+		return null;
 	}
 
 	static function getModuleData($mixed) {

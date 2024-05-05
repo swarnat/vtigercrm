@@ -75,6 +75,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model {
 						$fieldValue = explode(' = ', $configContent);
 						$fieldValue = $fieldValue[1];
 						if ($fieldName === 'upload_maxsize') {
+							$fieldValue = trim($fieldValue, ' ;');
 							$fieldValue = round(number_format($fieldValue / 1048576, 2));
 						}
 

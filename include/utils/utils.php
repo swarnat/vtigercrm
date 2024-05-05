@@ -2022,9 +2022,9 @@ function getCurrencyDecimalPlaces($user = null) {
     global $current_user;
 
 	$currency_decimal_places = 2;
-    if (!empty($user)) {
+    if (!empty($user) && isset($user->no_of_currency_decimals)) {
         $currency_decimal_places = $user->no_of_currency_decimals;
-    } else if ($current_user) {
+    } else if ($current_user && isset($current_user->no_of_currency_decimals)) {
         $currency_decimal_places = $current_user->no_of_currency_decimals;
     }
     return (int)$currency_decimal_places;

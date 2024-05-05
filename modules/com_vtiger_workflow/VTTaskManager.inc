@@ -28,7 +28,7 @@
 		 */
 		public function saveTask($task){
 			$adb = $this->adb;
-			if(is_numeric($task->id)){//How do I check whether a member exists in php?
+			if(isset($task->id) && is_numeric($task->id)){
 				$taskId = $task->id;
 				$adb->pquery("update com_vtiger_workflowtasks set summary=?, task=? where task_id=?",
 							array($task->summary, serialize($task), $taskId));

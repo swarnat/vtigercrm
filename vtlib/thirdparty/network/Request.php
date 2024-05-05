@@ -965,9 +965,7 @@ class HTTP_Request
 
             // "normal" POST request
             if (!isset($boundary)) {
-                $callback = function_exists('create_function')?
-                create_function('$a', 'return $a[0] . \'=\' . $a[1];') :
-                function ($a) { return $a[0] .'='. $a[1]; };
+                $callback = function ($a) { return $a[0] .'='. $a[1]; };
 
                 $postdata = implode('&', array_map($callback, $this->_flattenArray('', $this->_postData)));
 

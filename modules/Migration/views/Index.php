@@ -233,7 +233,7 @@ class Migration_Index_View extends Vtiger_View_Controller {
 					$fieldName = '('. $fieldName .')';
 				}
 
-				$groupId = $condition['groupid'];
+				$groupId = isset($condition['groupid']) ? $condition['groupid'] : null;
 				if (!$groupId) {
 					$groupId = 0;
 				}
