@@ -15,7 +15,8 @@ include_once 'vtlib/Vtiger/LinkData.php';
  * Provides API to handle custom links
  * @package vtlib
  */
-class Vtiger_Link {
+ #[\AllowDynamicProperties]
+ class Vtiger_Link {
 	var $tabid;
 	var $linkid;
 	var $linktype;

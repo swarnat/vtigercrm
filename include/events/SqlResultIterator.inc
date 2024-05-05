@@ -8,7 +8,12 @@
  * All Rights Reserved.
  *************************************************************************************/
 
+	#[\AllowDynamicProperties]
 	class SqlResultIterator implements Iterator{
+		var $result;
+		var $adb;
+		var $pos;
+		
 		function __construct($adb, $result){
 			$this->result = $result;
 			$this->adb = $adb;
@@ -79,6 +84,8 @@
 	}
 	
 	class SqlResultIteratorRow{
+		var $data;
+		
 		function __construct($data){
 			$this->data = $data;
 		}

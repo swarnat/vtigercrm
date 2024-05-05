@@ -11,6 +11,7 @@
 	/**
 	 * Functionality to save and retrieve Tasks from the database.
 	 */
+	#[\AllowDynamicProperties]
 	class VTTaskManager{
 		function __construct($adb){
 			$this->adb = $adb;
@@ -153,6 +154,7 @@
 
 	}
 
+	#[\AllowDynamicProperties]
 	abstract class VTTask{
 		public abstract function doTask($data);
 		public abstract function getFieldNames();

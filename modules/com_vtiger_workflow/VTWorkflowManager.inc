@@ -12,6 +12,7 @@ require_once("VTJsonCondition.inc");
 require_once 'include/utils/ConfigReader.php';
 require_once 'includes/runtime/Cache.php';
 
+#[\AllowDynamicProperties]
 class VTWorkflowManager{
 
 	static $ON_FIRST_SAVE = 1;
@@ -341,6 +342,7 @@ class VTWorkflowManager{
 	}
 }
 
+#[\AllowDynamicProperties]
 class Workflow{
 	static $SCHEDULED_HOURLY = 1;
 	static $SCHEDULED_DAILY = 2;
