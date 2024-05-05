@@ -15,25 +15,30 @@
 			$this->pos = 0;
 		}
 		
+		#[\ReturnTypeWillChange]
 		public function rewind(){
 			$this->pos = 0;
 		}
 		
+		#[\ReturnTypeWillChange]
 		function valid(){
 			$adb = $this->adb;
 			return $this->pos < $adb->num_rows($this->result);
 		}
 		
+		#[\ReturnTypeWillChange]
 		public function next(){
 			$this->pos+=1;
 		}
 		
+		#[\ReturnTypeWillChange]
 		public function current(){
 			$adb = $this->adb;
 			$data = $adb->raw_query_result_rowdata($this->result, $this->pos);
 			return new SqlResultIteratorRow($data);
 		}
 		
+		#[\ReturnTypeWillChange]
 		public function key(){
 			return $this->pos;
 		}

@@ -337,7 +337,7 @@ function decide_to_html() {
 	global $doconvert, $inUTF8, $default_charset;
  	$action = isset($_REQUEST['action']) ? $_REQUEST['action'] : ''; 
  		     
-    $inUTF8 = (strtoupper($default_charset) == 'UTF-8'); 
+    $inUTF8 = (strtoupper($default_charset ? $default_charset : "") == 'UTF-8'); 
 
     $doconvert = true; 
 	if ($action == 'ExportData') {

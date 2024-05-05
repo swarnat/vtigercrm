@@ -15,21 +15,25 @@ class Vtiger_GuardedArray implements \ArrayAccess {
         $this->data = is_null($data) || $data === false ? array() : $data;
     }
 
+    #[\ReturnTypeWillChange]
     function offsetExists($key) {
         return isset($this->data[$key]) && array_key_exists($key, $this->data);
     }
 
+    #[\ReturnTypeWillChange]
     function offsetGet($key) {
         if ($this->offsetExists($key)) {
             return $this->data[$key];
         }
         return null;
     }
-    
+
+    #[\ReturnTypeWillChange]
     function offsetSet($key, $value) {
         $this->data[$key] = $value;
     }
 
+    #[\ReturnTypeWillChange]
     function offsetUnset($key) {
         unset($this->data[$key]);
     }
