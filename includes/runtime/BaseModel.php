@@ -11,6 +11,7 @@
 /**
  * Base Model Class
  */
+#[\AllowDynamicProperties]
 class Vtiger_Base_Model {
 	protected $valueMap;
 
