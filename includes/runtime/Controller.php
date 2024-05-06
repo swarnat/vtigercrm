@@ -11,6 +11,7 @@
 /**
  * Abstract Controller Class
  */
+#[\AllowDynamicProperties]
 abstract class Vtiger_Controller {
 
 	function __construct() { }

@@ -11,6 +11,7 @@
 require_once 'includes/runtime/Cache.php';
 require_once 'vtlib/Vtiger/Runtime.php';
 
+#[\AllowDynamicProperties]
 class WebserviceField{
 	private $fieldId;
 	private $uitype;

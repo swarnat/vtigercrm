@@ -85,7 +85,7 @@ class Vtiger_Base_Model {
 	 * @param String $key
 	 */
 	public function has($key) {
-		return array_key_exists($key, $this->valueMap);
+		return array_key_exists($key, (array)$this->valueMap); // valueMap can be array or TrackableObject
 	}
 
 	/**

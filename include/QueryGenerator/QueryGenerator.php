@@ -19,6 +19,7 @@ require_once 'include/Webservices/RelatedModuleMeta.php';
  *
  * @author MAK
  */
+#[\AllowDynamicProperties]
 class QueryGenerator {
 	protected $module;
 	protected $customViewColumnList;

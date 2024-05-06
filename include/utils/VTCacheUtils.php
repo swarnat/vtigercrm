@@ -129,6 +129,7 @@ class VTCacheUtils {
 
         // If modulefields are already loaded then no need of this again
         if(!$modulefields){
+            $modulefields = array();
             $fieldInfo = Vtiger_Cache::get('ModuleFields',$tabid);
             if($fieldInfo){
                 foreach($fieldInfo as $block => $blockFields){
