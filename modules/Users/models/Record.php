@@ -398,7 +398,8 @@ class Users_Record_Model extends Vtiger_Record_Model {
             $url = \Vtiger_Functions::getFilePublicURL($imageId, $imageName);
 
 			//decode_html - added to handle UTF-8 characters in file names
-			$imageOriginalName = urlencode(decode_html($imageName));
+			$imageNameDecoded =decode_html($imageName);
+			$imageOriginalName = urlencode($imageNameDecoded ? $imageNameDecoded : "");
             if($url) {
                 $url = $site_URL.$url;
             }

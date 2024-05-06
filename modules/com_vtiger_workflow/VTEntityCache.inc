@@ -120,6 +120,9 @@ class VTWorkflowEntity{
 }
 
 class VTEntityCache{
+	var $user;
+	var $cache;
+	
 	function __construct($user){
 		$this->user = $user;
 		$this->cache = array();

@@ -204,7 +204,7 @@ class Settings_ExtensionStore_Extension_Model extends Vtiger_Base_Model {
 	/**
 	 * Function to get max created on promotion
 	 */
-	public function getMaxCreatedOn($type = 'Extension', $function, $field) {
+	public function getMaxCreatedOn($type = 'Extension', $function = null, $field = null) {
 		$connector = $this->getConnector();
 		if ($connector) {
 			$listings = $connector->getMaxCreatedOn($type, $function, $field);
@@ -297,7 +297,7 @@ class Settings_ExtensionStore_Extension_Model extends Vtiger_Base_Model {
 	 * @param <String> search term
 	 * @return <Array> list of extensions <Settings_ExtensionStore_Extension_Model>
 	 */
-	public function findListings($searchTerm = null, $searchType) {
+	public function findListings($searchTerm = null, $searchType = null) {
 		$extensionModelsList = array();
 		$connector = $this->getConnector();
 		if ($connector) {

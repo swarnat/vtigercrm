@@ -9,6 +9,7 @@
  ******************************************************************************/
 require_once("include/events/SqlResultIterator.inc");
 class VTEntityMethodManager{
+	var $adb;
 	
 	function __construct($adb){
 		$this->adb = $adb;

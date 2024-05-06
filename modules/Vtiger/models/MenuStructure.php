@@ -87,7 +87,7 @@ class Vtiger_MenuStructure_Model extends Vtiger_Base_Model {
 				$currentTopMenuCount++;
 			}
 
-			$parent = ucfirst(strtolower($menuModel->get('parent')));
+			$parent = ucfirst(strtolower($menuModel->get('parent') ? $menuModel->get('parent') : ""));
 			if($parent == 'Sales' || $parent == 'Marketing'){
 				$parent = 'MARKETING_AND_SALES';
 			}
