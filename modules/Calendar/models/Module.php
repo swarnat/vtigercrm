@@ -761,7 +761,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 		return $recentRecords;
 	}
 
-	public function getAllTasksbyPriority($conditions = false, $pagingModel) {
+	public function getAllTasksbyPriority($conditions = false, $pagingModel = false) {
 		global $current_user;
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$db = PearDatabase::getInstance();

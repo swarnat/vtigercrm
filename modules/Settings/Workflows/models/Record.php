@@ -203,7 +203,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 		return $arr[$executionCondition-1];
 	}
 
-	function getV7executionConditionAsLabel($executionCondition=null, $module_name) {
+	function getV7executionConditionAsLabel($executionCondition=null, $module_name=null) {
 		if($executionCondition == null) {
 			$executionCondition = $this->get('execution_condition');
 		}

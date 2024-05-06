@@ -672,7 +672,7 @@ function vtlib_purify($input, $ignore = false) {
     $value = $input;
 
     if (!is_array($input)) {
-        $md5OfInput = md5($input);
+        $md5OfInput = md5($input ? $input : "");
         if (array_key_exists($md5OfInput, $purified_cache)) {
             $value = $purified_cache[$md5OfInput];
             //to escape cleaning up again

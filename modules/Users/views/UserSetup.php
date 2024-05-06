@@ -36,6 +36,8 @@ class Users_UserSetup_View extends Vtiger_Index_View {
 				$currenciesList = array_merge($defaultcurrency, $currencies);
 				$viewer->assign('IS_FIRST_USER', $isFirstUser);
 				$viewer->assign('CURRENCIES', $currenciesList);
+			} else {
+				$viewer->assign('IS_FIRST_USER', false);
 			}
 
 			$viewer->assign('CURRENT_USER_MODEL',$userModel);
