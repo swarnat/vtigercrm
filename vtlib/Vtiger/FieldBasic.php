@@ -13,6 +13,7 @@
  * Provides basic API to work with vtiger CRM Fields
  * @package vtlib
  */
+#[\AllowDynamicProperties]
 class Vtiger_FieldBasic {
 
 	/** ID of this field instance */

@@ -1284,6 +1284,14 @@ class adoSchema {
 	var $objectPrefix = '';
 
 	/**
+	 * @var object
+	 * @access private
+	 * Property used during XML Parsing.
+	 * Added by Vtiger
+	 */
+	var $obj = null;
+
+	/**
 	* @var long	System debug
 	* @access private
 	*/

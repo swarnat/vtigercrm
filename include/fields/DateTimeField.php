@@ -13,6 +13,8 @@ class DateTimeField {
 
 	static protected $databaseTimeZone = null;
 	protected $datetime;
+	protected $date;
+	protected $time;
 	private static $cache = array();
 
 	/**

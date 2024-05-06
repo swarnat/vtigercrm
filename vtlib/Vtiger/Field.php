@@ -271,7 +271,7 @@ class Vtiger_Field extends Vtiger_FieldBasic {
 	 */
 	static function getAllForModule($moduleInstance) {
 		global $adb;
-		$instances = false;
+		$instances = array();
 
 		$query = "SELECT * FROM vtiger_field WHERE tabid=? ORDER BY sequence";
 		$queryParams = Array($moduleInstance->id);

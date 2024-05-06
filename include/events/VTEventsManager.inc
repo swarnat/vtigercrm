@@ -12,6 +12,8 @@
 	 * Create and trigger events in vtiger
 	 */
 	class VTEventsManager{
+		var $adb;
+		
 		function __construct($adb){
 			$this->adb = $adb;
 		}

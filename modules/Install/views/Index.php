@@ -220,7 +220,7 @@ class Install_Index_view extends Vtiger_View_Controller {
 	// Helper function as configuration file is still not loaded.
 	protected function retrieveConfiguredAppUniqueKey() {
 		include 'config.inc.php';
-		return $application_unique_key;
+		return isset($application_unique_key) ? $application_unique_key : "";
 	}
 
 	public function getHeaderCss(Vtiger_Request $request) {

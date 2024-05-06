@@ -10,6 +10,7 @@
 include_once 'vtlib/Vtiger/Event.php';
 include_once 'include/Webservices/GetUpdates.php';
 
+#[\AllowDynamicProperties]
 class ModTracker {
 
 

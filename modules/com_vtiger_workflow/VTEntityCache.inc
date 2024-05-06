@@ -10,6 +10,7 @@
 require_once 'data/VTEntityDelta.php';
 require_once 'includes/runtime/Cache.php';
 
+#[\AllowDynamicProperties]
 class VTWorkflowEntity{
 	function __construct($user, $id){
 		try {
