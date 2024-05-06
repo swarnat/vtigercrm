@@ -110,9 +110,23 @@ class Users_Save_Action extends Vtiger_Save_Action {
 	}
 
 	protected function checkRestrictedValueChange(Vtiger_Request $request) {
+		// NOTE: to be repeated in SaveAjax.php
+
 		if ($request->has('user_name') || $request->has('user_password') || $request->has('accesskey') ) {
 			// should use separate actions.
-			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', $module));
+			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', 'Vtiger'));
+		}
+
+		if ($request->get('field', "") == "status" || $request->has("status")) {
+			$currentUserModel = Users_Record_Model::getCurrentUserModel();
+			// only admin (not self) can change status.
+			if (!$currentUserModel->isAdminUser()) {
+				throw new AppException(vtranslate('LBL_PERMISSION_DENIED', 'Vtiger'));
+			}
+			$recordId = $request->get('record');
+			if ($recordId == $currentUserModel->getId()) {
+				throw new AppException(vtranslate('LBL_PERMISSION_DENIED', 'Vtiger'));
+			}
 		}
 	}
 
