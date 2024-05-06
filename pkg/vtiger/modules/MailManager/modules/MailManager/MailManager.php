@@ -35,21 +35,24 @@ class MailManager {
 			$searchFieldList = array_merge($referenceModuleEmailFields, $referenceModuleEntityFieldsArray);
 			if(!empty($searchFieldList) && !empty($referenceModuleEmailFields)) {
 				$searchFieldListString = implode(',', $referenceModuleEmailFields);
-				$where = null;
+				$where = "";
+				$params = array();
 				for($i=0; $i<php7_count($searchFieldList); $i++) {
 					if($i == php7_count($searchFieldList) - 1) {
-						$where .= sprintf($searchFieldList[$i]." like '%s'", $searchTerm);
+						$where .= ($searchFieldList[$i]." like '%s'");
+						$params[] = $searchTerm;
 					} else {
-						$where .= sprintf($searchFieldList[$i]." like '%s' or ", $searchTerm);
+						$where .= ($searchFieldList[$i]." like '%s' or ");
+						$params[] = $searchTerm;
 					}
 				}
-				if(!empty($where)) $where = "WHERE $where";
 				if($referenceModule == 'Users' && !is_admin($user)){
 					//Have to do seperate query since webservices will throw permission denied for users module for non admin users
 					global $adb;
+					if(!empty($where)) $where = "WHERE " . (str_replace("'%s'", '?', $where)); // query placeholders
 					$where .= " AND vtiger_users.status='Active'";
 					$query = "select $searchFieldListString,id from vtiger_users $where";
-					$dbResult = $adb->pquery($query,array());
+					$dbResult = $adb->pquery($query, $params);
 					$num_rows = $adb->num_rows($dbResult);
 					$result = array();
 					for($i=0;$i<$num_rows;$i++) {
@@ -60,6 +63,10 @@ class MailManager {
 						$result[] = $row;
 					}
 				}else{
+					if(!empty($where)) {
+						array_unshift($params, $where);
+						$where = "WHERE " . call_user_func_array("sprintf", $params); // webservice query strings
+					}
 					$result = vtws_query("select $searchFieldListString from $referenceModule $where;", $user);
 				}
 

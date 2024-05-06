@@ -122,7 +122,13 @@ class Users_Save_Action extends Vtiger_Save_Action {
 			if ($status == true) {
 				throw new AppException(vtranslate('LBL_DUPLICATE_USER_EXISTS', $module));
 			}
+		} else {
+			if ($request->has('user_name') || $request->has('user_password') || $request->has('accesskey') ) {
+				// should use separate actions.
+				throw new AppException(vtranslate('LBL_PERMISSION_DENIED', $module));
+			}
 		}
+
 		$recordModel = $this->saveRecord($request);
 
 		if ($request->get('relationOperation')) {

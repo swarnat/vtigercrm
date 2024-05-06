@@ -818,7 +818,7 @@ class PearDatabase{
 
 		// Backward compatible mode for adodb library.
 		if ($this->dbType == 'mysqli') {
-			mysqli_report(MYSQLI_REPORT_ALL ^ MYSQLI_REPORT_STRICT);
+			mysqli_report(MYSQLI_REPORT_ALL ^ MYSQLI_REPORT_STRICT ^ MYSQLI_REPORT_INDEX);
 		}
 
 		$this->database = ADONewConnection($this->dbType);

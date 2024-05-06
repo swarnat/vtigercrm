@@ -745,6 +745,38 @@ function str_replace_json($search, $replace, $subject){
 }
 
 /**
+ * Case-insensitive comparision of string ignore accents.
+ * @param string $lv - left
+ * @param string $rv - right
+ * @return stcasecmp ascii comparision
+ */
+function strcasecmp_accents($lv, $rv) {
+    $lvenc = mb_detect_encoding($lv);
+    $rvenc = mb_detect_encoding($rv);
+    if ($lvenc != $rvenc) {
+        if ($lvenc != "ASCII") $lv = iconv($lvenc, "ASCII//TRANSLIT", $lv);
+        if ($rvenc != "ASCII") $rv = iconv($rvenc, "ASCII//TRANSLIT", $rv);
+    }
+    return strcasecmp($lv, $rv);
+}
+
+/**
+ * Callback function to use based on available environment support.
+ */
+function strcasecmp_accents_callback() {
+    // when mb & iconv is available - set the locale and return accents netural comparision
+    // otherwise return standard strcasecmp
+    if (function_exists('mb_detect_encoding') && function_exists('iconv')) {
+        setlocale(LC_CTYPE, "en_US.utf8"); // required to make iconv (UTF-8 to ASCII/TRANSLIT)
+        $callback = "strcasecmp_accents";
+    } else {
+        $callback = "strcasecmp";
+    }
+    return $callback;
+}
+
+
+/**
  * To purify malicious html event attributes
  * @param <String> $value
  * @return <String>

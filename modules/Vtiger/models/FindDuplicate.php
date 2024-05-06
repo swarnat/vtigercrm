@@ -69,7 +69,7 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model {
         $entries = array();
         for($i=0; $i<$rows; $i++) {
             // row will have value with (index and column names)
-            $row = $db->query_result_rowdata($result, $i);
+            $row = $db->raw_query_result_rowdata($result, $i); // retrieve UTF-8 values.
             // we should discard values with index for comparisions
 			$entries[] = array_filter($row, function($k) { return !is_numeric($k); }, ARRAY_FILTER_USE_KEY);
 		}
@@ -91,15 +91,13 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model {
                 // make copy of current row
                 $slicedArray = array_slice($row, 0);
 
-                // prepare for map comparisions
-                array_walk($temp, 'lower_array');
-                array_walk($slicedArray, 'lower_array');
                 unset($temp["recordid"]); // remove id which will obviously vary.
                 unset($slicedArray["recordid"]);
 
                 // if there is any value difference between (temp = prev) and (slicedArray = current) 
                 // group them separately.
-                $arrDiff = array_diff($temp, $slicedArray);
+				$arrDiff = array_udiff($temp, $slicedArray, strcasecmp_accents_callback()); // use case-less accent-less comparision.
+				
                 if(php7_count($arrDiff) > 0) {
                     $groupCount++;
                     $temp = $slicedArray;
