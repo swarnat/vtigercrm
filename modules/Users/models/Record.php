@@ -883,7 +883,7 @@ class Users_Record_Model extends Vtiger_Record_Model {
 		$moduleName = "Users";
 		$currentUserModel = static::getCurrentUserModel();
 		
-		if (empty($oldPassword) || empty($newpassword) || empty($forUserId)) {
+		if (empty($newpassword) || empty($forUserId)) {
 			$response['message'] = vtranslate('ERROR_CHANGE_USERNAME', $moduleName);
 			return $response;
 		}
