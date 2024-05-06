@@ -109,6 +109,13 @@ class Users_Save_Action extends Vtiger_Save_Action {
 		return $recordModel;
 	}
 
+	protected function checkRestrictedValueChange(Vtiger_Request $request) {
+		if ($request->has('user_name') || $request->has('user_password') || $request->has('accesskey') ) {
+			// should use separate actions.
+			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', $module));
+		}
+	}
+
 	public function process(Vtiger_Request $request) {
 		$result = Vtiger_Util_Helper::transformUploadedFiles($_FILES, true);
 		$_FILES = $result['imagename'];
@@ -123,10 +130,7 @@ class Users_Save_Action extends Vtiger_Save_Action {
 				throw new AppException(vtranslate('LBL_DUPLICATE_USER_EXISTS', $module));
 			}
 		} else {
-			if ($request->has('user_name') || $request->has('user_password') || $request->has('accesskey') ) {
-				// should use separate actions.
-				throw new AppException(vtranslate('LBL_PERMISSION_DENIED', $module));
-			}
+			$this->checkRestrictedValueChange($request);
 		}
 
 		$recordModel = $this->saveRecord($request);

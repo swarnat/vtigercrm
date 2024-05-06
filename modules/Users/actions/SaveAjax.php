@@ -43,12 +43,25 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 		}
 	}
 
+	protected function checkRestrictedValueChange(Vtiger_Request $request) {
+		if ($request->has('user_name') || $request->has('user_password') || $request->has('accesskey') ) {
+			// should use separate actions.
+			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', $module));
+		}
+		if ($request->has('field') && in_array($request->get('field'), array('user_name', 'user_password', 'accesskey'))) {
+			// should use separate actions.
+			throw new AppException(vtranslate('LBL_PERMISSION_DENIED', $module));
+		}
+	}
+	
 	public function process(Vtiger_Request $request) {
 
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
 			return;
+		} else {
+			$this->checkRestrictedValueChange($request);
 		}
 
 		$recordModel = $this->saveRecord($request);
