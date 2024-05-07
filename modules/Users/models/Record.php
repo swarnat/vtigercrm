@@ -890,7 +890,7 @@ class Users_Record_Model extends Vtiger_Record_Model {
 
 		$record = self::getInstanceFromPreferenceFile($forUserId);
 
-		if($currentUserModel->getId() == $forUserId || !Users_Privileges_Model::isPermittedToChangeUsername($forUserId)) {
+		if(!Users_Privileges_Model::isPermittedToChangeUsername($forUserId)) {
 			$response['message'] = vtranslate('LBL_PERMISSION_DENIED', $moduleName);
 			return $response;
 		}
