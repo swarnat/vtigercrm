@@ -1031,4 +1031,12 @@ function php7_sizeof($value) {
 	return php7_count($value);
 }
 
-?>
+function php7_trim($str) {
+	// PHP 8.x marks as deprecated
+	return $str == null ? $str : trim($str);
+}
+
+function php7_htmlentities($str) {
+	// PHP 8.x marks as deprecated
+	return $str == null ? $str : htmlentities($str);
+}

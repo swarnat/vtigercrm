@@ -87,7 +87,7 @@ class Vtiger_Viewer extends Smarty {
 		$modifiers = array('vtranslate', 'vtlib_isModuleActive', 'vimage_path', 'strstr', 'stripos', 'strpos', 'date', 'vtemplate_path', 'vresource_url', 
 			'decode_html', 'vtlib_purify', 'php7_count', 'getUserFullName', 'array_flip', 'explode', 'trim', 'array_push',
 			'array_map', 'array_key_exists', 'get_class', 'vtlib_array', 'getDuplicatesPreventionMessage', 'htmlentities',
-			'getCurrencySymbolandCRate', 'mb_substr', 'isPermitted', 'getEntityName', 'function_exists',
+			'getCurrencySymbolandCRate', 'mb_substr', 'isPermitted', 'getEntityName', 'function_exists', 'php7_trim', 'php7_htmlentities',
 			'strtolower', 'strtoupper', 'str_replace', 'urlencode', 'getTranslatedCurrencyString', 'getTranslatedString', 'is_object', 'is_numeric');
 		foreach ($modifiers as $modifier) {
 			if (function_exists($modifier)) {
