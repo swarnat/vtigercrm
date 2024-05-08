@@ -21,7 +21,7 @@ class Vtiger_Percentage_UIType extends Vtiger_Base_UIType {
 	public function getDisplayValue($value, $record = false, $recordInstance = false) {
 		$fldvalue = str_replace(",", ".", $value);
 		$value = (is_numeric($fldvalue)) ? $fldvalue : null;
-		return Vtiger_Percentage_UIType::convertToUserFormat($value, null, true);
+		return static::convertToUserFormat($value, null, true);
 	}
 
 	public static function convertToUserFormat($value, $user = null, $skipConversion = false, $skipFormatting = false) {
@@ -46,5 +46,10 @@ class Vtiger_Percentage_UIType extends Vtiger_Base_UIType {
 
 	public function getEditViewDisplayValue($value) {
 		return $this->getDisplayValue($value);
+	}
+	
+	public function getDBInsertValue($value) {
+		$value = CurrencyField::convertToDBFormat($value, null, true);
+		return $value;
 	}
 }
