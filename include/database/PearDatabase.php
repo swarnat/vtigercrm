@@ -357,8 +357,20 @@ class PearDatabase{
 		$this->executeSetNamesUTF8SQL();
 
 		$sql_start_time = microtime(true);
-		$params = $this->flatten_array($params);
-		if (is_array($params) && count($params) > 0) {
+
+		// flatten only when params has array inside.
+		$flatten_params = false;
+		foreach ($params as $val) {
+			if (is_array($val)) {
+				$flatten_params = true;
+				break;
+			}
+		}
+		if ($flatten_params) {
+			$params = $this->flatten_array($params);
+		}
+
+		if ($log->isDebugEnabled() && is_array($params) && count($params) > 0) {
 			$log->debug('Prepared sql query parameters : [' . implode(",", $params) . ']');
 		}
 
