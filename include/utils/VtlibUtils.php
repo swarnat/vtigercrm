@@ -741,6 +741,37 @@ function vtlib_purify($input, $ignore = false) {
 }
 
 /**
+ * Remove content within quotes (single/double/unbalanced)
+ * Helpful to keep away quote-injection xss attacks in the templates.
+ */
+function vtlib_strip_quoted($input) {
+    if (is_null($input)) return $input;
+
+    $output = $input;
+    /*
+     * Discard anything in "double quoted until'you find next double quote"
+     * or discard anything in 'single quoted until "you" find next single quote"
+     */
+    $qchar = '"';
+    $idx = strpos($input, $qchar);
+    if ($idx === false) { // no double-quote, find single-quote
+        $qchar = "'";
+        $idx = strpos($input, $qchar);
+    }
+    if ($idx !== false) {
+        $output = substr($input,0, $idx);
+        $idx = strpos($input, $qchar, $idx+1);
+        if ($idx === false) {
+            // unbalanced - eat all.
+            $idx = strlen($input)-1;
+        }
+        $input = substr($input, $idx+1);
+        $output .= vtlib_strip_quoted($input);
+    }
+    return $output;
+}
+
+/**
  * Function to replace values in multi dimentional array (str_replace will support only one level of array)
  * @param type $search
  * @param type $replace
