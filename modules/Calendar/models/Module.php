@@ -1009,7 +1009,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 			}
 		}
 
-		$activityType = strtolower($activityType);
+		$activityType = strtolower($activityType ? $activityType : "");
 		$moduleIcon = "<i class='vicon-$activityType' title='$title' ></i>";
 
 		if (!in_array($activityType, array('task', 'calendar'))) {

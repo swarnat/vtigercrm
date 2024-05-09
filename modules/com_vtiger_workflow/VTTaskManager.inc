@@ -159,6 +159,10 @@
 		public abstract function doTask($data);
 		public abstract function getFieldNames();
 
+		public function __get($name) {
+		    return property_exists($this, $name) ? $this->$name : null;
+	    }
+
 		public function getTimeFieldList() {
 			return array();
 		}

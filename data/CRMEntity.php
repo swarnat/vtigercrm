@@ -666,7 +666,7 @@ class CRMEntity {
 							$skipUpdateForField = true;
 						}
 					}
-					if (($insertion_mode == 'edit' && $skipUpdateForField == false) || $_REQUEST['imgDeleted']) {
+					if (($insertion_mode == 'edit' && $skipUpdateForField == false) || (isset($_REQUEST['imgDeleted']) && $_REQUEST['imgDeleted'])) {
 						$skipUpdateForField = false;
 						$uploadedFileNames = array();
 						$getImageNamesSql = 'SELECT name FROM vtiger_seattachmentsrel INNER JOIN vtiger_attachments ON
@@ -3112,6 +3112,7 @@ class CRMEntity {
 	}
 }
 
+#[\AllowDynamicProperties]
 class TrackableObject implements ArrayAccess, IteratorAggregate {
 	private $storage;
 	private $trackingEnabled = true;

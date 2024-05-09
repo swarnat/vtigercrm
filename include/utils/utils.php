@@ -1795,6 +1795,8 @@ function getValidDBInsertDateValue($value) {
 	global $log;
 	$log->debug("Entering getValidDBInsertDateValue(".$value.") method ...");
 	$value = trim($value);
+	if (empty($value)) return null;
+
 	$delim = array('/','.');
 	foreach ($delim as $delimiter){
 		$x = strpos($value, $delimiter);

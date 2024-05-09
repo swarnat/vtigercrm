@@ -745,12 +745,19 @@ class Vtiger_Functions {
 		$fields = Array();
 		for ($i = 1; $i < php7_count($token_data_pair); $i++) {
 			$module = explode('-', $tokenDataPair[$i]);
+			if (count($module) < 2) {
+				// if not $module-fieldname$
+				continue;
+			}
+			if (!isset($fields[$module[0]])) {
+				$fields[$module[0]] = array();
+			}
 			$fields[$module[0]][] = $module[1];
 		}
-		if (is_array($fields['custom']) && php7_count($fields['custom']) > 0) {
+		if (isset($fields['custom']) && is_array($fields['custom']) && php7_count($fields['custom']) > 0) {
 			$description = self::getMergedDescriptionCustomVars($fields, $description,$id,$parent_type);
 		}
-		if(is_array($fields['companydetails']) && php7_count($fields['companydetails']) > 0){
+		if(isset($fields['companydetails']) && is_array($fields['companydetails']) && php7_count($fields['companydetails']) > 0){
 			$description = self::getMergedDescriptionCompanyDetails($fields,$description);
 		}
 

@@ -361,6 +361,8 @@ class Workflow{
 	}
 
 	function setup($row) {
+		$row = vtlib_array($row);
+		
 		$this->id = $row['workflow_id'];
 		$this->moduleName = $row['module_name'];
 		$this->description = to_html($row['summary']);

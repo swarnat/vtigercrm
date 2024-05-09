@@ -420,7 +420,8 @@ class Vtiger_Record_Model extends Vtiger_Base_Model {
 			$imageName = $db->query_result($result, 0, 'name');
             $url = \Vtiger_Functions::getFilePublicURL($imageId, $imageName);
 			//decode_html - added to handle UTF-8 characters in file names
-			$imageOriginalName = urlencode(decode_html($imageName));
+			$imageOriginalNameDecoded = decode_html($imageName);
+			$imageOriginalName = urlencode($imageOriginalNameDecoded ? $imageOriginalNameDecoded : "");
             if($url) {
                 $url = $site_URL.$url;
             }
