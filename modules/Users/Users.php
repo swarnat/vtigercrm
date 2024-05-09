@@ -779,7 +779,7 @@ class Users extends CRMEntity {
 			}
 			$userlabel = trim(decode_html($userlabel));
 			
-			$this->column_fields['userlabel'] = strip_tags($userlabel);
+			$this->column_fields['userlabel'] = vtlib_strip_tagattrs($userlabel);
 		}
 
 		if($insertion_mode == 'edit') {

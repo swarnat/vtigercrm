@@ -531,6 +531,13 @@ function vtlib_tosingular($text) {
 }
 
 /**
+ * Helps to remove HTML tags and attributes.
+ */
+function vtlib_strip_tagattrs($str) {
+    return preg_replace('/=/', '-', strip_tags($str));
+}
+
+/**
  * Get picklist values that is accessible by all roles.
  */
 function vtlib_getPicklistValues_AccessibleToAll($field_columnname) {
