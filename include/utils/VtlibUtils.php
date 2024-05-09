@@ -738,6 +738,8 @@ function vtlib_purify($input, $ignore = false) {
  * Helpful to keep away quote-injection xss attacks in the templates.
  */
 function vtlib_strip_quoted($input) {
+    if (is_null($input)) return $input;
+
     $output = $input;
     /*
      * Discard anything in "double quoted until'you find next double quote"
