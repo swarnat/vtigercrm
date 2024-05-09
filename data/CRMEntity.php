@@ -570,7 +570,7 @@ class CRMEntity {
 					} else {
 						$fldvalue = $this->column_fields[$fieldname];
 					}
-				} elseif ($uitype == 7) {
+				} elseif ($uitype == 7 || $uitype == 9) {
 					//strip out the spaces and commas in numbers if given ie., in amounts there may be ,
 					$fldvalue = str_replace(",", "", $this->column_fields[$fieldname]); //trim($this->column_fields[$fieldname],",");
 					if (in_array($datatype, array('N', 'NN'))) {
