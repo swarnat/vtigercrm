@@ -36,7 +36,7 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 		//$this->set('assigned_user_id', $currentUserModel->getId());
 		$this->getModule()->saveRecord($this);
 		$documentIds = $this->get('documentids');
-		if (!empty ($documentIds)) {
+		if (!empty ($documentIds) && $documentIds != "[]") { /* json_encoded check for empty */
 			$this->deleteDocumentLink();
 			$this->saveDocumentDetails();
 		}
