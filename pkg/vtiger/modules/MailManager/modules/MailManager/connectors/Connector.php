@@ -389,6 +389,7 @@ class MailManager_Connector_Connector {
 				$mbox = $this->mBox;
 			}
 
+			$mailnos = array();
 			foreach($records as $result) {
 				$message = MailManager_Message_Model::parseOverview($result,$mbox);
 				array_unshift($mails, $message);
