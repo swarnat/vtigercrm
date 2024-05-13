@@ -42,11 +42,13 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model {
         $fields = $this->get('fields');
         $fieldModels = $moduleModel->getFields();
 		$requiredTables = array();
+        $columnTypes = array();
         if(is_array($fields)) {
             foreach($fields as $fieldName) {
                 $fieldModel = $fieldModels[$fieldName];
                 $requiredTables[] = $fieldModel->get('table');
                 $tableColumns[] = $fieldModel->get('table').'.'.$fieldModel->get('column');
+                $columnTypes[$fieldModel->get('table').'.'.$fieldModel->get('column')] = $fieldModel->getFieldDataType();
             }
         }
 
@@ -55,7 +57,7 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model {
 		$ignoreEmpty = $this->get('ignoreEmpty');
 
         $focus = CRMEntity::getInstance($module);
-        $query = $focus->getQueryForDuplicates($module, $tableColumns, '', $ignoreEmpty,$requiredTables);
+        $query = $focus->getQueryForDuplicates($module, $tableColumns, '', $ignoreEmpty,$requiredTables,$columnTypes);
         self::$query = $query;
 		$query .= " LIMIT $startIndex, ". ($pageLimit+1);
 		
@@ -134,16 +136,18 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model {
                 $module = $moduleModel->getName();
                 $fields = $this->get('fields');
                 $fieldModels = $moduleModel->getFields();
+                $columnTypes = array();
                 if(is_array($fields)) {
                     foreach($fields as $fieldName) {
                         $fieldModel = $fieldModels[$fieldName];
                         $requiredTables[] = $fieldModel->get('table');
                         $tableColumns[] = $fieldModel->get('table').'.'.$fieldModel->get('column');
+                        $columnTypes[$fieldModel->get('table').'.'.$fieldModel->get('column')] = $fieldModel->getFieldDataType();
                     }
                 }
                 $focus = CRMEntity::getInstance($module);
                 $ignoreEmpty = $this->get('ignoreEmpty');
-                self::$query = $focus->getQueryForDuplicates($module, $tableColumns, '', $ignoreEmpty,$requiredTables);
+                self::$query = $focus->getQueryForDuplicates($module, $tableColumns, '', $ignoreEmpty,$requiredTables,$columnTypes);
             }
             $query = self::$query;
 			$position = stripos($query, 'from');
@@ -174,15 +178,19 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model {
             $ignoreEmptyValue = true;
 
         $fieldModels = $moduleModel->getFields();
+        $requiredTables = array();
+        $columnTypes = array();
         if(is_array($fields)) {
             foreach($fields as $fieldName) {
                 $fieldModel = $fieldModels[$fieldName];
                 $tableColumns[] = $fieldModel->get('table').'.'.$fieldModel->get('column');
+                $requiredTables[] = $fieldModel->get('table');
+                $columnTypes[$fieldModel->get('table').'.'.$fieldModel->get('column')] = $fieldModel->getFieldDataType();
             }
         }
 
         $focus = CRMEntity::getInstance($module);
-        $query = $focus->getQueryForDuplicates($module, $tableColumns, '', $ignoreEmpty);
+        $query = $focus->getQueryForDuplicates($module, $tableColumns, '', $ignoreEmpty, $requiredTables, $columnTypes);
         $result = $db->pquery($query, array());
         
         $recordIds = array();

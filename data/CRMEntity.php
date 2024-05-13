@@ -2998,9 +2998,10 @@ class CRMEntity {
 	 * @param <String> $selectedColumns
 	 * @param <Boolean> $ignoreEmpty
 	 * @param <Array> $requiredTables
+	 * @param <Array> $columnTypes
 	 * @return string
 	 */
-	function getQueryForDuplicates($module, $tableColumns, $selectedColumns = '', $ignoreEmpty = false,$requiredTables = array()) {
+	function getQueryForDuplicates($module, $tableColumns, $selectedColumns = '', $ignoreEmpty = false,$requiredTables = array(),$columnTypes = null) {
 		if(is_array($tableColumns)) {
 			$tableColumnsString = implode(',', $tableColumns);
 		}
@@ -3030,7 +3031,11 @@ class CRMEntity {
 
 		if($ignoreEmpty) {
 			foreach($tableColumns as $tableColumn){
-				$whereClause .= " AND ($tableColumn IS NOT NULL AND $tableColumn != '') ";
+				if ($columnTypes && ($columnTypes[$tableColumn] == "date" || $columnTypes[$tableColumn] == "datetime")) {
+					$whereClause .= " AND ($tableColumn IS NOT NULL) ";	
+				} else {
+					$whereClause .= " AND ($tableColumn IS NOT NULL AND $tableColumn != '') ";
+				}
 			}
 		}
 

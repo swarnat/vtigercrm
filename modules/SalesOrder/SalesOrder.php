@@ -540,7 +540,7 @@ class SalesOrder extends CRMEntity {
 	 * @return string
 	 */
 	// Note : remove getDuplicatesQuery API once vtiger5 code is removed
-    function getQueryForDuplicates($module, $tableColumns, $selectedColumns = '', $ignoreEmpty = false,$requiredTables = array()) {
+    function getQueryForDuplicates($module, $tableColumns, $selectedColumns = '', $ignoreEmpty = false,$requiredTables = array(), $columnTypes = null) {
 		if(is_array($tableColumns)) {
 			$tableColumnsString = implode(',', $tableColumns);
 		}
@@ -575,7 +575,11 @@ class SalesOrder extends CRMEntity {
 
 		if($ignoreEmpty) {
 			foreach($tableColumns as $tableColumn){
-				$whereClause .= " AND ($tableColumn IS NOT NULL AND $tableColumn != '') ";
+				if ($columnTypes && ($columnTypes[$tableColumn] == "date" || $columnTypes[$tableColumn] == "datetime")) {
+					$whereClause .= " AND ($tableColumn IS NOT NULL) ";	
+				} else {
+					$whereClause .= " AND ($tableColumn IS NOT NULL AND $tableColumn != '') ";
+				}
 			}
 		}
 
