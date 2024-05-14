@@ -17,6 +17,7 @@ if(defined('VTIGER_UPGRADE')) {
 		$adb->pquery('INSERT INTO vtiger_actionmapping VALUES(?, ?, ?)', array(7, 'CreateView', 0));
 	}
 
+	// take reference of operation (1) and make entries similarly to operation (7) - skip over duplicates.
 	$createActionResult = $adb->pquery('SELECT * FROM vtiger_profile2standardpermissions WHERE operation=?', array(1));
 	$query = 'INSERT INTO vtiger_profile2standardpermissions VALUES';
 	while($rowData = $adb->fetch_array($createActionResult)) {
@@ -25,7 +26,8 @@ if(defined('VTIGER_UPGRADE')) {
 		$permissions	= $rowData['permissions'];
 		$query .= "('$profileId', '$tabId', '7', '$permissions'),";
 	}
-	$adb->pquery(trim($query, ','), array());
+	$query = trim($query, ',') . " on duplicate key update permissions=permissions"; /* mute update to avoid insert failure on duplicate entries */
+	$adb->pquery($query, array());
 
 	require_once 'modules/Users/CreateUserPrivilegeFile.php';
 	$usersResult = $adb->pquery('SELECT id FROM vtiger_users', array());

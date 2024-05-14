@@ -76,12 +76,26 @@ class Logger {
     public function warn($message) {}
     public function error($message) {}
 
+    public function isDebugEnabled() {
+        return self::$logLevel == 100;
+    }
+
 }
 
 // Define extended version of Monolog Logger to support functions
 class MonologLoggerEx extends MonologLogger {
     function fatal($message, $context = array()) {
         $this->error($message, $context);
+    }
+    function isDebugEnabled() {
+        $debugLevel = false;
+        foreach ($this->getHandlers() as $handler) {
+            if ($handler->getLogLevel() == static::DEBUG) {
+                $debugLevel = true;
+                break;
+            }
+        }
+        return $debugLevel;
     }
 }
 

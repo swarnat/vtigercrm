@@ -736,6 +736,37 @@ function vtlib_purify($input, $ignore = false) {
 }
 
 /**
+ * Remove content within quotes (single/double/unbalanced)
+ * Helpful to keep away quote-injection xss attacks in the templates.
+ */
+function vtlib_strip_quoted($input) {
+    if (is_null($input)) return $input;
+
+    $output = $input;
+    /*
+     * Discard anything in "double quoted until'you find next double quote"
+     * or discard anything in 'single quoted until "you" find next single quote"
+     */
+    $qchar = '"';
+    $idx = strpos($input, $qchar);
+    if ($idx === false) { // no double-quote, find single-quote
+        $qchar = "'";
+        $idx = strpos($input, $qchar);
+    }
+    if ($idx !== false) {
+        $output = substr($input,0, $idx);
+        $idx = strpos($input, $qchar, $idx+1);
+        if ($idx === false) {
+            // unbalanced - eat all.
+            $idx = strlen($input)-1;
+        }
+        $input = substr($input, $idx+1);
+        $output .= vtlib_strip_quoted($input);
+    }
+    return $output;
+}
+
+/**
  * Function to replace values in multi dimentional array (str_replace will support only one level of array)
  * @param type $search
  * @param type $replace
@@ -785,32 +816,13 @@ function strcasecmp_accents_callback() {
  */
 function purifyHtmlEventAttributes($value,$replaceAll = false){
 	
-$tmp_markers = $office365ImageMarkers =  array();
-$value = Vtiger_Functions::strip_base64_data($value,true,$tmp_markers);	
-$value = Vtiger_Functions::stripInlineOffice365Image($value,true,$office365ImageMarkers);		
-$tmp_markers = array_merge($tmp_markers, $office365ImageMarkers);
-
-$htmlEventAttributes = "onerror|onblur|onchange|oncontextmenu|onfocus|oninput|oninvalid|onresize|onauxclick|oncancel|oncanplay|oncanplaythrough|".
-                        "onreset|onsearch|onselect|onsubmit|onkeydown|onkeypress|onkeyup|onclose|oncuechange|ondurationchange|onemptied|onended|".
-                        "onclick|ondblclick|ondrag|ondragend|ondragenter|ondragleave|ondragover|ondragexit|onformdata|onloadeddata|onloadedmetadata|".
-                        "ondragstart|ondrop|onmousedown|onmousemove|onmouseout|onmouseover|onmouseenter|onmouseleave|onpause|onplay|onplaying|".
-                        "onmouseup|onmousewheel|onscroll|onwheel|oncopy|oncut|onpaste|onload|onprogress|onratechange|onsecuritypolicyviolation|".
-                        "onselectionchange|onabort|onselectstart|onstart|onfinish|onloadstart|onshow|onreadystatechange|onseeked|onslotchange|".
-                        "onseeking|onstalled|onsubmit|onsuspend|ontimeupdate|ontoggle|onvolumechange|onwaiting|onwebkitanimationend|onstorage|".
-                        "onwebkitanimationiteration|onwebkitanimationstart|onwebkittransitionend|onafterprint|onbeforeprint|onbeforeunload|".
-                        "onhashchange|onlanguagechange|onmessage|onmessageerror|onoffline|ononline|onpagehide|onpageshow|onpopstate|onunload|".
-                        "onrejectionhandled|onunhandledrejection|onloadend|onpointerenter|ongotpointercapture|onlostpointercapture|onpointerdown|".
-                        "onpointermove|onpointerup|onpointercancel|onpointerover|onpointerout|onpointerleave|onactivate|onafterscriptexecute|".
-                        "onanimationcancel|onanimationend|onanimationiteration|onanimationstart|onbeforeactivate|onbeforedeactivate|onbeforescriptexecute|".
-                        "onbegin|onbounce|ondeactivate|onend|onfocusin|onfocusout|onrepeat|ontransitioncancel|ontransitionend|ontransitionrun|".
-                        "ontransitionstart|onbeforecopy|onbeforecut|onbeforepaste|onfullscreenchange|onmozfullscreenchange|onpointerrawupdate|".
-                        "ontouchend|ontouchmove|ontouchstart";
-
+	$tmp_markers = $office365ImageMarkers =  array();
+	$value = Vtiger_Functions::strip_base64_data($value,true,$tmp_markers);	
+	$value = Vtiger_Functions::stripInlineOffice365Image($value,true,$office365ImageMarkers);		
+	$tmp_markers = array_merge($tmp_markers, $office365ImageMarkers);
     // remove malicious html attributes with its value.
     if ($replaceAll) {
-        $regex = '\s*[=&%#]\s*(?:"[^"]*"[\'"]*|\'[^\']*\'[\'"]*|[^]*[\s\/>])*/i';
-        $value = preg_replace("/\s*(" . $htmlEventAttributes . ")" . $regex, '', $value);
-		
+        $value = preg_replace('/\b(alert|on\w+)\s*\([^)]*\)|\s*(?:on\w+)=(".*?"|\'.*?\'|[^\'">\s]+)\s*/', '', $value);
         //remove script tag with contents
         $value = purifyScript($value);
         //purify javascript alert from the tag contents

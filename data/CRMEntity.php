@@ -571,7 +571,7 @@ class CRMEntity {
 					} else {
 						$fldvalue = $this->column_fields[$fieldname];
 					}
-				} elseif ($uitype == 7) {
+				} elseif ($uitype == 7 || $uitype == 9) {
 					//strip out the spaces and commas in numbers if given ie., in amounts there may be ,
 					$fldvalue = str_replace(",", "", $this->column_fields[$fieldname]); //trim($this->column_fields[$fieldname],",");
 					if (in_array($datatype, array('N', 'NN'))) {
@@ -2999,9 +2999,10 @@ class CRMEntity {
 	 * @param <String> $selectedColumns
 	 * @param <Boolean> $ignoreEmpty
 	 * @param <Array> $requiredTables
+	 * @param <Array> $columnTypes
 	 * @return string
 	 */
-	function getQueryForDuplicates($module, $tableColumns, $selectedColumns = '', $ignoreEmpty = false,$requiredTables = array()) {
+	function getQueryForDuplicates($module, $tableColumns, $selectedColumns = '', $ignoreEmpty = false,$requiredTables = array(),$columnTypes = null) {
 		if(is_array($tableColumns)) {
 			$tableColumnsString = implode(',', $tableColumns);
 		}
@@ -3031,7 +3032,11 @@ class CRMEntity {
 
 		if($ignoreEmpty) {
 			foreach($tableColumns as $tableColumn){
-				$whereClause .= " AND ($tableColumn IS NOT NULL AND $tableColumn != '') ";
+				if ($columnTypes && ($columnTypes[$tableColumn] == "date" || $columnTypes[$tableColumn] == "datetime")) {
+					$whereClause .= " AND ($tableColumn IS NOT NULL) ";	
+				} else {
+					$whereClause .= " AND ($tableColumn IS NOT NULL AND $tableColumn != '') ";
+				}
 			}
 		}
 

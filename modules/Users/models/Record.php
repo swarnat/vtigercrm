@@ -882,11 +882,17 @@ class Users_Record_Model extends Vtiger_Record_Model {
 	 */
 	public static function changeUsername($newUsername,$newpassword,$oldPassword,$forUserId) {
 		$response = array('success'=> false,'message' => 'error');
-		$record = self::getInstanceFromPreferenceFile($forUserId);
-		$moduleName = $record->getModuleName();
+		$moduleName = "Users";
 		$currentUserModel = static::getCurrentUserModel();
 		
-		if($currentUserModel->getId() == $forUserId || !Users_Privileges_Model::isPermittedToChangeUsername($forUserId)) {
+		if (empty($newpassword) || empty($forUserId)) {
+			$response['message'] = vtranslate('ERROR_CHANGE_USERNAME', $moduleName);
+			return $response;
+		}
+
+		$record = self::getInstanceFromPreferenceFile($forUserId);
+
+		if(!Users_Privileges_Model::isPermittedToChangeUsername($forUserId)) {
 			$response['message'] = vtranslate('LBL_PERMISSION_DENIED', $moduleName);
 			return $response;
 		}
