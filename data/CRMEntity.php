@@ -28,6 +28,7 @@ require_once('include/utils/UserInfoUtil.php');
 require_once("include/Zend/Json.php");
 require_once 'include/RelatedListView.php';
 
+#[\AllowDynamicProperties]
 class CRMEntity {
 
 	var $ownedby;
@@ -665,7 +666,7 @@ class CRMEntity {
 							$skipUpdateForField = true;
 						}
 					}
-					if (($insertion_mode == 'edit' && $skipUpdateForField == false) || $_REQUEST['imgDeleted']) {
+					if (($insertion_mode == 'edit' && $skipUpdateForField == false) || (isset($_REQUEST['imgDeleted']) && $_REQUEST['imgDeleted'])) {
 						$skipUpdateForField = false;
 						$uploadedFileNames = array();
 						$getImageNamesSql = 'SELECT name FROM vtiger_seattachmentsrel INNER JOIN vtiger_attachments ON
@@ -3116,6 +3117,7 @@ class CRMEntity {
 	}
 }
 
+#[\AllowDynamicProperties]
 class TrackableObject implements ArrayAccess, IteratorAggregate {
 	private $storage;
 	private $trackingEnabled = true;
@@ -3125,10 +3127,12 @@ class TrackableObject implements ArrayAccess, IteratorAggregate {
 		$this->storage = $value;
 	}
 
+	#[\ReturnTypeWillChange]
 	function offsetExists($key) {
 		return isset($this->storage[$key]) || array_key_exists($key, $this->storage);
 	}
 
+	#[\ReturnTypeWillChange]
 	function offsetSet($key, $value) {
             if(is_array($value)) $value = empty($value) ? "" : $value[0];
 		if($this->tracking && $this->trackingEnabled) {
@@ -3143,14 +3147,17 @@ class TrackableObject implements ArrayAccess, IteratorAggregate {
 		$this->storage[$key] = $value;
 	}
 
+	#[\ReturnTypeWillChange]
 	public function offsetUnset($key) {
 		unset($this->storage[$key]);
 	}
 
+	#[\ReturnTypeWillChange]
 	public function offsetGet($key) {
 		return isset($this->storage[$key]) || array_key_exists($key, $this->storage) ? $this->storage[$key] : null;
 	}
 
+	#[\ReturnTypeWillChange]
 	public function getIterator() {
 		$iterator = new ArrayObject($this->storage);
 		return $iterator->getIterator();

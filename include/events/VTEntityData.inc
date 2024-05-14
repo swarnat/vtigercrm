@@ -11,6 +11,7 @@
 /**
  * A wrapper around CRMEntity instances
  */
+#[\AllowDynamicProperties]
 class VTEntityData{
 	private $isNew = false;
 

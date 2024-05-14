@@ -198,7 +198,7 @@
 			}
 
 			foreach ($row as $field => $value) {
-				$row[$field] = html_entity_decode($value, ENT_QUOTES, $default_charset);
+				$row[$field] = $value ? html_entity_decode($value, ENT_QUOTES, $default_charset) : $value;
 			}
 			return $row;
 		}

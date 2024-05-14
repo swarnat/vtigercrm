@@ -13,6 +13,8 @@ class DateTimeField {
 
 	static protected $databaseTimeZone = null;
 	protected $datetime;
+	protected $date;
+	protected $time;
 	private static $cache = array();
 
 	/**
@@ -84,7 +86,7 @@ class DateTimeField {
                 $user = $current_user;
         }
 
-        $format = $current_user->date_format;
+        $format = isset($current_user->date_format)? $current_user->date_format : "";
         if (empty($format)) {
             if (false === strpos($date, '-')) {
                 if(false === strpos($date, '.')){
@@ -173,7 +175,7 @@ class DateTimeField {
 		if(empty($user)) {
 			$user = $current_user;
 		}
-		$format = $user->date_format;
+		$format = isset($user->date_format) ? $user->date_format : "";
 		if(empty($format)) {
 			$format = 'dd-mm-yyyy';
 		}
@@ -354,7 +356,7 @@ class DateTimeField {
 		if(empty($user)) {
 			$user = $current_user;
 		}
-		return str_replace(array('yyyy', 'mm','dd'), array('Y', 'm', 'd'), $user->date_format);
+		return str_replace(array('yyyy', 'mm','dd'), array('Y', 'm', 'd'), isset($user->date_format)? $user->date_format : "");
 	}
 
 	private static function sanitizeDate($value, $user) {
@@ -369,7 +371,7 @@ class DateTimeField {
 		$time = false;
 
 		/* If date-value is other than yyyy-mm-dd */
-		if(strpos($value, "-") < 4 && $user->date_format) {
+		if(strpos($value, "-") < 4 && isset($user->date_format) && $user->date_format) {
 			list($date, $time) = explode(' ', $value);
 			if(!empty($date)) {
 				switch ($user->date_format) {

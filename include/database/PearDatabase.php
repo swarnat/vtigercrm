@@ -306,7 +306,7 @@ class PearDatabase{
 	$this->executeSetNamesUTF8SQL();
 
 	$sql_start_time = microtime(true);
-	$result = & $this->database->Execute($sql);
+	$result = $this->database->Execute($sql);
 	$this->logSqlTiming($sql_start_time, microtime(true), $sql);
 
 	$this->lastmysqlrow = -1;
@@ -950,7 +950,7 @@ class PearDatabase{
 		$schema = new adoSchema( $db );
 		
 		//Debug Adodb XML Schema
-		$schema->XMLS_DEBUG = TRUE;
+		// $schema->XMLS_DEBUG = TRUE; // adoSchema does not support AllowDynamicProperties
 		//Debug Adodb
 		$schema->debug = true;
 		$sql = $schema->ParseSchema( $schemaFile );

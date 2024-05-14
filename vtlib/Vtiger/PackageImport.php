@@ -186,6 +186,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 		$languagefile_found = false;
 		$layoutfile_found = false;
 		$vtigerversion_found = false;
+		$extensionfile_found = false;
 
 		$modulename = null;
 		$language_modulename = null;

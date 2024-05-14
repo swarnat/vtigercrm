@@ -13,6 +13,7 @@
  * Provides basic API to work with vtiger CRM Fields
  * @package vtlib
  */
+#[\AllowDynamicProperties]
 class Vtiger_FieldBasic {
 
 	/** ID of this field instance */
@@ -56,6 +57,8 @@ class Vtiger_FieldBasic {
 	 * @access private
 	 */
 	function initialize($valuemap, $moduleInstance=false, $blockInstance=false) {
+		$valuemap = vtlib_array($valuemap);
+
 		$this->id = $valuemap['fieldid'];
 		$this->name = $valuemap['fieldname'];
 		$this->label= $valuemap['fieldlabel'];

@@ -8,6 +8,7 @@
  * All Rights Reserved.
  *************************************************************************************/
 
+	#[\AllowDynamicProperties]
 	class VTEventCondition{
 		function __construct($expr){
 			if($expr!=''){

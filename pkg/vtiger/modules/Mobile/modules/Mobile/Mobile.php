@@ -10,6 +10,7 @@
 
 include_once dirname(__FILE__) . '/Mobile.Config.php';
 
+#[\AllowDynamicProperties]
 class Mobile {
 	
 	/**

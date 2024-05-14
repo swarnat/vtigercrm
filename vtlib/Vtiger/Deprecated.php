@@ -42,7 +42,7 @@ class Vtiger_Deprecated {
 		} else {
 			$accessibleFieldNames = array();
 			foreach($fieldsName as $field) {
-				if($module == 'Users' || getColumnVisibilityPermission($current_user->id, $field, $module) == '0') {
+				if($module == 'Users' || getColumnVisibilityPermission($current_user->id, $field, $module) == '0' && isset($fieldValues[$field])) {
 					$accessibleFieldNames[] = $fieldValues[$field];
 				}
 			}

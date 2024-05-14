@@ -96,7 +96,7 @@ if (defined('VTIGER_UPGRADE')) {
     //Migrate default module data from config editor to database
     $moduleModel = Settings_Vtiger_ConfigModule_Model::getInstance();
     $configFieldData = $moduleModel->getViewableData();
-    $defaultModule = $configFieldData['default_module'];
+    $defaultModule = isset($configFieldData['default_module']) ? $configFieldData['default_module'] : "";
     if(empty($defaultModule)){
         $defaultModule = 'Home';
     }

@@ -37,7 +37,7 @@
 	interface Token{
 	}
 	
-	
+	#[\AllowDynamicProperties] 
 	class CommonToken implements Token {
 
 		

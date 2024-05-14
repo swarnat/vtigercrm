@@ -142,6 +142,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model {
 	 * @return <Array> - which contains Recurring Information
 	 */
 	public function getRecurringDetails() {
+		global $currentModule;
 		$recurringObject = $this->getRecurringObject();
 		if ($recurringObject) {
 			$recurringInfoDisplayData = $recurringObject->getDisplayRecurringInfo();

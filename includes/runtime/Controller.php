@@ -11,6 +11,7 @@
 /**
  * Abstract Controller Class
  */
+#[\AllowDynamicProperties]
 abstract class Vtiger_Controller {
 
 	function __construct() { }
@@ -227,6 +228,11 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 
 			// Popupview
 			$viewer->assign('IS_MODULE_DISABLED', false);
+
+			// Widgets
+			$viewer->assign('SCRIPTS', array());
+			$viewer->assign('STYLES', array());
+			$viewer->assign('SETTING_EXIST', false);
 		}
 		return $this->viewer;
 	}

@@ -9,6 +9,8 @@
  *************************************************************************************/
 	require_once 'include/events/VTBatchEventTrigger.inc';
 	require_once("include/events/SqlResultIterator.inc");
+
+	#[\AllowDynamicProperties]
 	class VTEventTrigger{
 
 		/* EventTrigger cache management */

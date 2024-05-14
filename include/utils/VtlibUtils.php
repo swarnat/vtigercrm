@@ -103,8 +103,8 @@ function vtlib_isModuleActive($module) {
 
 	if(!isset($__cache_module_activeinfo[$module])) {
 		include 'tabdata.php';
-		$tabId = $tab_info_array[$module];
-		$presence = $tab_seq_array[$tabId];
+		$tabId = vtlib_array($tab_info_array)[$module];
+		$presence = vtlib_array($tab_seq_array)[$tabId];
 		$__cache_module_activeinfo[$module] = $presence;
 	} else {
 		$presence = $__cache_module_activeinfo[$module];
@@ -672,7 +672,7 @@ function vtlib_purify($input, $ignore = false) {
     $value = $input;
 
     if (!is_array($input)) {
-        $md5OfInput = md5($input);
+        $md5OfInput = md5($input ? $input : "");
         if (array_key_exists($md5OfInput, $purified_cache)) {
             $value = $purified_cache[$md5OfInput];
             //to escape cleaning up again
@@ -722,7 +722,9 @@ function vtlib_purify($input, $ignore = false) {
                 $value = purifyHtmlEventAttributes($value, true);
             }
         }
-        $purified_cache[$md5OfInput] = $value;
+		if (isset($md5OfInput)) {
+			$purified_cache[$md5OfInput] = $value;
+		}
     }
     
     if(is_array($value)) {
@@ -993,6 +995,14 @@ function vtlib_addSettingsLink($linkName, $linkURL, $blockName = false) {
 }
 
 /**
+ * PHP Strict helpers.
+ */
+require_once "vtlib/Vtiger/Utils/GuardedArray.php";
+function vtlib_array($data = null) {
+	return new Vtiger_GuardedArray($data);
+}
+
+/**
  * PHP7 support for split function
  * split : Case sensitive.
  */
@@ -1033,4 +1043,12 @@ function php7_sizeof($value) {
 	return php7_count($value);
 }
 
-?>
+function php7_trim($str) {
+	// PHP 8.x marks as deprecated
+	return $str == null ? $str : trim($str);
+}
+
+function php7_htmlentities($str) {
+	// PHP 8.x marks as deprecated
+	return $str == null ? $str : htmlentities($str);
+}

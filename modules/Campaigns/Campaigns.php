@@ -531,7 +531,7 @@ class Campaigns extends CRMEntity {
 	 * @param - $status_column index of the status column in the list.
 	 * returns true on success
 	 */
-	function add_status_popup($related_list, $status_column = 7, $related_module)
+	function add_status_popup($related_list, $status_column = 7, $related_module = null)
 	{
 		global $adb;
 

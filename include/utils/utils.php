@@ -337,7 +337,7 @@ function decide_to_html() {
 	global $doconvert, $inUTF8, $default_charset;
  	$action = isset($_REQUEST['action']) ? $_REQUEST['action'] : ''; 
  		     
-    $inUTF8 = (strtoupper($default_charset) == 'UTF-8'); 
+    $inUTF8 = (strtoupper($default_charset ? $default_charset : "") == 'UTF-8'); 
 
     $doconvert = true; 
 	if ($action == 'ExportData') {
@@ -1795,6 +1795,8 @@ function getValidDBInsertDateValue($value) {
 	global $log;
 	$log->debug("Entering getValidDBInsertDateValue(".$value.") method ...");
 	$value = trim($value);
+	if (empty($value)) return null;
+
 	$delim = array('/','.');
 	foreach ($delim as $delimiter){
 		$x = strpos($value, $delimiter);
@@ -2022,9 +2024,9 @@ function getCurrencyDecimalPlaces($user = null) {
     global $current_user;
 
 	$currency_decimal_places = 2;
-    if (!empty($user)) {
+    if (!empty($user) && isset($user->no_of_currency_decimals)) {
         $currency_decimal_places = $user->no_of_currency_decimals;
-    } else if ($current_user) {
+    } else if ($current_user && isset($current_user->no_of_currency_decimals)) {
         $currency_decimal_places = $current_user->no_of_currency_decimals;
     }
     return (int)$currency_decimal_places;

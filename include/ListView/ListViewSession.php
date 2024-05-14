@@ -166,7 +166,7 @@ class ListViewSession {
 			$recordNavigationInfo = array();
 			if($searchKey !== false){
 				foreach ($navigationRecordList as $index => $recordId) {
-					if(!is_array($recordNavigationInfo[$current])){
+					if(!isset($recordNavigationInfo[$current])){
 						$recordNavigationInfo[$current] = array();
 					}
 					if($index == $firstPageRecordCount  || $index == ($firstPageRecordCount+$pageCount * $list_max_entries_per_page)){

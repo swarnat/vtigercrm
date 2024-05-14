@@ -1,5 +1,6 @@
 <?php
 	//Todo: find a decent set implementation for php
+	#[\AllowDynamicProperties]
 	class Set{
 		public function __construct($arr){
 			$this->store = array();

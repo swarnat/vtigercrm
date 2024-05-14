@@ -12,6 +12,7 @@
 	 * Time based Queue of tasks ready for execution.
 	 *
 	 */
+	#[\AllowDynamicProperties]
 	class VTTaskQueue{
 		
         public function __construct($adb){

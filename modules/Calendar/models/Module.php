@@ -761,7 +761,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 		return $recentRecords;
 	}
 
-	public function getAllTasksbyPriority($conditions = false, $pagingModel) {
+	public function getAllTasksbyPriority($conditions = false, $pagingModel = false) {
 		global $current_user;
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$db = PearDatabase::getInstance();
@@ -1009,7 +1009,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 			}
 		}
 
-		$activityType = strtolower($activityType);
+		$activityType = strtolower($activityType ? $activityType : "");
 		$moduleIcon = "<i class='vicon-$activityType' title='$title' ></i>";
 
 		if (!in_array($activityType, array('task', 'calendar'))) {

@@ -131,6 +131,7 @@ class VTCacheUtils {
         if(!$modulefields){
             $fieldInfo = Vtiger_Cache::get('ModuleFields',$tabid);
             if($fieldInfo){
+                $modulefields = array();
                 foreach($fieldInfo as $block => $blockFields){
                     foreach ($blockFields as $field){
                     if(in_array($field->get('presence'), $presencein)) {

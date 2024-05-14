@@ -164,7 +164,13 @@ class Vtiger_Functions {
 				self::$moduleNameIdCache[$row['name']]  = $row;
 			}
 		}
-		return $id ? self::$moduleIdNameCache[$id] : self::$moduleNameIdCache[$name];
+		if ($id && isset(self::$moduleIdNameCache[$id])) {
+			return self::$moduleIdNameCache[$id];
+		}
+		if ($name && isset(self::$moduleNameIdCache[$name])) {
+			return self::$moduleNameIdCache[$name];
+		}
+		return null;
 	}
 
 	static function getModuleData($mixed) {
@@ -463,9 +469,11 @@ class Vtiger_Functions {
 			while ($row = $adb->fetch_array($result)) {
 				$moduleFieldInfo[$module][$row['fieldname']] = $row;
 			}
-			Vtiger_Cache::set('ModuleFieldInfo',$module,$moduleFieldInfo[$module]);
+			if (isset($moduleFieldInfo[$module])) {
+				Vtiger_Cache::set('ModuleFieldInfo',$module,$moduleFieldInfo[$module]);
+			}
 		}
-		return $moduleFieldInfo[$module] ? $moduleFieldInfo[$module] : NULL;
+		return isset($moduleFieldInfo[$module]) ? $moduleFieldInfo[$module] : NULL;
 	}
 
 	static function getModuleFieldInfoWithId($fieldid) {
@@ -737,12 +745,19 @@ class Vtiger_Functions {
 		$fields = Array();
 		for ($i = 1; $i < php7_count($token_data_pair); $i++) {
 			$module = explode('-', $tokenDataPair[$i]);
+			if (count($module) < 2) {
+				// if not $module-fieldname$
+				continue;
+			}
+			if (!isset($fields[$module[0]])) {
+				$fields[$module[0]] = array();
+			}
 			$fields[$module[0]][] = $module[1];
 		}
-		if (is_array($fields['custom']) && php7_count($fields['custom']) > 0) {
+		if (isset($fields['custom']) && is_array($fields['custom']) && php7_count($fields['custom']) > 0) {
 			$description = self::getMergedDescriptionCustomVars($fields, $description,$id,$parent_type);
 		}
-		if(is_array($fields['companydetails']) && php7_count($fields['companydetails']) > 0){
+		if(isset($fields['companydetails']) && is_array($fields['companydetails']) && php7_count($fields['companydetails']) > 0){
 			$description = self::getMergedDescriptionCompanyDetails($fields,$description);
 		}
 

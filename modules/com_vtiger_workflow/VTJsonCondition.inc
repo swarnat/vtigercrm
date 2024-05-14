@@ -26,7 +26,7 @@ class VTJsonCondition {
 			$expressionResults = array();
 			$i = 0;
 			foreach ($expr as $cond) {
-				$conditionGroup = $cond['groupid'];
+				$conditionGroup = isset($cond['groupid']) ? $cond['groupid'] : null;
 				if (empty($conditionGroup)) {
 					$conditionGroup = 0;
 				}
@@ -85,9 +85,9 @@ class VTJsonCondition {
 			foreach ($expressionResults as $groupId => $groupExprResultSet) {
 				$groupResult = TRUE;
 				foreach ($groupExprResultSet as $exprResult) {
-					$result = $exprResult['result'];
-					$logicalOperator = $exprResult['logicaloperator'];
-					if (isset($result)) { // Condition to skip last condition
+					if (isset($exprResult['result'])) { // Condition to skip last condition
+						$result = $exprResult['result'];
+						$logicalOperator = isset($exprResult['logicaloperator']) ? $exprResult['logicaloperator'] : null;
 						if (!empty($logicalOperator)) {
 							switch ($logicalOperator) {
 								case 'and' : $groupResult = ($groupResult && $result);
@@ -162,7 +162,7 @@ class VTJsonCondition {
 			$fieldValue = $data[$cond['fieldname']];
 		}
 		$value = trim(html_entity_decode($cond['value']));
-		$expressionType = $cond['valuetype'];
+		$expressionType = isset($cond['valuetype']) ? $cond['valuetype'] : null;
 
 		if ($expressionType == 'fieldname') {
 			if ($referredEntityData != null) {

@@ -58,6 +58,7 @@ class Vtiger_ShowWidget_View extends Vtiger_IndexAjax_View {
 				$createdTime = $request->get('createdtime');
 				//user format dates should be used in getSearchParams() api
 				$request->set('dateFilter', $createdTime);
+				$dates = array();
 				if(!empty($createdTime)) {
 					$startDate = Vtiger_Date_UIType::getDBInsertedValue($createdTime['start']);
 					$dates['start'] = getValidDBInsertDateTimeValue($startDate . ' 00:00:00');

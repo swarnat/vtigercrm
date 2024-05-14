@@ -128,6 +128,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 			}
 		}
 
+		$viewer->assign('NO_PAGINATION', true);
+		
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		if(!empty($prevRecordId)) {
 			$viewer->assign('PREVIOUS_RECORD_URL', $moduleModel->getDetailViewUrl($prevRecordId));
@@ -524,6 +526,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 		$viewer->assign('ROLLUPID', isset($rollupsettings['rollupid']) ?
 			$rollupsettings['rollupid'] : 0);
 		$viewer->assign('PARENT_RECORD', $parentId);
+		$viewer->assign('STARTINDEX', 0);
 
 		return $viewer->view('RecentComments.tpl', $moduleName, 'true');
 	}

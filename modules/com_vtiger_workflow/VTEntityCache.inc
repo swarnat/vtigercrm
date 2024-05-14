@@ -10,6 +10,7 @@
 require_once 'data/VTEntityDelta.php';
 require_once 'includes/runtime/Cache.php';
 
+#[\AllowDynamicProperties]
 class VTWorkflowEntity{
 	function __construct($user, $id){
 		try {
@@ -119,6 +120,9 @@ class VTWorkflowEntity{
 }
 
 class VTEntityCache{
+	var $user;
+	var $cache;
+	
 	function __construct($user){
 		$this->user = $user;
 		$this->cache = array();

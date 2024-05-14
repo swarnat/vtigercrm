@@ -8,6 +8,7 @@
  * All Rights Reserved.
  *******************************************************************************/
 
+ #[\AllowDynamicProperties]
 class CustomerPortal {
 
  	/**

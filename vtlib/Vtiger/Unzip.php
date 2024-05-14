@@ -63,7 +63,7 @@ class Vtiger_Unzip extends dUnzip2 {
 		 * DEFAULT: If include is specified only files under the specified path will be included.
 		 * If exclude is specified folders or files will be excluded.
 		 */
-		if($includeExclude === false) $includeExclude = Array();
+		$includeExclude = vtlib_array($includeExclude);
 
 		$lista = $this->getList();
 		if(sizeof($lista)) foreach($lista as $fileName=>$trash){

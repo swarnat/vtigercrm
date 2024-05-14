@@ -11,6 +11,7 @@
 	/**
 	 * Functionality to save and retrieve Tasks from the database.
 	 */
+	#[\AllowDynamicProperties]
 	class VTTaskManager{
 		function __construct($adb){
 			$this->adb = $adb;
@@ -28,7 +29,7 @@
 		 */
 		public function saveTask($task){
 			$adb = $this->adb;
-			if(is_numeric($task->id)){//How do I check whether a member exists in php?
+			if(isset($task->id) && is_numeric($task->id)){
 				$taskId = $task->id;
 				$adb->pquery("update com_vtiger_workflowtasks set summary=?, task=? where task_id=?",
 							array($task->summary, serialize($task), $taskId));
@@ -153,9 +154,14 @@
 
 	}
 
+	#[\AllowDynamicProperties]
 	abstract class VTTask{
 		public abstract function doTask($data);
 		public abstract function getFieldNames();
+
+		public function __get($name) {
+		    return property_exists($this, $name) ? $this->$name : null;
+	    }
 
 		public function getTimeFieldList() {
 			return array();

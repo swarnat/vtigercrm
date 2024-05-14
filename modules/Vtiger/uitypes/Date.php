@@ -70,6 +70,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType {
 	 * @return converted value
 	 */
 	public function getEditViewDisplayValue($value) {
+		if ($value == null) return $value;
 		if (empty($value) || $value === ' ') {
 			$value = trim($value);
 			$fieldInstance = $this->get('field')->getWebserviceFieldObject();
