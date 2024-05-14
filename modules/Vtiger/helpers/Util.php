@@ -269,6 +269,7 @@ class Vtiger_Util_Helper {
 			$dateTimeInUserFormat = Vtiger_Datetime_UIType::getDisplayDateTimeValue($dateTime);
 		}
 
+		if (substr_count($dateTimeInUserFormat,' ') == 1) $dateTimeInUserFormat .= ' '; // init for meridiem if not present
 		list($dateInUserFormat, $timeInUserFormat, $meridiem) = explode(' ', $dateTimeInUserFormat);
 		if($meridiem && $currentUser->get('hour_format') === '12' ){
 			$displayTime = $timeInUserFormat.' '.$meridiem;

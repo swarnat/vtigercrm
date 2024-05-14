@@ -56,6 +56,8 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 			$ownerSql =  ' AND smownerid = ? ';
 			$params[] = $owner;
 		}
+
+		$dateFilterSql = '';
 		if(!empty($dateFilter)) {
 			$dateFilterSql = ' AND closingdate BETWEEN ? AND ? ';
 			$params[] = $dateFilter['start'];
@@ -141,6 +143,8 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 						'INNER JOIN vtiger_sales_stage ON vtiger_potential.sales_stage =  vtiger_sales_stage.sales_stage 
 						WHERE vtiger_potential.sales_stage IN ('.generateQuestionMarks($picklistvaluesmap).') 
 						GROUP BY smownerid, sales_stage ORDER BY vtiger_sales_stage.sortorderid', $params);
+
+		$data = array();
 		for($i=0; $i<$db->num_rows($result); $i++) {
 			$row = $db->query_result_rowdata($result, $i);
             $row['link'] = decode_html($row['sales_stage']);
@@ -161,6 +165,8 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 		//TODO need to handle security
 		$params = array();
 		$params[] = 'Closed Won';
+
+		$dateFilterSql = '';
 		if(!empty($dateFilter)) {
 			$dateFilterSql = ' AND createdtime BETWEEN ? AND ? ';
 			//appended time frame and converted to db time zone in showwidget.php
