@@ -10,7 +10,7 @@
 {strip}
 	<input type=hidden name="timeFormatOptions" data-value='{$DAY_STARTS}' />
         <input type='hidden' name='pwd_regex' value= {ZEND_json::encode($PWD_REGEX)} />
-	{foreach key=BLOCK_LABEL_KEY item=FIELD_MODEL_LIST from=$RECORD_STRUCTURE}
+	{foreach key=BLOCK_LABEL_KEY item=FIELD_MODEL_LIST from=$RECORD_STRUCTURE name=DetailViewBlockViewLoop}
 		{if $BLOCK_LABEL_KEY neq 'LBL_CALENDAR_SETTINGS'}
 			{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL_KEY]}
 			{if $BLOCK eq null or $FIELD_MODEL_LIST|@count lte 0}{continue}{/if}
@@ -132,7 +132,7 @@
 									{/if}
 								{/foreach}
 								{* adding additional column for odd number of fields in a block *}
-								{if $FIELD_MODEL_LIST|@end eq true and $FIELD_MODEL_LIST|@count neq 1 and $COUNTER eq 1}
+								{if $smarty.foreach.DetailViewBlockViewLoop.last and $FIELD_MODEL_LIST|@count neq 1 and $COUNTER eq 1}
 									<td class="fieldLabel {$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td>
 								{/if}
 							</tr>

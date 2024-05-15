@@ -12,7 +12,7 @@
 		<input type="hidden" name="picklistDependency" value='{Vtiger_Util_Helper::toSafeHTML($PICKIST_DEPENDENCY_DATASOURCE)}' />
 	{/if}
 
-	{foreach key=BLOCK_LABEL_KEY item=FIELD_MODEL_LIST from=$RECORD_STRUCTURE}
+	{foreach key=BLOCK_LABEL_KEY item=FIELD_MODEL_LIST from=$RECORD_STRUCTURE name=DetailViewBlockViewLoop}
 		{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL_KEY]}
 		{if $BLOCK eq null or $FIELD_MODEL_LIST|@count lte 0}{continue}{/if}
 		<div class="block block_{$BLOCK_LABEL_KEY}" data-block="{$BLOCK_LABEL_KEY}" data-blockid="{$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}">
@@ -130,7 +130,7 @@
 								{/if}
 							{/foreach}
 							{* adding additional column for odd number of fields in a block *}
-							{if $FIELD_MODEL_LIST|@end eq true and $FIELD_MODEL_LIST|@count neq 1 and $COUNTER eq 1}
+							{if $smarty.foreach.DetailViewBlockViewLoop.last and $FIELD_MODEL_LIST|@count neq 1 and $COUNTER eq 1}
 								<td class="fieldLabel {$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td>
 							{/if}
 						</tr>
