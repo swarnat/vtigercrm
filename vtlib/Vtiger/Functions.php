@@ -1739,17 +1739,17 @@ class Vtiger_Functions {
 			$endchar = "";
 
 			// HTML embed in attributes (eg. img src="...").
-			$startidx = strpos($input, '"data:', $offset);
+			$startidx = strpos($input ??'', '"data:', $offset);
 			if ($startidx !== false) {
 				$endchar = '"';
 			} else {
 				// HTML embed in attributes (eg. img src='...').
-				$startidx = strpos($input, "'data:", $offset);
+				$startidx = strpos($input ??'', "'data:", $offset);
 				if ($startidx !== false) {
 					$endchar = "'";
 				} else {
 					// TEXT embed with wrap [eg. (data...)]
-					$startidx = strpos($input, "(data:", $offset);
+					$startidx = strpos($input ??'', "(data:", $offset);
 					if ($startidx !== false) {
 						$endchar = ")";
 					} else {
@@ -1778,7 +1778,7 @@ class Vtiger_Functions {
 			$offset = $endidx + 1;
 		} while (true);
 
-		if ($offset < strlen($input)) {
+		if ($offset < strlen($input ?? '')) {
 			$parts[] = substr($input, $offset);
 		}
 				return implode("", $parts);

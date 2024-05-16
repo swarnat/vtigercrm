@@ -112,15 +112,18 @@ class VTEntityDelta extends VTEventHandler {
 		if(empty(self::$oldEntity[$moduleName][$recordId])) {
 			return false;
 		}
-		$fieldDelta = self::$entityDelta[$moduleName][$recordId][$fieldName];
-		if(is_array($fieldDelta)) {
+		$fieldDelta = isset(self::$entityDelta[$moduleName][$recordId][$fieldName]) ? self::$entityDelta[$moduleName][$recordId][$fieldName] :' ';
+		if(is_array($fieldDelta) && isset($fieldDelta['oldValue']) && isset($fieldDelta['currentValue'])) {
 			$fieldDelta = array_map('decode_html', $fieldDelta);
+			$result = $fieldDelta['oldValue'] != $fieldDelta['currentValue'];
+			if ($fieldValue !== NULL) {
+				$result = $result && ($fieldDelta['currentValue'] === $fieldValue);
+			}
+			return $result;
 		}
-		$result = $fieldDelta['oldValue'] != $fieldDelta['currentValue'];
-		if ($fieldValue !== NULL) {
-			$result = $result && ($fieldDelta['currentValue'] === $fieldValue);
+		else{
+			return;
 		}
-		return $result;
 	}
 
 }

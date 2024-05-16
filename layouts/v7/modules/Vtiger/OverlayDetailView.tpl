@@ -54,11 +54,13 @@
                 <div class="clearfix">
                     <div class = "btn-group">
                         <button class="btn btn-default fullDetailsButton" onclick="window.location.href = '{$RECORD->getFullDetailViewUrl()}&app={$SELECTED_MENU_CATEGORY}'">{vtranslate('LBL_DETAILS',$MODULE_NAME)}</button>
-						{foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}
-							{if $DETAIL_VIEW_BASIC_LINK && $DETAIL_VIEW_BASIC_LINK->getLabel() == 'LBL_EDIT'}
-								<button class="btn btn-default editRelatedRecord" value = "{$RECORD->getEditViewUrl()}">{vtranslate('LBL_EDIT',$MODULE_NAME)}</button>
-							{/if}
-						{/foreach}
+                        {if isset($DETAILVIEW_LINKS)}
+                            {foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}
+                                {if $DETAIL_VIEW_BASIC_LINK && $DETAIL_VIEW_BASIC_LINK->getLabel() == 'LBL_EDIT'}
+                                    <button class="btn btn-default editRelatedRecord" value = "{$RECORD->getEditViewUrl()}">{vtranslate('LBL_EDIT',$MODULE_NAME)}</button>
+                                {/if}
+                            {/foreach}  
+                        {/if}	
                     </div> 
                     <div class="pull-right " >
                         <button type="button" class="close" aria-label="Close" data-dismiss="modal">

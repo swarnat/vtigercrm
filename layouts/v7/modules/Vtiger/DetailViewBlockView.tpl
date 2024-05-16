@@ -18,7 +18,7 @@
 		<div class="block block_{$BLOCK_LABEL_KEY}" data-block="{$BLOCK_LABEL_KEY}" data-blockid="{$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}">
 			{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-			<input type=hidden name="timeFormatOptions" data-value='{$DAY_STARTS}' />
+		<input type=hidden name="timeFormatOptions" data-value='{if isset($DAY_STARTS)}{/if}' />
 			<div>
 				<h4 class="textOverflowEllipsis maxWidth50">
 					<img class="cursorPointer alignMiddle blockToggle {if !($IS_HIDDEN)} hide {/if}" src="{vimage_path('arrowRight.png')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}>

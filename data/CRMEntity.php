@@ -269,6 +269,7 @@ class CRMEntity {
 
 		$ownerid = $this->column_fields['assigned_user_id'];
 		$groupid = $this->column_fields['group_id'];
+		$insertion_mode = $this->mode;
 
 		if (empty($groupid))
 			$groupid = 0;
@@ -299,6 +300,7 @@ class CRMEntity {
         $this->column_fields['label'] = $label;
 
 		if ($this->mode == 'edit') {
+
 			$description_val = from_html($this->column_fields['description'], ($insertion_mode == 'edit') ? true : false);
 
 			$tabid = getTabid($module);
@@ -648,7 +650,7 @@ class CRMEntity {
 							foreach($IMG_FILES as $fileIndex => $file) {
 								if($file['error'] == 0 && $file['name'] != '' && $file['size'] > 0) {
 									if($_REQUEST[$fileIndex.'_hidden'] != '')
-										$file['original_name'] = vtlib_purify($_REQUEST[$fileindex.'_hidden']);
+										$file['original_name'] = vtlib_purify($_REQUEST[$fileIndex.'_hidden']);
 									else {
 										$file['original_name'] = stripslashes($file['name']);
 									}
@@ -686,8 +688,8 @@ class CRMEntity {
 						$uploadedFileNames = array();
 						foreach($UPLOADED_FILES as $fileIndex => $file) {
 							if($file['error'] == 0 && $file['name'] != '' && $file['size'] > 0) {
-								if($_REQUEST[$fileindex.'_hidden'] != '') {
-									$file['original_name'] = vtlib_purify($_REQUEST[$fileindex.'_hidden']);
+								if(isset($_REQUEST[$fileIndex.'_hidden']) && $_REQUEST[$fileIndex.'_hidden'] != '') {
+									$file['original_name'] = vtlib_purify($_REQUEST[$fileIndex.'_hidden']);
 								} else {
 									$file['original_name'] = stripslashes($file['name']);
 								}
@@ -743,9 +745,9 @@ class CRMEntity {
 			$changedFields =  $this->column_fields->getChanged();
 			if(php7_count($changedFields) > 0) {
 				$update = array();
-				$update_params = array();
+				$update_params =array();
 				foreach($changedFields as $field) {
-					$fieldColumn = $updateFieldNameColumnNameMap[$field];
+					$fieldColumn = isset($updateFieldNameColumnNameMap[$field])?$updateFieldNameColumnNameMap[$field]:' ';
 					if(@array_key_exists($fieldColumn, $updateFieldValues)) {
 						array_push($update, $fieldColumn.'=?');
 						array_push($update_params, $updateFieldValues[$fieldColumn]);
