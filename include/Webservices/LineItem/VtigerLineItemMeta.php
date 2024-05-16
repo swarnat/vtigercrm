@@ -92,7 +92,7 @@ class VtigerLineItemMeta extends VtigerCRMActorMeta {
 		if(in_array($fieldName,$mandatoryFieldList)){
 			$typeOfData = $fieldType.'~M';
 		}else if(($dbField->not_null == 1 && $fieldName != 'incrementondel' 
-				&& $dbField->primary_key != 1) || $dbField->unique_key == 1){
+				&& $dbField->primary_key != 1) || (property_exists($dbField, 'unique_key') && $dbField->unique_key == 1)) {
 			$typeOfData = $fieldType.'~M';
 		}else{
 			$typeOfData = $fieldType.'~O';

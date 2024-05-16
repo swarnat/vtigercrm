@@ -71,7 +71,7 @@
 					throw new WebServiceException(WebServiceErrorCode::$ACCESSDENIED,
 						"Permission to access reference type is denied ".$referenceObject->getEntityName());
 				}
-			}else if($element[$fieldName] !== NULL){
+			}else if(array_key_exists($fieldName, $element) && $element[$fieldName] !== NULL){
 				unset($element[$fieldName]);
 			}
 		}

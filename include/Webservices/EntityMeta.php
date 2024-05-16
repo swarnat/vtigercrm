@@ -8,6 +8,7 @@
  * All Rights Reserved.
  *************************************************************************************/
 
+#[\AllowDynamicProperties]
 abstract class EntityMeta{
 	
 	public static $RETRIEVE = "DetailView";

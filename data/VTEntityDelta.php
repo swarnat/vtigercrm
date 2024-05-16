@@ -112,6 +112,9 @@ class VTEntityDelta extends VTEventHandler {
 		if(empty(self::$oldEntity[$moduleName][$recordId])) {
 			return false;
 		}
+		if (!array_key_exists($fieldName, self::$entityDelta[$moduleName][$recordId])) {
+			return false;
+		}
 		$fieldDelta = self::$entityDelta[$moduleName][$recordId][$fieldName];
 		if(is_array($fieldDelta)) {
 			$fieldDelta = array_map('decode_html', $fieldDelta);

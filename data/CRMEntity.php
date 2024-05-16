@@ -299,7 +299,7 @@ class CRMEntity {
         $this->column_fields['label'] = $label;
 
 		if ($this->mode == 'edit') {
-			$description_val = from_html($this->column_fields['description'], ($insertion_mode == 'edit') ? true : false);
+			$description_val = from_html($this->column_fields['description'], ($this->mode == 'edit') ? true : false);
 
 			$tabid = getTabid($module);
 			$modified_date_var = $adb->formatDate($date_var, true);
@@ -745,8 +745,11 @@ class CRMEntity {
 				$update = array();
 				$update_params = array();
 				foreach($changedFields as $field) {
+					if (!array_key_exists($field, $updateFieldNameColumnNameMap)) {
+						continue;
+					}
 					$fieldColumn = $updateFieldNameColumnNameMap[$field];
-					if(@array_key_exists($fieldColumn, $updateFieldValues)) {
+					if(array_key_exists($fieldColumn, $updateFieldValues)) {
 						array_push($update, $fieldColumn.'=?');
 						array_push($update_params, $updateFieldValues[$fieldColumn]);
 					}
