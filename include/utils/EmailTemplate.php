@@ -50,17 +50,19 @@ class EmailTemplate {
             for ($i = 0; $i < php7_count($templateVariablePair); $i++) {
                 $templateVariablePair[$i] = str_replace('$', '', $templateVariablePair[$i]);
                 list($module, $columnName) = explode('-', $templateVariablePair[$i]);
-                list($parentColumn, $childColumn) = explode(':', $columnName);
-                $this->templateFields[$module][] = $parentColumn;
-                $this->referencedFields[$parentColumn][] = $childColumn;
-                $this->processedmodules[$module] = false;
+				if(isset($columnName) && strpos($columnName, ':') !== false) {
+					list($parentColumn, $childColumn) = explode(':', $columnName);
+					$this->templateFields[$module][] = $parentColumn;
+					$this->referencedFields[$parentColumn][] = $childColumn;
+					$this->processedmodules[$module] = false;
+				}
             }
             $this->processed = false;
         }
 	}
 
 	private function getTemplateVariableListForModule($module) {
-		return $this->templateFields[strtolower($module)];
+		return isset($this->templateFields[strtolower($module)]) ? $this->templateFields[strtolower($module)] : "";
 	}
 	
 	public function process($params) {

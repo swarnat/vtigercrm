@@ -15,7 +15,7 @@
 		{include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE="Result"} 
 		<div class="modal-body">
 			{if $SUCCESS}
-				<div class="mailSentSuccessfully" data-relatedload="{$RELATED_LOAD}">
+				<div class="mailSentSuccessfully" data-relatedload="{if isset($RELATED_LOAD)}{$RELATED_LOAD}{else}''{/if}">
                                     {if $FLAG eq 'SENT'}
                                         {vtranslate('LBL_MAIL_SENT_SUCCESSFULLY')}
                                     {else}

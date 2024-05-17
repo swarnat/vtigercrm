@@ -298,6 +298,7 @@ class CRMEntity {
         $label = decode_html($record_label);
         $this->column_fields['label'] = $label;
 
+		$insertion_mode = '';
 		if ($this->mode == 'edit') {
 			$description_val = from_html($this->column_fields['description'], ($insertion_mode == 'edit') ? true : false);
 
@@ -745,7 +746,7 @@ class CRMEntity {
 				$update = array();
 				$update_params = array();
 				foreach($changedFields as $field) {
-					$fieldColumn = $updateFieldNameColumnNameMap[$field];
+					$fieldColumn = isset($updateFieldNameColumnNameMap[$field]);
 					if(@array_key_exists($fieldColumn, $updateFieldValues)) {
 						array_push($update, $fieldColumn.'=?');
 						array_push($update_params, $updateFieldValues[$fieldColumn]);
@@ -3134,7 +3135,7 @@ class TrackableObject implements ArrayAccess, IteratorAggregate {
 
 	#[\ReturnTypeWillChange]
 	function offsetSet($key, $value) {
-            if(is_array($value)) $value = empty($value) ? "" : $value[0];
+            if(is_array($value)) $value = !empty($value) && isset($value[0]) ? $value[0] : "" ;
 		if($this->tracking && $this->trackingEnabled) {
 			$olderValue = $this->offsetGet($key);
 			// decode_html only expects string
