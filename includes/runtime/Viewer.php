@@ -75,7 +75,7 @@ class Vtiger_Viewer extends Smarty {
 		$classes = array('Vtiger_MenuStructure_Model', 'Users_Privileges_Model', 
 			'Vtiger_Module_Model', 'Settings_MenuEditor_Module_Model', 'Vtiger_Util_Helper', 
 			'ZEND_JSON', 'Zend_Json', 'Zend_JSON', 'ZEND_json',
-			'Vtiger_Theme', 'Users_Record_Model', 'Vtiger_Module_Model', 'Vtiger_Field_Model', 
+			'Vtiger_Theme', 'Users_Record_Model', 'Vtiger_Module_Model', 'Vtiger_Field_Model', 'Vtiger_Record_Model',
 			'Settings_Picklist_Module_Model', 'CustomView_Record_Model', 'Vtiger_Extension_View',
 			'Vtiger_Tag_Model', 'Settings_Vtiger_Module_Model', 'PBXManager_Server_Model',
 			'Vtiger_Functions', 'Users', 'CurrencyField');
@@ -87,7 +87,7 @@ class Vtiger_Viewer extends Smarty {
 
 		$modifiers = array('vtranslate', 'vtlib_isModuleActive', 'vimage_path', 'strstr', 'stripos', 'strpos', 'date', 'vtemplate_path', 'vresource_url', 
 			'decode_html', 'vtlib_purify', 'php7_count', 'getUserFullName', 'array_flip', 'explode', 'trim', 'array_push',
-			'array_map', 'array_key_exists', 'get_class', 'vtlib_array', 'getDuplicatesPreventionMessage', 'htmlentities',
+			'array_map', 'array_key_exists', 'get_class', 'vtlib_array', 'getDuplicatesPreventionMessage', 'htmlentities', 'purifyHtmlEventAttributes',
 			'getCurrencySymbolandCRate', 'mb_substr', 'isPermitted', 'getEntityName', 'function_exists', 'php7_trim', 'php7_htmlentities',
 			'strtolower', 'strtoupper', 'str_replace', 'urlencode', 'getTranslatedCurrencyString', 'getTranslatedString', 'is_object', 'is_numeric',
 			'php7_sizeof', 'method_exists');

@@ -159,7 +159,7 @@ class CRMEntity {
 	 */
 	function uploadAndSaveFile($id, $module, $file_details, $attachmentType='Attachment') {
 		global $log;
-		$log->debug("Entering into uploadAndSaveFile($id,$module,$file_details) method.");
+		$log->debug("Entering into uploadAndSaveFile($id,$module) method.");
 
 		global $adb, $current_user;
 		global $upload_badext;

@@ -93,7 +93,7 @@ class Documents_List_View extends Vtiger_List_View {
 			$orderBy = '';
 			$sortOrder = '';
 		}
-		if(empty($listHeaders)) {
+		if(empty($listHeaders) && $orderParams && isset($orderParams['list_headers'])) {
 			$listHeaders = $orderParams['list_headers'];
 		}
 		if(empty($orderBy) && empty($searchValue) && empty($pageNumber)) {
@@ -233,16 +233,16 @@ class Documents_List_View extends Vtiger_List_View {
 		}
 		$viewer->assign('PAGE_NUMBER',$pageNumber);
 
-		if(!$this->moduleFieldStructure) {
+		if(!isset($this->moduleFieldStructure)) {
 			$recordStructure = Vtiger_RecordStructure_Model::getInstanceForModule($listViewModel->getModule(), Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_FILTER);
 			$this->moduleFieldStructure = $recordStructure->getStructure();   
 		}
 
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		if(!$this->tags) {
+		if(!isset($this->tags)) {
 			$this->tags = Vtiger_Tag_Model::getAllAccessible($currentUser->id, $moduleName);
 		}
-		if(!$this->allUserTags) {
+		if(!isset($this->allUserTags)) {
 			$this->allUserTags = Vtiger_Tag_Model::getAllUserTags($currentUser->getId());
 		}
 
