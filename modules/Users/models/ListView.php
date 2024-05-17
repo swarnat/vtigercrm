@@ -74,7 +74,6 @@ class Users_ListView_Model extends Vtiger_ListView_Model {
 			$listQueryComponents = explode(" WHERE vtiger_users.status='Active' AND", $listQuery);
 			$listQuery = implode(' WHERE ', $listQueryComponents);
 		}
-		$listQuery .= " AND (vtiger_users.user_name != 'admin' OR vtiger_users.is_owner = 1)";
 
 		// Impose non-admin restrictions.
 		$user = vglobal('current_user');
