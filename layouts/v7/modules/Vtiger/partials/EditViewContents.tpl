@@ -14,7 +14,7 @@
 	{/if}
 
 	<div name='editContent'>
-		{if $DUPLICATE_RECORDS}
+		{if isset($DUPLICATE_RECORDS) && $DUPLICATE_RECORDS}
 			<div class="fieldBlockContainer duplicationMessageContainer">
 				<div class="duplicationMessageHeader"><b>{vtranslate('LBL_DUPLICATES_DETECTED', $MODULE)}</b></div>
 				<div>{getDuplicatesPreventionMessage($MODULE, $DUPLICATE_RECORDS)}</div>

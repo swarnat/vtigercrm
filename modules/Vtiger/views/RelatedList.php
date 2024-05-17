@@ -109,7 +109,6 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View {
 		$viewer->assign('RELATED_ENTIRES_COUNT', $noOfEntries);
 		$viewer->assign('RELATION_FIELD', $relationField);
 		$appName = $request->get('app');
-		// file_put_contents('test089.log',print_r($appName.'Hello',true),FILE_APPEND);
 		if(!empty($appName)){
 			$viewer->assign('SELECTED_MENU_CATEGORY',$appName);
 		}

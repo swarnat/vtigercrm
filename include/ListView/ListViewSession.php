@@ -103,7 +103,7 @@ class ListViewSession {
 			}
 		}
 
-		$list_query = $_SESSION[$currentModule.'_listquery'];
+		$list_query = isset($_SESSION[$currentModule.'_listquery'])?$_SESSION[$currentModule.'_listquery']:'';
 
 		if($reUseData === false && !empty($list_query)){
 			$recordNavigationInfo = array();

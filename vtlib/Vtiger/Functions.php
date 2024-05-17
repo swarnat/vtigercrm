@@ -519,10 +519,12 @@ class Vtiger_Functions {
 	// Utility
 	static function formatDecimal($value){
 		$fld_value = $value;
-		if(strpos($value, '.')) {
-			$fld_value = rtrim($value, '0');
+		if(!empty($value)){
+			if(strpos($value, '.')) {
+				$fld_value = rtrim($value, '0');
+			}
+			$value = rtrim($fld_value, '.');
 		}
-		$value = rtrim($fld_value, '.');
 		return $value;
 	}
 

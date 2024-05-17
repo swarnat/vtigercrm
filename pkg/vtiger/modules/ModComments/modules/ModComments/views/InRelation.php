@@ -27,11 +27,15 @@ class ModComments_InRelation_View extends Vtiger_RelatedList_View {
 			$startindex = $startindex + 10;
 		} else {
 			$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentRecordId);
+			$CREATOR_NAME=decode_html($parentCommentModels->getCommentedByName());
+		    $shortName = substr($CREATOR_NAME, 0, 2);
 		}
 
 		$currentCommentModel = null;
 		if (!empty($commentRecordId)) {
 			$currentCommentModel = ModComments_Record_Model::getInstanceById($commentRecordId);
+			$CREATOR_NAME=decode_html($currentCommentModel->getCommentedByName());
+		    $shortName = substr($CREATOR_NAME, 0, 2);
 		}
 
 		// To get field model of filename
@@ -45,7 +49,7 @@ class ModComments_InRelation_View extends Vtiger_RelatedList_View {
 		$viewer->assign('FIELD_MODEL', $fileFieldModel);
 		$viewer->assign('MAX_UPLOAD_LIMIT_MB', Vtiger_Util_Helper::getMaxUploadSize());
 		$viewer->assign('MAX_UPLOAD_LIMIT_BYTES', Vtiger_Util_Helper::getMaxUploadSizeInBytes());
-
+		$viewer->assign('shortName',$shortName);
 		$viewer->assign('MODULE_NAME', $request->getModule());
 		$viewer->assign('MODULE_RECORD', $parentRecordId);
 		$viewer->assign('ROLLUP_STATUS', $rollupStatus);

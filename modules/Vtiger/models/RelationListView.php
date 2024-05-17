@@ -281,7 +281,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model {
 				if (is_array($fieldValue)) {
 					$comparator = $fieldValue[1];
 					$searchValue = $fieldValue[2];
-					$type = $fieldValue[3];
+					$type = isset($fieldValue[3])?$fieldValue[3]:'';
 					if ($type == 'time') {
 						$searchValue = Vtiger_Time_UIType::getTimeValueWithSeconds($searchValue);
 					}
@@ -350,8 +350,10 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model {
 				}
 			}
 			//To show the value of "Assigned to"
+			if(isset($row['smownerid'])){
 			$ownerId = $row['smownerid'];
 			$newRow['assigned_user_id'] = $row['smownerid'];
+			}
 			if($relationModuleName == 'Calendar') {
 				$visibleFields = array('activitytype','date_start','time_start','due_date','time_end','assigned_user_id','visibility','smownerid','parent_id');
 				$visibility = true;
