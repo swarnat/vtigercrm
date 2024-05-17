@@ -11,6 +11,10 @@
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 {include file="PicklistColorMap.tpl"|vtemplate_path:$MODULE}
 
+{if !isset($SELECTED_MENU_CATEGORY)}
+	{assign var=SELECTED_MENU_CATEGORY value=""}
+{/if}
+
 <div class="col-sm-12 col-xs-12 ">
 	{if $MODULE neq 'EmailTemplates' && $SEARCH_MODE_RESULTS neq true}
 		{assign var=LEFTPANELHIDE value=$CURRENT_USER_MODEL->get('leftpanelhide')}

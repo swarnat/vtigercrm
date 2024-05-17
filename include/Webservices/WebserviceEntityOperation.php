@@ -83,7 +83,7 @@ abstract class WebserviceEntityOperation{
 				break;
 			case 'multipicklist':
 			case 'picklist': $typeDetails["picklistValues"] = $webserviceField->getPicklistDetails($webserviceField);
-				$typeDetails['defaultValue'] = $typeDetails["picklistValues"][0]['value'];
+				$typeDetails['defaultValue'] = !empty($typeDetails["picklistValues"]) ? $typeDetails["picklistValues"][0]['value'] : null;
 				break;
 			case 'file': $maxUploadSize = 0;
 				$maxUploadSize = ini_get('upload_max_filesize');

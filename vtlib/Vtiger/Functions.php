@@ -1691,6 +1691,7 @@ class Vtiger_Functions {
             $result = $adb->pquery($query, array($crmid));
             $noofrows = $adb->num_rows($result);
             if ($noofrows) {
+                $attachmentIds = array();
                 for ($i = 0; $i < $noofrows; $i++) {
                     $attachmentIds[] = vtws_getId($WsEntityId,$adb->query_result($result, $i, 'attachmentsid'));
                 }
@@ -1715,6 +1716,9 @@ class Vtiger_Functions {
 	 * if mark will be true, then we are keeping the strip details in the $markers variable
 	 */
 	public static function strip_base64_data ($input, $mark = false, &$markers = null) {
+		if (!$input) {
+			return $input;
+		}
 		if ($markers === null) {
 			$markers = array();
 		}
@@ -1789,6 +1793,9 @@ class Vtiger_Functions {
 	 * if mark will be true, then we are keeping the strip details in the $markers variable
 	 */
 	public static function stripInlineOffice365Image ($input, $mark = false, &$markers = null) {
+		if (!$input) {
+			return $input;
+		}
 		if ($markers === null) {
 			$markers = array();
 		}

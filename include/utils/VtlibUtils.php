@@ -815,6 +815,7 @@ function strcasecmp_accents_callback() {
  * @return <String>
  */
 function purifyHtmlEventAttributes($value,$replaceAll = false){
+	if (!$value) return $value;
 	
 	$tmp_markers = $office365ImageMarkers =  array();
 	$value = Vtiger_Functions::strip_base64_data($value,true,$tmp_markers);	

@@ -112,7 +112,7 @@ class VTEntityData{
 	 * @return The entity id.
 	 */
 	function getId(){
-		return $this->focus->id;
+		return property_exists($this->focus, "id") ? $this->focus->id : null;
 	}
 
 	/**

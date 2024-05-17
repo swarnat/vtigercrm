@@ -223,11 +223,12 @@ class VtigerCRMObjectMeta extends EntityMeta {
 	function hasPermission($operation,$webserviceId){
 		
 		$idComponents = vtws_getIdComponents($webserviceId);
-		$id=$idComponents[1];
-		
-		$permitted = isPermitted($this->getTabName(),$operation,$id);
-		if(strcmp($permitted,"yes")===0){
-			return true;
+		$id=$idComponents ? array_pop($idComponents):null;
+		if ($id) {
+			$permitted = isPermitted($this->getTabName(),$operation,$id);
+			if(strcmp($permitted,"yes")===0){
+				return true;
+			}
 		}
 		return false;
 	}

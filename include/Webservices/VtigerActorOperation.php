@@ -263,7 +263,7 @@ class VtigerActorOperation extends WebserviceEntityOperation {
 			foreach ($moduleFields as $fieldName=>$webserviceField) {
 				array_push($fields,$this->getDescribeFieldArray($webserviceField));
 			}
-			$label = ($app_strings[$this->meta->getObectIndexColumn()])? $app_strings[$this->meta->getObectIndexColumn()]:
+			$label = isset($app_strings[$this->meta->getObectIndexColumn()])? $app_strings[$this->meta->getObectIndexColumn()]:
 				$this->meta->getObectIndexColumn();
 			$this->moduleFields = $fields;
 		}
@@ -276,7 +276,9 @@ class VtigerActorOperation extends WebserviceEntityOperation {
 		if(isset($app_strings[$fieldLabel])){
 			$fieldLabel = $app_strings[$fieldLabel];
 		}
-		if(strcasecmp($webserviceField->getFieldName(),$this->meta->getObectIndexColumn()) === 0){
+		$fieldName = $webserviceField->getFieldName();
+		$fieldColumn = $this->meta->getObectIndexColumn();
+		if($fieldColumn && strcasecmp($fieldName, $fieldColumn) === 0){
 			return $this->getIdField($fieldLabel);
 		}
 		

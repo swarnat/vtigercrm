@@ -170,7 +170,7 @@
 				{/if}
 			{/foreach}
 			{* adding additional column for odd number of fields in a block *}
-			{if $BLOCK_FIELDS|@end eq true and $BLOCK_FIELDS|@count neq 1 and $COUNTER eq 1}
+			{if $smarty.foreach.EditViewBlockLevelLoop.last and $BLOCK_FIELDS|@count neq 1 and $COUNTER eq 1}
 				<td class="fieldLabel {$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td>
 			{/if}
 			</tr>

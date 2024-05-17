@@ -185,7 +185,7 @@ class VtigerCRMObject{
 		global $adb;
 		$error = false;
 		$adb->startTransaction();
-		DeleteEntity($this->getTabName(), $this->getTabName(), $this->instance, $id,$returnid);
+		DeleteEntity($this->getTabName(), $this->getTabName(), $this->instance, $id,"");
 		$error = $adb->hasFailedTransaction();
 		$adb->completeTransaction();
 		return !$error;

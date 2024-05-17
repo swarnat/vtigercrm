@@ -1347,7 +1347,7 @@ class Vtiger_Field_Model extends Vtiger_Field {
 	}
 
 	public function hasDefaultValue() {
-		return ($this->defaultvalue !== null && trim($this->defaultvalue) === '') ? false : true;
+		return !$this->defaultvalue || trim($this->defaultvalue) == '' ? false : true;
 	}
 
 	public function isActiveField() {

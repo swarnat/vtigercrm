@@ -578,7 +578,7 @@ class EnhancedQueryGenerator extends QueryGenerator {
 
 		foreach ($tableJoinCondition as $fieldName => $conditionInfo) {
 			foreach ($conditionInfo as $tableName => $condition) {
-				if ($tableList[$tableName]) {
+				if (isset($tableList[$tableName])) {
 					$tableNameAlias = $tableName.'2';
 					$condition = str_replace($tableName, $tableNameAlias, $condition);
 				} else {

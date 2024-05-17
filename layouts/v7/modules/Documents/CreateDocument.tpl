@@ -22,9 +22,9 @@
 					<input type="hidden" name="module" value="{$MODULE}" />
 					<input type="hidden" name="action" value="SaveAjax" />
 					<input type="hidden" name="document_source" value="Vtiger" />
-					<input type="hidden" name='service' value="{$STORAGE_SERVICE}" />
+				<input type="hidden" name='service' value="{if isset($STORAGE_SERVICE)}{$STORAGE_SERVICE}{/if}" />
 					<input type="hidden" name='type' value="{$FILE_LOCATION_TYPE}" />
-					{if $RELATION_OPERATOR eq 'true'}
+					{if isset($RELATION_OPERATOR) && $RELATION_OPERATOR eq 'true'}
 						<input type="hidden" name="relationOperation" value="{$RELATION_OPERATOR}" />
 						<input type="hidden" name="sourceModule" value="{$PARENT_MODULE}" />
 						<input type="hidden" name="sourceRecord" value="{$PARENT_ID}" />
