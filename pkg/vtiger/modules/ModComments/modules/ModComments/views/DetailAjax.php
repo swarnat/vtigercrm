@@ -16,8 +16,7 @@ class ModComments_DetailAjax_View extends Vtiger_IndexAjax_View {
 		$recordModel = ModComments_Record_Model::getInstanceById($record);
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
         $modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
-		$CREATOR_NAME=decode_html($recordModel->getCommentedByName());
-		$shortName = substr($CREATOR_NAME, 0, 2);
+		
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CURRENTUSER', $currentUserModel);
 		$viewer->assign('COMMENT', $recordModel);

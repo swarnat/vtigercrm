@@ -13,7 +13,7 @@
 
 <div class='fc-overlay-modal modal-content overlayEdit'>
     <div class="overlayHeader">
-        {assign var=TITLE value="{vtranslate('LBL_EDITING', $MODULE)} {vtranslate(isset($SINGLE_MODULE_NAME), $MODULE)} - {$RECORD_STRUCTURE_MODEL->getRecordName()}"} 
+        {assign var=TITLE value="{vtranslate('LBL_EDITING', $MODULE)} {vtranslate(isset($SINGLE_MODULE_NAME)? $SINGLE_MODULE_NAME : '', $MODULE)} - {$RECORD_STRUCTURE_MODEL->getRecordName()}"} 
         {include file="ModalHeader.tpl"|vtemplate_path:$MODULE}
     </div>
     <form class="form-horizontal recordEditView" id="EditView" name="edit" method="post" action="index.php" enctype="multipart/form-data">
