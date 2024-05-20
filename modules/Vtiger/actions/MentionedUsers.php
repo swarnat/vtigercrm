@@ -37,7 +37,7 @@ class Vtiger_MentionedUsers_Action extends Vtiger_Action_Controller {
         if(($key = array_search(strtolower($currentUserName), $mentionedUsers)) !== false) {
             unset($mentionedUsers[$key]);
         }
-        
+        $mentionedUsersData=array();
         if(!empty($mentionedUsers)){
             $usersString = '@'.implode(' @', $mentionedUsers);
             $mentionedUsersData['usersString'] = $usersString.' ';

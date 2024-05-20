@@ -370,7 +370,7 @@ class Products_Record_Model extends Vtiger_Record_Model {
 				$imageNamesList[] = $imageName;
                 $imageUrlsList[] = $url;
 			}
-
+			$imageOriginalNamesList=array();
 			if(is_array($imageOriginalNamesList)) {
 				$countOfImages = php7_count($imageOriginalNamesList);
 				for($j=0; $j<$countOfImages; $j++) {

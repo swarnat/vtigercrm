@@ -36,7 +36,7 @@
 									<span class="creatorName" style="color:blue">
 										{$CREATOR_NAME}
 									</span>&nbsp;&nbsp;
-									{if $ROLLUP_STATUS and $COMMENT->get('module') ne $MODULE_NAME}
+									{if isset ($ROLLUP_STATUS) && $ROLLUP_STATUS and $COMMENT->get('module') ne $MODULE_NAME}
 										{assign var=SINGULR_MODULE value='SINGLE_'|cat:$COMMENT->get('module')}
 										{assign var=ENTITY_NAME value=getEntityName($COMMENT->get('module'), array($COMMENT->get('related_to')))}
 										<span class="text-muted">
@@ -69,12 +69,12 @@
 									<br>
 									<div class="commentActionsContainer">
 										<span class="commentActions">
-											{if $CHILDS_ROOT_PARENT_MODEL}
+											{if isset ($CHILDS_ROOT_PARENT_MODEL) && $CHILDS_ROOT_PARENT_MODEL}
 												{assign var=CHILDS_ROOT_PARENT_ID value=$CHILDS_ROOT_PARENT_MODEL->getId()}
 											{/if}
 
 											{if $COMMENTS_MODULE_MODEL->isPermitted('EditView')}
-												{if $CHILDS_ROOT_PARENT_MODEL}
+												{if isset ($CHILDS_ROOT_PARENT_MODEL) && $CHILDS_ROOT_PARENT_MODEL}
 													{assign var=CHILDS_ROOT_PARENT_ID value=$CHILDS_ROOT_PARENT_MODEL->getId()}
 												{/if}
 												<a href="javascript:void(0);" class="cursorPointer replyComment feedback" style="color: blue;">
@@ -89,7 +89,7 @@
 											{/if}
 
 											{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}
-											{if $CHILD_COMMENTS_MODEL neq null and ($CHILDS_ROOT_PARENT_ID neq $PARENT_COMMENT_ID)}
+											{if $CHILD_COMMENTS_MODEL neq null and (isset($CHILDS_ROOT_PARENT_ID)&& $CHILDS_ROOT_PARENT_ID neq $PARENT_COMMENT_ID)}
 												{if $COMMENTS_MODULE_MODEL->isPermitted('EditView')}&nbsp;&nbsp;&nbsp;{/if}
 												<span class="viewThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
 													<a href="javascript:void(0)" class="cursorPointer viewThread" style="color: blue;">
@@ -101,7 +101,7 @@
 														<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{vtranslate('LBL_REPLY',$MODULE_NAME)}{else}{vtranslate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
 													</a>
 												</span>
-											{elseif $CHILD_COMMENTS_MODEL neq null and ($CHILDS_ROOT_PARENT_ID eq $PARENT_COMMENT_ID)}
+											{elseif $CHILD_COMMENTS_MODEL neq null and (isset($CHILDS_ROOT_PARENT_ID)&& $CHILDS_ROOT_PARENT_ID eq $PARENT_COMMENT_ID)}
 												{if $COMMENTS_MODULE_MODEL->isPermitted('EditView')}&nbsp;&nbsp;&nbsp;{/if}
 												<span class="viewThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}" style="display:none;">
 													<a href="javascript:void(0)" class="cursorPointer viewThread" style="color: blue;">

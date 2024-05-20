@@ -75,6 +75,7 @@ class ListViewSession {
 		}
 		$cv = new CustomView();
 		$viewId = $cv->getViewId($currentModule);
+		$recordNavigationInfo = array();
 		if(!empty($_SESSION[$currentModule.'_DetailView_Navigation'.$viewId])){
 			$recordNavigationInfo = Zend_Json::decode($_SESSION[$currentModule.'_DetailView_Navigation'.$viewId]);
 			$pageNumber =0;
@@ -103,7 +104,7 @@ class ListViewSession {
 			}
 		}
 
-		$list_query = $_SESSION[$currentModule.'_listquery'];
+		$list_query = isset($_SESSION[$currentModule.'_listquery'])?$_SESSION[$currentModule.'_listquery']:'';
 
 		if($reUseData === false && !empty($list_query)){
 			$recordNavigationInfo = array();

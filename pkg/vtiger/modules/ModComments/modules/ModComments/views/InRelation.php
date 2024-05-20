@@ -27,6 +27,8 @@ class ModComments_InRelation_View extends Vtiger_RelatedList_View {
 			$startindex = $startindex + 10;
 		} else {
 			$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentRecordId);
+
+		
 		}
 
 		$currentCommentModel = null;
@@ -45,7 +47,6 @@ class ModComments_InRelation_View extends Vtiger_RelatedList_View {
 		$viewer->assign('FIELD_MODEL', $fileFieldModel);
 		$viewer->assign('MAX_UPLOAD_LIMIT_MB', Vtiger_Util_Helper::getMaxUploadSize());
 		$viewer->assign('MAX_UPLOAD_LIMIT_BYTES', Vtiger_Util_Helper::getMaxUploadSizeInBytes());
-
 		$viewer->assign('MODULE_NAME', $request->getModule());
 		$viewer->assign('MODULE_RECORD', $parentRecordId);
 		$viewer->assign('ROLLUP_STATUS', $rollupStatus);

@@ -124,7 +124,7 @@ class VTEntityDelta extends VTEventHandler {
 			$result = $result && ($fieldDelta['currentValue'] === $fieldValue);
 		}
 		return $result;
+		}
+	
 	}
-
-}
 ?>

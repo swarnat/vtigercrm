@@ -269,6 +269,7 @@ class CRMEntity {
 
 		$ownerid = $this->column_fields['assigned_user_id'];
 		$groupid = $this->column_fields['group_id'];
+		$insertion_mode = $this->mode;
 
 		if (empty($groupid))
 			$groupid = 0;
@@ -299,7 +300,8 @@ class CRMEntity {
         $this->column_fields['label'] = $label;
 
 		if ($this->mode == 'edit') {
-			$description_val = from_html($this->column_fields['description'], ($this->mode == 'edit') ? true : false);
+
+			$description_val = from_html($this->column_fields['description'], ($insertion_mode == 'edit') ? true : false);
 
 			$tabid = getTabid($module);
 			$modified_date_var = $adb->formatDate($date_var, true);
@@ -648,7 +650,7 @@ class CRMEntity {
 							foreach($IMG_FILES as $fileIndex => $file) {
 								if($file['error'] == 0 && $file['name'] != '' && $file['size'] > 0) {
 									if($_REQUEST[$fileIndex.'_hidden'] != '')
-										$file['original_name'] = vtlib_purify($_REQUEST[$fileindex.'_hidden']);
+										$file['original_name'] = vtlib_purify($_REQUEST[$fileIndex.'_hidden']);
 									else {
 										$file['original_name'] = stripslashes($file['name']);
 									}
@@ -686,8 +688,8 @@ class CRMEntity {
 						$uploadedFileNames = array();
 						foreach($UPLOADED_FILES as $fileIndex => $file) {
 							if($file['error'] == 0 && $file['name'] != '' && $file['size'] > 0) {
-								if($_REQUEST[$fileindex.'_hidden'] != '') {
-									$file['original_name'] = vtlib_purify($_REQUEST[$fileindex.'_hidden']);
+								if(isset($_REQUEST[$fileIndex.'_hidden']) && $_REQUEST[$fileIndex.'_hidden'] != '') {
+									$file['original_name'] = vtlib_purify($_REQUEST[$fileIndex.'_hidden']);
 								} else {
 									$file['original_name'] = stripslashes($file['name']);
 								}
@@ -748,6 +750,7 @@ class CRMEntity {
 					if (!array_key_exists($field, $updateFieldNameColumnNameMap)) {
 						continue;
 					}
+
 					$fieldColumn = $updateFieldNameColumnNameMap[$field];
 					if(array_key_exists($fieldColumn, $updateFieldValues)) {
 						array_push($update, $fieldColumn.'=?');
@@ -3137,7 +3140,7 @@ class TrackableObject implements ArrayAccess, IteratorAggregate {
 
 	#[\ReturnTypeWillChange]
 	function offsetSet($key, $value) {
-            if(is_array($value)) $value = empty($value) ? "" : $value[0];
+		if(is_array($value)) $value = empty($value) ? "" : (array_key_exists(0, $value) ? $value[0] : ""); //it is an associative (if array without a key 0) modified to prevent warning of Undefined array key 0 .
 		if($this->tracking && $this->trackingEnabled) {
 			$olderValue = $this->offsetGet($key);
 			// decode_html only expects string

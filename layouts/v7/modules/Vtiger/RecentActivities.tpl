@@ -92,8 +92,13 @@
                                                 {assign var=PRE_DISPLAY_VALUE value=$TIME_PRE_DISPLAY_VALUE}
                                                 {assign var=POST_DISPLAY_VALUE value=$TIME_POST_DISPLAY_VALUE}
                                             {/if}
+                                            {if isset($TIME_PRE_DISPLAY_VALUE)}
+                                                {assign var=PRE_DISPLAY_TITLE value=$TIME_PRE_DISPLAY_VALUE}
+
+                                            {else}
+                                                {assign var=PRE_DISPLAY_TITLE value=''}
+                                            {/if}
                                             
-                                            {assign var=PRE_DISPLAY_TITLE value=$TIME_PRE_DISPLAY_VALUE}
                                             
                                             
                                             {if $FIELDMODEL && $FIELDMODEL->getFieldInstance() && $FIELDMODEL->getFieldInstance()->isViewable() && $FIELDMODEL->getFieldInstance()->getDisplayType() neq '5'}
