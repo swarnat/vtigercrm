@@ -200,7 +200,8 @@ function getProductTaxPercentage($type,$productid,$default='')
 	if($current_user->truncate_trailing_zeros == true) {
 		$taxpercentage = decimalFormat($taxpercentage);
 	}
-	return array('percentage' => $taxpercentage, 'regions' => Zend_Json::decode(html_entity_decode(!empty($adb->query_result($res,0, 'regions')))));
+	$regions=$adb->query_result($res,0, 'regions');
+	return array('percentage' => $taxpercentage, 'regions' => Zend_Json::decode(html_entity_decode(!empty($regions) ? $regions : '')));
 }
 
 /**	Function used to add the history entry in the relevant tables for PO, SO, Quotes and Invoice modules
@@ -383,7 +384,8 @@ function getTaxDetailsForProduct($productid, $available='all')
 			$tax_details[$i]['type']		= $adb->query_result($res, $i, 'type');
 			$tax_details[$i]['regions']		= Zend_Json::decode(html_entity_decode($adb->query_result($res, $i, 'taxregions')));
 			$tax_details[$i]['compoundon']	= Zend_Json::decode(html_entity_decode($adb->query_result($res, $i, 'compoundon')));
-			$tax_details[$i]['productregions']= Zend_Json::decode(html_entity_decode(!empty($adb->query_result($res, $i, 'productregions'))));
+			$productregions=$adb->query_result($res, $i, 'productregions');
+			$tax_details[$i]['productregions']= Zend_Json::decode(html_entity_decode(!empty($productregions) ? $productregions : ''));
 		}
 	}
 	else

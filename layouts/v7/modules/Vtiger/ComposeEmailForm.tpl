@@ -171,7 +171,7 @@
                     </div>         
                     <div class="row templateContent">
                         <div class="col-lg-12">
-                            <textarea style="width:390px;height:200px;" id="description" name="description">{isset$DESCRIPTION}</textarea>
+                            <textarea style="width:390px;height:200px;" id="description" name="description">{isset($DESCRIPTION) ? $DESCRIPTION : ''}</textarea>
                         </div>
                     </div>
                     

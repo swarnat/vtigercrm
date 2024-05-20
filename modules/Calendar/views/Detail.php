@@ -151,7 +151,7 @@ class Calendar_Detail_View extends Vtiger_Detail_View {
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStrucure);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('DAY_STARTS',' ');
+		$viewer->assign('DAY_STARTS','');
 		$viewer->assign('RELATED_CONTACTS', $relatedContacts);
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('RECURRING_INFORMATION', $recordModel->getRecurringDetails());

@@ -212,8 +212,8 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View {
 		}
 		else{
 			$viewer->assign('OPERATOR','');
-			$viewer->assign('ALPHABET_VALUE',' ');
-            $viewer->assign('SEARCH_KEY',' ');
+			$viewer->assign('ALPHABET_VALUE','');
+            $viewer->assign('SEARCH_KEY','');
 		}
         
         $searchParams = !empty($request->get('search_params'))?$request->get('search_params'):' ';

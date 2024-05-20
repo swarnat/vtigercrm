@@ -193,9 +193,9 @@ class DateTimeField {
     {
         $date = self::convertToInternalFormat($date);
 		$dates=explode('-', $date[0]);
-		$y=isset($dates[0])?$dates[0]:' ';
-		$m=isset($dates[1])?$dates[1]:' ';
-		$d=isset($dates[2])?$dates[2]:' ';
+		$y=isset($dates[0])?$dates[0]:'';
+		$m=isset($dates[1])?$dates[1]:'';
+		$d=isset($dates[2])?$dates[2]:'';
 
         switch ($format) {
             case 'dd.mm.yyyy':
@@ -281,7 +281,7 @@ class DateTimeField {
 			// create datetime object for given time in source timezone
 			$sourceTimeZone = new DateTimeZone($sourceTimeZoneName);
 			if($time == '24:00') $time = '00:00';
-			$myDateTime = new DateTime($time ?? '', $sourceTimeZone);
+			$myDateTime = new DateTime(isset($time) ? $time : '', $sourceTimeZone);
 
 			// convert this to target timezone using the DateTimeZone object
 			$targetTimeZone = new DateTimeZone($targetTimeZoneName);

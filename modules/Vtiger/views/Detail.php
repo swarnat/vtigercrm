@@ -561,7 +561,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 		}
 		if($targetControllerClass) {
 			$targetController = new $targetControllerClass();
-			file_put_contents('testing.log',print_r($targetController,true),FILE_APPEND);
 			if($targetController->checkPermission($request)){
 				return $targetController->process($request);
 			}
@@ -580,12 +579,9 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
 		$moduleName = $parentCommentModel->getParentRecordModel()->getModuleName();
-		$CREATOR_NAME=decode_html($parentCommentModel->getCommentedByName());
-		$shortName = substr($CREATOR_NAME, 0, 2);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PARENT_COMMENTS', $childComments);
 		$viewer->assign('CURRENTUSER', $currentUserModel);
-		$viewer->assign('shortName',$shortName);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('MODULE_NAME', $moduleName);
 

@@ -20,7 +20,7 @@
 {/if}
 
 {assign var=DATE_TIME_VALUE value=$FIELD_MODEL->get('fieldvalue')}
-{if $DATE_TIME_VALUE !== null}
+{if isset($DATE_TIME_VALUE)}
     {assign var=DATE_TIME_COMPONENTS value=explode(' ', $DATE_TIME_VALUE)}
 {/if}
 {if !empty($TIME_FIELD) && isset($DATE_TIME_COMPONENTS)}

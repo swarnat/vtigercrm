@@ -519,12 +519,12 @@ class Vtiger_Functions {
 	// Utility
 	static function formatDecimal($value){
 		$fld_value = $value;
-		if(!empty($value)){
+		if(!$value)return $value;
 			if(strpos($value, '.')) {
 				$fld_value = rtrim($value, '0');
 			}
 			$value = rtrim($fld_value, '.');
-		}
+		
 		return $value;
 	}
 
@@ -1745,17 +1745,17 @@ class Vtiger_Functions {
 			$endchar = "";
 
 			// HTML embed in attributes (eg. img src="...").
-			$startidx = strpos($input ??'', '"data:', $offset);
+			$startidx = strpos(isset($input) ? $input: '', '"data:', $offset);
 			if ($startidx !== false) {
 				$endchar = '"';
 			} else {
 				// HTML embed in attributes (eg. img src='...').
-				$startidx = strpos($input ??'', "'data:", $offset);
+				$startidx = strpos(isset($input) ? $input: '', "'data:", $offset);
 				if ($startidx !== false) {
 					$endchar = "'";
 				} else {
 					// TEXT embed with wrap [eg. (data...)]
-					$startidx = strpos($input ??'', "(data:", $offset);
+					$startidx = strpos(isset($input) ? $input : '', "(data:", $offset);
 					if ($startidx !== false) {
 						$endchar = ")";
 					} else {
@@ -1784,7 +1784,7 @@ class Vtiger_Functions {
 			$offset = $endidx + 1;
 		} while (true);
 
-		if ($offset < strlen($input ?? '')) {
+		if ($offset < strlen(isset($input) ? $input: '')) {
 			$parts[] = substr($input, $offset);
 		}
 				return implode("", $parts);

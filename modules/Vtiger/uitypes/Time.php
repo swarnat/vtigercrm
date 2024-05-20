@@ -66,7 +66,6 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType {
 		if($time){
 			if (substr_count($time, ':') < 2) $time .= ':'; // adding : if seconds value is missing to avoid undefined array key error
 			$timeDetails = explode(' ', $time);
-			// if(php7_count(explode(':', $timeDetails[0])) == 2)$timeDetails[0].=":";// adding : if seconds value is missing to avoid undefined array key error
 			list($hours, $minutes, $seconds) = explode(':', $timeDetails[0]);
 
 			//If pm exists and if it not 12 then we need to make it to 24 hour format

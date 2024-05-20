@@ -159,7 +159,7 @@ class CRMEntity {
 	 */
 	function uploadAndSaveFile($id, $module, $file_details, $attachmentType='Attachment') {
 		global $log;
-		$log->debug("Entering into uploadAndSaveFile($id,$module," . var_export($file_details, true) . ") method.");
+		$log->debug("Entering into uploadAndSaveFile($id,$module) method.");
 
 		global $adb, $current_user;
 		global $upload_badext;
@@ -745,10 +745,14 @@ class CRMEntity {
 			$changedFields =  $this->column_fields->getChanged();
 			if(php7_count($changedFields) > 0) {
 				$update = array();
-				$update_params =array();
+				$update_params = array();
 				foreach($changedFields as $field) {
-					$fieldColumn = isset($updateFieldNameColumnNameMap[$field])?$updateFieldNameColumnNameMap[$field]:' ';
-					if(@array_key_exists($fieldColumn, $updateFieldValues)) {
+					if (!array_key_exists($field, $updateFieldNameColumnNameMap)) {
+						continue;
+					}
+
+					$fieldColumn = $updateFieldNameColumnNameMap[$field];
+					if(array_key_exists($fieldColumn, $updateFieldValues)) {
 						array_push($update, $fieldColumn.'=?');
 						array_push($update_params, $updateFieldValues[$fieldColumn]);
 					}
@@ -3136,7 +3140,7 @@ class TrackableObject implements ArrayAccess, IteratorAggregate {
 
 	#[\ReturnTypeWillChange]
 	function offsetSet($key, $value) {
-            if(is_array($value)) $value = empty($value) ? "" : isset($value[0]);
+            if(is_array($value)) $value = !empty($value) && array_key_exists(0,$value) ? $value[0] : "";
 		if($this->tracking && $this->trackingEnabled) {
 			$olderValue = $this->offsetGet($key);
 			// decode_html only expects string

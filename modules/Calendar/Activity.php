@@ -180,7 +180,7 @@ class Activity extends CRMEntity {
 			$this->insertIntoReminderTable('vtiger_activity_reminder',$module,"");
 
 		//Handling for invitees
-			$selected_users_string = isset($_REQUEST['inviteesid'])?$_REQUEST['inviteesid']:' ';
+			$selected_users_string = isset($_REQUEST['inviteesid'])?$_REQUEST['inviteesid']:'';
 			$invitees_array = explode(';',$selected_users_string);
 			$this->insertIntoInviteeTable($module,$invitees_array);
 
@@ -386,8 +386,6 @@ function insertIntoRecurringTable(& $recurObj)
 	function insertIntoInviteeTable($module,$invitees_array)
 	{
 		global $log,$adb;
-		// file_put_contents('test5.log',print_r($invitees_array,true),FILE_APPEND);
-		// file_put_contents('test5.log',print_r(implode(',',$invitees_array),true),FILE_APPEND);
 		$log->debug("Entering insertIntoInviteeTable(".$module.",".implode(',',$invitees_array).") method ...");
 		if($this->mode == 'edit'){
 			$sql = "DELETE FROM vtiger_invitees WHERE activityid=?";
