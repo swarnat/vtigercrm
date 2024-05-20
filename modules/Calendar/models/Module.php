@@ -306,7 +306,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if($currentUser->isAdminUser()) {
 			$query = "SELECT userlabel, id AS userid
-					FROM vtiger_users WHERE status='Active' AND (user_name != 'admin' OR is_owner = 1) AND id <> ?";
+					FROM vtiger_users WHERE status='Active' AND id <> ?";
 			$result = $db->pquery($query, array($id));
 		} else {
 			$query = "SELECT vtiger_users.userlabel, vtiger_users.id AS userid
