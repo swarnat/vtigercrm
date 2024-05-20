@@ -3140,9 +3140,6 @@ class TrackableObject implements ArrayAccess, IteratorAggregate {
 
 	#[\ReturnTypeWillChange]
 	function offsetSet($key, $value) {
-		// file_put_contents('test7arrayvalue.log',print_r($value,true),FILE_APPEND);
-		// file_put_contents("duparray.log", sprintf("ENTRIES: %s\n", var_export($value, true)), FILE_APPEND);
-		// file_put_contents("duparray.log", sprintf("ENTRIES: %s\n", var_export($key, true)), FILE_APPEND);
 		if(is_array($value)) $value = empty($value) ? "" : (array_key_exists(0, $value) ? $value[0] : ""); //it is an associative array without a key 0 modified to prevent warning of Undefined array key 0 .
 		if($this->tracking && $this->trackingEnabled) {
 			$olderValue = $this->offsetGet($key);
