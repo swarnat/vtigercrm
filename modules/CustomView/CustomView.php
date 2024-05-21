@@ -226,7 +226,7 @@ class CustomView extends CRMEntity {
 		$result = $adb->pquery($ssql, $sparams);
 		while ($cvrow = $adb->fetch_array($result)) {
 			if ($cvrow['viewname'] == 'All') {
-				$cvrow['viewname'] = $app_strings['COMBO_ALL'];
+				$cvrow['viewname'] = isset($app_strings['COMBO_ALL'])?$app_strings['COMBO_ALL']:'';
 			}
 
 			$option = '';

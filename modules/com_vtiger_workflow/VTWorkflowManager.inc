@@ -435,7 +435,7 @@ class Workflow{
 				//Check whether task is VTEmailTask and then check emailoptout value
 				//if enabled don't queue the email
 				if($taskClassName == 'VTEmailTask'){
-					if($data['emailoptout'] == 1) continue;
+					if(isset($data['emailoptout']) && $data['emailoptout'] == 1) continue;
 				}
 				$delay = 0;
 				$trigger = $task->trigger;
