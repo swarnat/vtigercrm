@@ -764,7 +764,13 @@ class QueryGenerator {
 								$columnList[] = "$referenceTable.$column";
 							}
 							if(php7_count($columnList) > 1) {
-								$columnSql = getSqlForNameInDisplayFormat(array('first_name'=>$columnList[0],'last_name'=>$columnList[1]),'Users');
+								if ($module == "Users") {
+									// Special case
+									$columnSql = getSqlForNameInDisplayFormat(array('first_name'=>$columnList[0],'last_name'=>$columnList[1]),'Users');
+								} else {
+									// Leads or contacts
+									$columnSql = getSqlForNameInDisplayFormat(array('firstname'=>$columnList[0],'lastname'=>$columnList[1]), $module);
+								}
 							} else {
 								$columnSql = implode('', $columnList);
 							}
