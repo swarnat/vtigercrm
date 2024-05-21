@@ -130,7 +130,7 @@
 					}
 				}
 			}
-			if(isset($row["id"])){
+			if(isset($row["id"]) && $row["id"]){
 				unset($row["id"]);
 			}
 			if(isset($row[$meta->getObectIndexColumn()])){

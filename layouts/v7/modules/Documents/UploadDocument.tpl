@@ -23,11 +23,11 @@
 								<input type="hidden" name="module" value="{$MODULE}" />
 								<input type="hidden" name="action" value="SaveAjax" />
 								<input type="hidden" name="document_source" value="Vtiger" />
-								{if $RELATION_OPERATOR eq 'true'}
+								{if isset($RELATION_OPERATOR) && $RELATION_OPERATOR eq 'true'}
 									<input type="hidden" name="relationOperation" value="{$RELATION_OPERATOR}" />
 									<input type="hidden" name="sourceModule" value="{$PARENT_MODULE}" />
 									<input type="hidden" name="sourceRecord" value="{$PARENT_ID}" />
-									{if $RELATION_FIELD_NAME}
+									{if isset($RELATION_FIELD_NAME)}
 										<input type="hidden" name="{$RELATION_FIELD_NAME}" value="{$PARENT_ID}" /> 
 									{/if}
 								{/if}
@@ -47,7 +47,7 @@
 										<div class="fileUploadBtn btn btn-primary">
 											<span><i class="fa fa-laptop"></i> {vtranslate('LBL_SELECT_FILE_FROM_COMPUTER', $MODULE)}</span>
 											{assign var=FIELD_MODEL value=$FIELD_MODELS['filename']}
-											<input type="file" name="{$FIELD_MODEL->getFieldName()}" value="{$FIELD_VALUE}" data-rule-required="true" />
+							<input type="file" name="{$FIELD_MODEL->getFieldName()}" value="{if isset($FIELD_VALUE)}{$FIELD_VALUE}{/if}" data-rule-required="true" />
 										</div>
 										&nbsp;&nbsp;&nbsp;<i class="fa fa-info-circle cursorPointer" data-toggle="tooltip" title="{vtranslate('LBL_MAX_UPLOAD_SIZE', $MODULE)} {$MAX_UPLOAD_LIMIT_MB}{vtranslate('MB', $MODULE)}"></i>
 									</div>

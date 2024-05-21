@@ -95,8 +95,10 @@ class Documents extends CRMEntity {
 		}
 		$filetype_fieldname = $this->getFileTypeFieldName();
 		$filename_fieldname = $this->getFile_FieldName();
+		$filedownloadcount = null;
+		$filename = null;
 		if($this->column_fields[$filetype_fieldname] == 'I' ){
-			if($_FILES[$filename_fieldname]['name'] != ''){
+			if(isset($_FILES[$filename_fieldname]) && $_FILES[$filename_fieldname]['name'] != ''){
 				$errCode=$_FILES[$filename_fieldname]['error'];
 					if($errCode == 0){
 						foreach($_FILES as $fileindex => $files)
@@ -178,7 +180,7 @@ class Documents extends CRMEntity {
 
 		foreach($_FILES as $fileindex => $files)
 		{
-			if($files['name'] != '' && $files['size'] > 0)
+			if($files['name'] != '' && $files['size'] > 0 && isset($_REQUEST[$fileindex.'_hidden']))
 			{
 				$files['original_name'] = vtlib_purify($_REQUEST[$fileindex.'_hidden']);
 				$file_saved = $this->uploadAndSaveFile($id,$module,$files);
@@ -550,6 +552,7 @@ class Documents extends CRMEntity {
 	function get_related_list($id, $cur_tab_id, $rel_tab_id,$actions = false) {
 		$related_module = vtlib_getModuleNameById($rel_tab_id);
 		$other = CRMEntity::getInstance($related_module);
+		$more_relation='';
 		vtlib_setup_modulevars('Documents', $this);
 		vtlib_setup_modulevars($related_module, $other);
 

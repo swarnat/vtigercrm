@@ -319,7 +319,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('MODULE', $moduleName);
-
+		$viewer->assign('DAY_STARTS','');
 		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', Vtiger_Functions::jsonEncode($picklistDependencyDatasource));
 
@@ -579,7 +579,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
 		$moduleName = $parentCommentModel->getParentRecordModel()->getModuleName();
-
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PARENT_COMMENTS', $childComments);
 		$viewer->assign('CURRENTUSER', $currentUserModel);

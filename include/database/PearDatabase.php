@@ -21,6 +21,7 @@ $logsqltm = Logger::getLogger('SQLTIME');
 
 // Callback class useful to convert PreparedStatement Question Marks to SQL value
 // See function convertPS2Sql in PearDatabase below
+#[\AllowDynamicProperties]
 class PreparedQMark2SqlValue {
 	// Constructor
 	function __construct($vals){

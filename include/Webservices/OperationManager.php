@@ -9,7 +9,7 @@
  *************************************************************************************/
 	
 	function setBuiltIn($json){
-		$json->useBuiltinEncoderDecoder = true;
+		Zend_Json::$useBuiltinEncoderDecoder = true;
 	}
 	
 	class OperationManager{
@@ -132,10 +132,10 @@
 		}
 		
 		function handleType($type,$value){
-			$result;
-			$value = stripslashes($value);
+			$result = null;
+			$value = $value ? stripslashes($value) : "";
 			$type = strtolower($type);
-			if($this->inParamProcess[$type]){
+			if(isset($this->inParamProcess[$type]) && $this->inParamProcess[$type]){
 				$result = call_user_func($this->inParamProcess[$type],$value);
 			}else{
 				$result = $value;

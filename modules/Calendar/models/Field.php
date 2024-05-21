@@ -80,6 +80,7 @@ class Calendar_Field_Model extends Vtiger_Field_Model {
 			} else if ($this->getName() == 'due_date') {
 				$dateTimeValue = $value . ' '. $recordInstance->get('time_end');
 				$value = $this->getUITypeModel()->getDisplayValue($dateTimeValue);
+				if (substr_count($value, ' ') == 0) $value .= ' '; // if $startTime is missing then added a space to it to avoid undefined array key warning.
 				list($startDate, $startTime) = explode(' ', $value);
 
 				$currentUser = Users_Record_Model::getCurrentUserModel();

@@ -36,8 +36,8 @@ class Calendar_Time_UIType extends Vtiger_Time_UIType {
 	 * @return <Vtiger_Time_UIType> - getTimeValue 
 	 */
 	public function getDisplayTimeDifferenceValue($fieldName, $value){
-		$userModel = Users_Privileges_Model::getCurrentUserModel();
-		$date = new DateTime($value);
+		$userModel = Users_Privileges_Model::getCurrentUserModel();	
+		$date = new DateTime(isset($value) ? $value: '');
 		
 		//No need to set the time zone as DateTimeField::getDisplayTime API is already doing this
 		/*if(empty($value)) {

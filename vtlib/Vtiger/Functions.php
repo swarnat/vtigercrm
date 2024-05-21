@@ -519,10 +519,12 @@ class Vtiger_Functions {
 	// Utility
 	static function formatDecimal($value){
 		$fld_value = $value;
-		if(strpos($value, '.')) {
-			$fld_value = rtrim($value, '0');
-		}
-		$value = rtrim($fld_value, '.');
+		if(!$value)return $value;
+			if(strpos($value, '.')) {
+				$fld_value = rtrim($value, '0');
+			}
+			$value = rtrim($fld_value, '.');
+		
 		return $value;
 	}
 
@@ -1691,6 +1693,7 @@ class Vtiger_Functions {
             $result = $adb->pquery($query, array($crmid));
             $noofrows = $adb->num_rows($result);
             if ($noofrows) {
+                $attachmentIds = array();
                 for ($i = 0; $i < $noofrows; $i++) {
                     $attachmentIds[] = vtws_getId($WsEntityId,$adb->query_result($result, $i, 'attachmentsid'));
                 }
@@ -1715,6 +1718,9 @@ class Vtiger_Functions {
 	 * if mark will be true, then we are keeping the strip details in the $markers variable
 	 */
 	public static function strip_base64_data ($input, $mark = false, &$markers = null) {
+		if (!$input) {
+			return $input;
+		}
 		if ($markers === null) {
 			$markers = array();
 		}
@@ -1739,17 +1745,17 @@ class Vtiger_Functions {
 			$endchar = "";
 
 			// HTML embed in attributes (eg. img src="...").
-			$startidx = strpos($input, '"data:', $offset);
+			$startidx = strpos(isset($input) ? $input: '', '"data:', $offset);
 			if ($startidx !== false) {
 				$endchar = '"';
 			} else {
 				// HTML embed in attributes (eg. img src='...').
-				$startidx = strpos($input, "'data:", $offset);
+				$startidx = strpos(isset($input) ? $input: '', "'data:", $offset);
 				if ($startidx !== false) {
 					$endchar = "'";
 				} else {
 					// TEXT embed with wrap [eg. (data...)]
-					$startidx = strpos($input, "(data:", $offset);
+					$startidx = strpos(isset($input) ? $input : '', "(data:", $offset);
 					if ($startidx !== false) {
 						$endchar = ")";
 					} else {
@@ -1778,7 +1784,7 @@ class Vtiger_Functions {
 			$offset = $endidx + 1;
 		} while (true);
 
-		if ($offset < strlen($input)) {
+		if ($offset < strlen(isset($input) ? $input: '')) {
 			$parts[] = substr($input, $offset);
 		}
 				return implode("", $parts);
@@ -1789,6 +1795,9 @@ class Vtiger_Functions {
 	 * if mark will be true, then we are keeping the strip details in the $markers variable
 	 */
 	public static function stripInlineOffice365Image ($input, $mark = false, &$markers = null) {
+		if (!$input) {
+			return $input;
+		}
 		if ($markers === null) {
 			$markers = array();
 		}
