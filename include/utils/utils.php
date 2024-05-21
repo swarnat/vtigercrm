@@ -2439,7 +2439,7 @@ function getRecordGroupId($record) {
  * Function to delete record from $_SESSION[$moduleName.'_DetailView_Navigation'.$cvId]
  */
 function deleteRecordFromDetailViewNavigationRecords($recordId, $cvId, $moduleName) {
-	$recordNavigationInfo = Zend_Json::decode($_SESSION[$moduleName . '_DetailView_Navigation' . $cvId]);
+	$recordNavigationInfo = Zend_Json::decode(isset($_SESSION[$moduleName . '_DetailView_Navigation' . $cvId]));
 	if (!empty($recordNavigationInfo) && (php7_count($recordNavigationInfo) != 0)) {
 		foreach ($recordNavigationInfo as $key => $recordIdList) {
 			$recordIdList = array_diff($recordIdList, array($recordId));

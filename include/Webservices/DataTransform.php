@@ -103,7 +103,7 @@
 			}
 			$references = $meta->getReferenceFieldDetails();
 			foreach($references as $field=>$typeList){
-				if(strpos($row[$field],'x')!==false){
+				if(isset($row[$field]) && strpos($row[$field],'x')!==false){
 					$row[$field] = vtws_getIdComponents($row[$field]);
 					$row[$field] = $row[$field][1];
 				}
@@ -130,7 +130,7 @@
 					}
 				}
 			}
-			if($row["id"]){
+			if(isset($row["id"])){
 				unset($row["id"]);
 			}
 			if(isset($row[$meta->getObectIndexColumn()])){
@@ -187,7 +187,7 @@
 			}
 
 			if(!isset($row['id'])){
-				if($row[$meta->getObectIndexColumn()] ){
+				if(isset($row[$meta->getObectIndexColumn()] )){
 					$row['id'] = vtws_getId($meta->getEntityId(),$row[$meta->getObectIndexColumn()]);
 				}else{
 					//TODO Handle this.
@@ -273,7 +273,7 @@
             foreach ($moduleFields as $fieldName => $fieldObj) {
                 if (in_array($fieldObj->getUIType(), $supportedUITypes)) {
                     //while doing retrieve operation we have record_id and on query operation we have id.
-                    $id = $row['record_id'] ? $row['record_id'] : $row['id'];
+                    $id = isset($row['record_id']) ? $row['record_id'] : (isset($row['id']) ? $row['id'] : null);
                     $ids = Vtiger_Functions::getAttachmentIds($id, $meta->getEntityId());
                 if($ids) {
                         foreach($ids as $id){

@@ -19,7 +19,7 @@
     <input type="checkbox" name="save_map" id="save_map">&nbsp;&nbsp;<label for="save_map">{'LBL_SAVE_AS_CUSTOM_MAPPING'|@vtranslate:$MODULE}</label>
     &nbsp;&nbsp;<input type="text" name="save_map_as" id="save_map_as" class = "form-control">
 </div>
-{if !$IMPORTABLE_FIELDS}
+{if !isset($IMPORTABLE_FIELDS)}
 	{assign var=IMPORTABLE_FIELDS value=$AVAILABLE_FIELDS}
 {/if}
 {include file="Import_Default_Values_Widget.tpl"|@vtemplate_path:'Import' IMPORTABLE_FIELDS=$IMPORTABLE_FIELDS}
