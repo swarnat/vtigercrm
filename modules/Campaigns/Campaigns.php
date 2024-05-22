@@ -173,7 +173,7 @@ class Campaigns extends CRMEntity {
 
 		if($return_value == null)
 			$return_value = Array();
-		else if($is_CampaignStatusAllowed && is_array($return_value['header'])) {
+		else if(isset($return_value['header']) && $is_CampaignStatusAllowed && is_array($return_value['header'])) {
 			$statusPos = php7_count($return_value['header']) - 2; // Last column is for Actions, exclude that. Also the index starts from 0, so reduce one more count.
 			$return_value = $this->add_status_popup($return_value, $statusPos, 'Accounts');
 		}
@@ -274,7 +274,7 @@ class Campaigns extends CRMEntity {
 		if($return_value == null)
 			$return_value = Array();
 		else if($is_CampaignStatusAllowed) {
-			$statusPos = php7_count($return_value['header']) - 2; // Last column is for Actions, exclude that. Also the index starts from 0, so reduce one more count.
+			$statusPos = isset($return_value['header']) ? php7_count($return_value['header']) - 2 : ''; // Last column is for Actions, exclude that. Also the index starts from 0, so reduce one more count.
 			$return_value = $this->add_status_popup($return_value, $statusPos, 'Contacts');
 		}
 
@@ -370,7 +370,7 @@ class Campaigns extends CRMEntity {
 		if($return_value == null)
 			$return_value = Array();
 		else if($is_CampaignStatusAllowed) {
-			$statusPos = php7_count($return_value['header']) - 2; // Last column is for Actions, exclude that. Also the index starts from 0, so reduce one more count.
+			$statusPos = isset($return_value['header']) ? php7_count($return_value['header']) - 2 : ''; // Last column is for Actions, exclude that. Also the index starts from 0, so reduce one more count.
 			$return_value = $this->add_status_popup($return_value, $statusPos, 'Leads');
 		}
 
@@ -535,7 +535,7 @@ class Campaigns extends CRMEntity {
 	{
 		global $adb;
 
-		if(!$this->campaignrelstatus)
+		if(!isset($this->campaignrelstatus))
 		{
 			$result = $adb->pquery('SELECT * FROM vtiger_campaignrelstatus;', array());
 			while($row = $adb->fetchByAssoc($result))

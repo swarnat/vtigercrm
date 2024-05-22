@@ -24,16 +24,19 @@
                                     <span class="alignMiddle">{vtranslate('LBL_REPEATEVENT', $MODULE)}&nbsp;&nbsp;</span>
                                     <select class="select2 input-mini" name="repeat_frequency">
                                             {for $FREQUENCY = 1 to 14}
-                                                    <option value="{$FREQUENCY}" {if $FREQUENCY eq $RECURRING_INFORMATION['repeat_frequency']}selected{/if}>{$FREQUENCY}</option>
+                                                    <option value="{$FREQUENCY}" {if isset($RECURRING_INFORMATION['repeat_frequency']) && $FREQUENCY eq $RECURRING_INFORMATION['repeat_frequency']}selected{/if}>{$FREQUENCY}</option>
                                             {/for}
                                     </select>
 				</span>
 				<span class="col-sm-2 padding0px">
 					<select class="select2 input-medium" style="width:85px;margin-left: 10px;" name="recurringtype" id="recurringType">
+					{if isset($RECURRING_INFORMATION['eventrecurringtype'])}
 						<option value="Daily" {if $RECURRING_INFORMATION['eventrecurringtype'] eq 'Daily'} selected {/if}>{vtranslate('LBL_DAYS_TYPE', $MODULE)}</option>
 						<option value="Weekly" {if $RECURRING_INFORMATION['eventrecurringtype'] eq 'Weekly'} selected {/if}>{vtranslate('LBL_WEEKS_TYPE', $MODULE)}</option>
 						<option value="Monthly" {if $RECURRING_INFORMATION['eventrecurringtype'] eq 'Monthly'} selected {/if}>{vtranslate('LBL_MONTHS_TYPE', $MODULE)}</option>
 						<option value="Yearly" {if $RECURRING_INFORMATION['eventrecurringtype'] eq 'Yearly'} selected {/if}>{vtranslate('LBL_YEAR_TYPE', $MODULE)}</option>
+					{/if}
+						
 					</select>
                                         <span class="alignMiddle displayInlineBlock">&nbsp;&nbsp;{vtranslate('LBL_UNTIL', $MODULE)}</span>
 				</span>
@@ -46,30 +49,30 @@
 					</span>
 				</span>
 			</div>
-			<div class="row {if $RECURRING_INFORMATION['eventrecurringtype'] eq 'Weekly'}show{else}hide{/if}"  id="repeatWeekUI" style="margin:10px 0;">
+			<div class="row {if isset($RECURRING_INFORMATION['eventrecurringtype']) &&  $RECURRING_INFORMATION['eventrecurringtype'] eq 'Weekly'}show{else}hide{/if}"  id="repeatWeekUI" style="margin:10px 0;">
 				<span class="col-lg-2">
 					<span class="medium" style="padding-left:23px">{ucwords(vtranslate('LBL_ON', $MODULE))}</span>
 				</span>
 				<span class="col-lg-10">
-					<label class="checkbox" style="margin-left: 30px;display: inline;"><input name="sun_flag" value="sunday" {$RECURRING_INFORMATION['week0']} type="checkbox"/>{vtranslate('LBL_SM_SUN', $MODULE)}</label>
-					<label class="checkbox" style="margin-left: 30px;display: inline;"><input name="mon_flag" value="monday" {$RECURRING_INFORMATION['week1']} type="checkbox">{vtranslate('LBL_SM_MON', $MODULE)}</label>
-					<label class="checkbox" style="margin-left: 30px;display: inline;"><input name="tue_flag" value="tuesday" {$RECURRING_INFORMATION['week2']} type="checkbox">{vtranslate('LBL_SM_TUE', $MODULE)}</label>
-					<label class="checkbox" style="margin-left: 30px;display: inline;"><input name="wed_flag" value="wednesday" {$RECURRING_INFORMATION['week3']} type="checkbox">{vtranslate('LBL_SM_WED', $MODULE)}</label>
-					<label class="checkbox" style="margin-left: 30px;display: inline;"><input name="thu_flag" value="thursday" {$RECURRING_INFORMATION['week4']} type="checkbox">{vtranslate('LBL_SM_THU', $MODULE)}</label>
-					<label class="checkbox" style="margin-left: 30px;display: inline;"><input name="fri_flag" value="friday" {$RECURRING_INFORMATION['week5']} type="checkbox">{vtranslate('LBL_SM_FRI', $MODULE)}</label>
-					<label class="checkbox" style="margin-left: 30px;display: inline;"><input name="sat_flag" value="saturday" {$RECURRING_INFORMATION['week6']} type="checkbox">{vtranslate('LBL_SM_SAT', $MODULE)}</label>
+					<label class="checkbox" style="margin-left: 30px;display: inline;"><input name="sun_flag" value="sunday" {(isset($RECURRING_INFORMATION['week0'])) ? $RECURRING_INFORMATION['week0'] : ""} type="checkbox"/>{vtranslate('LBL_SM_SUN', $MODULE)}</label>
+					<label class="checkbox" style="margin-left: 30px;display: inline;"><input name="mon_flag" value="monday" {(isset($RECURRING_INFORMATION['week1'])) ? $RECURRING_INFORMATION['week1'] : ""} type="checkbox">{vtranslate('LBL_SM_MON', $MODULE)}</label>
+					<label class="checkbox" style="margin-left: 30px;display: inline;"><input name="tue_flag" value="tuesday" {(isset($RECURRING_INFORMATION['week2'])) ? $RECURRING_INFORMATION['week2'] : ""} type="checkbox">{vtranslate('LBL_SM_TUE', $MODULE)}</label>
+					<label class="checkbox" style="margin-left: 30px;display: inline;"><input name="wed_flag" value="wednesday" {(isset($RECURRING_INFORMATION['week3'])) ? $RECURRING_INFORMATION['week3'] : ""} type="checkbox">{vtranslate('LBL_SM_WED', $MODULE)}</label>
+					<label class="checkbox" style="margin-left: 30px;display: inline;"><input name="thu_flag" value="thursday" {(isset($RECURRING_INFORMATION['week4'])) ? $RECURRING_INFORMATION['week4'] : ""} type="checkbox">{vtranslate('LBL_SM_THU', $MODULE)}</label>
+					<label class="checkbox" style="margin-left: 30px;display: inline;"><input name="fri_flag" value="friday" {(isset($RECURRING_INFORMATION['week5'])) ? $RECURRING_INFORMATION['week5']: ""} type="checkbox">{vtranslate('LBL_SM_FRI', $MODULE)}</label>
+					<label class="checkbox" style="margin-left: 30px;display: inline;"><input name="sat_flag" value="saturday" {(isset($RECURRING_INFORMATION['week5'])) ? $RECURRING_INFORMATION['week6']: ""} type="checkbox">{vtranslate('LBL_SM_SAT', $MODULE)}</label>
 				</span>
 			</div>
-			<div class="{if $RECURRING_INFORMATION['eventrecurringtype'] eq 'Monthly'}show{else}hide{/if}" id="repeatMonthUI" style="margin-top:10px;"RCa>
+			<div class="{if isset($RECURRING_INFORMATION['eventrecurringtype']) &&  $RECURRING_INFORMATION['eventrecurringtype'] eq 'Monthly'}show{else}hide{/if}" id="repeatMonthUI" style="margin-top:10px;"RCa>
 				<div class="row">
 					<span class="col-lg-4">
 						<span class="pull-right">
-							<input type="radio" id="repeatDate" data-field-id= '{$FIELD_MODEL->get('id')}' name="repeatMonth" checked value="date" {if $RECURRING_INFORMATION['repeatMonth'] eq 'date'} checked {/if}/>
+							<input type="radio" id="repeatDate" data-field-id= '{$FIELD_MODEL->get('id')}' name="repeatMonth" checked value="date" {if isset($RECURRING_INFORMATION['repeatMonth']) &&$RECURRING_INFORMATION['repeatMonth'] eq 'date'} checked {/if}/>
 							<span class="alignMiddle" style="margin-left: 0.8em;">{vtranslate('LBL_ON', $MODULE)}</span>
 						</span>	
 					</span>
 					<span class="col-lg-8">
-						<input type="text" id="repeatMonthDate" data-field-id= '{$FIELD_MODEL->get('id')}' class="input-mini" style="width: 50px;" name="repeatMonth_date" data-validation-engine='validate[funcCall[Calendar_RepeatMonthDate_Validator_Js.invokeValidation]]' value="{if $RECURRING_INFORMATION['repeatMonth_date'] eq ''}2{else}{$RECURRING_INFORMATION['repeatMonth_date']}{/if}"/>
+						<input type="text" id="repeatMonthDate" data-field-id= '{$FIELD_MODEL->get('id')}' class="input-mini" style="width: 50px;" name="repeatMonth_date" data-validation-engine='validate[funcCall[Calendar_RepeatMonthDate_Validator_Js.invokeValidation]]' value="{if isset ($RECURRING_INFORMATION['repeatMonth_date']) && $RECURRING_INFORMATION['repeatMonth_date'] eq ''}2{else}{(isset($RECURRING_INFORMATION['repeatMonth_date'])) ? $RECURRING_INFORMATION['repeatMonth_date'] : ""}{/if}"/>
 						<span class="alignMiddle" style="margin-left: 0.8em;">{vtranslate('LBL_DAY_OF_THE_MONTH', $MODULE)}</span>
 					</span>
 					<div class="clearfix"></div>
@@ -78,18 +81,22 @@
 				<div class="row" id="repeatMonthDayUI" style="margin-top: 10px;">
 					<span class="col-lg-4">
 						<span class="pull-right">
-							<input type="radio" id="repeatDay" data-field-id= '{$FIELD_MODEL->get('id')}' name="repeatMonth" value="day" {if $RECURRING_INFORMATION['repeatMonth'] eq 'day'} checked {/if}/>
+							<input type="radio" id="repeatDay" data-field-id= '{$FIELD_MODEL->get('id')}' name="repeatMonth" value="day" {if isset($RECURRING_INFORMATION['repeatMonth']) && $RECURRING_INFORMATION['repeatMonth'] eq 'day'} checked {/if}/>
 							<span class="alignMiddle" style="margin-left: 0.8em;">{vtranslate('LBL_ON', $MODULE)}</span>
 						</span>	
 					</span>
 					<span class="col-lg-2">
 						<select id="repeatMonthDayType" class="select2" name="repeatMonth_daytype" style="width: 90px;">
-							<option value="first" {if $RECURRING_INFORMATION['repeatMonth_daytype'] eq 'first'} selected {/if}>{vtranslate('LBL_FIRST', $MODULE)}</option>
-							<option value="last" {if $RECURRING_INFORMATION['repeatMonth_daytype'] eq 'last'} selected {/if}>{vtranslate('LBL_LAST', $MODULE)}</option>
+						{if isset($RECURRING_INFORMATION['repeatMonth_daytype'])}
+						<option value="first" {if $RECURRING_INFORMATION['repeatMonth_daytype'] eq 'first'} selected {/if}>{vtranslate('LBL_FIRST', $MODULE)}</option>
+						<option value="last" {if $RECURRING_INFORMATION['repeatMonth_daytype'] eq 'last'} selected {/if}>{vtranslate('LBL_LAST', $MODULE)}</option>
+						{/if}
+							
 						</select>
 					</span>
 					<span class="col-lg-6 margin0">
 						<select id="repeatMonthDay" class="select2" name="repeatMonth_day" style="width: 120px;">
+							{if isset($RECURRING_INFORMATION['repeatMonth_day'])}
 							<option value=0 {if $RECURRING_INFORMATION['repeatMonth_day'] eq 0} selected {/if}>{vtranslate('LBL_DAY0', $MODULE)}</option>
 							<option value=1 {if $RECURRING_INFORMATION['repeatMonth_day'] eq 1} selected {/if}>{vtranslate('LBL_DAY1', $MODULE)}</option>
 							<option value=2 {if $RECURRING_INFORMATION['repeatMonth_day'] eq 2} selected {/if}>{vtranslate('LBL_DAY2', $MODULE)}</option>
@@ -97,6 +104,8 @@
 							<option value=4 {if $RECURRING_INFORMATION['repeatMonth_day'] eq 4} selected {/if}>{vtranslate('LBL_DAY4', $MODULE)}</option>
 							<option value=5 {if $RECURRING_INFORMATION['repeatMonth_day'] eq 5} selected {/if}>{vtranslate('LBL_DAY5', $MODULE)}</option>
 							<option value=6 {if $RECURRING_INFORMATION['repeatMonth_day'] eq 6} selected {/if}>{vtranslate('LBL_DAY6', $MODULE)}</option>
+						{/if}
+							
 						</select>
 					</span>
 				</div>

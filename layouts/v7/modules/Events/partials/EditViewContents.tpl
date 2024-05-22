@@ -12,7 +12,7 @@
 {strip}
 	{include file="partials/EditViewContents.tpl"|@vtemplate_path:'Vtiger'}
 	<div name='editContent'>
-		<div class='fieldBlockContainer' data-block="{$BLOCK_LABEL}">
+		<div class='fieldBlockContainer' data-block="{(isset($BLOCK_LABEL)) ? $BLOCK_LABEL :""}">
 			<h4 class='fieldBlockHeader'>{vtranslate('LBL_INVITE_USER_BLOCK', $MODULE)}</h4>
 			<hr>
 			<table class="table table-borderless">
