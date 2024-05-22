@@ -7,7 +7,8 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ******************************************************************************/
-class VTExpressionToken{
+#[\AllowDynamicProperties]
+ class VTExpressionToken{
 	function __construct($label){
 		$this->label = $label;
 	}
@@ -20,7 +21,7 @@ function _vt_processtoken_id($token){
 function _vt_processtoken_symbol($token){
 	return new VTEXpressionSymbol($token);
 }
-
+#[\AllowDynamicProperties]
 class VTExpressionTokenizer{
 	function __construct($expr){		
 		$tokenTypes = array(
@@ -76,6 +77,7 @@ class VTExpressionTokenizer{
 	}
 }
 
+#[\AllowDynamicProperties]
 class VTExpressionSpaceFilter{
 	function __construct($tokens){
 		$this->tokens = $tokens;

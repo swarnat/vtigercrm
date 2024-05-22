@@ -7,6 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ******************************************************************************/
+#[\AllowDynamicProperties]
 class VTExpressionTreeNode{
 	function __construct($arr){
 		$this->arr = $arr;
@@ -22,7 +23,7 @@ class VTExpressionTreeNode{
 	}
 }
 
-
+#[\AllowDynamicProperties]
 class VTExpressionSymbol{
 	function __construct($value){
 		$this->value = $value;
@@ -32,7 +33,7 @@ class VTExpressionSymbol{
 		return "VTExpressionSymbol({$this->value})";
 	}
 }
-
+#[\AllowDynamicProperties]
 class VTExpressionParser{
 	function __construct($tokens){
 		$this->tokens = $tokens;

@@ -303,6 +303,7 @@ function __vt_power($elements) {
 }
 
 /** END * */
+#[\AllowDynamicProperties]
 class VTFieldExpressionEvaluater{
 	function __construct($expr){
 
