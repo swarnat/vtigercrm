@@ -255,6 +255,7 @@ class Vtiger_ComposeEmail_View extends Vtiger_Footer_View {
 	}
 
 	public function process(Vtiger_Request $request) {
+		$moduleName = $request->getModule();
 		$mode = $request->getMode();
 		if(!empty($mode)) {
 			echo $this->invokeExposedMethod($mode, $request);
@@ -270,6 +271,7 @@ class Vtiger_ComposeEmail_View extends Vtiger_Footer_View {
 	}
 
 	public function getRecordsListFromRequest(Vtiger_Request $request, $model = false) {
+		$moduleName = $request->getModule();
 		$cvId = $request->get('viewname');
 		$selectedIds = $request->get('selected_ids');
 		$excludedIds = $request->get('excluded_ids');

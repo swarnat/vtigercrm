@@ -187,7 +187,7 @@
 			}
 
 			if(!isset($row['id'])){
-				if($row[$meta->getObectIndexColumn()] ){
+				if(isset($row[$meta->getObectIndexColumn()] )){
 					$row['id'] = vtws_getId($meta->getEntityId(),$row[$meta->getObectIndexColumn()]);
 				}else{
 					//TODO Handle this.
@@ -211,7 +211,7 @@
 					continue;
 				}
 				if(strtolower($meta->getEntityName()) == "emails"){
-					if(isset($row['parent_id'])){
+					if (isset($row['parent_id']) && $row['parent_id'] !== null && strpos($row['parent_id'], '@') !== false) {					
 						list($row['parent_id'], $fieldId) = explode('@', $row['parent_id']);
 					}
 				}
@@ -273,7 +273,7 @@
             foreach ($moduleFields as $fieldName => $fieldObj) {
                 if (in_array($fieldObj->getUIType(), $supportedUITypes)) {
                     //while doing retrieve operation we have record_id and on query operation we have id.
-                    $id = $row['record_id'] ? $row['record_id'] : $row['id'];
+                    $id = isset($row['record_id']) ? $row['record_id'] : (isset($row['id']) ? $row['id'] : null);
                     $ids = Vtiger_Functions::getAttachmentIds($id, $meta->getEntityId());
                 if($ids) {
                         foreach($ids as $id){

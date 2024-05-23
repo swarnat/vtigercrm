@@ -19,9 +19,9 @@
 			<input type="hidden" name="selected_ids" value={ZEND_JSON::encode($SELECTED_IDS)}>
 			<input type="hidden" name="excluded_ids" value={ZEND_JSON::encode($EXCLUDED_IDS)}>
 			<input type="hidden" id="page" name="page" value="{$PAGE}" />
-			<input type="hidden" name="search_key" value= "{$SEARCH_KEY}" />
+			<input type="hidden" name="search_key" value="{if isset($SEARCH_KEY)}{$SEARCH_KEY}{/if}"/>
 			<input type="hidden" name="operator" value="{$OPERATOR}" />
-			<input type="hidden" name="search_value" value="{$ALPHABET_VALUE}" />
+			<input type="hidden" name="search_value" value="{if isset($ALPHABET_VALUE)}{$ALPHABET_VALUE}{/if}"/>
 			<input type="hidden" name="search_params" value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($SEARCH_PARAMS))}' />
 			<input type="hidden" name="orderby" value="{$ORDER_BY}" />
 			<input type="hidden" name="sortorder" value="{$SORT_ORDER}" />
@@ -72,7 +72,7 @@
 									<input type="radio" name="mode" value="ExportAllData" id="group3" {if empty($SELECTED_IDS)} checked="checked" {/if} style="margin:2px 0 -4px" />
 									<label style="font-weight:normal" for="group3">&nbsp;&nbsp;{vtranslate('LBL_EXPORT_ALL_DATA',$MODULE)}</label>
 								</div>
-								{if $MULTI_CURRENCY}
+								{if isset($MULTI_CURRENCY)}
 									<br>
 									<div class="row"> 
 										<div class="col-lg-8 col-md-8 col-lg-pull-0"><strong>{vtranslate('LBL_EXPORT_LINEITEM_CURRENCY',$MODULE)}:&nbsp;</strong>

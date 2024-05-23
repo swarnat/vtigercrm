@@ -15,6 +15,8 @@ include_once 'include/database/PearDatabase.php';
 
 class Emails_Mailer_Model extends Vtiger_Mailer {
 
+	private $dom = null;
+
 	public static function getInstance() {
 		return new self();
 	}

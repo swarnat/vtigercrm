@@ -81,9 +81,10 @@ class Emails extends CRMEntity {
 
 	function save_module($module) {
 		global $adb;
+		$insertion_mode = '';
 		//Inserting into seactivityrel
 		//modified by Richie as raju's implementation broke the feature for addition of webmail to vtiger_crmentity.need to be more careful in future while integrating code
-		if ($_REQUEST['module'] == "Emails" && $_REQUEST['smodule'] != 'webmails' && (!$this->plugin_save)) {
+		if ($_REQUEST['module'] == "Emails" && $_REQUEST['module'] != 'webmails' && (!$this->plugin_save)) {
 			if ($_REQUEST['currentid'] != '') {
 				$actid = $_REQUEST['currentid'];
 			} else {
@@ -170,7 +171,7 @@ class Emails extends CRMEntity {
 		$file_saved = false;
 
 		//Added to send generated Invoice PDF with mail
-		$pdfAttached = $_REQUEST['pdf_attachment'];
+		$pdfAttached = isset($_REQUEST['pdf_attachment']);
 		//created Invoice pdf is attached with the mail
 		if (isset($_REQUEST['pdf_attachment']) && $_REQUEST['pdf_attachment'] != '') {
 			$file_saved = pdfAttach($this, $module, $pdfAttached, $id);
@@ -196,7 +197,7 @@ class Emails extends CRMEntity {
 				}
 			}
 		}
-		if ($_REQUEST['att_module'] == 'Webmails') {
+		if (isset($_REQUEST['att_module']) && $_REQUEST['att_module'] == 'Webmails') {
 			require_once("modules/Webmails/Webmails.php");
 			require_once("modules/Webmails/MailParse.php");
 			require_once('modules/Webmails/MailBox.php');

@@ -109,6 +109,7 @@ class VTEntityDelta extends VTEventHandler {
 	}
 	
 	function hasChanged($moduleName, $recordId, $fieldName, $fieldValue = NULL) {
+		$result = false;
 		if(empty(self::$oldEntity[$moduleName][$recordId])) {
 			return false;
 		}
@@ -119,7 +120,9 @@ class VTEntityDelta extends VTEventHandler {
 		if(is_array($fieldDelta)) {
 			$fieldDelta = array_map('decode_html', $fieldDelta);
 		}
-		$result = $fieldDelta['oldValue'] != $fieldDelta['currentValue'];
+		if(isset($fieldDelta['oldValue']) && isset($fieldDelta['currentValue'])) {
+			$result = $fieldDelta['oldValue'] != $fieldDelta['currentValue'];
+		}
 		if ($fieldValue !== NULL) {
 			$result = $result && ($fieldDelta['currentValue'] === $fieldValue);
 		}

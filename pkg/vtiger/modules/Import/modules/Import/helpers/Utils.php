@@ -9,7 +9,9 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 //required for auto detecting file endings for files create in mac
-ini_set("auto_detect_line_endings", true);
+if (version_compare(PHP_VERSION, '8.1.0') <= 0) {
+	ini_set("auto_detect_line_endings", true);
+}
 
 class Import_Utils_Helper {
 
@@ -142,6 +144,7 @@ class Import_Utils_Helper {
 	}
 
 	public static function getAssignedToUserList($module) {
+		$current_user = Users_Record_Model::getCurrentUserModel();
 		$cache = Vtiger_Cache::getInstance();
 		if($cache->getUserList($module,$current_user->id)){
 			return $cache->getUserList($module,$current_user->id);
@@ -153,6 +156,7 @@ class Import_Utils_Helper {
 	}
 
 	public static function getAssignedToGroupList($module) {
+		$current_user = Users_Record_Model::getCurrentUserModel();
 		$cache = Vtiger_Cache::getInstance();
 		if($cache->getGroupList($module,$current_user->id)){
 			return $cache->getGroupList($module,$current_user->id);

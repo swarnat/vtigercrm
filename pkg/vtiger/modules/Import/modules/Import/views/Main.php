@@ -118,6 +118,7 @@ class Import_Main_View extends Vtiger_View_Controller{
 	public static function showResult($importInfo, $importStatusCount) {
 		$moduleName = $importInfo['module'];
 		$ownerId = $importInfo['user_id'];
+		$skippedRecords = $importStatusCount['SKIPPED'];
 
 		$viewer = new Vtiger_Viewer();
 

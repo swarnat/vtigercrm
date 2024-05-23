@@ -7,7 +7,9 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-ini_set("auto_detect_line_endings", true);
+if(version_compare(PHP_VERSION, '8.1.0') <= 0) {
+	ini_set("auto_detect_line_endings", true);
+}
 
 class Import_CSVReader_Reader extends Import_FileReader_Reader {
 

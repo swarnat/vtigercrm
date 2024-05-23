@@ -652,7 +652,7 @@ class Import_Data_Action extends Vtiger_Action_Controller {
 						unset($this->allPicklistValues[$fieldName]);
 					}
 				} else {
-					$fieldData[$fieldName] = $picklistDetails[$picklistValueInLowerCase];
+					$fieldData[$fieldName] = isset($picklistDetails[$picklistValueInLowerCase]);
 				}
 			} else if ($fieldDataType == 'currency') {
 				// While exporting we are exporting as user format, we should import as db format while importing
@@ -773,7 +773,7 @@ class Import_Data_Action extends Vtiger_Action_Controller {
 		$fieldData['source'] = $this->recordSource;
 		if ($fieldData != null && $checkMandatoryFieldValues) {
 			foreach ($moduleFields as $fieldName => $fieldInstance) {
-				if ((($fieldData[$fieldName] == '') || ($fieldData[$fieldName] == null)) && $fieldInstance->isMandatory()) {
+				if ((empty($fieldData[$fieldName]) || !isset($fieldData[$fieldName])) && $fieldInstance->isMandatory()) {
 					return null;
 				}
 			}

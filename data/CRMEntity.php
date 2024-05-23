@@ -300,7 +300,6 @@ class CRMEntity {
         $this->column_fields['label'] = $label;
 
 		if ($this->mode == 'edit') {
-
 			$description_val = from_html($this->column_fields['description'], ($insertion_mode == 'edit') ? true : false);
 
 			$tabid = getTabid($module);
@@ -649,9 +648,9 @@ class CRMEntity {
 						if(php7_count($IMG_FILES)){
 							foreach($IMG_FILES as $fileIndex => $file) {
 								if($file['error'] == 0 && $file['name'] != '' && $file['size'] > 0) {
-									if($_REQUEST[$fileIndex.'_hidden'] != '')
+									if(isset($_REQUEST[$fileIndex.'_hidden']) && $_REQUEST[$fileIndex] != '') {
 										$file['original_name'] = vtlib_purify($_REQUEST[$fileIndex.'_hidden']);
-									else {
+									} else {
 										$file['original_name'] = stripslashes($file['name']);
 									}
 									$file['original_name'] = str_replace('"','',$file['original_name']);

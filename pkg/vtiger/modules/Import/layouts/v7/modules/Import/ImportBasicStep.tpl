@@ -32,7 +32,7 @@
 					{/if}
 
 					{if $FORMAT neq 'ics'}
-						{if $DUPLICATE_HANDLING_NOT_SUPPORTED eq 'true'}
+						{if isset($DUPLICATE_HANDLING_NOT_SUPPORTED) eq 'true'}
 							{$LABELS["step3"] = 'LBL_FIELD_MAPPING'}
 						{else}
 							{$LABELS["step2"] = 'LBL_DUPLICATE_HANDLING'}
@@ -56,7 +56,7 @@
 						&nbsp;&nbsp;&nbsp;<a class="cancelLink" data-dismiss="modal" href="#">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 					{else}
 						<div id="importStepOneButtonsDiv">
-							{if $DUPLICATE_HANDLING_NOT_SUPPORTED eq 'true'}
+							{if isset($DUPLICATE_HANDLING_NOT_SUPPORTED) eq 'true'}
 								<button class="btn btn-success btn-lg" id="skipDuplicateMerge" onclick="Vtiger_Import_Js.uploadAndParse('0');">{vtranslate('LBL_NEXT_BUTTON_LABEL', $MODULE)}</button>
 							{else}
 								<button class="btn btn-success btn-lg" id ="importStep2" onclick="Vtiger_Import_Js.importActionStep2();">{vtranslate('LBL_NEXT_BUTTON_LABEL', $MODULE)}</button>
