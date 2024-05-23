@@ -68,8 +68,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType {
 	 * @return link
 	 */
 	public function getEditViewDisplayValue($value) {
-		// file_put_contents("vtesting.log", sprintf("ENTRIES: %s\n", var_export($value, true)), FILE_APPEND);
-		if(!$value) return $value;
+		if(!$value) return '';
 		$referenceModule = $this->getReferenceModule($value);
 		if($referenceModule) {
 			$referenceModuleName = $referenceModule->get('name');

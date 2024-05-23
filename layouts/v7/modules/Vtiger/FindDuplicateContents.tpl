@@ -87,7 +87,7 @@
 					{/foreach}
 				{/foreach}
 			</table>
-			{if $recordCount eq 0}
+			{if isset($recordCount) && $recordCount eq 0}
 				<div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 listViewContentDiv list-table-wrapper" id="listViewContents">
 					<table class="emptyRecordsDiv">
 						<tbody class="overflow-y">

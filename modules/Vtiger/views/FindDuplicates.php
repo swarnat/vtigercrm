@@ -109,7 +109,7 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View {
 		if(!$this->listViewHeaders){
 			$this->listViewHeaders = $dataModelInstance->getListViewHeaders();
 		}
-		if(!$this->rows) {
+		if(!isset($this->rows)) {
 			$this->rows = $dataModelInstance->getRecordCount();
 			$viewer->assign('TOTAL_COUNT', $this->rows);
 		}
