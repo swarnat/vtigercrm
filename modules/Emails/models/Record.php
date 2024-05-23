@@ -48,9 +48,11 @@ class Emails_Record_Model extends Vtiger_Record_Model {
 	public function send($addToQueue = false) {
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$rootDirectory = vglobal('root_directory');
+		$logo = false;
 
 		$mailer = Emails_Mailer_Model::getInstance();
 		$mailer->IsHTML(true);
+		$id = isset($_REQUEST['id']) ? $_REQUEST['id'] : null;
 
 		$fromEmail = $this->getFromEmailAddress();
 		$replyTo = $this->getReplyToEmail();
@@ -173,7 +175,7 @@ class Emails_Record_Model extends Vtiger_Record_Model {
             $plainBody = decode_emptyspace_html($description);
             $plainBody = preg_replace(array("/<p>/i","/<br>/i","/<br \/>/i"),array("\n","\n","\n"),$plainBody);
             $plainBody .= "\n\n".$currentUserModel->get('signature');
-            $plainBody = utf8_encode(strip_tags($plainBody));
+            $plainBody = strip_tags($plainBody);
             $plainBody = Emails_Mailer_Model::convertToAscii($plainBody);
             $plainBody = $this->convertUrlsToTrackUrls($plainBody, $id,'plain');
             $mailer->AltBody = $plainBody;

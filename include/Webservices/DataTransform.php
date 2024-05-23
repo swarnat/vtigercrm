@@ -211,7 +211,7 @@
 					continue;
 				}
 				if(strtolower($meta->getEntityName()) == "emails"){
-					if(strpos($row['parent_id'], '@' == true)){
+					if (isset($row['parent_id']) && $row['parent_id'] !== null && strpos($row['parent_id'], '@') !== false) {					
 						list($row['parent_id'], $fieldId) = explode('@', $row['parent_id']);
 					}
 				}

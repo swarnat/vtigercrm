@@ -159,7 +159,7 @@ class CRMEntity {
 	 */
 	function uploadAndSaveFile($id, $module, $file_details, $attachmentType='Attachment') {
 		global $log;
-		$log->debug("Entering into uploadAndSaveFile($id,$module,$file_details) method.");
+		$log->debug("Entering into uploadAndSaveFile($id,$module) method.");
 
 		global $adb, $current_user;
 		global $upload_badext;
@@ -648,9 +648,9 @@ class CRMEntity {
 						if(php7_count($IMG_FILES)){
 							foreach($IMG_FILES as $fileIndex => $file) {
 								if($file['error'] == 0 && $file['name'] != '' && $file['size'] > 0) {
-									if($_REQUEST[$fileIndex.'_hidden'] != '')
+									if(isset($_REQUEST[$fileIndex.'_hidden']) && $_REQUEST[$fileIndex] != '') {
 										$file['original_name'] = vtlib_purify($_REQUEST[$fileIndex.'_hidden']);
-									else {
+									} else {
 										$file['original_name'] = stripslashes($file['name']);
 									}
 									$file['original_name'] = str_replace('"','',$file['original_name']);
