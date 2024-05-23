@@ -39,6 +39,7 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 	public function massSave(Vtiger_Request $request) {
 		global $upload_badext;
 		$adb = PearDatabase::getInstance();
+		$parentIds = '';
 
 		$moduleName = $request->getModule();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -243,6 +244,7 @@ class Emails_MassSaveAjax_View extends Vtiger_Footer_View {
 				}
 			}
 			$success = true;
+			$message = '';
 			if($flag == 'SENT') {
 				$status = $recordModel->send();
 				if ($status === true) {

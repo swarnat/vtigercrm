@@ -17,15 +17,15 @@
                 <input type="hidden" id="parentModule" value="{$SOURCE_MODULE}"/>
                 <input type="hidden" id="module" value="{$MODULE}"/>
                 <input type="hidden" id="parent" value="{$PARENT_MODULE}"/>
-                <input type="hidden" id="sourceRecord" value="{$SOURCE_RECORD}"/>
-                <input type="hidden" id="sourceField" value="{$SOURCE_FIELD}"/>
-                <input type="hidden" id="url" value="{$GETURL}" />
-                <input type="hidden" id="multi_select" value="{$MULTI_SELECT}" />
-                <input type="hidden" id="currencyId" value="{$CURRENCY_ID}" />
-                <input type="hidden" id="relatedParentModule" value="{$RELATED_PARENT_MODULE}"/>
-                <input type="hidden" id="relatedParentId" value="{$RELATED_PARENT_ID}"/>
+                <input type="hidden" id="sourceRecord" {if isset($SOURCE_RECORD)} value="{$SOURCE_RECORD}" {/if}/>
+                <input type="hidden" id="sourceField" {if isset($SOURCE_FIELD)} value="{$SOURCE_FIELD}" {/if}/>
+                <input type="hidden" id="url" {if isset($GETURL)} value="{$GETURL}" {/if}/>
+                <input type="hidden" id="multi_select" {if isset($MULTI_SELECT)} value="{$MULTI_SELECT}" {/if}/>
+                <input type="hidden" id="currencyId" {if isset($CURRENCY_ID)} value="{$CURRENCY_ID}" {/if}/>
+                <input type="hidden" id="relatedParentModule" {if isset($RELATED_PARENT_MODULE)} value="{$RELATED_PARENT_MODULE}" {/if}/>
+                <input type="hidden" id="relatedParentId" {if isset($RELATED_PARENT_ID)} value="{$RELATED_PARENT_ID}" {/if}/>
                 <input type="hidden" id="view" name="view" value="{$VIEW}"/>
-                <input type="hidden" id="relationId" value="{$RELATION_ID}" />
+                <input type="hidden" id="relationId" {if isset($RELATION_ID)} value="{$RELATION_ID}" {/if}/>
                 <input type="hidden" id="selectedIds" name="selectedIds">
                 {if !empty($POPUP_CLASS_NAME)}
                     <input type="hidden" id="popUpClassName" value="{$POPUP_CLASS_NAME}"/>

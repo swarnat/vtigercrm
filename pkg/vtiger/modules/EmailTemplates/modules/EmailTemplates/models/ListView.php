@@ -88,6 +88,7 @@ class EmailTemplates_ListView_Model extends Vtiger_ListView_Model {
 
 	public function getListViewEntries($pagingModel) {
 		$db = PearDatabase::getInstance();
+		$whereQuery = '';
 		$startIndex = $pagingModel->getStartIndex();
 		$pageLimit = $pagingModel->getPageLimit();
 		$orderBy = $this->getForSql('orderby');

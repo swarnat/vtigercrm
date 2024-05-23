@@ -26,7 +26,7 @@
                     <input type="hidden" id="flag" name="flag" value="" />
                     <input type="hidden" id="maxUploadSize" value="{$MAX_UPLOAD_SIZE}" />
                     <input type="hidden" id="documentIds" name="documentids" value="" />
-                    <input type="hidden" name="emailMode" value="{$EMAIL_MODE}" />
+                    <input type="hidden" name="emailMode" value="{if isset($EMAIL_MODE)}{$EMAIL_MODE}{/if}" />
                     <input type="hidden" name="source_module" value="{$SOURCE_MODULE}" />
                     {if !empty($PARENT_EMAIL_ID)}
                         <input type="hidden" name="parent_id" value="{$PARENT_EMAIL_ID}" />
@@ -35,10 +35,12 @@
                     {if !empty($RECORDID)}
                         <input type="hidden" name="record" value="{$RECORDID}" />
                     {/if}
-                    <input type="hidden" name="search_key" value= "{$SEARCH_KEY}" />
+                    <input type="hidden" name="search_key" value="{if isset($SEARCH_KEY)}{$SEARCH_KEY}{/if}" />
                     <input type="hidden" name="operator" value="{$OPERATOR}" />
-                    <input type="hidden" name="search_value" value="{$ALPHABET_VALUE}" />
-                    <input type="hidden" name="search_params" value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($SEARCH_PARAMS))}' />
+                    <input type="hidden" name="search_value" value="{if isset($ALPHABET_VALUE)}{$ALPHABET_VALUE}{/if}" />
+                    {if !empty($SEARCH_PARAMS)}
+                        <input type="hidden" name="search_params" value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($SEARCH_PARAMS))}' />
+                    {/if}
                     
                     <div class="row toEmailField">
                         <div class="col-lg-12">
@@ -49,7 +51,7 @@
                                 {if !empty($TO)}
                                     {assign var=TO_EMAILS value=","|implode:$TO|htmlentities}
                                 {/if}
-                                <input id="emailField" style="width:100%" name="toEmail" type="text" class="autoComplete sourceField select2" data-rule-required="true" data-rule-multiEmails="true" value="{$TO_EMAILS}" placeholder="{vtranslate('LBL_TYPE_AND_SEARCH',$MODULE)}">
+                                <input id="emailField" style="width:100%" name="toEmail" type="text" class="autoComplete sourceField select2" data-rule-required="true" data-rule-multiEmails="true" value="{if !empty($TO_EMAILS)}{$TO_EMAILS|escape:html}{/if}" placeholder="{vtranslate('LBL_TYPE_AND_SEARCH',$MODULE)}">
                             </div>
                             <div class="col-lg-4 input-group">
                                 <select style="width: 140px;" class="select2 emailModulesList pull-right">
@@ -110,7 +112,7 @@
                                 <span class="">{vtranslate('LBL_SUBJECT',$MODULE)}&nbsp;<span class="redColor">*</span></span>
                             </div>
                             <div class="col-lg-6">
-                                <input type="text" name="subject" value="{$SUBJECT}" data-rule-required="true" id="subject" spellcheck="true" class="inputElement"/>
+                                <input type="text" name="subject" value="{if !empty($SUBJECT)}{$SUBJECT|escape:html}{/if}" data-rule-required="true" id="subject" spellcheck="true" class="inputElement"/>
                             </div>
                             <div class="col-lg-4"></div>
                         </div>
@@ -124,7 +126,7 @@
                             <div class="col-lg-9">
                                 <div class="row">
                                     <div class="col-lg-4 browse">
-                                        <input type="file" {if $FILE_ATTACHED}class="removeNoFileChosen"{/if} id="multiFile" name="file[]"/>&nbsp;
+                                        <input type="file" {if isset($FILE_ATTACHED)}class="removeNoFileChosen"{/if} id="multiFile" name="file[]"/>&nbsp;
                                     </div>
                                     <div class="col-lg-4 brownseInCrm">
                                         <button type="button" class="btn btn-small btn-default" id="browseCrm" data-url="{$DOCUMENTS_URL}" title="{vtranslate('LBL_BROWSE_CRM',$MODULE)}">{vtranslate('LBL_BROWSE_CRM',$MODULE)}</button>
@@ -134,20 +136,22 @@
                                     </div>
                                 </div>
                                 <div id="attachments">
-                                    {foreach item=ATTACHMENT from=$ATTACHMENTS}
-                                        {if ('docid'|array_key_exists:$ATTACHMENT)}
-                                            {assign var=DOCUMENT_ID value=$ATTACHMENT['docid']}
-                                            {assign var=FILE_TYPE value="document"}
-                                        {else}
-                                            {assign var=FILE_TYPE value="file"}
-                                        {/if}
-                                        <div class="MultiFile-label customAttachment" data-file-id="{$ATTACHMENT['fileid']}" data-file-type="{$FILE_TYPE}"  data-file-size="{$ATTACHMENT['size']}" {if $FILE_TYPE eq "document"} data-document-id="{$DOCUMENT_ID}"{/if}>
-                                            {if $ATTACHMENT['nondeletable'] neq true}
-                                                <a name="removeAttachment" class="cursorPointer">x </a>
+                                    {if isset($ATTACHMENTS) && $ATTACHMENTS|@count > 0}
+                                        {foreach item=ATTACHMENT from=$ATTACHMENTS}
+                                            {if ('docid'|array_key_exists:$ATTACHMENT)}
+                                                {assign var=DOCUMENT_ID value=$ATTACHMENT['docid']}
+                                                {assign var=FILE_TYPE value="document"}
+                                            {else}
+                                                {assign var=FILE_TYPE value="file"}
                                             {/if}
-                                            <span>{$ATTACHMENT['attachment']}</span>
-                                        </div>
-                                    {/foreach}
+                                            <div class="MultiFile-label customAttachment" data-file-id="{$ATTACHMENT['fileid']}" data-file-type="{$FILE_TYPE}"  data-file-size="{$ATTACHMENT['size']}" {if $FILE_TYPE eq "document"} data-document-id="{$DOCUMENT_ID}"{/if}>
+                                                {if $ATTACHMENT['nondeletable'] neq true}
+                                                    <a name="removeAttachment" class="cursorPointer">x </a>
+                                                {/if}
+                                                <span>{$ATTACHMENT['attachment']}</span>
+                                            </div>
+                                        {/foreach}
+                                    {/if}
                                 </div>
                             </div>
                         </div>
@@ -171,14 +175,14 @@
                     </div>         
                     <div class="row templateContent">
                         <div class="col-lg-12">
-                            <textarea style="width:390px;height:200px;" id="description" name="description">{$DESCRIPTION}</textarea>
+                            <textarea style="width:390px;height:200px;" id="description" name="description">{if !empty($DESCRIPTION)}{$DESCRIPTION|escape:html}{/if}</textarea>
                         </div>
                     </div>
                     
-                    {if $RELATED_LOAD eq true}
+                    {if isset($RELATED_LOAD) && $RELATED_LOAD eq true}
                         <input type="hidden" name="related_load" value={$RELATED_LOAD} />
                     {/if}
-                    <input type="hidden" name="attachments" value='{ZEND_JSON::encode($ATTACHMENTS)}' />
+                    <input type="hidden" name="attachments" value="{if isset($ATTACHMENTS)}{ZEND_JSON::encode($ATTACHMENTS)}{/if}" />
                     <div id="emailTemplateWarningContent" style="display: none;">
                         {vtranslate('LBL_EMAILTEMPLATE_WARNING_CONTENT',$MODULE)}
                     </div>

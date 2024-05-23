@@ -95,11 +95,11 @@ class Vtiger_TagCloud_Action extends Vtiger_Mass_Action {
 		if(empty($newTags)) {
 			$newTags = array();
 		}
-		$existingTags = $tagsList['existing'];
+		$existingTags = isset($tagsList['existing']);
 		if(empty($existingTags)) {
 			$existingTags = array();
 		}
-		$deletedTags = $tagsList['deleted'];
+		$deletedTags = isset($tagsList['deleted']);
 		if(empty($deletedTags)) {
 			$deletedTags = array();
 		}
