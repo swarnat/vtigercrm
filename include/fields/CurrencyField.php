@@ -125,6 +125,7 @@ class CurrencyField {
     public static function convertToUserFormat($value, $user=null, $skipConversion=false, $skipFormatting=false) {
 		// To support negative values
 		$negative = false;
+		if(!$value) return $value;
 		if(stripos($value, '-') === 0) {
 			$negative = true;
 			$value = substr($value, 1);
