@@ -24,7 +24,7 @@
     {assign var="subprod_names" value="subprod_names"|cat:$row_no}
 	{assign var="subprod_qty_list" value="subprod_qty_list"|cat:$row_no}
     {assign var="entityIdentifier" value="entityType"|cat:$row_no}
-    {assign var="entityType" value=$data.$entityIdentifier}
+    {assign var="entityType" value=(isset($data.$entityIdentifier)) ? $data.$entityIdentifier : ""}
 
     {assign var="discount_type" value="discount_type"|cat:$row_no}
     {assign var="discount_percent" value="discount_percent"|cat:$row_no}
@@ -42,7 +42,7 @@
     {assign var="FINAL" value=$RELATED_PRODUCTS.1.final_details}
 
 	{assign var="productDeleted" value="productDeleted"|cat:$row_no}
-	{assign var="productId" value=$data[$hdnProductId]}
+	{assign var="productId" value=(isset($data[$hdnProductId])) ? $data[$hdnProductId] : ""}
 	{assign var="listPriceValues" value=Products_Record_Model::getListPriceValues($productId)}
 	{if $MODULE eq 'PurchaseOrder'}
 		{assign var="listPriceValues" value=array()}
@@ -57,7 +57,7 @@
 		&nbsp;<a><img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$MODULE)}"/></a>
 		<input type="hidden" class="rowNumber" value="{$row_no}" />
 	</td>
-	{if $IMAGE_EDITABLE}
+	{if isset($IMAGE_EDITABLE) && $IMAGE_EDITABLE}
 		<td class='lineItemImage' style="text-align:center;">
 			<img src='{$data.$image}' height="42" width="42">
 		</td>
@@ -66,20 +66,20 @@
 	{if $PRODUCT_EDITABLE}
 		<td>
 			<!-- Product Re-Ordering Feature Code Addition Starts -->
-			<input type="hidden" name="hidtax_row_no{$row_no}" id="hidtax_row_no{$row_no}" value="{$tax_row_no}"/>
+			<input type="hidden" name="hidtax_row_no{$row_no}" id="hidtax_row_no{$row_no}" value="{(isset($tax_row_no)) ? $tax_row_no : ""}"/>
 			<!-- Product Re-Ordering Feature Code Addition ends -->
 			<div class="itemNameDiv form-inline">
 				<div class="row">
 					<div class="col-lg-10">
 						<div class="input-group" style="width:100%">
-							<input type="text" id="{$productName}" name="{$productName}" value="{$data.$productName}" class="productName form-control {if $row_no neq 0} autoComplete {/if} " placeholder="{vtranslate('LBL_TYPE_SEARCH',$MODULE)}"
+							<input type="text" id="{$productName}" name="{$productName}" value="{(isset($data.$productName)) ? $data.$productName : ""}" class="productName form-control {if $row_no neq 0} autoComplete {/if} " placeholder="{vtranslate('LBL_TYPE_SEARCH',$MODULE)}"
 								   data-rule-required=true {if !empty($data.$productName)} disabled="disabled" {/if}>
-							{if !$data.$productDeleted}
+							{if isset($data.$productDeleted) && !$data.$productDeleted}
 								<span class="input-group-addon cursorPointer clearLineItem" title="{vtranslate('LBL_CLEAR',$MODULE)}">
 									<i class="fa fa-times-circle"></i>
 								</span>
 							{/if}
-							<input type="hidden" id="{$hdnProductId}" name="{$hdnProductId}" value="{$data.$hdnProductId}" class="selectedModuleId"/>
+							<input type="hidden" id="{$hdnProductId}" name="{$hdnProductId}" value="{(isset($data.$hdnProductId)) ? $data.$hdnProductId : ""}" class="selectedModuleId"/>
 							<input type="hidden" id="lineItemType{$row_no}" name="lineItemType{$row_no}" value="{$entityType}" class="lineItemType"/>
 							<div class="col-lg-2">
 								{if $row_no eq 0}
@@ -101,7 +101,7 @@
 					</div>
 				</div>
 			</div>
-			<input type="hidden" value="{$data.$subproduct_ids}" id="{$subproduct_ids}" name="{$subproduct_ids}" class="subProductIds" />
+			<input type="hidden" value="{(isset($data.$subproduct_ids)) ? $data.$subproduct_ids : ""}" id="{$subproduct_ids}" name="{$subproduct_ids}" class="subProductIds" />
 			<div id="{$subprod_names}" name="{$subprod_names}" class="subInformation">
 				<span class="subProductsContainer">
 					{foreach key=SUB_PRODUCT_ID item=SUB_PRODUCT_INFO from=$data.$subprod_qty_list}

@@ -67,7 +67,7 @@
 {/if}
 
 <input type="hidden" class="numberOfCurrencyDecimal" value="{$USER_MODEL->get('no_of_currency_decimals')}" />
-<input type="hidden" name="totalProductCount" id="totalProductCount" value="{$row_no}" />
+<input type="hidden" name="totalProductCount" id="totalProductCount" value="{(isset($row_no)) ? $row_no : ""}" />
 <input type="hidden" name="subtotal" id="subtotal" value="" />
 <input type="hidden" name="total" id="total" value="" />
 

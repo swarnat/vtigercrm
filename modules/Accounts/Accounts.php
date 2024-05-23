@@ -1646,6 +1646,7 @@ class Accounts extends CRMEntity {
 		$singular_modname = 'SINGLE_' . $related_module;
 
 		$button = '';
+		$query  = '';
 		if ($actions) {
 			if (is_string($actions))
 				$actions = explode(',', strtoupper($actions));

@@ -120,7 +120,7 @@ Class Inventory_Edit_View extends Vtiger_Edit_View {
 			}
 		}
 
-		$deductTaxes = $relatedProducts ? $relatedProducts[1]['final_details']['deductTaxes'] : null;
+		$deductTaxes = $relatedProducts && isset($relatedProducts[1]['final_details']['deductTaxes']) ? $relatedProducts[1]['final_details']['deductTaxes'] : null;
 		if (!$deductTaxes) {
 			$deductTaxes = Inventory_TaxRecord_Model::getDeductTaxesList();
 		}
