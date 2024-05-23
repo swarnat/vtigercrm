@@ -110,7 +110,7 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model {
             $fieldValues[$group][$groupRecordCount]['recordid'] = $row['recordid'];
             foreach($row as $field => $value) {
                 if($i == 0 && $field != 'recordid') $temp[$field] = $value;
-                $fieldModel = $fieldModels[$field];
+                $fieldModel = isset($fieldModels[$field]) ? $fieldModels[$field] : "";
                 $resultRow[$field] = $value;
             }
             $fieldValues[$group][$groupRecordCount++] = $resultRow;
@@ -127,7 +127,7 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model {
 	}
 
 	public function getRecordCount() {
-		if($this->rows) {
+		if(isset($this->rows)) {
 			$rows = $this->rows;
 		} else {
             $db = PearDatabase::getInstance();

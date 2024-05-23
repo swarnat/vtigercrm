@@ -32,7 +32,7 @@ class VTJsonCondition {
 				}
 				preg_match('/(\w+) : \((\w+)\) (\w+)/', $cond['fieldname'], $matches);
 				if (php7_count($matches) == 0) {
-					if ($cond['fieldname'] == '_VT_add_comment' && $cond['isEvaluated']) {
+					if (isset($cond['isEvaluated']) && $cond['fieldname'] == '_VT_add_comment' && $cond['isEvaluated']) {
 						$expressionResults[$conditionGroup][$i]['result'] = $cond['isEvaluated'];
 					} else {
 						$expressionResults[$conditionGroup][$i]['result'] = $this->checkCondition($entityData, $cond);
@@ -159,7 +159,7 @@ class VTJsonCondition {
 			}
 			$rawFieldValue = $fieldValue;
 		} else {
-			$fieldValue = $data[$cond['fieldname']];
+			$fieldValue = isset($data[$cond['fieldname']]) ? $data[$cond['fieldname']]:"";
 		}
 		$value = trim(html_entity_decode($cond['value']));
 		$expressionType = isset($cond['valuetype']) ? $cond['valuetype'] : null;
@@ -191,7 +191,7 @@ class VTJsonCondition {
 		global $current_user;
 		$handler = vtws_getModuleHandlerFromName($entityData->getModuleName(), $current_user);
 		$moduleFields = $handler->getMeta()->getModuleFields();
-		$fieldInstance = $moduleFields[$cond['fieldname']];
+		$fieldInstance = isset($moduleFields[$cond['fieldname']])?$moduleFields[$cond['fieldname']]:"";
 
 		if($fieldInstance && $fieldInstance->getFieldDataType() == 'datetime') {
 			//Convert the DB Date Time Format to User Date Time Format

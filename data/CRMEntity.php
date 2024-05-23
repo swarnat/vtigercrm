@@ -2039,7 +2039,7 @@ class CRMEntity {
 	 */
 	function transferRelatedRecords($module, $transferEntityIds, $entityId) {
 		global $adb, $log;
-		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+		$log->debug("Entering function transferRelatedRecords ($module, ".implode(',',$transferEntityIds).", $entityId)");
 		foreach ($transferEntityIds as $transferId) {
 
 			// Pick the records related to the entity to be transfered, but do not pick the once which are already related to the current entity.
@@ -3008,6 +3008,7 @@ class CRMEntity {
 	 * @return string
 	 */
 	function getQueryForDuplicates($module, $tableColumns, $selectedColumns = '', $ignoreEmpty = false,$requiredTables = array(),$columnTypes = null) {
+		$query='';
 		if(is_array($tableColumns)) {
 			$tableColumnsString = implode(',', $tableColumns);
 		}
@@ -3058,6 +3059,7 @@ class CRMEntity {
 		}
 
 		$i = 1;
+		$duplicateCheckClause='';
 		foreach($tableColumns as $tableColumn){
 			$tableInfo = explode('.', $tableColumn);
 			$duplicateCheckClause .= " ifnull($tableColumn,'null') = ifnull(temp.$tableInfo[1],'null')";

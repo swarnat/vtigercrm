@@ -76,6 +76,7 @@ class ListViewSession {
 		$cv = new CustomView();
 		$viewId = $cv->getViewId($currentModule);
 		$recordNavigationInfo = array();
+		$searchKey = array();
 		if(!empty($_SESSION[$currentModule.'_DetailView_Navigation'.$viewId])){
 			$recordNavigationInfo = Zend_Json::decode($_SESSION[$currentModule.'_DetailView_Navigation'.$viewId]);
 			$pageNumber =0;

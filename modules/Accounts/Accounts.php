@@ -993,7 +993,7 @@ class Accounts extends CRMEntity {
 	 */
 	function transferRelatedRecords($module, $transferEntityIds, $entityId) {
 		global $adb,$log;
-		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+		$log->debug("Entering function transferRelatedRecords ($module, ".implode(',',$transferEntityIds).", $entityId)");
 
 		$rel_table_arr = Array("Contacts"=>"vtiger_contactdetails","Potentials"=>"vtiger_potential","Quotes"=>"vtiger_quotes",
 					"SalesOrder"=>"vtiger_salesorder","Invoice"=>"vtiger_invoice","Activities"=>"vtiger_seactivityrel",
@@ -1646,6 +1646,7 @@ class Accounts extends CRMEntity {
 		$singular_modname = 'SINGLE_' . $related_module;
 
 		$button = '';
+		$query  = '';
 		if ($actions) {
 			if (is_string($actions))
 				$actions = explode(',', strtoupper($actions));

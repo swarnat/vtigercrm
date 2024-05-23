@@ -89,6 +89,7 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 	$log->debug("Entering getAssociatedProducts(".$module.",".get_class($focus).",".$seid."='') method ...");
 	global $adb;
 	$output = '';
+	$taxtype = '';
 	global $theme,$current_user;
 
 	$no_of_decimal_places = getCurrencyDecimalPlaces();
@@ -468,8 +469,10 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 		if($tax_percent == '' || $tax_percent == 'NULL')
 			$tax_percent = 0;
 		$taxamount = ($subTotal-$finalDiscount)*$tax_percent/100;
-        list($before_dot, $after_dot) = explode('.', $taxamount);
-        if($after_dot[$no_of_decimal_places] == 5) {
+		$split_taxamounts =explode('.', $taxamount);
+		$before_dot=isset($split_taxamounts[0]) ? $split_taxamounts[0] : '';
+		$after_dot=isset($split_taxamounts[1]) ? $split_taxamounts[1] : '';
+        if(isset($after_dot[$no_of_decimal_places]) && $after_dot[$no_of_decimal_places] == 5) {
             $taxamount = round($taxamount, $no_of_decimal_places, PHP_ROUND_HALF_UP); 
         } else {
             $taxamount = number_format($taxamount, $no_of_decimal_places,'.','');

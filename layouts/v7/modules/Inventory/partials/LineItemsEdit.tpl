@@ -67,7 +67,7 @@
 {/if}
 
 <input type="hidden" class="numberOfCurrencyDecimal" value="{$USER_MODEL->get('no_of_currency_decimals')}" />
-<input type="hidden" name="totalProductCount" id="totalProductCount" value="{$row_no}" />
+<input type="hidden" name="totalProductCount" id="totalProductCount" value="{(isset($row_no)) ? $row_no : ""}" />
 <input type="hidden" name="subtotal" id="subtotal" value="" />
 <input type="hidden" name="total" id="total" value="" />
 
@@ -185,7 +185,7 @@
 						{include file="partials/LineItemsContent.tpl"|@vtemplate_path:'Inventory' row_no=0 data=[] IGNORE_UI_REGISTRATION=true}
 					</tr>
 					{foreach key=row_no item=data from=$RELATED_PRODUCTS}
-						<tr id="row{$row_no}" data-row-num="{$row_no}" class="lineItemRow" {if $data["entityType$row_no"] eq 'Products'}data-quantity-in-stock={$data["qtyInStock$row_no"]}{/if}>
+						<tr id="row{$row_no}" data-row-num="{$row_no}" class="lineItemRow" {if isset($data["entityType$row_no"]) && $data["entityType$row_no"] eq 'Products'}data-quantity-in-stock={$data["qtyInStock$row_no"]}{/if}>
 							{include file="partials/LineItemsContent.tpl"|@vtemplate_path:'Inventory' row_no=$row_no data=$data}
 						</tr>
 					{/foreach}
@@ -297,7 +297,7 @@
 						</td>
 					</tr>
 				{/if}
-				{if $SH_PERCENT_EDITABLE}
+				{if $SH_PERCENT_EDITABLE && isset($FINAL.chargesAndItsTaxes)}
 					{assign var=CHARGE_AND_CHARGETAX_VALUES value=$FINAL.chargesAndItsTaxes}
 					<tr>
 						<td width="83%">
@@ -337,7 +337,8 @@
 						<span class="pull-right"><strong>{vtranslate('LBL_PRE_TAX_TOTAL', $MODULE)} </strong></span>
 					</td>
 					<td>
-						{assign var=PRE_TAX_TOTAL value=$FINAL.preTaxTotal}
+					
+						{assign var=PRE_TAX_TOTAL value="{(isset($FINAL.preTaxTotal)) ? $FINAL.preTaxTotal:""}"}
 						<span class="pull-right" id="preTaxTotal">{if $PRE_TAX_TOTAL}{$PRE_TAX_TOTAL}{else}0{/if}</span>
 						<input type="hidden" id="pre_tax_total" name="pre_tax_total" value="{if $PRE_TAX_TOTAL}{$PRE_TAX_TOTAL}{else}0{/if}"/>
 					</td>
@@ -360,7 +361,7 @@
 												   data-rule-positive=true data-rule-inventory_percentage=true />&nbsp;%
 										</td>
 										<td style="text-align: right;" class="lineOnTop">
-											<input type="text" size="6" name="{$tax_detail.taxname}_group_amount" id="group_tax_amount{$smarty.foreach.group_tax_loop.iteration}" style="cursor:pointer;" value="{$tax_detail.amount}" readonly class="cursorPointer span1 groupTaxTotal" />
+											<input type="text" size="6" name="{$tax_detail.taxname}_group_amount" id="group_tax_amount{$smarty.foreach.group_tax_loop.iteration}" style="cursor:pointer;" value="{(isset($tax_detail.amount))?$tax_detail.amount:''}" readonly class="cursorPointer span1 groupTaxTotal" />
 										</td>
 									</tr>
 								{/foreach}
@@ -394,7 +395,7 @@
 												{/if}
 												<tr>
 													{assign var=SH_TAX_VALUE value=$CHARGE_TAX_MODEL->getTax()}
-													{if $CHARGE_AND_CHARGETAX_VALUES[$CHARGE_ID]['value'] neq NULL}
+													{if isset($CHARGE_AND_CHARGETAX_VALUES[$CHARGE_ID]['value']) && $CHARGE_AND_CHARGETAX_VALUES[$CHARGE_ID]['value'] neq NULL}
 														{assign var=SH_TAX_VALUE value=0}
 														{if $CHARGE_AND_CHARGETAX_VALUES[$CHARGE_ID]['taxes'][$CHARGE_TAX_ID]}
 															{assign var=SH_TAX_VALUE value=$CHARGE_AND_CHARGETAX_VALUES[$CHARGE_ID]['taxes'][$CHARGE_TAX_ID]}
@@ -447,7 +448,7 @@
 							</div>
 						</td>
 						<td>
-							<span class="pull-right" id="deductTaxesTotalAmount">{if $FINAL.deductTaxesTotalAmount}{$FINAL.deductTaxesTotalAmount}{else}0{/if}</span>
+							<span class="pull-right" id="deductTaxesTotalAmount">{if isset($FINAL.deductTaxesTotalAmount) && $FINAL.deductTaxesTotalAmount}{$FINAL.deductTaxesTotalAmount}{else}0{/if}</span>
 						</td>
 					</tr>
 				{/if}
