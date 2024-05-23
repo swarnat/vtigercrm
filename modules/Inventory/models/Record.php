@@ -681,7 +681,7 @@ class Inventory_Record_Model extends Vtiger_Record_Model {
 		if ($chargeId) {
 			$chargeTaxModelsList = array();
 			$chargesAndItsTaxes = $this->getCharges();
-			$chargeInfo = $chargesAndItsTaxes[$chargeId];
+			$chargeInfo = isset($chargesAndItsTaxes[$chargeId]) ? $chargesAndItsTaxes[$chargeId] : "";
 			if ($chargeInfo && $chargeInfo['taxes']) {
 				$taxes = array_keys($chargeInfo['taxes']);
 				foreach ($taxes as $taxId) {
