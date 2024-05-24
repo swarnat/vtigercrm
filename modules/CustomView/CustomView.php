@@ -1022,6 +1022,9 @@ class CustomView extends CRMEntity {
 						}
 						$advfilterval = implode(",", $val);
 					}
+					if(!is_array($criteria)) {
+						$criteria = [];
+					}
 					$criteria['value'] = $advfilterval;
 					$criteria['column_condition'] = $relcriteriarow["column_condition"];
 

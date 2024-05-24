@@ -356,7 +356,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 				if(empty($groupInfo)) continue;
 
 				$groupColumns = $groupInfo['columns'];
-				$groupCondition = $groupInfo['condition'];
+				$groupCondition = isset($groupInfo['condition']);
 
 				foreach($groupColumns as $columnIndex => $columnCondition) {
 					if(empty($columnCondition)) continue;
@@ -446,7 +446,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 					$advFilterList[$groupIndex]["conditionexpression"] = $groupConditionExpression;
 				}
 
-				$groupConditionExpression = $advFilterList[$groupIndex]["conditionexpression"];
+				$groupConditionExpression = isset($advFilterList[$groupIndex]["conditionexpression"]);
 				if(empty($groupConditionExpression)) continue; // Case when the group doesn't have any column criteria
 
 				$advGroupSql = 'INSERT INTO vtiger_cvadvfilter_grouping(groupid,cvid,group_condition,condition_expression) VALUES (?,?,?,?)';

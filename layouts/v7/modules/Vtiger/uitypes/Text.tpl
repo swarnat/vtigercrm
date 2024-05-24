@@ -15,6 +15,10 @@
 {if !isset($FIELD_NAME)}
   {assign var="FIELD_NAME" value=$FIELD_MODEL->getFieldName()}
 {/if}
+{assign var="fieldValue" value=purifyHtmlEventAttributes($FIELD_MODEL->get('fieldvalue'),true)}
+{if $fieldValue === null}
+    {assign var="fieldValue" value=""}
+{/if}
 {if $FIELD_MODEL->get('uitype') eq '19' || $FIELD_MODEL->get('uitype') eq '20'}
     <textarea rows="3" id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" class="inputElement textAreaElement col-lg-12 {if $FIELD_MODEL->isNameField()}nameField{/if}" name="{$FIELD_NAME}" {if $FIELD_NAME eq "notecontent"}id="{$FIELD_NAME}"{/if} {if !empty($SPECIAL_VALIDATOR)}data-validator='{Zend_Json::encode($SPECIAL_VALIDATOR)}'{/if}
         {if $FIELD_INFO["mandatory"] eq true} data-rule-required="true" {/if}
@@ -22,7 +26,7 @@
             data-specific-rules='{ZEND_JSON::encode($FIELD_INFO["validator"])}'
         {/if}
         >
-    {purifyHtmlEventAttributes($FIELD_MODEL->get('fieldvalue'),true)|regex_replace:"/(?!\w)\&nbsp;(?=\w)/":" "}
+    {$fieldValue|regex_replace:"/(?!\w)\&nbsp;(?=\w)/":" "}
     </textarea>
 {else}
     <textarea rows="5" id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" class="inputElement {if $FIELD_MODEL->isNameField()}nameField{/if}" name="{$FIELD_NAME}" {if !empty($SPECIAL_VALIDATOR)}data-validator='{Zend_Json::encode($SPECIAL_VALIDATOR)}'{/if}
@@ -31,7 +35,7 @@
             data-specific-rules='{ZEND_JSON::encode($FIELD_INFO["validator"])}'
         {/if}
         >
-    {purifyHtmlEventAttributes($FIELD_MODEL->get('fieldvalue'),true)|regex_replace:"/(?!\w)\&nbsp;(?=\w)/":" "}
+    {$fieldValue|regex_replace:"/(?!\w)\&nbsp;(?=\w)/":" "}
     </textarea>
 {/if}
 {/strip}

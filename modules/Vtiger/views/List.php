@@ -57,7 +57,7 @@ class Vtiger_List_View extends Vtiger_Index_View {
                 $this->listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId, $listHeaders);
 		$orderParams = $this->listViewModel->getSortParamsSession($listViewSessionKey);
 
-		if(empty($listHeaders) && is_array($orderParams)) {
+		if(empty($listHeaders) && is_array($orderParams) && array_key_exists('list_headers', $orderParams)) {
 			$listHeaders = $orderParams['list_headers'];
 		}
 
@@ -221,7 +221,7 @@ class Vtiger_List_View extends Vtiger_Index_View {
 			$orderBy = '';
 			$sortOrder = '';
 		}
-		if(empty($listHeaders) && is_array($orderParams)) {
+		if(empty($listHeaders) && is_array($orderParams) && array_key_exists('list_headers', $orderParams)) {
 			$listHeaders = $orderParams['list_headers'];
 		}
                 
@@ -232,21 +232,20 @@ class Vtiger_List_View extends Vtiger_Index_View {
                 
 		if(empty($orderBy) && empty($searchValue) && empty($pageNumber)) {
 			if($orderParams) {
-				$pageNumber = $orderParams['page'];
-				$orderBy = $orderParams['orderby'];
-				$sortOrder = $orderParams['sortorder'];
-				$searchKey = $orderParams['search_key'];
-				$searchValue = $orderParams['search_value'];
-				$operator = $orderParams['operator'];
-                                if(empty($tagParams)){
-					$tagParams = $orderParams['tag_params'];
+				$pageNumber = isset($orderParams['page']) ? $orderParams['page'] : "";
+				$orderBy = isset($orderParams['orderby']) ? $orderParams['orderby'] : "";
+				$sortOrder = isset($orderParams['sortorder']) ? $orderParams['sortorder'] : "";
+				$searchKey = isset($orderParams['search_key']) ? $orderParams['search_key'] : "";
+				$searchValue = isset($orderParams['search_value']) ? $orderParams['search_value'] : "";
+				$operator = isset($orderParams['operator']) ? $orderParams['operator'] : "";
+                if(empty($tagParams)){
+					$tagParams = isset($orderParams['tag_params']) ? $orderParams['tag_params'] : "";
 				}
 				if(empty($searchParams)) {
-					$searchParams = $orderParams['search_params']; 
+					$searchParams = isset($orderParams['search_params']) ? $orderParams['search_params'] : ""; 
 				}
-
 				if(empty($starFilterMode)) {
-					$starFilterMode = $orderParams['star_filter_mode'];
+					$starFilterMode = isset($orderParams['star_filter_mode']) ? $orderParams['star_filter_mode'] : "";
 				}
 			}
 		} else if($request->get('nolistcache') != 1) {
