@@ -84,6 +84,7 @@
 										</optgroup>
 									{/foreach}
 									{*Required to include event fields for columns in calendar module advanced filter*}
+									{if isset($EVENT_RECORD_STRUCTURE) && is_array($EVENT_RECORD_STRUCTURE)}
 									{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$EVENT_RECORD_STRUCTURE}
 										<optgroup label='{vtranslate($BLOCK_LABEL, 'Events')}'>
 											{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
@@ -104,6 +105,7 @@
 											{/foreach}
 										</optgroup>
 									{/foreach}
+									{/if}
 								</select>
 								<input type="hidden" name="columnslist" value='{Vtiger_Functions::jsonEncode($SELECTED_FIELDS)}' />
 								<input id="mandatoryFieldsList" type="hidden" value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($MANDATORY_FIELDS))}' />

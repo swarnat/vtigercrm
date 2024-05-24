@@ -77,7 +77,7 @@ class ProjectTask_Module_Model extends Vtiger_Module_Model {
 			}
 		}
 		//ProjectTask Progress and Status should show in Projects summary view
-		if(!$relatedListFields['projecttaskstatus']) {
+		if (!isset($relatedListFields['projecttaskstatus']) || !$relatedListFields['projecttaskstatus']) {
 			$fieldModel = Vtiger_Field_Model::getInstance('projecttaskstatus', $this);
 			if($fieldModel && $fieldModel->isViewableInDetailView()) {
 				$relatedListFields['projecttaskstatus'] = 'projecttaskstatus';
