@@ -127,7 +127,7 @@ class Quotes extends CRMEntity {
 		}
 
 		//in ajax save we should not call this function, because this will delete all the existing product values
-		if($_REQUEST['action'] != 'QuotesAjax' && $_REQUEST['ajxaction'] != 'DETAILVIEW'
+		if(!isset($_REQUEST['ajxaction']) && $_REQUEST['action'] != 'QuotesAjax' && $_REQUEST['ajxaction'] != 'DETAILVIEW'
 				&& $_REQUEST['action'] != 'MassEditSave' && $_REQUEST['action'] != 'ProcessDuplicates'
 				&& $_REQUEST['action'] != 'SaveAjax' && $this->isLineItemUpdate != false) {
 			//Based on the total Number of rows we will save the product relationship with this entity

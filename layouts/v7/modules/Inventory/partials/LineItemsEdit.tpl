@@ -57,7 +57,7 @@
 	{assign var=DISCOUNT_PERCENT_EDITABLE value=$LINEITEM_FIELDS['hdnDiscountPercent']->isEditable()}
 {/if}
 
-{assign var="FINAL" value=$RELATED_PRODUCTS.1.final_details}
+{assign var="FINAL" value=(isset($RELATED_PRODUCTS.1.final_details)) ? $RELATED_PRODUCTS.1.final_details :null}
 {assign var="IS_INDIVIDUAL_TAX_TYPE" value=false}
 {assign var="IS_GROUP_TAX_TYPE" value=true}
 
@@ -245,9 +245,9 @@
 							<span class="pull-right">(-)&nbsp;
 								<strong><a href="javascript:void(0)" id="finalDiscount">{vtranslate('LBL_OVERALL_DISCOUNT',$MODULE)}&nbsp;
 										<span id="overallDiscount">
-											{if $DISCOUNT_PERCENT_EDITABLE && $FINAL.discount_type_final eq 'percentage'}
+											{if isset($FINAL.discount_type_final) && $DISCOUNT_PERCENT_EDITABLE && $FINAL.discount_type_final eq 'percentage'}
 												({$FINAL.discount_percentage_final}%)
-											{else if $DISCOUNT_AMOUNT_EDITABLE && $FINAL.discount_type_final eq 'amount'}
+											{else if isset($FINAL.discount_type_final) && $DISCOUNT_AMOUNT_EDITABLE && $FINAL.discount_type_final eq 'amount'}
 												({$FINAL.discount_amount_final})
 											{else}
 												(0)
@@ -257,7 +257,7 @@
 							</span>
 						</td>
 						<td>
-							<span id="discountTotal_final" class="pull-right discountTotal_final">{if $FINAL.discountTotal_final}{$FINAL.discountTotal_final}{else}0{/if}</span>
+							<span id="discountTotal_final" class="pull-right discountTotal_final">{if (isset($FINAL.discountTotal_final)) ? $FINAL.discountTotal_final : ""}{$FINAL.discountTotal_final}{else}0{/if}</span>
 
 							<!-- Popup Discount Div -->
 							<div id="finalDiscountUI" class="finalDiscountUI validCheck hide">
@@ -281,13 +281,13 @@
 										{if $DISCOUNT_PERCENT_EDITABLE}
 											<tr>
 												<td><input type="radio" name="discount_final" class="finalDiscounts" data-discount-type="percentage" {if $DISCOUNT_TYPE_FINAL eq 'percentage'}checked{/if} />&nbsp; % {vtranslate('LBL_OF_PRICE',$MODULE)}</td>
-												<td><span class="pull-right">&nbsp;%</span><input type="text" data-rule-positive=true data-rule-inventory_percentage=true id="discount_percentage_final" name="discount_percentage_final" value="{$FINAL.discount_percentage_final}" class="discount_percentage_final span1 pull-right discountVal {if $DISCOUNT_TYPE_FINAL neq 'percentage'}hide{/if}" /></td>
+												<td><span class="pull-right">&nbsp;%</span><input type="text" data-rule-positive=true data-rule-inventory_percentage=true id="discount_percentage_final" name="discount_percentage_final" value="{(isset($FINAL.discount_percentage_final)) ? $FINAL.discount_percentage_final : ""}" class="discount_percentage_final span1 pull-right discountVal {if $DISCOUNT_TYPE_FINAL neq 'percentage'}hide{/if}" /></td>
 											</tr>
 										{/if}
 										{if $DISCOUNT_AMOUNT_EDITABLE}
 											<tr>
 												<td><input type="radio" name="discount_final" class="finalDiscounts" data-discount-type="amount" {if $DISCOUNT_TYPE_FINAL eq 'amount'}checked{/if} />&nbsp;{vtranslate('LBL_DIRECT_PRICE_REDUCTION',$MODULE)}</td>
-												<td><input type="text" data-rule-positive=true id="discount_amount_final" name="discount_amount_final" value="{$FINAL.discount_amount_final}" class="span1 pull-right discount_amount_final discountVal {if $DISCOUNT_TYPE_FINAL neq 'amount'}hide{/if}" /></td>
+												<td><input type="text" data-rule-positive=true id="discount_amount_final" name="discount_amount_final" value="{(isset($FINAL.discount_amount_final)) ? $FINAL.discount_amount_final : ""}" class="span1 pull-right discount_amount_final discountVal {if $DISCOUNT_TYPE_FINAL neq 'amount'}hide{/if}" /></td>
 											</tr>
 										{/if}
 									</tbody>
@@ -297,8 +297,8 @@
 						</td>
 					</tr>
 				{/if}
-				{if $SH_PERCENT_EDITABLE && isset($FINAL.chargesAndItsTaxes)}
-					{assign var=CHARGE_AND_CHARGETAX_VALUES value=$FINAL.chargesAndItsTaxes}
+				{if $SH_PERCENT_EDITABLE }
+					{assign var=CHARGE_AND_CHARGETAX_VALUES value=(isset($FINAL.chargesAndItsTaxes)) ? $FINAL.chargesAndItsTaxes :NULL}
 					<tr>
 						<td width="83%">
 							<span class="pull-right">(+)&nbsp;<strong><a href="javascript:void(0)" id="charges">{vtranslate('LBL_CHARGES',$MODULE)}</a></strong></span>
@@ -306,7 +306,7 @@
 								<table width="100%" border="0" cellpadding="5" cellspacing="0" class="table table-nobordered popupTable">
 									{foreach key=CHARGE_ID item=CHARGE_MODEL from=$INVENTORY_CHARGES}
 										<tr>
-											{assign var=CHARGE_VALUE value=$CHARGE_AND_CHARGETAX_VALUES[$CHARGE_ID]['value']}
+											{assign var=CHARGE_VALUE value= (isset($CHARGE_AND_CHARGETAX_VALUES[$CHARGE_ID]['value'])) ? $CHARGE_AND_CHARGETAX_VALUES[$CHARGE_ID]['value']:NULL}
 											{assign var=CHARGE_PERCENT value=0}
 											{if $CHARGE_MODEL->get('format') eq 'Percent' && $CHARGE_AND_CHARGETAX_VALUES[$CHARGE_ID]['percent'] neq NULL}
 												{assign var=CHARGE_PERCENT value=$CHARGE_AND_CHARGETAX_VALUES[$CHARGE_ID]['percent']}
@@ -327,8 +327,8 @@
 							</div>
 						</td>
 						<td>
-							<input type="hidden" class="lineItemInputBox" id="chargesTotal" name="shipping_handling_charge" value="{if $FINAL.shipping_handling_charge}{$FINAL.shipping_handling_charge}{else}0{/if}" />
-							<span id="chargesTotalDisplay" class="pull-right chargesTotalDisplay">{if $FINAL.shipping_handling_charge}{$FINAL.shipping_handling_charge}{else}0{/if}</span>
+							<input type="hidden" class="lineItemInputBox" id="chargesTotal" name="shipping_handling_charge" value="{if (isset($FINAL.shipping_handling_charge)) ? $FINAL.shipping_handling_charge : ""}{$FINAL.shipping_handling_charge}{else}0{/if}" />
+							<span id="chargesTotalDisplay" class="pull-right chargesTotalDisplay">{if (isset($FINAL.shipping_handling_charge)) ? $FINAL.shipping_handling_charge : ""}{$FINAL.shipping_handling_charge}{else}0{/if}</span>
 						</td>
 					</tr>
 				{/if}
@@ -370,7 +370,7 @@
 						</div>
 						<!-- End Popup Div Group Tax -->
 					</td>
-					<td><span id="tax_final" class="pull-right tax_final">{if $FINAL.tax_totalamount}{$FINAL.tax_totalamount}{else}0{/if}</span></td>
+					<td><span id="tax_final" class="pull-right tax_final">{if (isset($FINAL.tax_totalamount)) ? $FINAL.tax_totalamount : ""}{$FINAL.tax_totalamount}{else}0{/if}</span></td>
 				</tr>
 				<!-- Group Tax - ends -->
 				{if $SH_PERCENT_EDITABLE}
@@ -381,7 +381,7 @@
 							<!-- Pop Div For Shipping and Handling TAX -->
 							<div id="chargeTaxesBlock" class="hide validCheck chargeTaxesBlock">
 								<p class="popover_title hide">
-									{vtranslate('LBL_TAXES_ON_CHARGES', $MODULE)} : <span id="SHChargeVal" class="SHChargeVal">{if $FINAL.shipping_handling_charge}{$FINAL.shipping_handling_charge}{else}0{/if}</span>
+									{vtranslate('LBL_TAXES_ON_CHARGES', $MODULE)} : <span id="SHChargeVal" class="SHChargeVal">{if (isset($FINAL.shipping_handling_charge)) ? $FINAL.shipping_handling_charge : ""}{$FINAL.shipping_handling_charge}{else}0{/if}</span>
 								</p>
 								<table class="table table-nobordered popupTable">
 									<tbody>
@@ -420,8 +420,8 @@
 							<!-- End Popup Div for Shipping and Handling TAX -->
 						</td>
 						<td>
-							<input type="hidden" id="chargeTaxTotalHidden" class="chargeTaxTotal" name="s_h_percent" value="{if $FINAL.shtax_totalamount}{$FINAL.shtax_totalamount}{else}0{/if}" />
-							<span class="pull-right" id="chargeTaxTotal">{if $FINAL.shtax_totalamount}{$FINAL.shtax_totalamount}{else}0{/if}</span>
+							<input type="hidden" id="chargeTaxTotalHidden" class="chargeTaxTotal" name="s_h_percent" value="{if (isset($FINAL.shtax_totalamount)) ? $FINAL.shtax_totalamount : ""}{$FINAL.shtax_totalamount}{else}0{/if}" />
+							<span class="pull-right" id="chargeTaxTotal">{if (isset($FINAL.shtax_totalamount)) ? $FINAL.shtax_totalamount : ""}{$FINAL.shtax_totalamount}{else}0{/if}</span>
 						</td>
 					</tr>
 					<tr>
@@ -458,16 +458,16 @@
 						<div class="pull-right">
 							<strong>{vtranslate('LBL_ADJUSTMENT',$MODULE)}&nbsp;&nbsp;</strong>
 							<span>
-								<input type="radio" name="adjustmentType" option value="+" {if $FINAL.adjustment gte 0}checked{/if}>&nbsp;{vtranslate('LBL_ADD',$MODULE)}&nbsp;&nbsp;
+								<input type="radio" name="adjustmentType" option value="+" {if isset($FINAL.adjustment) && $FINAL.adjustment gte 0}checked{/if}>&nbsp;{vtranslate('LBL_ADD',$MODULE)}&nbsp;&nbsp;
 							</span>
 							<span>
-								<input type="radio" name="adjustmentType" option value="-" {if $FINAL.adjustment lt 0}checked{/if}>&nbsp;{vtranslate('LBL_DEDUCT',$MODULE)}
+								<input type="radio" name="adjustmentType" option value="-" {if isset($FINAL.adjustment) && $FINAL.adjustment lt 0}checked{/if}>&nbsp;{vtranslate('LBL_DEDUCT',$MODULE)}
 							</span>
 						</div>
 					</td>
 					<td>
 						<span class="pull-right">
-							<input id="adjustment" name="adjustment" type="text" data-rule-positive="true" class="lineItemInputBox form-control" value="{if $FINAL.adjustment lt 0}{abs($FINAL.adjustment)}{elseif $FINAL.adjustment}{$FINAL.adjustment}{else}0{/if}">
+							<input id="adjustment" name="adjustment" type="text" data-rule-positive="true" class="lineItemInputBox form-control" value="{if isset($FINAL.adjustment) && $FINAL.adjustment lt 0}{abs($FINAL.adjustment)}{elseif isset($FINAL.adjustment) && $FINAL.adjustment}{$FINAL.adjustment}{else}0{/if}">
 						</span>
 					</td>
 				</tr>
@@ -476,7 +476,7 @@
 						<span class="pull-right"><strong>{vtranslate('LBL_GRAND_TOTAL',$MODULE)}</strong></span>
 					</td>
 					<td>
-						<span id="grandTotal" name="grandTotal" class="pull-right grandTotal">{$FINAL.grandTotal}</span>
+						<span id="grandTotal" name="grandTotal" class="pull-right grandTotal">{(isset($FINAL.grandTotal)) ? $FINAL.grandTotal : ""}</span>
 					</td>
 				</tr>
 				{if $MODULE eq 'Invoice' or $MODULE eq 'PurchaseOrder'}

@@ -169,6 +169,8 @@ Class Inventory_Edit_View extends Vtiger_Edit_View {
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		// $viewer->assign('FINAL', isset($relatedProducts[1]['final_details']) ? $relatedProducts[1]['final_details']:null);
+		
 
 		$taxRegions = $recordModel->getRegionsList();
 		$defaultRegionInfo = $taxRegions[0];

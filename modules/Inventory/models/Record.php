@@ -77,8 +77,8 @@ class Inventory_Record_Model extends Vtiger_Record_Model {
 		$productIdsList = array();
 		for ($i=1;$i<=$productsCount; $i++) {
 			$product = $relatedProducts[$i];
-			$productId = $product['hdnProductId'.$i];
-			$totalAfterDiscount = $product['totalAfterDiscount'.$i];
+			$productId = isset($product['hdnProductId'.$i]) ? $product['hdnProductId'.$i] : "";
+			$totalAfterDiscount = isset($product['totalAfterDiscount'.$i]) ? $product['totalAfterDiscount'.$i]:"";
 
 			if ($taxtype == 'individual') {
 				$taxDetails = getTaxDetailsForProduct($productId, 'all');
@@ -124,13 +124,13 @@ class Inventory_Record_Model extends Vtiger_Record_Model {
                 $preTaxTotal+=$totalAfterDiscount;
 			}
 
-			if ($relatedProducts[$i]['entityType'.$i] == 'Products') {
+			if (isset($relatedProducts[$i]['entityType'.$i]) && $relatedProducts[$i]['entityType'.$i] == 'Products') {
 				$productIdsList[] = $productId;
 			}
 		}
 
         //Updating Pre tax total if not calculated from individual taxtype
-        if (!$preTaxTotal) {
+        if (!isset($preTaxTotal)) {
     		$preTaxTotal = (float)$relatedProducts[1]['final_details']['hdnSubTotal']
     						+ (float)$relatedProducts[1]['final_details']['shipping_handling_charge']
     						- (float)$relatedProducts[1]['final_details']['discountTotal_final'];
@@ -208,7 +208,7 @@ class Inventory_Record_Model extends Vtiger_Record_Model {
 			for ($i=1; $i<=$productsCount; $i++) {
 				$product = $relatedProducts[$i];
 				$productId = $product['hdnProductId'.$i];
-				$imageDetails = $imageDetailsList[$productId];
+				$imageDetails = isset($imageDetailsList[$productId]) ? $imageDetailsList[$productId] : "";
 				if ($imageDetails) {
 					$relatedProducts[$i]['productImage'.$i] = $imageDetails[0]['path'].'_'.$imageDetails[0]['orgname'];
 				}

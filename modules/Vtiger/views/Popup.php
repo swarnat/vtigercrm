@@ -99,6 +99,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 				$searchParams=$request->get('search_params');
 
 		$relationId = $request->get('relationId'); 
+		$label='';
 
 		//To handle special operation when selecting record from Popup
 		$getUrl = $request->get('get_url');

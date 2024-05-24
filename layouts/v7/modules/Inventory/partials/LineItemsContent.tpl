@@ -39,7 +39,7 @@
     {assign var="totalAfterDiscount" value="totalAfterDiscount"|cat:$row_no}
     {assign var="taxTotal" value="taxTotal"|cat:$row_no}
     {assign var="netPrice" value="netPrice"|cat:$row_no}
-    {assign var="FINAL" value=$RELATED_PRODUCTS.1.final_details}
+    {assign var="FINAL" value=(isset($RELATED_PRODUCTS.1.final_details)) ? $RELATED_PRODUCTS.1.final_details : ""}
 
 	{assign var="productDeleted" value="productDeleted"|cat:$row_no}
 	{assign var="productId" value=(isset($data[$hdnProductId])) ? $data[$hdnProductId] : ""}

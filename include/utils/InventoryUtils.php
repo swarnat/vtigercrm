@@ -646,7 +646,7 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock='false
 	for($i=1; $i<=$tot_no_prod; $i++)
 	{
 		//if the product is deleted then we should avoid saving the deleted products
-		if($_REQUEST["deleted".$i] == 1)
+		if(isset($_REQUEST["deleted".$i]) && $_REQUEST["deleted".$i] == 1)
 			continue;
 
 	    $prod_id = vtlib_purify($_REQUEST['hdnProductId'.$i]);
@@ -665,8 +665,8 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock='false
         $qty = vtlib_purify($_REQUEST['qty'.$i]);
         $listprice = vtlib_purify($_REQUEST['listPrice'.$i]);
 		$comment = vtlib_purify($_REQUEST['comment'.$i]);
-		$purchaseCost = vtlib_purify($_REQUEST['purchaseCost'.$i]);
-		$margin = vtlib_purify($_REQUEST['margin'.$i]);
+		$purchaseCost = isset($_REQUEST['purchaseCost'.$i]) ? vtlib_purify($_REQUEST['purchaseCost'.$i]) : "";
+		$margin = isset($_REQUEST['margin'.$i]) ? vtlib_purify($_REQUEST['margin'.$i]) : "";
 
 		if($module == 'SalesOrder') {
 			if($updateDemand == '-')
@@ -992,7 +992,7 @@ function getInventorySHTaxPercent($id, $taxname, $taxnum=null)
             array($taxnum + 1, $id)
         );
 		$rowData = $adb->fetch_array($charges_result);
-		$charges = Zend_Json::decode(html_entity_decode($rowData['charges']));
+		$charges = isset($rowData['charges']) ? Zend_Json::decode(html_entity_decode($rowData['charges'])):"";
 		$taxpercentage = $charges;
 	}
 

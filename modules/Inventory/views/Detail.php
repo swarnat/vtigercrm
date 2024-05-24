@@ -181,7 +181,7 @@ class Inventory_Detail_View extends Vtiger_Detail_View {
 		foreach ($selectedChargesList as $chargeId => $chargeModel) {
 			$chargeInfo['name']		= $chargeModel->getName();
 			$chargeInfo['amount']	= Vtiger_Currency_UIType::transformDisplayValue($selectedChargesAndItsTaxes[$chargeId]['value'], null, true);
-			$chargeInfo['percent']	= $selectedChargesAndItsTaxes[$chargeId]['percent'];
+			$chargeInfo['percent']	= isset($selectedChargesAndItsTaxes[$chargeId]['percent']) ? $selectedChargesAndItsTaxes[$chargeId]['percent'] : "";
 			$chargeInfo['taxes']	= $selectedTaxesList[$chargeId];
 			$chargeInfo['deleted']	= $chargeModel->get('deleted');
 
