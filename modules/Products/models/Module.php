@@ -225,6 +225,7 @@ class Products_Module_Model extends Vtiger_Module_Model {
 	}
 
 	public function getAdditionalImportFields() {
+		$this->importableFields = array();
 		if (!$this->importableFields) {
 			$taxModels = Inventory_TaxRecord_Model::getProductTaxes();
 			foreach ($taxModels as $taxId => $taxModel) {
@@ -251,7 +252,6 @@ class Products_Module_Model extends Vtiger_Module_Model {
 				}
 			}
 
-			$this->importableFields = array();
 			foreach ($taxHeaders as $fieldName => $fieldLabel) {
 				$fieldModel = new Vtiger_Field_Model();
 				$fieldModel->name = $fieldName;

@@ -93,7 +93,7 @@ class ListViewSession {
 					foreach ($recordIdList as $index=>$recordId) {
 						$recordList[] = $recordId;
 						$recordPageMapping[$recordId] = $start;
-						if($recordId == $currentRecordId){
+						if(isset($searchKey) && $recordId == $currentRecordId){
 							$searchKey = php7_count($recordList)-1;
 							$_REQUEST['start'] = $start;
 						}

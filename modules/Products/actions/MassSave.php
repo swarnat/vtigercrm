@@ -32,6 +32,7 @@ class Products_MassSave_Action extends Vtiger_MassSave_Action {
 
 		foreach($recordModels as $id => $model) {
 			foreach ($fieldModelList as $fieldName => $fieldModel) {
+				$uiType = $fieldModel->get('uitype');
 				$fieldDataType = $fieldModel->getFieldDataType();
 				// This is added as we are marking massedit in vtiger6 as not an ajax operation
 				// and this will force the date fields to be saved in user format. If the user format

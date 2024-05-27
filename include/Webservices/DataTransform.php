@@ -315,7 +315,7 @@
 							$row[$fieldName."_raw"] = $row[$fieldName];
 							$row[$fieldName] = CurrencyField::convertToUserFormat($row[$fieldName],$current_user);
 						} else if($fieldObj->getUIType() == '72') {
-							$currencyConversionRate = $row['conversion_rate'];
+							$currencyConversionRate = isset($row['conversion_rate']);
 							if (!empty($currencyConversionRate)) {
 								$rawBaseCurrencyValue = CurrencyField::convertToDollar($row[$fieldName], $currencyConversionRate);
 								$row[$fieldName."_raw"] = $rawBaseCurrencyValue;
