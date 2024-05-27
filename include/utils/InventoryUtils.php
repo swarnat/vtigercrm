@@ -21,7 +21,7 @@
 function updateStk($product_id,$qty,$mode,$ext_prod_arr,$module)
 {
 	global $log;
-	$log->debug("Entering updateStk(".$product_id.",".$qty.",".$mode.",".$ext_prod_arr.",".$module.") method ...");
+	$log->debug("Entering updateStk(".$product_id.",".$qty.",".$mode.",".implode('',$ext_prod_arr).",".$module.") method ...");
 	global $adb;
 	global $current_user;
 
@@ -615,6 +615,7 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock='false
 {
 	global $log, $adb;
 	$id=$focus->id;
+	$description='';
 	$log->debug("Entering into function saveInventoryProductDetails($module).");
 	//Added to get the convertid
 	if(isset($_REQUEST['convert_from']) && $_REQUEST['convert_from'] !='')
@@ -840,7 +841,7 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock='false
 
 	//if the user gave - sign in adjustment then add with the value
 	$adjustmentType = '';
-	if($_REQUEST['adjustmentType'] == '-')
+	if(isset($_REQUEST['adjustmentType']) && $_REQUEST['adjustmentType'] == '-')
 		$adjustmentType = vtlib_purify($_REQUEST['adjustmentType']);
 
 	$adjustment = vtlib_purify($_REQUEST['adjustment']);

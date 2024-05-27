@@ -69,6 +69,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model {
 		$listQuery = parent::getQuery();
 		$searchKey = $this->get('search_key');
         $db = PearDatabase::getInstance();
+		$param=array();
 
 		if(!empty($searchKey)) {
 			$listQueryComponents = explode(" WHERE vtiger_users.status='Active' AND", $listQuery);

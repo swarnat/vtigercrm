@@ -20,7 +20,8 @@ class Vtiger_PDF_InventoryTaxGroupContentViewer extends Vtiger_PDF_InventoryCont
 			'Quantity'	=> 20,
 			'Price'		=> 25,
 			'Discount'	=> 20,
-			'Total'		=> 30
+			'Total'		=> 30,
+			'Tax'     => 0,
 		);
 	}
 	

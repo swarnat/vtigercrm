@@ -121,6 +121,7 @@ function vtws_getIdComponents($elementid){
 }
 
 function vtws_getId($objId, $elemId){
+	if(is_array($elemId)){$elemId=implode(' ',$elemId);}
 	return $objId."x".$elemId;
 }
 
