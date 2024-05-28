@@ -209,6 +209,7 @@ class Products extends CRMEntity {
 				$actualPrice = $requestPrice;
 				$isQuickCreate = true;
 			}
+			$_REQUEST[$cur_checkname] = isset($_REQUEST[$cur_checkname]) ? $_REQUEST[$cur_checkname] :'';
 			if($_REQUEST[$cur_checkname] == 'on' || $_REQUEST[$cur_checkname] == 1 || $isQuickCreate)
 			{
 				$conversion_rate = $currency_details[$i]['conversionrate'];

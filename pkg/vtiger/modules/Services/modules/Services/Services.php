@@ -112,6 +112,7 @@ class Services extends CRMEntity {
 	function save_module($module)
 	{
 		//Inserting into service_taxrel table
+		$_REQUEST['ajxaction'] = isset($_REQUEST['ajxaction']) ? $_REQUEST['ajxaction'] : '';
 		if($_REQUEST['ajxaction'] != 'DETAILVIEW'&& $_REQUEST['action'] != 'ProcessDuplicates' && !$this->isWorkFlowFieldUpdate)
 		{
 			$this->insertTaxInformation('vtiger_producttaxrel', 'Services');
@@ -155,6 +156,7 @@ class Services extends CRMEntity {
 		{
 			$tax_name = $tax_details[$i]['taxname'];
 			$tax_checkname = $tax_details[$i]['taxname']."_check";
+			$_REQUEST[$tax_checkname]=isset($_REQUEST[$tax_checkname]) ? $_REQUEST[$tax_checkname] : '';
 			if($_REQUEST[$tax_checkname] == 'on' || $_REQUEST[$tax_checkname] == 1)
 			{
 				$taxid = getTaxId($tax_name);

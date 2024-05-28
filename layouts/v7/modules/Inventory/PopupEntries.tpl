@@ -83,7 +83,7 @@
                     </tr>
                 {/if}
                 {foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=popupListView}
-                    {assign var="RECORD_DATA" value="{$LISTVIEW_ENTRY->getRawData()}"}
+                    {assign var="RECORD_DATA" value="{implode(' ',$LISTVIEW_ENTRY->getRawData())}"}
                     <tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}" data-name='{$LISTVIEW_ENTRY->getName()}' data-info='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($LISTVIEW_ENTRY->getRawData()))}'
                         {if $GETURL neq '' } data-url="{$LISTVIEW_ENTRY->$GETURL()|cat:'&sourceModule='|cat:$SOURCE_MODULE}" {/if}  id="{$MODULE}_popUpListView_row_{$smarty.foreach.popupListView.index+1}">
                         {if $MULTI_SELECT}
