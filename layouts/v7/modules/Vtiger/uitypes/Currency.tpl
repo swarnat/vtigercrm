@@ -38,7 +38,7 @@
             {/if}
         />
           <input type="hidden" name="base_currency" value="{$BASE_CURRENCY_NAME}">
-          <input type="hidden" name="cur_{$BASE_CURRENCY_ID}_check" value="on">
+          <input type="hidden" name="cur_{(isset($BASE_CURRENCY_ID)) ? $BASE_CURRENCY_ID : ''}_check" value="on">
           <input type="hidden" id="requstedUnitPrice" name="{$BASE_CURRENCY_NAME}" value="">
 	</div>
     {if $REQ->get('view') eq 'Edit'}

@@ -14,11 +14,11 @@
 {assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 {assign var="FIELD_NAME" value=$FIELD_MODEL->get('name')}
 
-<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value="{if $IS_RELATION eq true}1{else}0{/if}" />
+<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value="{if isset($IS_RELATION) && $IS_RELATION eq true}1{else}0{/if}" />
 <input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="checkbox" name="{$FIELD_MODEL->getFieldName()}"
 data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO}'
 {if $FIELD_MODEL->get('fieldvalue') eq true} checked {/if}
-{if $IS_RELATION eq true} disabled="disabled" {/if}
+{if isset($IS_RELATION) && $IS_RELATION eq true} disabled="disabled" {/if}
 {if !empty($SPECIAL_VALIDATOR)}data-validator={Zend_Json::encode($SPECIAL_VALIDATOR)}{/if}
 />
 {/strip}

@@ -22,13 +22,13 @@
                         <input type="hidden" id="parent" value="{$PARENT_MODULE}"/>
                         <input type="hidden" id="sourceRecord" value="{$SOURCE_RECORD}"/>
                         <input type="hidden" id="sourceField" value="{$SOURCE_FIELD}"/>
-                        <input type="hidden" id="url" value="{$GETURL}" />
-                        <input type="hidden" id="multi_select" value="{$MULTI_SELECT}" />
-                        <input type="hidden" id="currencyId" value="{$CURRENCY_ID}" />
-                        <input type="hidden" id="relatedParentModule" value="{$RELATED_PARENT_MODULE}"/>
-                        <input type="hidden" id="relatedParentId" value="{$RELATED_PARENT_ID}"/>
+                        <input type="hidden" id="url" value="{(isset($GETURL)) ? $GETURL : ''}" />
+                        <input type="hidden" id="multi_select" value="{(isset($MULTI_SELECT)) ? $MULTI_SELECT : ''}" />
+                        <input type="hidden" id="currencyId" value="{(isset($CURRENCY_ID)) ? $CURRENCY_ID : ''}" />
+                        <input type="hidden" id="relatedParentModule" value="{(isset($RELATED_PARENT_MODULE)) ? $RELATED_PARENT_MODULE : ''}"/>
+                        <input type="hidden" id="relatedParentId" value="{(isset($RELATED_PARENT_ID)) ? $RELATED_PARENT_ID : ''}"/>
                         <input type="hidden" id="view" value="{$VIEW}"/>
-                        <input type="hidden" id="relationId" value="{$RELATION_ID}" />
+                        <input type="hidden" id="relationId" value="{(isset($RELATION_ID)) ? $RELATION_ID : ''}" />
                         <input type="hidden" id="selectedIds" name="selectedIds">
                         {if !empty($POPUP_CLASS_NAME)}
                             <input type="hidden" id="popUpClassName" value="{$POPUP_CLASS_NAME}"/>

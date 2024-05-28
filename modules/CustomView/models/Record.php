@@ -552,7 +552,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	 */
 	public function getStandardCriteria() {
 		$db = PearDatabase::getInstance();
-
+		$stdfilterlist = array();
 		$cvId = $this->getId();
 		if(empty($cvId)) {
 			return array();
