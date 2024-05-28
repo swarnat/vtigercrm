@@ -137,11 +137,15 @@ class DateTimeField {
                 list($d, $m, $y) = explode('-', $date);
                 break;
             case 'mm-dd-yyyy':
-                list($m, $d, $y) = explode('-', $date);
-                break;
+				if (strpos($date, '-') !== false && count(explode('-', $date)) === 3) {
+					list($m, $d, $y) = explode('-', $date);
+				}
+				break;
             case 'yyyy-mm-dd':
-                list($y, $m, $d) = explode('-', $date);
-                break;
+				if (strpos($date, '-') !== false && count(explode('-', $date)) === 3) {
+					list($y, $m, $d) = explode('-', $date);
+				}
+				break;
         }
 
         if (!empty($y) && !empty($m) && !empty($d)) {

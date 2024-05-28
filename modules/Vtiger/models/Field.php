@@ -156,9 +156,8 @@ class Vtiger_Field_Model extends Vtiger_Field {
 	}
 
 	public function getModule() {
-		if(!isset($this->block)) return null;
 		if(!isset($this->module) || !$this->module) {
-			$moduleObj = $this->block->module;
+			$moduleObj = isset($this->block->module) ? $this->block->module : "";
 			if(empty($moduleObj)) {
 				return false;
 			}

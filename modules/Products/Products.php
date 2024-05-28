@@ -123,7 +123,7 @@ class Products extends CRMEntity {
 		$tax_per = '';
 		//Save the Product - tax relationship if corresponding tax check box is enabled
 		//Delete the existing tax if any
-		if($this->mode == 'edit' && $_REQUEST['action'] != 'MassEditSave')
+		if($this->mode == 'edit' && isset($_REQUEST['action']) != 'MassEditSave')
 		{
 			for($i=0;$i<php7_count($tax_details);$i++)
 			{
@@ -182,7 +182,7 @@ class Products extends CRMEntity {
 		$currency_details = getAllCurrencies('all');
 
 		//Delete the existing currency relationship if any
-		if($this->mode == 'edit' && $_REQUEST['action'] !== 'CurrencyUpdate')
+		if($this->mode == 'edit' && isset($_REQUEST['action']) !== 'CurrencyUpdate')
 		{
 			for($i=0;$i<php7_count($currency_details);$i++)
 			{
@@ -1059,9 +1059,10 @@ class Products extends CRMEntity {
 
 		$button = '';
 
-		if((isPermitted("Products",1,"") == 'yes') && isset($app_strings['LBL_NEW_PRODUCT']))
+		if((isPermitted("Products",1,"") == 'yes') && vtranslate('LBL_NEW_PRODUCT', 'Products') != '')
 		{
-			$button .= '<input title="'.$app_strings['LBL_NEW_PRODUCT'].'" accessyKey="F" class="button" onclick="this.form.action.value=\'EditView\';this.form.module.value=\'Products\';this.form.return_module.value=\'Products\';this.form.return_action.value=\'DetailView\'" type="submit" name="button" value="'.$app_strings['LBL_NEW_PRODUCT'].'">&nbsp;';
+			$newProductLabel = vtranslate('LBL_NEW_PRODUCT', 'Products');
+			$button .= '<input title="'.$newProductLabel.'" accessyKey="F" class="button" onclick="this.form.action.value=\'EditView\';this.form.module.value=\'Products\';this.form.return_module.value=\'Products\';this.form.return_action.value=\'DetailView\'" type="submit" name="button" value="'.$newProductLabel.'">&nbsp;';
 		}
 		if($singlepane_view == 'true')
 			$returnset = '&return_module=Products&return_action=DetailView&is_parent=1&return_id='.$id;

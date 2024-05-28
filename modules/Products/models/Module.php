@@ -225,8 +225,8 @@ class Products_Module_Model extends Vtiger_Module_Model {
 	}
 
 	public function getAdditionalImportFields() {
-		$this->importableFields = array();
-		if (!$this->importableFields) {
+		if (!isset($this->importableFields)) {
+			$this->importableFields = array();
 			$taxModels = Inventory_TaxRecord_Model::getProductTaxes();
 			foreach ($taxModels as $taxId => $taxModel) {
 				if ($taxModel->isDeleted()) {
