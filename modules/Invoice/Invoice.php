@@ -138,6 +138,7 @@ class Invoice extends CRMEntity {
 			$this->createRecurringInvoiceFromSO();
 
 		} else if(isset($_REQUEST)) {
+			$_REQUEST['ajxaction']=isset($_REQUEST['ajxaction']) ? $_REQUEST['ajxaction'] : '';
 			if($_REQUEST['action'] != 'InvoiceAjax' && $_REQUEST['ajxaction'] != 'DETAILVIEW'
 					&& $_REQUEST['action'] != 'MassEditSave' && $_REQUEST['action'] != 'ProcessDuplicates'
 					&& $_REQUEST['action'] != 'SaveAjax' && $this->isLineItemUpdate != false && $_REQUEST['action'] != 'FROM_WS') {

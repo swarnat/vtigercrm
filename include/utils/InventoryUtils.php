@@ -439,6 +439,7 @@ function updateInventoryProductRel($entity) {
 	global $log, $adb,$updateInventoryProductRel_update_product_array,$updateInventoryProductRel_deduct_stock;
 	$entity_id = vtws_getIdComponents($entity->getId());
 	$entity_id = $entity_id[1];
+	$statusFieldName = '';
 	$update_product_array = $updateInventoryProductRel_update_product_array;
 	$log->debug("Entering into function updateInventoryProductRel(".$entity_id.").");
 
@@ -476,7 +477,7 @@ function updateInventoryProductRel($entity) {
 			$updateInventoryProductRel_deduct_stock = false;
 			deductProductsFromStock($entity_id);
 		}
-	} elseif($recordDetails[$statusFieldName] == $statusFieldValue) {
+	} elseif(isset($recordDetails[$statusFieldName]) && $recordDetails[$statusFieldName] == $statusFieldValue) {
 		$updateInventoryProductRel_deduct_stock = false;
 	}
 

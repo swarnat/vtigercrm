@@ -1053,3 +1053,7 @@ function php7_htmlentities($str) {
 	// PHP 8.x marks as deprecated
 	return $str == null ? $str : htmlentities($str);
 }
+
+function php_rand($int){
+	return $int == null ? $int : mt_rand($int,1000);
+}

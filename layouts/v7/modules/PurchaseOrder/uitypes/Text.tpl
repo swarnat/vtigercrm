@@ -24,7 +24,7 @@
 {else}
     {if $REQ->get('view') neq 'Detail'} 
     {assign var=blockLabel value=$RECORD_STRUCTURE['LBL_PO_INFORMATION']}
-    {assign var=fieldModel value=$blockLabel['accountid']}
+    {assign var=fieldModel value=(isset($blockLabel['accountid'])) ? $blockLabel['accountid'] : ''}
 	{$pickList = ['' => 'LBL_SELECT_ADDRESS_OPTION', 'company'=> 'LBL_COMPANY_ADDRESS',
 				'account' => 'LBL_ACCOUNT_ADDRESS', 'vendor'=> 'LBL_VENDOR_ADDRESS', 'contact' => 'LBL_CONTACT_ADDRESS'
 				]}

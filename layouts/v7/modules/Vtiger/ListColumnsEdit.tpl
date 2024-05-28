@@ -53,7 +53,8 @@
 									<div class="panel-group avialFieldsListContainer" id="accordion">
 										<div class="panel panel-default" id="avialFieldsList">
 											{foreach item=BLOCK_FIELDS key=BLOCK_LABEL from=$RECORD_STRUCTURE name=availFieldsLoop}
-												{assign var=RAND_ID value=10|mt_rand:1000}
+												{assign var=RAND_ID value=10|php_rand}
+												{$RAND_ID|@debug_print_var}
 												<div class="instafilta-section">
 													<div id="{$RAND_ID}_accordion" class="availFieldBlock" role="tab">
 														<a class="fieldLabel" data-toggle="collapse" data-parent="#accordion" href="#{$RAND_ID}">

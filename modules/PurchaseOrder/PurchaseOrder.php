@@ -247,7 +247,7 @@ class PurchaseOrder extends CRMEntity {
 		if (isset($_REQUEST['REQUEST_FROM_WS']) && $_REQUEST['REQUEST_FROM_WS']) {
 			unset($_REQUEST['totalProductCount']);
 		}
-
+		$_REQUEST['ajxaction']=isset($_REQUEST['ajxaction']) ? $_REQUEST['ajxaction'] : '';
 		//in ajax save we should not call this function, because this will delete all the existing product values
 		if($_REQUEST['action'] != 'PurchaseOrderAjax' && $_REQUEST['ajxaction'] != 'DETAILVIEW'
 				&& $_REQUEST['action'] != 'MassEditSave' && $_REQUEST['action'] != 'ProcessDuplicates'

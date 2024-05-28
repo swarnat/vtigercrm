@@ -38,7 +38,7 @@ class Vtiger_Base_Model {
 	* @return Raw Value for the given key
 	*/
 	public function getRaw($key){
-		return $this->rawData[$key];
+		return isset($this->rawData[$key]) ? $this->rawData[$key] : '';
 	}
 
 	/**

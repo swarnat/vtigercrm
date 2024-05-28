@@ -273,7 +273,7 @@ class ListViewController {
 				}
 
 				if(in_array($uitype,array(15,33,16))){
-					$value = html_entity_decode($rawValue,ENT_QUOTES,$default_charset); 
+					$value = isset($rawValue) ? html_entity_decode($rawValue,ENT_QUOTES,$default_charset) : ''; 
 				} else { 
 					$value = $rawValue; 
 				}

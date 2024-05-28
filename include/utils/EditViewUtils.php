@@ -286,7 +286,7 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 		}else {
             $product_Detail[$i]['comment'.$i]= $comment;
 		}
-
+		$focus->object_name=isset($focus->object_name) ? $focus->object_name : '';
 		if($module != 'PurchaseOrder' && $focus->object_name != 'Order') {
 			$product_Detail[$i]['qtyInStock'.$i]=decimalFormat($qtyinstock);
 		}
