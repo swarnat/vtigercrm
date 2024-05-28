@@ -97,7 +97,7 @@ class Vtiger_ListAjax_View extends Vtiger_List_View {
 
 		$selectedFields = array();
 		foreach ($cvSelectedFields as $cvFieldName) {
-			$selectedFields[$cvFieldName] = $cvSelectedFieldModelsMapping[$cvFieldName];
+			$selectedFields[$cvFieldName] = isset($cvSelectedFieldModelsMapping[$cvFieldName]) ? $cvSelectedFieldModelsMapping[$cvFieldName] : '';
 		}
 
 		$viewer->assign('CV_MODEL',$cvModel);

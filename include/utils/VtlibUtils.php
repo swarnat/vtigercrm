@@ -1054,7 +1054,4 @@ function php7_htmlentities($str) {
 	return $str == null ? $str : htmlentities($str);
 }
 
-function php_rand($int){
-	return $int == null ? $int : mt_rand($int,1000);
-}
 
