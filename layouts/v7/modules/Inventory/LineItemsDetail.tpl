@@ -39,7 +39,7 @@
     {assign var=QUANTITY_VIEWABLE value=$LINEITEM_FIELDS['quantity']->isViewable()}
 {if $QUANTITY_VIEWABLE}{assign var=COL_SPAN1 value=($COL_SPAN1)+1}{/if}
 {/if}
-{if $LINEITEM_FIELDS['purchase_cost']}
+{if isset($LINEITEM_FIELDS['purchase_cost']) && $LINEITEM_FIELDS['purchase_cost']}
     {assign var=PURCHASE_COST_VIEWABLE value=$LINEITEM_FIELDS['purchase_cost']->isViewable()}
 {if $PURCHASE_COST_VIEWABLE}{assign var=COL_SPAN2 value=($COL_SPAN2)+1}{/if}
 {/if}
@@ -47,7 +47,7 @@
     {assign var=LIST_PRICE_VIEWABLE value=$LINEITEM_FIELDS['listprice']->isViewable()}
 {if $LIST_PRICE_VIEWABLE}{assign var=COL_SPAN2 value=($COL_SPAN2)+1}{/if}
 {/if}
-{if $LINEITEM_FIELDS['margin']}
+{if isset($LINEITEM_FIELDS['margin']) && $LINEITEM_FIELDS['margin']}
     {assign var=MARGIN_VIEWABLE value=$LINEITEM_FIELDS['margin']->isViewable()}
 {if $MARGIN_VIEWABLE}{assign var=COL_SPAN3 value=($COL_SPAN3)+1}{/if}
 {/if}

@@ -185,7 +185,7 @@
 						{include file="partials/LineItemsContent.tpl"|@vtemplate_path:'Inventory' row_no=0 data=[] IGNORE_UI_REGISTRATION=true}
 					</tr>
 					{foreach key=row_no item=data from=$RELATED_PRODUCTS}
-						<tr id="row{$row_no}" data-row-num="{$row_no}" class="lineItemRow" {if isset($data["entityType$row_no"]) && $data["entityType$row_no"] eq 'Products'}data-quantity-in-stock={$data["qtyInStock$row_no"]}{/if}>
+						<tr id="row{$row_no}" data-row-num="{$row_no}" class="lineItemRow" {if isset($data["entityType$row_no"]) && $data["entityType$row_no"] eq 'Products'}data-quantity-in-stock={(isset($data["qtyInStock$row_no"])) ? $data["qtyInStock$row_no"] : ''}{/if}>
 							{include file="partials/LineItemsContent.tpl"|@vtemplate_path:'Inventory' row_no=$row_no data=$data}
 						</tr>
 					{/foreach}

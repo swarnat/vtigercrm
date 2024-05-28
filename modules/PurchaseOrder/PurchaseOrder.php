@@ -112,7 +112,7 @@ class PurchaseOrder extends CRMEntity {
 		$updateInventoryProductRel_deduct_stock = false;
 
 		$requestProductIdsList = $requestQuantitiesList = array();
-		$totalNoOfProducts = $_REQUEST['totalProductCount'];
+		$totalNoOfProducts = isset($_REQUEST['totalProductCount']) ? $_REQUEST['totalProductCount'] : '';
 		for($i=1; $i<=$totalNoOfProducts; $i++) {
 			$productId = $_REQUEST['hdnProductId'.$i];
 			$requestProductIdsList[$productId] = $productId;

@@ -78,7 +78,7 @@ class PurchaseOrder_GetTaxes_Action extends Inventory_GetTaxes_Action {
 								'description'			=> $descriptionsList[$id],
 								'baseCurrencyId'		=> $baseCurrencyIdsList[$id],
 								'quantityInStock'		=> $quantitiesList[$id],
-								'imageSource'			=> $imageSourcesList[$id]
+								'imageSource'			=> isset($imageSourcesList[$id]) ? $imageSourcesList[$id] :''
 					);
 
 			$info[] = array($id => $resultData);

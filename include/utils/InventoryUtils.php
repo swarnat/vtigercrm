@@ -427,6 +427,7 @@ function deleteInventoryProductDetails($focus)
 			}
 		}
 	}
+	$focus->update_product_array=isset($focus->update_product_array) ? $focus->update_product_array :''; //to avoid undefined property warning.
 	$updateInventoryProductRel_update_product_array = $focus->update_product_array;
     $adb->pquery("delete from vtiger_inventoryproductrel where id=?", array($focus->id));
     $adb->pquery("delete from vtiger_inventorysubproductrel where id=?", array($focus->id));

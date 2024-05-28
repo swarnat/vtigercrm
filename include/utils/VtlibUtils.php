@@ -1057,3 +1057,7 @@ function php7_htmlentities($str) {
 function php_rand($int){
 	return $int == null ? $int : mt_rand($int,1000);
 }
+
+function php_imp($value){
+	return $value == null ? $value : implode(' ',$value);
+}
