@@ -57,7 +57,7 @@ class Vtiger_List_View extends Vtiger_Index_View {
                 $this->listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId, $listHeaders);
 		$orderParams = $this->listViewModel->getSortParamsSession($listViewSessionKey);
 
-		if(empty($listHeaders) && is_array($orderParams)) {
+		if(empty($listHeaders) && is_array($orderParams) && array_key_exists('list_headers', $orderParams)) {
 			$listHeaders = $orderParams['list_headers'];
 		}
 
@@ -221,7 +221,7 @@ class Vtiger_List_View extends Vtiger_Index_View {
 			$orderBy = '';
 			$sortOrder = '';
 		}
-		if(empty($listHeaders) && is_array($orderParams)) {
+		if(empty($listHeaders) && is_array($orderParams) && array_key_exists('list_headers', $orderParams)) {
 			$listHeaders = $orderParams['list_headers'];
 		}
                 
