@@ -13,6 +13,7 @@ class Products_ExportData_Action extends Vtiger_ExportData_Action {
 	var $allTaxes = array();
 	var $allRegions = array();
 	var $taxHeaders = array();
+	var $headers = array();
 
 	public function getAllTaxes() {
 		if (!$this->allTaxes) {

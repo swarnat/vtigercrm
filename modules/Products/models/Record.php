@@ -355,6 +355,7 @@ class Products_Record_Model extends Vtiger_Record_Model {
 
 			$result = $db->pquery($sql, array($recordId));
 			$count = $db->num_rows($result);
+			$imageOriginalNamesList=array();
 
 			for($i=0; $i<$count; $i++) {
                 $imageId = $db->query_result($result, $i, 'attachmentsid');
@@ -370,7 +371,6 @@ class Products_Record_Model extends Vtiger_Record_Model {
 				$imageNamesList[] = $imageName;
                 $imageUrlsList[] = $url;
 			}
-			$imageOriginalNamesList=array();
 			if(is_array($imageOriginalNamesList)) {
 				$countOfImages = php7_count($imageOriginalNamesList);
 				for($j=0; $j<$countOfImages; $j++) {
