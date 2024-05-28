@@ -21,7 +21,7 @@
                 </span>
                 <hr style="margin-top:12px;margin-bottom:12px;">
                 <table class = "table table-borderless">
-                    {if $ERROR_MESSAGE neq ''}
+                    {if isset($ERROR_MESSAGE) && $ERROR_MESSAGE neq ''}
                         <span>
                             <h4>
                                 {$ERROR_MESSAGE}

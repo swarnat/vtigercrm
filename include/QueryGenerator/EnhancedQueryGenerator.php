@@ -196,7 +196,7 @@ class EnhancedQueryGenerator extends QueryGenerator {
 					}
 				}
 				$this->endGroup();
-				$groupConditionGlue = $groupcolumns['condition'];
+				$groupConditionGlue = isset($groupcolumns['condition']) ? $groupcolumns['condition'] : "";
 				if ($groupConditionGlue) {
 					$this->addConditionGlue($groupConditionGlue);
 				}
