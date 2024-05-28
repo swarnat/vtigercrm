@@ -10,6 +10,7 @@
 require_once('modules/com_vtiger_workflow/VTEntityCache.inc');
 require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
+#[\AllowDynamicProperties]
 class VTUpdateFieldsTask extends VTTask {
 
 	public $executeImmediately = true;
