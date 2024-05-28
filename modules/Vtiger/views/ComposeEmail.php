@@ -205,6 +205,10 @@ class Vtiger_ComposeEmail_View extends Vtiger_Footer_View {
 			$to = $requestTo;
 		}
 
+		if(is_array($to)) {
+			$to = implode(',',$to);
+		}
+
 		$documentsModel = Vtiger_Module_Model::getInstance('Documents');
 		$documentsURL = $documentsModel->getInternalDocumentsURL();
 

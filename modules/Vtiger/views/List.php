@@ -244,6 +244,7 @@ class Vtiger_List_View extends Vtiger_Index_View {
 				if(empty($searchParams)) {
 					$searchParams = isset($orderParams['search_params']) ? $orderParams['search_params'] : ""; 
 				}
+
 				if(empty($starFilterMode)) {
 					$starFilterMode = isset($orderParams['star_filter_mode']) ? $orderParams['star_filter_mode'] : "";
 				}

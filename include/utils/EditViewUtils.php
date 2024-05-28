@@ -277,7 +277,7 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 		$product_Detail[$i]['hdnProductId'.$i] = $hdnProductId;
 		$product_Detail[$i]['productName'.$i] = from_html($productname);
 		/* Added to fix the issue Product Pop-up name display*/
-		if($_REQUEST['action'] == 'CreateSOPDF' || $_REQUEST['action'] == 'CreatePDF' || $_REQUEST['action'] == 'SendPDFMail')
+		if((isset($_REQUEST['action'])) && ($_REQUEST['action'] == 'CreateSOPDF' || $_REQUEST['action'] == 'CreatePDF' || $_REQUEST['action'] == 'SendPDFMail'))
 			$product_Detail[$i]['productName'.$i]= htmlspecialchars($product_Detail[$i]['productName'.$i]);
 		$product_Detail[$i]['hdnProductcode'.$i] = $hdnProductcode;
 		$product_Detail[$i]['productDescription'.$i]= from_html($productdescription);
@@ -286,7 +286,7 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 		}else {
             $product_Detail[$i]['comment'.$i]= $comment;
 		}
-
+		$focus->object_name=isset($focus->object_name) ? $focus->object_name : '';
 		if($module != 'PurchaseOrder' && $focus->object_name != 'Order') {
 			$product_Detail[$i]['qtyInStock'.$i]=decimalFormat($qtyinstock);
 		}
@@ -302,7 +302,7 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 		}
 		$discount_percent = decimalFormat($adb->query_result($result,$i-1,'discount_percent'));
 		$discount_amount = $adb->query_result($result,$i-1,'discount_amount');
-		$discount_amount = decimalFormat(number_format($discount_amount, $no_of_decimal_places,'.',''));
+		$discount_amount = isset($discount_amount) ? decimalFormat(number_format($discount_amount, $no_of_decimal_places,'.','')):"";
 		$discountTotal = 0;
 		//Based on the discount percent or amount we will show the discount details
 

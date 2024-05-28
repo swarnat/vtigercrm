@@ -1053,3 +1053,5 @@ function php7_htmlentities($str) {
 	// PHP 8.x marks as deprecated
 	return $str == null ? $str : htmlentities($str);
 }
+
+

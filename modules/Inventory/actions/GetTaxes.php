@@ -86,7 +86,7 @@ class Inventory_GetTaxes_Action extends Vtiger_Action_Controller {
 								'description'			=> $descriptionsList[$id],
 								'baseCurrencyId'		=> $baseCurrencyIdsList[$id],
 								'quantityInStock'		=> $quantitiesList[$id],
-								'imageSource'			=> $imageSourcesList[$id]
+								'imageSource'			=> isset($imageSourcesList[$id]) ? $imageSourcesList[$id] : ""
 					);
 
 			$info[] = array($id => $resultData);

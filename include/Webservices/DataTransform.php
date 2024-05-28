@@ -39,7 +39,7 @@
 		}
 
 		static function filterAndSanitize($row,$meta){
-			$recordLabel = $row['label'];
+			$recordLabel = isset($row['label']) ? $row['label'] :"";
 			$row = DataTransform::filterAllColumns($row,$meta);
 			$row = DataTransform::sanitizeData($row,$meta);
 			if(!empty($recordLabel)){

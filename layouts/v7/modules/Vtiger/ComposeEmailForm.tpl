@@ -144,7 +144,7 @@
                                             {else}
                                                 {assign var=FILE_TYPE value="file"}
                                             {/if}
-                                            <div class="MultiFile-label customAttachment" data-file-id="{$ATTACHMENT['fileid']}" data-file-type="{$FILE_TYPE}"  data-file-size="{$ATTACHMENT['size']}" {if $FILE_TYPE eq "document"} data-document-id="{$DOCUMENT_ID}"{/if}>
+                                            <div class="MultiFile-label customAttachment" data-file-id="{(isset($ATTACHMENT['fileid'])) ? $ATTACHMENT['fileid'] : ''}" data-file-type="{$FILE_TYPE}"  data-file-size="{$ATTACHMENT['size']}" {if $FILE_TYPE eq "document"} data-document-id="{$DOCUMENT_ID}"{/if}>
                                                 {if $ATTACHMENT['nondeletable'] neq true}
                                                     <a name="removeAttachment" class="cursorPointer">x </a>
                                                 {/if}

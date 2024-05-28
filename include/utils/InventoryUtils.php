@@ -21,7 +21,7 @@
 function updateStk($product_id,$qty,$mode,$ext_prod_arr,$module)
 {
 	global $log;
-	$log->debug("Entering updateStk(".$product_id.",".$qty.",".$mode.",".$ext_prod_arr.",".$module.") method ...");
+	$log->debug("Entering updateStk(".$product_id.",".$qty.",".$mode.",".implode('',$ext_prod_arr).",".$module.") method ...");
 	global $adb;
 	global $current_user;
 
@@ -427,6 +427,7 @@ function deleteInventoryProductDetails($focus)
 			}
 		}
 	}
+	$focus->update_product_array=isset($focus->update_product_array) ? $focus->update_product_array :''; //to avoid undefined property warning.
 	$updateInventoryProductRel_update_product_array = $focus->update_product_array;
     $adb->pquery("delete from vtiger_inventoryproductrel where id=?", array($focus->id));
     $adb->pquery("delete from vtiger_inventorysubproductrel where id=?", array($focus->id));
@@ -439,6 +440,7 @@ function updateInventoryProductRel($entity) {
 	global $log, $adb,$updateInventoryProductRel_update_product_array,$updateInventoryProductRel_deduct_stock;
 	$entity_id = vtws_getIdComponents($entity->getId());
 	$entity_id = $entity_id[1];
+	$statusFieldName = '';
 	$update_product_array = $updateInventoryProductRel_update_product_array;
 	$log->debug("Entering into function updateInventoryProductRel(".$entity_id.").");
 
@@ -476,7 +478,7 @@ function updateInventoryProductRel($entity) {
 			$updateInventoryProductRel_deduct_stock = false;
 			deductProductsFromStock($entity_id);
 		}
-	} elseif($recordDetails[$statusFieldName] == $statusFieldValue) {
+	} elseif(isset($recordDetails[$statusFieldName]) && $recordDetails[$statusFieldName] == $statusFieldValue) {
 		$updateInventoryProductRel_deduct_stock = false;
 	}
 
@@ -615,6 +617,7 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock='false
 {
 	global $log, $adb;
 	$id=$focus->id;
+	$description='';
 	$log->debug("Entering into function saveInventoryProductDetails($module).");
 	//Added to get the convertid
 	if(isset($_REQUEST['convert_from']) && $_REQUEST['convert_from'] !='')
@@ -646,7 +649,7 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock='false
 	for($i=1; $i<=$tot_no_prod; $i++)
 	{
 		//if the product is deleted then we should avoid saving the deleted products
-		if($_REQUEST["deleted".$i] == 1)
+		if(isset($_REQUEST["deleted".$i]) && $_REQUEST["deleted".$i] == 1)
 			continue;
 
 	    $prod_id = vtlib_purify($_REQUEST['hdnProductId'.$i]);
@@ -665,8 +668,8 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock='false
         $qty = vtlib_purify($_REQUEST['qty'.$i]);
         $listprice = vtlib_purify($_REQUEST['listPrice'.$i]);
 		$comment = vtlib_purify($_REQUEST['comment'.$i]);
-		$purchaseCost = vtlib_purify($_REQUEST['purchaseCost'.$i]);
-		$margin = vtlib_purify($_REQUEST['margin'.$i]);
+		$purchaseCost = isset($_REQUEST['purchaseCost'.$i]) ? vtlib_purify($_REQUEST['purchaseCost'.$i]) : "";
+		$margin = isset($_REQUEST['margin'.$i]) ? vtlib_purify($_REQUEST['margin'.$i]) : "";
 
 		if($module == 'SalesOrder') {
 			if($updateDemand == '-')
@@ -840,7 +843,7 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock='false
 
 	//if the user gave - sign in adjustment then add with the value
 	$adjustmentType = '';
-	if($_REQUEST['adjustmentType'] == '-')
+	if(isset($_REQUEST['adjustmentType']) && $_REQUEST['adjustmentType'] == '-')
 		$adjustmentType = vtlib_purify($_REQUEST['adjustmentType']);
 
 	$adjustment = vtlib_purify($_REQUEST['adjustment']);
@@ -992,7 +995,7 @@ function getInventorySHTaxPercent($id, $taxname, $taxnum=null)
             array($taxnum + 1, $id)
         );
 		$rowData = $adb->fetch_array($charges_result);
-		$charges = Zend_Json::decode(html_entity_decode($rowData['charges']));
+		$charges = isset($rowData['charges']) ? Zend_Json::decode(html_entity_decode($rowData['charges'])):"";
 		$taxpercentage = $charges;
 	}
 

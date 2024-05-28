@@ -39,14 +39,14 @@
     {assign var="totalAfterDiscount" value="totalAfterDiscount"|cat:$row_no}
     {assign var="taxTotal" value="taxTotal"|cat:$row_no}
     {assign var="netPrice" value="netPrice"|cat:$row_no}
-    {assign var="FINAL" value=$RELATED_PRODUCTS.1.final_details}
+    {assign var="FINAL" value=(isset($RELATED_PRODUCTS.1.final_details)) ? $RELATED_PRODUCTS.1.final_details : ""}
 
 	{assign var="productDeleted" value="productDeleted"|cat:$row_no}
 	{assign var="productId" value=(isset($data[$hdnProductId])) ? $data[$hdnProductId] : ""}
 	{assign var="listPriceValues" value=Products_Record_Model::getListPriceValues($productId)}
 	{if $MODULE eq 'PurchaseOrder'}
 		{assign var="listPriceValues" value=array()}
-		{assign var="purchaseCost" value="{if $data.$purchaseCost && $RECORD_CURRENCY_RATE && $data.$qty}{((float)$data.$purchaseCost) / ((float)$data.$qty * (float){$RECORD_CURRENCY_RATE})}{else}0{/if}"}
+		{assign var="purchaseCost" value="{if isset($data.$purchaseCost) && $data.$purchaseCost && $RECORD_CURRENCY_RATE && $data.$qty}{((float)$data.$purchaseCost) / ((float)$data.$qty * (float){$RECORD_CURRENCY_RATE})}{else}0{/if}"}
 		{foreach item=currency_details from=$CURRENCIES}
 			{append var='listPriceValues' value=$currency_details.conversionrate * $purchaseCost index=$currency_details.currency_id}
 		{/foreach}

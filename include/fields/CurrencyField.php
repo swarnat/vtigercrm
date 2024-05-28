@@ -356,8 +356,8 @@ class CurrencyField {
         $decimalSeparator  = $this->decimalSeparator;
 		if(empty($currencySeparator)) $currencySeparator = ' ';
 		if(empty($decimalSeparator)) $decimalSeparator = ' ';
-        $value = str_replace("$currencySeparator", "", $value);
-        $value = str_replace("$decimalSeparator", ".", $value);
+        $value = isset($value) ? str_replace("$currencySeparator", "", $value) : '';
+        $value = isset($value) ? str_replace("$decimalSeparator", ".", $value) : '';
 
 		if($skipConversion == false) {
 			$value = self::convertToDollar($value,$this->conversionRate);

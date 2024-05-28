@@ -126,7 +126,7 @@ class SalesOrder extends CRMEntity {
 			unset($_REQUEST['totalProductCount']);
 		}
 
-
+		$_REQUEST['ajxaction'] = isset($_REQUEST['ajxaction']) ? $_REQUEST['ajxaction'] : '';
 		//in ajax save we should not call this function, because this will delete all the existing product values
 		if($_REQUEST['action'] != 'SalesOrderAjax' && $_REQUEST['ajxaction'] != 'DETAILVIEW'
 				&& $_REQUEST['action'] != 'MassEditSave' && $_REQUEST['action'] != 'ProcessDuplicates'
@@ -545,8 +545,9 @@ class SalesOrder extends CRMEntity {
 			$tableColumnsString = implode(',', $tableColumns);
 		}
         $selectClause = "SELECT " . $this->table_name . "." . $this->table_index . " AS recordid," . $tableColumnsString;
-
-        // Select Custom Field Table Columns if present
+		$query = '';
+		$duplicateCheckClause = '';
+         // Select Custom Field Table Columns if present
         if (isset($this->customFieldTable))
             $query .= ", " . $this->customFieldTable[0] . ".* ";
 
