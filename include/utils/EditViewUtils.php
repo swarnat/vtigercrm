@@ -248,9 +248,9 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 			}
 			array_push($subParams, 'Products');
 		} else {
-			$focusId = isset($focus->id);
 			$subProductsQuery = 'SELECT productid AS prod_id, quantity FROM vtiger_inventorysubproductrel WHERE id=? AND sequence_no=?';
-			$subParams = array($focusId, $i);
+			$focus->id = isset($focus->id) ? $focus->id : "";
+			$subParams = array($focus->id, $i);
 		}
 		$subProductsResult = $adb->pquery($subProductsQuery, $subParams);
 		$subProductsCount = $adb->num_rows($subProductsResult);
@@ -450,7 +450,7 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 	//suppose user want to change individual to group or vice versa in edit time the we have to show all taxes. so that here we will store all the taxes and based on need we will show the corresponding taxes
 
 	//First we should get all available taxes and then retrieve the corresponding tax values
-	$tax_details = getAllTaxes('available','','edit',$focusId);
+	$tax_details = getAllTaxes('available','','edit',$focus->id);
 	$taxDetails = array();
 
 	for($tax_count=0;$tax_count<php7_count($tax_details);$tax_count++)
@@ -493,7 +493,7 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 		$taxDetails[$taxId]['compoundon']	= Zend_Json::decode(html_entity_decode($tax_details[$tax_count]['compoundon']));
 	}
 
-	$compoundTaxesInfo = getCompoundTaxesInfoForInventoryRecord($focusId, $module);
+	$compoundTaxesInfo = getCompoundTaxesInfoForInventoryRecord($focus->id, $module);
 	//Calculating compound info
 	$taxTotal = 0;
 	foreach ($taxDetails as $taxId => $taxInfo) {
@@ -535,7 +535,7 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 	//calculate S&H tax
 	$shtaxtotal = 0;
 	//First we should get all available taxes and then retrieve the corresponding tax values
-	$shtax_details = getAllTaxes('available','sh','edit',$focusId);
+	$shtax_details = getAllTaxes('available','sh','edit',$focus->id);
 
 	//if taxtype is group then the tax should be same for all products in vtiger_inventoryproductrel table
 	for($shtax_count=0;$shtax_count<php7_count($shtax_details);$shtax_count++)
