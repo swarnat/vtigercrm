@@ -178,13 +178,13 @@ class Products_Record_Model extends Vtiger_Record_Model {
 			}
 		}
 
-		$productTaxes = $productDetails[1]['taxes'];
+		$productTaxes = isset($productDetails[1]['taxes']);
 		if (!empty ($productDetails)) {
 			$taxCount = php7_count($productTaxes);
 			$taxTotal = 0;
 
 			for($i=0; $i<$taxCount; $i++) {
-				$taxValue = $productTaxes[$i]['percentage'];
+				$taxValue = isset($productTaxes[$i]['percentage']);
 
 				$taxAmount = $totalAfterDiscount * $taxValue / 100;
 				$taxTotal = $taxTotal + $taxAmount;

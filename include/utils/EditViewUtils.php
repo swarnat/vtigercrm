@@ -236,7 +236,7 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 			$product_Detail[$i]['delRow'.$i]="Del";
 		}
 
-		if (in_array($module, $lineItemSupportedModules) || $module === 'Vendors' || (!$focus->mode && $seid)) {
+		if (in_array($module, $lineItemSupportedModules) || $module === 'Vendors' || isset($focus->mode) && (!$focus->mode && $seid)) {
 			$subProductsQuery = 'SELECT vtiger_seproductsrel.crmid AS prod_id, quantity FROM vtiger_seproductsrel
 								 INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_seproductsrel.crmid
 								 INNER JOIN vtiger_products ON vtiger_products.productid = vtiger_seproductsrel.crmid
@@ -248,8 +248,9 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 			}
 			array_push($subParams, 'Products');
 		} else {
+			$focusId = isset($focus->id);
 			$subProductsQuery = 'SELECT productid AS prod_id, quantity FROM vtiger_inventorysubproductrel WHERE id=? AND sequence_no=?';
-			$subParams = array($focus->id, $i);
+			$subParams = array($focusId, $i);
 		}
 		$subProductsResult = $adb->pquery($subProductsQuery, $subParams);
 		$subProductsCount = $adb->num_rows($subProductsResult);
@@ -372,6 +373,7 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 			$tax_label = $tax_details[$tax_count]['taxlabel'];
 			$tax_value = 0;
 
+		
 			$tax_value = $tax_details[$tax_count]['percentage'];
 			if($focus->id != '' && $taxtype == 'individual') {
 				$lineItemId = $adb->query_result($result, $i-1, 'lineitem_id');
@@ -405,12 +407,12 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 	$finalDiscount = 0;
 	$product_Detail[1]['final_details']['discount_type_final'] = 'zero';
 
-	$subTotal = ($focus->column_fields['hdnSubTotal'] != '')?$focus->column_fields['hdnSubTotal']:0;
+	$subTotal = (isset($focus->column_fields['hdnSubTotal']) != '')?$focus->column_fields['hdnSubTotal']:0;
 	$subTotal = number_format($subTotal, $no_of_decimal_places,'.','');
 
 	$product_Detail[1]['final_details']['hdnSubTotal'] = $subTotal;
-	$discountPercent = ($focus->column_fields['hdnDiscountPercent'] != '')?$focus->column_fields['hdnDiscountPercent']:0;
-	$discountAmount = ($focus->column_fields['hdnDiscountAmount'] != '')?$focus->column_fields['hdnDiscountAmount']:0;
+	$discountPercent = (isset($focus->column_fields['hdnDiscountPercent']) != '')?$focus->column_fields['hdnDiscountPercent']:0;
+	$discountAmount = (isset($focus->column_fields['hdnDiscountAmount']) != '')?$focus->column_fields['hdnDiscountAmount']:0;
     if($discountPercent != '0'){
         $discountAmount = ($product_Detail[1]['final_details']['hdnSubTotal'] * $discountPercent / 100);
     }
@@ -421,8 +423,10 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
     $product_Detail[1]['final_details']['discount_percentage_final'] = 0;
 	$product_Detail[1]['final_details']['discount_amount_final'] = $discount_amount_final;
 
-	$hdnDiscountPercent = (float) $focus->column_fields['hdnDiscountPercent'];
-	$hdnDiscountAmount	= (float) $focus->column_fields['hdnDiscountAmount'];
+	if(isset($focus->column_fields) && isset($focus->column_fields['hdnDiscountPercent'])) {
+		$hdnDiscountPercent = (float) $focus->column_fields['hdnDiscountPercent'];
+		$hdnDiscountAmount	= (float) $focus->column_fields['hdnDiscountAmount'];
+	}
 
 	if(!empty($hdnDiscountPercent)) {
 		$finalDiscount = ($subTotal*$discountPercent/100);
@@ -447,7 +451,7 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 	//suppose user want to change individual to group or vice versa in edit time the we have to show all taxes. so that here we will store all the taxes and based on need we will show the corresponding taxes
 
 	//First we should get all available taxes and then retrieve the corresponding tax values
-	$tax_details = getAllTaxes('available','','edit',$focus->id);
+	$tax_details = getAllTaxes('available','','edit',$focusId);
 	$taxDetails = array();
 
 	for($tax_count=0;$tax_count<php7_count($tax_details);$tax_count++)
@@ -490,7 +494,7 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 		$taxDetails[$taxId]['compoundon']	= Zend_Json::decode(html_entity_decode($tax_details[$tax_count]['compoundon']));
 	}
 
-	$compoundTaxesInfo = getCompoundTaxesInfoForInventoryRecord($focus->id, $module);
+	$compoundTaxesInfo = getCompoundTaxesInfoForInventoryRecord($focusId, $module);
 	//Calculating compound info
 	$taxTotal = 0;
 	foreach ($taxDetails as $taxId => $taxInfo) {
@@ -524,7 +528,7 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 	$product_Detail[1]['final_details']['tax_totalamount'] = number_format($taxTotal, $no_of_decimal_places, '.', '');
 
 	//To set the Shipping & Handling charge
-	$shCharge = ($focus->column_fields['hdnS_H_Amount'] != '')?$focus->column_fields['hdnS_H_Amount']:0;
+	$shCharge = (isset($focus->column_fields['hdnS_H_Amount']) != '')?$focus->column_fields['hdnS_H_Amount']:0;
 	$shCharge = number_format($shCharge, $no_of_decimal_places,'.','');
 	$product_Detail[1]['final_details']['shipping_handling_charge'] = $shCharge;
 
@@ -532,7 +536,7 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 	//calculate S&H tax
 	$shtaxtotal = 0;
 	//First we should get all available taxes and then retrieve the corresponding tax values
-	$shtax_details = getAllTaxes('available','sh','edit',$focus->id);
+	$shtax_details = getAllTaxes('available','sh','edit',$focusId);
 
 	//if taxtype is group then the tax should be same for all products in vtiger_inventoryproductrel table
 	for($shtax_count=0;$shtax_count<php7_count($shtax_details);$shtax_count++)
@@ -560,12 +564,12 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 	$product_Detail[1]['final_details']['shtax_totalamount'] = $shtaxtotal;
 
 	//To set the Adjustment value
-	$adjustment = ($focus->column_fields['txtAdjustment'] != '')?$focus->column_fields['txtAdjustment']:0;
+	$adjustment = (isset($focus->column_fields['txtAdjustment']) != '')?$focus->column_fields['txtAdjustment']:0;
 	$adjustment = number_format($adjustment, $no_of_decimal_places,'.','');
 	$product_Detail[1]['final_details']['adjustment'] = $adjustment;
 
 	//To set the grand total
-	$grandTotal = ($focus->column_fields['hdnGrandTotal'] != '')?$focus->column_fields['hdnGrandTotal']:0;
+	$grandTotal = (isset($focus->column_fields['hdnGrandTotal']) != '')?$focus->column_fields['hdnGrandTotal']:0;
 	$grandTotal = number_format($grandTotal, $no_of_decimal_places,'.','');
 	$product_Detail[1]['final_details']['grandTotal'] = $grandTotal;
 
