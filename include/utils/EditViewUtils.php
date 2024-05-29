@@ -373,7 +373,6 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 			$tax_label = $tax_details[$tax_count]['taxlabel'];
 			$tax_value = 0;
 
-		
 			$tax_value = $tax_details[$tax_count]['percentage'];
 			if($focus->id != '' && $taxtype == 'individual') {
 				$lineItemId = $adb->query_result($result, $i-1, 'lineitem_id');
@@ -423,7 +422,7 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
     $product_Detail[1]['final_details']['discount_percentage_final'] = 0;
 	$product_Detail[1]['final_details']['discount_amount_final'] = $discount_amount_final;
 
-	if(isset($focus->column_fields) && isset($focus->column_fields['hdnDiscountPercent'])) {
+	if(is_array($focus->column_fields)) {
 		$hdnDiscountPercent = (float) $focus->column_fields['hdnDiscountPercent'];
 		$hdnDiscountAmount	= (float) $focus->column_fields['hdnDiscountAmount'];
 	}
