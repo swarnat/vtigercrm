@@ -68,7 +68,7 @@
                                                                         <a href="">
                                                                             <span class="fa fa-angle-right" aria-hidden="true"></span>&nbsp;
                                                                             {if $REQ->get('view') eq 'Edit'}
-                                                                                    {if $RECORD}
+                                                                                    {if isset($RECORD) && $RECORD}
                                                                                             {vtranslate('LBL_EDITING', $MODULE)} :&nbsp;{$RECORD->getName()}
                                                                                     {else}
                                                                                             {vtranslate('LBL_ADDING_NEW', $MODULE)}
