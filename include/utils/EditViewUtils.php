@@ -422,10 +422,8 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
     $product_Detail[1]['final_details']['discount_percentage_final'] = 0;
 	$product_Detail[1]['final_details']['discount_amount_final'] = $discount_amount_final;
 
-	if(isset($focus->column_fields)) {
-		$hdnDiscountPercent = (float) $focus->column_fields['hdnDiscountPercent'];
-		$hdnDiscountAmount	= (float) $focus->column_fields['hdnDiscountAmount'];
-	}
+		$hdnDiscountPercent = isset($focus->column_fields['hdnDiscountPercent']) ? (float) $focus->column_fields['hdnDiscountPercent'] : 0.0;
+		$hdnDiscountAmount	= isset($focus->column_fields['hdnDiscountAmount']) ? (float) $focus->column_fields['hdnDiscountAmount'] : 0.0;
 
 	if(!empty($hdnDiscountPercent)) {
 		$finalDiscount = ($subTotal*$discountPercent/100);
