@@ -59,7 +59,7 @@
 												{/if}
 												<select style="width: 140px;" class="select2 referenceModulesList">
 													{foreach key=index item=value from=$refrenceList}
-														<option value="{$value}" {if $value eq $REFERENCED_MODULE_NAME} selected {/if}>{vtranslate($value, $value)}</option>
+														<option value="{$value}" {if isset($REFERENCED_MODULE_NAME) && $value eq $REFERENCED_MODULE_NAME} selected {/if}>{vtranslate($value, $value)}</option>
 													{/foreach}
 												</select>
 											{else}
