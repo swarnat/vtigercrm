@@ -628,7 +628,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model {
 		$fieldName = $fieldInstance->get('listViewRawFieldName');
 		$fieldValue = $this->get($fieldName); 
 		$rawData = $this->getRawData();
-		$rawValue = $rawData[$fieldName];
+		$rawValue = isset($rawData[$fieldName]) ? $rawData[$fieldName] : '';
 		if ($fieldInstance) {
 			$dataType = $fieldInstance->getFieldDataType();
 			$uiType = $fieldInstance->get('uitype');
