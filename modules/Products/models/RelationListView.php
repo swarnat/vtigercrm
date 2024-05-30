@@ -10,7 +10,7 @@
 
 class Products_RelationListView_Model extends Vtiger_RelationListView_Model {
 
-	protected $tab_label;
+	public $tab_label;
 
 	/**
 	 * Function to get the links for related list
