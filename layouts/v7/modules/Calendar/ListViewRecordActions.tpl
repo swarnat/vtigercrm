@@ -30,10 +30,10 @@
 			</span>
 		{/if}
 		{assign var=EDIT_VIEW_URL value={$LISTVIEW_ENTRY->getEditViewUrl()}}
-		{if $IS_MODULE_EDITABLE && $EDIT_VIEW_URL && $LISTVIEW_ENTRY->get('taskstatus') neq vtranslate('Held', $MODULE) && $LISTVIEW_ENTRY->get('taskstatus') neq vtranslate('Completed', $MODULE)}
+		{if isset($IS_MODULE_EDITABLE) && $IS_MODULE_EDITABLE && $EDIT_VIEW_URL && $LISTVIEW_ENTRY->get('taskstatus') neq vtranslate('Held', $MODULE) && $LISTVIEW_ENTRY->get('taskstatus') neq vtranslate('Completed', $MODULE)}
 			<span class="fa fa-check icon action markAsHeld" title="{vtranslate('LBL_MARK_AS_HELD', $MODULE)}" onclick="Calendar_Calendar_Js.markAsHeld('{$LISTVIEW_ENTRY->getId()}');"></span>
 		{/if}
-		{if $IS_CREATE_PERMITTED && $EDIT_VIEW_URL && $LISTVIEW_ENTRY->get('taskstatus') eq vtranslate('Held', $MODULE)}
+		{if isset($IS_CREATE_PERMITTED) && $IS_CREATE_PERMITTED && $EDIT_VIEW_URL && $LISTVIEW_ENTRY->get('taskstatus') eq vtranslate('Held', $MODULE)}
 			<span class="fa fa-flag icon action holdFollowupOn" title="{vtranslate('LBL_HOLD_FOLLOWUP_ON', "Events")}" onclick="Calendar_Calendar_Js.holdFollowUp('{$LISTVIEW_ENTRY->getId()}');"></span>
 		{/if}
 		<span class="more dropdown action">
@@ -41,7 +41,7 @@
 				<i class="fa fa-ellipsis-v icon"></i></span>
 			<ul class="dropdown-menu">
 				<li><a data-id="{$LISTVIEW_ENTRY->getId()}" href="{$LISTVIEW_ENTRY->getFullDetailViewUrl()}&app={$SELECTED_MENU_CATEGORY}">{vtranslate('LBL_DETAILS', $MODULE)}</a></li>
-					{if $RECORD_ACTIONS}
+					{if isset($RECORD_ACTIONS) && $RECORD_ACTIONS}
 						{if $RECORD_ACTIONS['edit']}
 						<li><a data-id="{$LISTVIEW_ENTRY->getId()}" href="javascript:void(0);" data-url="{$LISTVIEW_ENTRY->getEditViewUrl()}&app={$SELECTED_MENU_CATEGORY}" name="editlink">{vtranslate('LBL_EDIT', $MODULE)}</a></li>
 						{/if}

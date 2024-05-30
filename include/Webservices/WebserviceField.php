@@ -49,6 +49,8 @@ class WebserviceField{
 	private $readOnly = 0;
 	private $isunique = 0;
 
+	public $parentReferenceField; //To avoid undefined property warning.
+
 	private function __construct($adb,$row){
 		$this->uitype = isset($row['uitype'])? $row['uitype'] : 0;
 		$this->blockId = isset($row['block'])? $row['block'] : 0;

@@ -464,7 +464,7 @@ class ListViewController {
 					if(php7_count($moduleList) == 1) {
 						$parentModule = $moduleList[0];
 					} else {
-						$parentModule = $this->typeList[$value];
+						$parentModule = isset($this->typeList[$value]) ? $this->typeList[$value] : '';
 					}
 					if(!empty($value) && !empty($this->nameList[$fieldName]) && !empty($parentModule)) {
 						$parentMeta = $this->queryGenerator->getMeta($parentModule);

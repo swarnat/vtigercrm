@@ -1623,6 +1623,7 @@ class Vtiger_Module_Model extends Vtiger_Module {
         if(empty($relationIds))  return array();
         
 		$focus = CRMEntity::getInstance($this->getName());
+		$focus->related_module_table_index=isset($focus->related_module_table_index) ? $focus->related_module_table_index : null;
 		$relatedModuleMapping = $focus->related_module_table_index;
         
         $relationFieldMapping = array();
@@ -1656,9 +1657,9 @@ class Vtiger_Module_Model extends Vtiger_Module {
                 
                 
                 if(empty($relationFieldId)){
-                    $tablename = $relatedModuleMapping[$module]['table_name'];
-                    $tabIndex = $relatedModuleMapping[$module]['table_index'];
-                    $relIndex = $relatedModuleMapping[$module]['rel_index'];
+                    $tablename = isset($relatedModuleMapping[$module]['table_name']) ? $relatedModuleMapping[$module]['table_name'] : '';
+                    $tabIndex = isset($relatedModuleMapping[$module]['table_index']) ? $relatedModuleMapping[$module]['table_index'] : '';
+                    $relIndex = isset($relatedModuleMapping[$module]['rel_index']) ? $relatedModuleMapping[$module]['rel_index'] : '';
 					//To show related records comments in documents, should get related document records from vtiger_senotesrel.
 					if(empty($tablename) && $this->getName() == 'Documents') {
 						$tablename = 'vtiger_senotesrel';

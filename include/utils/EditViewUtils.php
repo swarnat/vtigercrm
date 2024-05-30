@@ -566,7 +566,7 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 	$product_Detail[1]['final_details']['adjustment'] = $adjustment;
 
 	//To set the grand total
-	$grandTotal = (isset($focus->column_fields['hdnGrandTotal']) != '')?$focus->column_fields['hdnGrandTotal']:0;
+	$grandTotal = (isset($focus->column_fields['hdnGrandTotal']) && $focus->column_fields['hdnGrandTotal'] != '')?$focus->column_fields['hdnGrandTotal']:0;
 	$grandTotal = number_format($grandTotal, $no_of_decimal_places,'.','');
 	$product_Detail[1]['final_details']['grandTotal'] = $grandTotal;
 

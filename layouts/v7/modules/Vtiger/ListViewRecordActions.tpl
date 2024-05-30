@@ -35,7 +35,7 @@
             <i class="fa fa-ellipsis-v icon"></i></span>
         <ul class="dropdown-menu">
             <li><a data-id="{$LISTVIEW_ENTRY->getId()}" href="{$LISTVIEW_ENTRY->getFullDetailViewUrl()}&app={$SELECTED_MENU_CATEGORY}">{vtranslate('LBL_DETAILS', $MODULE)}</a></li>
-			{if $RECORD_ACTIONS}
+			{if isset($RECORD_ACTIONS) && $RECORD_ACTIONS}
 				{if $RECORD_ACTIONS['edit']}
 					<li><a data-id="{$LISTVIEW_ENTRY->getId()}" href="javascript:void(0);" data-url="{$LISTVIEW_ENTRY->getEditViewUrl()}&app={$SELECTED_MENU_CATEGORY}" name="editlink">{vtranslate('LBL_EDIT', $MODULE)}</a></li>
 				{/if}

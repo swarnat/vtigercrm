@@ -22,7 +22,7 @@
 			<input type="hidden" value="{$SEARCH_VALUE|escape:"html"}" id="searchValue">
 			<div class="scrollableSearchContent">
 				<div class="container-fluid moduleResults-container">
-					<input type="hidden" name="groupStart" value="{$GROUP_START}" class="groupStart"/>
+					<input type="hidden" name="groupStart" value="{(isset($GROUP_START)) ? $GROUP_START : ''}" class="groupStart"/>
 					{assign var=NORECORDS value=false}
 					{foreach key=MODULE item=LISTVIEW_MODEL from=$MATCHING_RECORDS}
 						{assign var=RECORDS_COUNT value=$LISTVIEW_MODEL->recordsCount}
