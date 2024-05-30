@@ -406,12 +406,12 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 	$finalDiscount = 0;
 	$product_Detail[1]['final_details']['discount_type_final'] = 'zero';
 
-	$subTotal = (isset($focus->column_fields['hdnSubTotal']) != '')?$focus->column_fields['hdnSubTotal']:0;
+	$subTotal = (isset($focus->column_fields['hdnSubTotal']) && $focus->column_fields['hdnSubTotal'] != '') ? $focus->column_fields['hdnSubTotal'] : 0;
 	$subTotal = number_format($subTotal, $no_of_decimal_places,'.','');
 
 	$product_Detail[1]['final_details']['hdnSubTotal'] = $subTotal;
-	$discountPercent = (isset($focus->column_fields['hdnDiscountPercent']) != '')?$focus->column_fields['hdnDiscountPercent']:0;
-	$discountAmount = (isset($focus->column_fields['hdnDiscountAmount']) != '')?$focus->column_fields['hdnDiscountAmount']:0;
+	$discountPercent = (isset($focus->column_fields['hdnDiscountPercent']) &&  $focus->column_fields['hdnDiscountPercent'] != '') ? $focus->column_fields['hdnDiscountPercent'] : 0;
+	$discountAmount = (isset($focus->column_fields['hdnDiscountAmount']) && $focus->column_fields['hdnDiscountAmount'] != '') ? $focus->column_fields['hdnDiscountAmount'] : 0;
     if($discountPercent != '0'){
         $discountAmount = ($product_Detail[1]['final_details']['hdnSubTotal'] * $discountPercent / 100);
     }
@@ -525,7 +525,7 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 	$product_Detail[1]['final_details']['tax_totalamount'] = number_format($taxTotal, $no_of_decimal_places, '.', '');
 
 	//To set the Shipping & Handling charge
-	$shCharge = (isset($focus->column_fields['hdnS_H_Amount']) != '')?$focus->column_fields['hdnS_H_Amount']:0;
+	$shCharge = (isset($focus->column_fields['hdnS_H_Amount']) && $focus->column_fields['hdnS_H_Amount'] != '') ? $focus->column_fields['hdnS_H_Amount'] : 0;
 	$shCharge = number_format($shCharge, $no_of_decimal_places,'.','');
 	$product_Detail[1]['final_details']['shipping_handling_charge'] = $shCharge;
 
@@ -561,7 +561,7 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 	$product_Detail[1]['final_details']['shtax_totalamount'] = $shtaxtotal;
 
 	//To set the Adjustment value
-	$adjustment = (isset($focus->column_fields['txtAdjustment']) != '')?$focus->column_fields['txtAdjustment']:0;
+	$adjustment = (isset($focus->column_fields['txtAdjustment']) && $focus->column_fields['txtAdjustment'] != '') ? $focus->column_fields['txtAdjustment'] : 0;
 	$adjustment = number_format($adjustment, $no_of_decimal_places,'.','');
 	$product_Detail[1]['final_details']['adjustment'] = $adjustment;
 
