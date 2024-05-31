@@ -455,6 +455,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model {
 			$actionModels = Vtiger_Action_Model::getAll(true);
 			foreach($allModuleModules as $tabId => $moduleModel) {
 				if($moduleModel->isActive()) {
+					$profilePermissions[$moduleModel->getId()] = isset($profilePermissions[$moduleModel->getId()]) ? $profilePermissions[$moduleModel->getId()] : '';
 					$this->saveModulePermissions($moduleModel, $profilePermissions[$moduleModel->getId()]);
 				} else {
 					$permissions = array();
@@ -614,7 +615,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model {
 
 		// Enable module permission in profile2tab table only if either its an extension module or the entity module has atleast 1 action enabled
 		if($actionEnabled) {
-			$isModulePermitted = isset($permissions['is_permitted']) ? $this->tranformInputPermissionValue($permissions['is_permitted']) :null;
+			$isModulePermitted = isset($permissions['is_permitted']) ? $this->tranformInputPermissionValue($permissions['is_permitted']) :'';
 		} else {
 			$isModulePermitted = Settings_Profiles_Module_Model::NOT_PERMITTED_VALUE;
 		}

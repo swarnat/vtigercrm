@@ -62,7 +62,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 	 * @return <Settings_Roles_Record_Model> instance
 	 */
 	public function getParent() {
-		if(!$this->parent) {
+		if(!isset($this->parent)) {
 			$parentRoleString = $this->getParentRoleString();
 			$parentComponents = explode('::', $parentRoleString);
 			$noOfRoles = php7_count($parentComponents);
