@@ -123,6 +123,8 @@ class Users extends CRMEntity {
 	var $record_id;
 	var $new_schema = true;
 
+	public $moduleName;
+
 	var $DEFAULT_PASSWORD_CRYPT_TYPE; //'BLOWFISH', /* before PHP5.3*/ MD5;
 
 	//Default Widgests
