@@ -90,6 +90,7 @@ class EnhancedQueryGenerator extends QueryGenerator {
 		$dateSpecificConditions = $customView->getStdFilterConditions();
 		$specialDateTimeConditions = Vtiger_Functions::getSpecialDateTimeCondtions();
 		foreach ($advFilterList as $groupindex => $groupcolumns) {
+			if(isset($groupcolumns))continue;
 			$filtercolumns = $groupcolumns['columns'];
 			if (php7_count($filtercolumns) > 0) {
 				$this->startGroup('');

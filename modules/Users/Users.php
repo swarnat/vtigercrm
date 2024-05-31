@@ -1725,7 +1725,7 @@ class Users extends CRMEntity {
 			foreach($fieldInstances as $blockInstance) {
 				foreach($blockInstance as $fieldInstance) {
 					$fieldName = $fieldInstance->getName();
-					$fieldValue = $data[$fieldName];
+					$fieldValue = isset($data[$fieldName]) ? $data[$fieldName] : '';
 					$dataType = $fieldInstance->getFieldDataType();
 					if($fieldInstance->isMandatory()) {
 						$mandatoryFields[] = $fieldName;
@@ -1767,6 +1767,7 @@ class Users extends CRMEntity {
 							unset($currencyId);
 					} else if($fieldName == 'language') {
 						foreach($allLanguages as $langKey => $langName) {
+							if(isset($fieldValue) && isset($langKey) && isset($langName))continue;
 							if(strtolower($fieldValue) == strtolower($langKey) || strtolower($fieldValue) == strtolower($langName)) {
 								$lang = $langKey;
 								break;
@@ -1781,6 +1782,11 @@ class Users extends CRMEntity {
 						$allUsers = Users_Record_Model::getAll();
 						$reportsTo = null;
 						foreach($allUsers as $user) {
+							$userName = $user->get('user_name');
+							$userLabel = $user->get('userlabel');
+							if (isset($userName) && isset($userLabel)) {
+								continue;
+							}
 							$userName = strtolower($user->get('user_name'));
 							$firstLastName = strtolower($user->get('userlabel'));
 							if(strtolower($fieldValue) == $userName || strtolower($fieldValue) == $firstLastName) {
@@ -1795,6 +1801,7 @@ class Users extends CRMEntity {
 						$picklistValues = $fieldInstance->getPicklistValues();
 						$emptyValuedPicklistFields = array('defaulteventstatus', 'defaultactivitytype', 'reminder_interval');
 						foreach($picklistValues as $picklistKey => $picklistValue) {
+							if(isset($fieldValue) && isset($picklistValue) && isset($picklistValue)) continue;
 							if(strtolower($fieldValue) == strtolower($picklistKey) || strtolower($fieldValue) == strtolower($picklistValue)) {
 								$selectedValue = $picklistKey;
 								break;
@@ -1843,7 +1850,7 @@ class Users extends CRMEntity {
 				$modelData = $recordModel->getData();
 				$recordModel->set('mode', '');
 				foreach($modelData as $fieldName => $fieldValue) {
-					$recordModel->set($fieldName, $record[$fieldName]);
+					$recordModel->set($fieldName, isset($record[$fieldName]) ? $record[$fieldName] : '');
 				}
 				$recordModel->save();
 				$plainPasswords[$recordModel->getId()] = $record['user_password'];
