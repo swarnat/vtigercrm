@@ -1003,7 +1003,6 @@ class CRMEntity {
 		$this->saveentity($module_name, $fileid);
 
 		if($em) {
-			file_put_contents('testing7.log',print_r($em,true),FILE_APPEND);
 			//Event triggering code
 			$em->triggerEvent("vtiger.entity.aftersave", $entityData);
 			$em->triggerEvent("vtiger.entity.aftersave.final", $entityData);
