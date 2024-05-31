@@ -1782,9 +1782,8 @@ class Users extends CRMEntity {
 						$allUsers = Users_Record_Model::getAll();
 						$reportsTo = null;
 						foreach($allUsers as $user) {
-							$userName = $user->get('user_name');
-							$userLabel = $user->get('userlabel');
-							if (isset($userName) && isset($userLabel)) {
+							
+							if (!$user->get('user_name') && !$user->get('userlabel')) {
 								continue;
 							}
 							$userName = strtolower($user->get('user_name'));
@@ -1801,7 +1800,7 @@ class Users extends CRMEntity {
 						$picklistValues = $fieldInstance->getPicklistValues();
 						$emptyValuedPicklistFields = array('defaulteventstatus', 'defaultactivitytype', 'reminder_interval');
 						foreach($picklistValues as $picklistKey => $picklistValue) {
-							if(isset($fieldValue) && isset($picklistValue) && isset($picklistValue)) continue;
+							if(!$fieldValue && !$picklistValue && !$picklistKey) continue;
 							if(strtolower($fieldValue) == strtolower($picklistKey) || strtolower($fieldValue) == strtolower($picklistValue)) {
 								$selectedValue = $picklistKey;
 								break;
