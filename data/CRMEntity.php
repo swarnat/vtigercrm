@@ -985,7 +985,7 @@ class CRMEntity {
 
 		//Event triggering code
 		require_once("include/events/include.inc");
-		$em = null; // To avoid undefined variable warning.
+		$em = null;
 		//In Bulk mode stop triggering events
 		if(!self::isBulkSaveMode()) {
 			$em = new VTEventsManager($adb);
