@@ -182,7 +182,7 @@ class Documents extends CRMEntity {
 		{
 			if($files['name'] != '' && $files['size'] > 0 && isset($_REQUEST[$fileindex.'_hidden']))
 			{
-				$files['original_name'] = vtlib_purify($_REQUEST[$fileindex.'_hidden']);
+				$files['original_name'] = isset($_REQUEST[$fileindex.'_hidden']) ? vtlib_purify($_REQUEST[$fileindex.'_hidden']) : "";
 				$file_saved = $this->uploadAndSaveFile($id,$module,$files);
                                 if(!$file_saved){
                                     $log->debug('file upload failed');
@@ -237,9 +237,8 @@ class Documents extends CRMEntity {
 	function getSortOrderForFolder($folderId) {
 		if(isset($_REQUEST['sorder']) && $_REQUEST['folderid'] == $folderId) {
 			$sorder = $this->db->sql_escape_string($_REQUEST['sorder']);
-		} elseif(is_array($_SESSION['NOTES_FOLDER_SORT_ORDER']) &&
-					!empty($_SESSION['NOTES_FOLDER_SORT_ORDER'][$folderId])) {
-				$sorder = $_SESSION['NOTES_FOLDER_SORT_ORDER'][$folderId];
+		} elseif(isset($_SESSION['NOTES_FOLDER_SORT_ORDER']) && is_array($_SESSION['NOTES_FOLDER_SORT_ORDER']) && isset($_SESSION['NOTES_FOLDER_SORT_ORDER'][$folderId]) && !empty($_SESSION['NOTES_FOLDER_SORT_ORDER'][$folderId])) {
+			$sorder = $_SESSION['NOTES_FOLDER_SORT_ORDER'][$folderId];
 		} else {
 			$sorder = $this->default_sort_order;
 		}
@@ -257,8 +256,7 @@ class Documents extends CRMEntity {
 		}
 		if (isset($_REQUEST['order_by'])  && $_REQUEST['folderid'] == $folderId) {
 			$order_by = $this->db->sql_escape_string($_REQUEST['order_by']);
-		} elseif(is_array($_SESSION['NOTES_FOLDER_ORDER_BY']) &&
-				!empty($_SESSION['NOTES_FOLDER_ORDER_BY'][$folderId])) {
+		} elseif(isset($_SESSION['NOTES_FOLDER_ORDER_BY']) && is_array($_SESSION['NOTES_FOLDER_ORDER_BY']) && isset($_SESSION['NOTES_FOLDER_ORDER_BY'][$folderId]) && !empty($_SESSION['NOTES_FOLDER_ORDER_BY'][$folderId])) {
 			$order_by = $_SESSION['NOTES_FOLDER_ORDER_BY'][$folderId];
 		} else {
 			$order_by = ($use_default_order_by);
