@@ -90,7 +90,7 @@ class Vtiger_Viewer extends Smarty {
 			'array_map', 'array_key_exists', 'get_class', 'vtlib_array', 'getDuplicatesPreventionMessage', 'htmlentities', 'purifyHtmlEventAttributes',
 			'getCurrencySymbolandCRate', 'mb_substr', 'isPermitted', 'getEntityName', 'function_exists', 'php7_trim', 'php7_htmlentities',
 			'strtolower', 'strtoupper', 'str_replace', 'urlencode', 'getTranslatedCurrencyString', 'getTranslatedString', 'is_object', 'is_numeric',
-			'php7_sizeof', 'method_exists','implode','mt_rand','substr','in_array');
+			'php7_sizeof', 'method_exists','implode','mt_rand');
 		foreach ($modifiers as $modifier) {
 			if (function_exists($modifier)) {
 				$this->registerPlugin('modifier', $modifier, $modifier);
