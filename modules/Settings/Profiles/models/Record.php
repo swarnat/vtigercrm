@@ -18,6 +18,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model {
 	const PROFILE_FIELD_READWRITE = 2;
 	private static $fieldLockedUiTypes = array('70');
 
+	public $profile_tab_field_permissions=[];
 	/**
 	 * Function to get the Id
 	 * @return <Number> Profile Id
@@ -263,7 +264,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model {
 	public function getProfileTabFieldPermissions($tabId) {
 		$db = PearDatabase::getInstance();
 
-		if(!property_exists($this,'profile_tab_field_permissions[$tabId]') || !$this->profile_tab_field_permissions[$tabId]) {
+		if(!isset($this->profile_tab_field_permissions[$tabId]) || !$this->profile_tab_field_permissions[$tabId]) {
 			$profile2TabFieldPermissions = array();
 			if($this->getId()) {
 				$sql = 'SELECT * FROM vtiger_profile2field WHERE profileid=? AND tabid=?';
