@@ -404,6 +404,7 @@ class Vtiger_Field_Model extends Vtiger_Field {
 	 * @return <Boolean> - true/false
 	 */
 	public function isMandatory() {
+		if(substr_count($this->get('typeofdata'),'~') == 0)  $this->set('typeofdata', $this->get('typeofdata') . '~');
 		list($type,$mandatory)= explode('~',$this->get('typeofdata'));
 		return $mandatory=='M' ? true:false;
 	}

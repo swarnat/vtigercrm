@@ -17,6 +17,9 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 	 * Function to get the Id
 	 * @return <Number> Role Id
 	 */
+
+	public $children;
+
 	public function getId() {
 		return $this->get('roleid');
 	}
@@ -59,7 +62,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 	 * @return <Settings_Roles_Record_Model> instance
 	 */
 	public function getParent() {
-		if(!$this->parent) {
+		if(!property_exists($this, 'parent') || !$this->parent) {
 			$parentRoleString = $this->getParentRoleString();
 			$parentComponents = explode('::', $parentRoleString);
 			$noOfRoles = php7_count($parentComponents);
@@ -228,7 +231,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 	 * @return <Array> Settings_Profiles_Record_Model instances
 	 */
 	public function getProfiles() {
-		if(!$this->profiles) {
+		if(!property_exists($this,'profiles')  || !$this->profiles) {
 			$this->profiles = Settings_Profiles_Record_Model::getAllByRole($this->getId());
 		}
 		return $this->profiles;
