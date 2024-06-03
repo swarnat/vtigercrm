@@ -130,7 +130,7 @@ class Users_List_View extends Settings_Vtiger_List_View {
 		}
 		$viewer->assign('LISTVIEW_LINKS', $this->listViewLinks);
 
-		$viewer->assign('LISTVIEW_MASSACTIONS', $linkModels['LISTVIEWMASSACTION']);
+		$viewer->assign('LISTVIEW_MASSACTIONS', isset($linkModels['LISTVIEWMASSACTION']) ? $linkModels['LISTVIEWMASSACTION'] : '');
 
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('PAGE_NUMBER',$pageNumber);

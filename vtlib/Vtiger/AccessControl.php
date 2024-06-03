@@ -49,7 +49,7 @@ class Vtiger_AccessControl {
 			self::$singleton = new self();
 		}
 
-		if (self::$singleton->privileges && self::$singleton->privileges[$id]) {
+		if ( self::$singleton->privileges ) {
 			unset(self::$singleton->privileges[$id]);
 		}
 	}

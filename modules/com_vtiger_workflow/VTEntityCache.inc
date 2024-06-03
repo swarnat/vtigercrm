@@ -76,7 +76,7 @@ class VTWorkflowEntity{
 
 		if($this->moduleName==null){
 			global $adb;
-			$wsId = $this->data['id'];
+			$wsId = isset($this->data['id']) ? $this->data['id'] : '';
 			$parts = explode('x', $wsId);
 			if($cache->getModuleName($parts[0])){
 				$this->moduleName=$cache->getModuleName($parts[0]);
@@ -84,7 +84,7 @@ class VTWorkflowEntity{
 			$result = $adb->pquery('select name from vtiger_ws_entity where id=?',
 						 array($parts[0]));
 			$rowData = $adb->raw_query_result_rowdata($result, 0);
-			$this->moduleName = $rowData['name'];
+			$this->moduleName = isset($rowData['name']) ? $rowData['name'] : '';
 				$cache->setModuleName($parts[0],  $this->moduleName);
 			}
 		}

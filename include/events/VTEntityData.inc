@@ -85,7 +85,7 @@ class VTEntityData{
 
 		// added to compute label needed in event handlers
 		//TODO : need to make sure entity fields are cached
-		$entityFields = Vtiger_Functions::getEntityModuleInfo($crmEntity->moduleName);
+		$entityFields = isset($crmEntity->moduleName) ? Vtiger_Functions::getEntityModuleInfo($crmEntity->moduleName) : array("fieldname" => array());
 		if (!empty($entityFields['fieldname'])) {
 			$entityFieldNames = explode(',', $entityFields['fieldname']);
 			$label = '';

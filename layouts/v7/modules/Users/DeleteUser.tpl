@@ -35,7 +35,7 @@
                        </div>
                     </div>
                                 
-                    {if !$PERMANENT}        
+                    {if !isset($PERMANENT)|| !$PERMANENT }        
                         <div class="form-group">
                             <label class="control-label fieldLabel col-sm-4"></label>
                                 <div class="controls fieldValue col-sm-8">
