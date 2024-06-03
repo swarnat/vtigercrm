@@ -77,7 +77,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
 	 * @return <Array> Settings_Profiles_Record_Model instances
 	 */
 	public function getMembers() {
-		if (!$this->members) {
+		if (!property_exists($this,'members') || !$this->members) {
 			$this->members = Settings_Groups_Member_Model::getAllByGroup($this);
 		}
 		return $this->members;

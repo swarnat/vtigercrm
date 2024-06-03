@@ -195,7 +195,7 @@ class Settings_Vtiger_Module_Model extends Vtiger_Base_Model {
 
 	public function getSettingsActiveBlock($viewName) {
 		$blocksList = array('OutgoingServerEdit' => array('block' => 'LBL_CONFIGURATION', 'menu' => 'LBL_MAIL_SERVER_SETTINGS'));
-		return $blocksList[$viewName];
+		return isset($blocksList[$viewName]) ? $blocksList[$viewName] : null;
 	}
 
 	public function getModuleIcon() {

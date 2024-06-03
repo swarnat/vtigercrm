@@ -45,7 +45,7 @@
                          ACTIVESTEP=3 BREADCRUMB_LABELS=$LABELS MODULE=$MODULE}
                 <div class = "importBlockContainer">
                     <table class = "table table-borderless">
-                        {if $ERROR_MESSAGE neq ''}
+                        {if isset($ERROR_MESSAGE) && $ERROR_MESSAGE neq ''}
                             <tr>
                                 <td align="left">
                                     {$ERROR_MESSAGE}

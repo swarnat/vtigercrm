@@ -332,7 +332,7 @@ class Users_Module_Model extends Vtiger_Module_Model {
 		$blocksList = array('Edit'			=> array('block' => 'LBL_USER_MANAGEMENT', 'menu' => 'LBL_USERS'),
 							'Calendar'		=> array('block' => 'LBL_MY_PREFERENCES', 'menu' => 'Calendar Settings'),
 							'PreferenceEdit'=> array('block' => 'LBL_MY_PREFERENCES', 'menu' => 'My Preferences'));
-		return $blocksList[$viewName];
+		return isset($blocksList[$viewName]) ? $blocksList[$viewName] :null;
 	}
 
 	/**

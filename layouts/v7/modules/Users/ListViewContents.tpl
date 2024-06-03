@@ -20,14 +20,14 @@
 	<input type="hidden" id="numberOfEntries" value= "{$LISTVIEW_ENTRIES_COUNT}" />
 	<input type="hidden" id="alphabetSearchKey" value= "{$MODULE_MODEL->getAlphabetSearchField()}" />
 	<input type="hidden" id="Operator" value="{$OPERATOR}" />
-	<input type="hidden" id="alphabetValue" value="{$ALPHABET_VALUE}" />
+	<input type="hidden" id="alphabetValue" value="{(isset($ALPHABET_VALUE)) ? $ALPHABET_VALUE : ''}" />
 	<input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
 	<input type="hidden" name="orderBy" value="{$ORDER_BY}" id="orderBy">
 	<input type="hidden" name="sortOrder" value="{$SORT_ORDER}" id="sortOrder">
 	<input type='hidden' value="{$PAGE_NUMBER}" id='pageNumber'>
 	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
-	<input type="hidden" value="{$NO_SEARCH_PARAMS_CACHE}" id="noFilterCache" >
+	<input type="hidden" value="{(isset($NO_SEARCH_PARAMS_CACHE)) ? $NO_SEARCH_PARAMS_CACHE : ''}" id="noFilterCache" >
 
 	<div id="table-content" class="table-container">
 		<form name='list' id='listedit' action='' onsubmit="return false;">
@@ -83,8 +83,12 @@
 								{/if}
 								<th>
 									{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
-									{include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$MODULE) FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()] USER_MODEL=$CURRENT_USER_MODEL}
-									<input type="hidden" class="operatorValue" value="{$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()]['comparator']}">
+									{assign var=FIELD_SEARCH_INFO value=array("searchValue" => "","comparator" => "")}
+									{if isset($SEARCH_DETAILS[$LISTVIEW_HEADER->getName()])}
+										{assign var="FIELD_SEARCH_INFO" value=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()]}
+									{/if}
+									{include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$MODULE) FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$FIELD_SEARCH_INFO USER_MODEL=$CURRENT_USER_MODEL}
+									<input type="hidden" class="operatorValue" value="{$FIELD_SEARCH_INFO['comparator']}">
 								</th>
 							{/foreach}
 						</tr>
@@ -127,7 +131,7 @@
 										</span>
 									</td>
 								{elseif $LISTVIEW_HEADER->getName() neq 'last_name' and $LISTVIEW_HEADER->getName() neq 'email1' and $LISTVIEW_HEADER->getName() neq 'status'}
-									<td class="{$WIDTHTYPE}" nowrap>
+									<td class="{(isset($WIDTHTYPE)) ? $WIDTHTYPE : ''}" nowrap>
 										<span class="fieldValue">
 											<span class="value textOverflowEllipsis">
 												{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
