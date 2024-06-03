@@ -56,7 +56,7 @@
 											</th>
 										{/if}
 									{/if}
-									{if $MODULE eq 'Tags' or $MODULE eq 'CronTasks' or $LISTVIEW_ACTIONS_ENABLED eq true}
+									{if $MODULE eq 'Tags' or $MODULE eq 'CronTasks' or isset($LISTVIEW_ACTIONS_ENABLED) && $LISTVIEW_ACTIONS_ENABLED eq true}
 										<th>
 											{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}
 										</th>
@@ -80,7 +80,7 @@
 										{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 											{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 											{assign var=LAST_COLUMN value=$LISTVIEW_HEADER@last}
-											<td class="listViewEntryValue textOverflowEllipsis {$WIDTHTYPE}" width="{$WIDTH}%" nowrap>
+											<td class="listViewEntryValue textOverflowEllipsis {$WIDTHTYPE}" width="{(isset($WIDTH)) ? $WIDTH : ''}%" nowrap>
 												{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
 												{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
 													</td>
