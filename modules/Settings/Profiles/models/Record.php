@@ -85,7 +85,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model {
 	public function getGlobalPermissions() {
 		$db = PearDatabase::getInstance();
 
-		if(!isset($this->global_permissions)) {
+		if(!property_exists($this,'global_permissions')||!$this->global_permissions) {
 			$globalPermissions = array();
 			$globalPermissions[Settings_Profiles_Module_Model::GLOBAL_ACTION_VIEW] =
 				$globalPermissions[Settings_Profiles_Module_Model::GLOBAL_ACTION_EDIT] =
@@ -231,7 +231,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model {
 			$field = Vtiger_Field_Model::getInstance($field, $profileTabModel);
 			$fieldId = $field->getId();
 		}
-		if(!isset($fieldId)) {
+		if(!$fieldId) {
 			return false;
 		}
 		$moduleFields = $profileTabModel->getFields();
@@ -242,7 +242,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model {
 	public function getProfileTabPermissions() {
 		$db = PearDatabase::getInstance();
 
-		if(!isset($this->profile_tab_permissions)) {
+		if(!property_exists($this,'profile_tab_permissions') || !$this->profile_tab_permissions) {
 			$profile2TabPermissions = array();
 			if($this->getId()) {
 				$sql = 'SELECT * FROM vtiger_profile2tab WHERE profileid=?';
@@ -263,7 +263,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model {
 	public function getProfileTabFieldPermissions($tabId) {
 		$db = PearDatabase::getInstance();
 
-		if(!isset($this->profile_tab_field_permissions[$tabId])) {
+		if(!property_exists($this,'profile_tab_field_permissions[$tabId]') || !$this->profile_tab_field_permissions[$tabId]) {
 			$profile2TabFieldPermissions = array();
 			if($this->getId()) {
 				$sql = 'SELECT * FROM vtiger_profile2field WHERE profileid=? AND tabid=?';
@@ -286,7 +286,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model {
 	public function getProfileActionPermissions() {
 		$db = PearDatabase::getInstance();
 
-		if(!isset($this->profile_action_permissions)) {
+		if(!property_exists($this,'profile_action_permissions') || !$this->profile_action_permissions) {
 			$profile2ActionPermissions = array();
 			if($this->getId()) {
 				$sql = 'SELECT * FROM vtiger_profile2standardpermissions WHERE profileid=?';
@@ -308,7 +308,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model {
 	public function getProfileUtilityPermissions() {
 		$db = PearDatabase::getInstance();
 
-		if(!isset($this->profile_utility_permissions)) {
+		if(!property_exists($this,'profile_utility_permissions') || !$this->profile_utility_permissions) {
 			$profile2UtilityPermissions = array();
 			if($this->getId()) {
 				$sql = 'SELECT * FROM vtiger_profile2utility WHERE profileid=?';
@@ -328,7 +328,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model {
 	}
 
 	public function getModulePermissions() {
-		if(!isset($this->module_permissions)) {
+		if(!property_exists($this,'module_permissions')||!$this->module_permissions) {
 			$allModules = Vtiger_Module_Model::getAll(array(0), Settings_Profiles_Module_Model::getNonVisibleModulesList());
 			$eventModule = Vtiger_Module_Model::getInstance('Events');
 			$allModules[$eventModule->getId()] = $eventModule;
