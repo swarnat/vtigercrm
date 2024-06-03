@@ -20,6 +20,7 @@ require_once ('modules/Accounts/Accounts.php');
 /**
  * Mail Scanner Action
  */
+#[\AllowDynamicProperties]
 class Vtiger_MailScannerAction {
 	// actionid for this instance
 	var $actionid	= false;

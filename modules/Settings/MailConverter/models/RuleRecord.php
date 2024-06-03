@@ -19,6 +19,7 @@ class Settings_MailConverter_RuleRecord_Model extends Settings_Vtiger_Record_Mod
 	var $cc = false;
 	var $bcc = false;
 
+	public $actions = [];
 	/**
 	 * Function to get Id of this record instance
 	 * @return <Integer> Id
@@ -153,12 +154,15 @@ class Settings_MailConverter_RuleRecord_Model extends Settings_Vtiger_Record_Mod
 		if ($actionString != $newActionString) {
 			$actionId = '';
 			$actions = $this->getActions();
+			$actionModel = '';
 			if ($actions) {
 				$actionModel = reset($this->getActions());
 				$actionId = $actionModel->actionid;
 			}
 			//Svaing the Action info
-			$ruleModel->updateAction($actionModel->actionid, str_replace('_', ',', $newActionString));
+			if($actionId) {
+				$ruleModel->updateAction($actionModel->actionid, str_replace('_', ',', $newActionString));
+			}
 		}
 		return $ruleModel->ruleid;
 	}
@@ -186,8 +190,9 @@ class Settings_MailConverter_RuleRecord_Model extends Settings_Vtiger_Record_Mod
 		if ($db->num_rows($result)) {
 			$recordModel = new self();
 			$recordModel->setData($db->query_result_rowdata($result));
-			$action = reset($recordModel->getActions());
-			return $recordModel->set('action', str_replace(',', '_', $action->actiontext));
+			$actions=$recordModel->getActions();
+			$action = reset($actions);
+			return $recordModel->set('action', isset($action->actiontext) ? str_replace(',', '_', $action->actiontext) : '');
 		}
 		return false;
 	}
@@ -207,8 +212,9 @@ class Settings_MailConverter_RuleRecord_Model extends Settings_Vtiger_Record_Mod
 			$rowData = $db->query_result_rowdata($result,$i);
 			$ruleModel = new self();
 			$ruleModel->setData($rowData);
-			$action = reset($ruleModel->getActions());
-			$ruleModel->set('action', str_replace(',', '_', $action->actiontext));
+			$actions = $ruleModel->getActions();
+			$action = reset($actions);
+			$ruleModel->set('action', isset($action->actiontext) ? str_replace(',', '_', $action->actiontext) : '');
 			$assignedTo = Settings_MailConverter_RuleRecord_Model::getAssignedTo($rowData['scannerid'], $rowData['ruleid']);
 			$ruleModel->set('assigned_to', $assignedTo[1]);
 			$ruleModelsList[$rowData['ruleid']] = $ruleModel;
@@ -231,8 +237,9 @@ class Settings_MailConverter_RuleRecord_Model extends Settings_Vtiger_Record_Mod
 			$ruleModel->setData($rowData);
 			$assignedTo = Settings_MailConverter_RuleRecord_Model::getAssignedTo($scannerId, $ruleId);
 			$ruleModel->set('assigned_to', $assignedTo[1]);
-			$action = reset($ruleModel->getActions());
-			 return $ruleModel->set('action', str_replace(',', '_', $action->actiontext));
+			$actions=$ruleModel->getActions();
+			$action = reset($actions);
+			 return $ruleModel->set('action', isset($action->actiontext) ? str_replace(',', '_', $action->actiontext) : '');
 		}
 		return false;
 	}
