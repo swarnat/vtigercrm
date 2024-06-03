@@ -1851,7 +1851,7 @@ class Users extends CRMEntity {
 				$modelData = $recordModel->getData();
 				$recordModel->set('mode', '');
 				foreach($modelData as $fieldName => $fieldValue) {
-					$recordModel->set($fieldName, isset($record[$fieldName]) ? $record[$fieldName] : '');
+					$recordModel->set($fieldName, isset($record[$fieldName]) ? $record[$fieldName] : null);
 				}
 				$recordModel->save();
 				$plainPasswords[$recordModel->getId()] = $record['user_password'];
