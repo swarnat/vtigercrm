@@ -20,10 +20,10 @@
                     <input type="hidden" name="viewname" value="{$VIEWNAME}" />
                     <input type="hidden" name="module" value="{$MODULE}"/>
                     <input type="hidden" name="view" value="ComposeEmail"/>
-                    <input type="hidden" name="search_key" value= "{$SEARCH_KEY}" />
+                    <input type="hidden" name="search_key" value="{if isset($SEARCH_KEY)}{$SEARCH_KEY}{else}''{/if}"/>
                     <input type="hidden" name="operator" value="{$OPERATOR}" />
-                    <input type="hidden" name="search_value" value="{$ALPHABET_VALUE}" />
-                    {if $SEARCH_PARAMS}
+                    <input type="hidden" name="search_value" value="{if isset($ALPHABET_VALUE)}{$ALPHABET_VALUE}{else}''{/if}" />
+                    {if isset($SEARCH_PARAMS)}
                         <input type="hidden" name="search_params" value='{ZEND_JSON::encode($SEARCH_PARAMS)}' />
                     {/if}
                     <input type="hidden" name="fieldModule" value={$SOURCE_MODULE} />
@@ -77,7 +77,7 @@
                 </div>
                 <div class="preferenceDiv" style="padding: 0px 0px 10px 35px;">
                     <label class="checkbox displayInlineBlock">
-                        <input type="checkbox" name="saveRecipientPrefs" id="saveRecipientPrefs" {if $RECIPIENT_PREF_ENABLED}checked="true"{/if}/>&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" name="saveRecipientPrefs" id="saveRecipientPrefs" {if isset($RECIPIENT_PREF_ENABLED)}checked="true"{/if}/>&nbsp;&nbsp;&nbsp;
                         {vtranslate('LBL_REMEMBER_MY_PREF',$MODULE)}&nbsp;&nbsp;
                     </label>
                     <i class="fa fa-info-circle" title="{vtranslate('LBL_EDIT_EMAIL_PREFERENCE_TOOLTIP', $MODULE)}"></i>

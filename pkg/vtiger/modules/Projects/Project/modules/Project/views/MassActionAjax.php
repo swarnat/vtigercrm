@@ -58,7 +58,7 @@ class Project_MassActionAjax_View extends Vtiger_MassActionAjax_View {
 				if (empty($refModuleEmailFields)) {
 					continue;
 				}
-				$refModuleEmailPrefs = $refModuleEmailPrefs = isset($recipientPrefs[$refModule->getId()]) ? $recipientPrefs[$refModule->getId()] : '';
+				$refModuleEmailPrefs = isset($recipientPrefs[$refModule->getId()]) ? $recipientPrefs[$refModule->getId()] : '';
 				foreach ($refModuleEmailFields as $refModuleEmailField) {
 					if ($refModuleEmailField->isViewable()) {
 						$refModuleEmailField->set('baseRefField', $referenceField->getFieldName());
@@ -120,7 +120,7 @@ class Project_MassActionAjax_View extends Vtiger_MassActionAjax_View {
 					$refModuleModel = Vtiger_Module_Model::getInstance($refModuleName);
 					if (!$refModuleModel || !$refModuleModel->isActive() || !Users_Privileges_Model::isPermitted($refModuleModel->getName(), 'DetailView'))
 						continue;
-					$refModuleEmailPrefs = $recipientPrefs[$refModuleModel->getId()];
+					$refModuleEmailPrefs = isset($recipientPrefs[$refModuleModel->getId()]) ? $recipientPrefs[$refModuleModel->getId()] : '';
 					$refModuleEmailFields = $refModuleModel->getFieldsByType('email');
 					if (empty($refModuleEmailFields))
 						continue;

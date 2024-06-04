@@ -29,7 +29,9 @@
 						</li>
 					{/foreach}
 
-					{assign var=RELATEDTABS value=$DETAILVIEW_LINKS['DETAILVIEWRELATED']}
+                                        {if isset($DETAILVIEW_LINKS['DETAILVIEWRELATED'])}
+					        {assign var=RELATEDTABS value=$DETAILVIEW_LINKS['DETAILVIEWRELATED']}
+                                        {/if}
                                         {if !empty($RELATEDTABS)}
                                             {assign var=COUNT value=$RELATEDTABS|@count}
 

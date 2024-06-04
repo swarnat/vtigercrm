@@ -91,6 +91,7 @@
 
 		$result = $db->pquery($sql, array($recordId));
 		$i = -1;
+		$projectTasks = array();
 		while($record = $db->fetchByAssoc($result)){
 			$record['id'] = $i;
 			$record['name'] = decode_html(textlength_check($record['name']));

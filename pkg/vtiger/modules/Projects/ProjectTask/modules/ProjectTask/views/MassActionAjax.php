@@ -16,10 +16,11 @@ class ProjectTask_MassActionAjax_View extends Project_MassActionAjax_View {
 		//get parent email fields and their reference email fields
 		$moduleModel = Vtiger_Module_Model::getInstance('Project');
 		$recipientPrefModel = Vtiger_RecipientPreference_Model::getInstance($sourceModule);
+		$recipientPrefs = array();
 
 		if ($recipientPrefModel)
 			$recipientPrefs = $recipientPrefModel->getPreferences();
-		$moduleEmailPrefs = $recipientPrefs[$moduleModel->getId()];
+		$moduleEmailPrefs = isset($recipientPrefs[$moduleModel->getId()]) ? $recipientPrefs[$moduleModel->getId()] : '';
 		$emailAndRefFields = $moduleModel->getFieldsByType(array('email', 'reference'));
 		$accesibleFields = array();
 		$referenceFieldValues = array();
@@ -58,7 +59,7 @@ class ProjectTask_MassActionAjax_View extends Project_MassActionAjax_View {
 				if (empty($refModuleEmailFields)) {
 					continue;
 				}
-				$refModuleEmailPrefs = $recipientPrefs[$refModule->getId()];
+				$refModuleEmailPrefs = isset($recipientPrefs[$refModule->getId()]) ? $recipientPrefs[$refModule->getId()] : '';
 				foreach ($refModuleEmailFields as $refModuleEmailField) {
 					if ($refModuleEmailField->isViewable()) {
 						$refModuleEmailField->set('baseRefField', $referenceField->getFieldName());
@@ -120,7 +121,7 @@ class ProjectTask_MassActionAjax_View extends Project_MassActionAjax_View {
 					$refModuleModel = Vtiger_Module_Model::getInstance($refModuleName);
 					if (!$refModuleModel || !$refModuleModel->isActive() || !Users_Privileges_Model::isPermitted($refModuleModel->getName(), 'DetailView'))
 						continue;
-					$refModuleEmailPrefs = $recipientPrefs[$refModuleModel->getId()];
+						$refModuleEmailPrefs = isset($recipientPrefs[$refModuleModel->getId()]) ? $recipientPrefs[$refModuleModel->getId()] : '';
 					$refModuleEmailFields = $refModuleModel->getFieldsByType('email');
 					if (empty($refModuleEmailFields))
 						continue;

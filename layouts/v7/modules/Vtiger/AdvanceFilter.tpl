@@ -10,8 +10,8 @@
  ********************************************************************************/
 -->*}
 {strip}
-	{assign var=ALL_CONDITION_CRITERIA value=$ADVANCE_CRITERIA[1] }
-	{assign var=ANY_CONDITION_CRITERIA value=$ADVANCE_CRITERIA[2] }
+	{assign var=ALL_CONDITION_CRITERIA value=(isset($ADVANCE_CRITERIA[1])?$ADVANCE_CRITERIA[1]:[])}
+	{assign var=ANY_CONDITION_CRITERIA value=(isset($ADVANCE_CRITERIA[2])?$ADVANCE_CRITERIA[2]:[])}
 
 	{if empty($ALL_CONDITION_CRITERIA) }
 		{assign var=ALL_CONDITION_CRITERIA value=array()}
@@ -37,9 +37,11 @@
 		</div>
 		<div class="contents">
 			<div class="conditionList">
+			{if isset($ALL_CONDITION_CRITERIA['columns'])}
 			 {foreach item=CONDITION_INFO from=$ALL_CONDITION_CRITERIA['columns']}
 				{include file='AdvanceFilterCondition.tpl'|@vtemplate_path:$QUALIFIED_MODULE RECORD_STRUCTURE=$RECORD_STRUCTURE CONDITION_INFO=$CONDITION_INFO MODULE=$MODULE}
 			{/foreach}
+			{/if}
 			{if php7_count($ALL_CONDITION_CRITERIA) eq 0}
 				{include file='AdvanceFilterCondition.tpl'|@vtemplate_path:$QUALIFIED_MODULE RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE=$MODULE CONDITION_INFO=array()}
 			{/if}
@@ -51,11 +53,13 @@
 				<button type="button" class="btn btn-default"><i class="fa fa-plus"></i>&nbsp;&nbsp;{vtranslate('LBL_ADD_CONDITION',$MODULE)}</button>
 			</div>
 			<div class="groupCondition">
+			{if isset($ALL_CONDITION_CRITERIA['condition'])}
 				{assign var=GROUP_CONDITION value=$ALL_CONDITION_CRITERIA['condition']}
 				{if empty($GROUP_CONDITION)}
 					{assign var=GROUP_CONDITION value="and"}
 				{/if}
 				<input type="hidden" name="condition" value="{$GROUP_CONDITION}" />
+			{/if}
 			</div>
 		</div>
 	</div>
@@ -67,9 +71,11 @@
 		</div>
 		<div class="contents">
 			<div class="conditionList">
+			{if isset($ANY_CONDITION_CRITERIA['columns'])}
 			{foreach item=CONDITION_INFO from=$ANY_CONDITION_CRITERIA['columns']}
 				{include file='AdvanceFilterCondition.tpl'|@vtemplate_path:$QUALIFIED_MODULE RECORD_STRUCTURE=$RECORD_STRUCTURE CONDITION_INFO=$CONDITION_INFO MODULE=$MODULE CONDITION="or"}
 			{/foreach}
+			{/if}
 			{if php7_count($ANY_CONDITION_CRITERIA) eq 0}
 				{include file='AdvanceFilterCondition.tpl'|@vtemplate_path:$QUALIFIED_MODULE RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE=$MODULE CONDITION_INFO=array() CONDITION="or"}
 			{/if}
