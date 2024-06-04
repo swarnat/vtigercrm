@@ -35,6 +35,7 @@ class CRMEntity {
 	var $recordSource = 'CRM';
 	var $mode;
 
+	public $moduleName;
 	/**
 	 * Detect if we are in bulk save mode, where some features can be turned-off
 	 * to improve performance.
