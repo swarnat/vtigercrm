@@ -35,6 +35,7 @@ class CRMEntity {
 	var $recordSource = 'CRM';
 	var $mode;
 
+	public $moduleName;
 	/**
 	 * Detect if we are in bulk save mode, where some features can be turned-off
 	 * to improve performance.
@@ -600,7 +601,7 @@ class CRMEntity {
 						$fldvalue = decode_html($this->column_fields[$fieldname]);
 					}
 				} elseif ($uitype == 8) {
-					$this->column_fields[$fieldname] = rtrim($this->column_fields[$fieldname], ',');
+					$this->column_fields[$fieldname] = isset($this->column_fields[$fieldname]) ? rtrim($this->column_fields[$fieldname], ',') : '';
 					$ids = explode(',', $this->column_fields[$fieldname]);
 					$json = new Zend_Json();
 					$fldvalue = $json->encode($ids);

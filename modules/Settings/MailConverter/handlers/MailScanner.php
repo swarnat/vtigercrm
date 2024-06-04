@@ -244,7 +244,7 @@ class Vtiger_MailScanner {
 	 */
 	function LookupContact($email) {
 		global $adb;
-		if($this->_cachedContactIds[$email]) {
+		if(isset($this->_cachedContactIds[$email]) && $this->_cachedContactIds[$email]) {
 			$this->log("Reusing Cached Contact Id for email: $email");
 			return $this->_cachedContactIds[$email];
 		}
@@ -296,7 +296,7 @@ class Vtiger_MailScanner {
 	 */
 	function LookupAccount($email) {
 		global $adb;
-		if($this->_cachedAccountIds[$email]) {
+		if(isset($this->_cachedAccountIds[$email]) && $this->_cachedAccountIds[$email]) {
 			$this->log("Reusing Cached Account Id for email: $email");
 			return $this->_cachedAccountIds[$email];
 		}
@@ -393,7 +393,7 @@ class Vtiger_MailScanner {
                     $contactid = $this->LookupContact($email);
 		$contact_focus = false;
 		if($contactid) {
-			if($this->_cachedContacts[$contactid]) {
+			if(isset($this->_cachedContacts[$contactid]) && $this->_cachedContacts[$contactid]) {
 				$contact_focus = $this->_cachedContacts[$contactid];
 				$this->log("Reusing Cached Contact [" . $contact_focus->column_fields["lastname"] .
 				   	'-' . $contact_focus->column_fields["firstname"] . "]");

@@ -20,6 +20,7 @@ require_once ('modules/Accounts/Accounts.php');
 /**
  * Mail Scanner Action
  */
+#[\AllowDynamicProperties]
 class Vtiger_MailScannerAction {
 	// actionid for this instance
 	var $actionid	= false;
@@ -446,7 +447,7 @@ class Vtiger_MailScannerAction {
 		$focus->column_fields["email_flag"] = 'MAILSCANNER';
 
 		$from=$mailrecord->_from[0];
-		$to = $mailrecord->_to[0];
+		$to = isset($mailrecord->_to[0]) ? $mailrecord->_to[0] : '';
 		$cc = (!empty($mailrecord->_cc))? implode(',', $mailrecord->_cc) : '';
 		$bcc= (!empty($mailrecord->_bcc))? implode(',', $mailrecord->_bcc) : '';
 		$flag=''; // 'SENT'/'SAVED'
