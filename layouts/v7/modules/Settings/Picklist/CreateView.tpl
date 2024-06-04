@@ -58,7 +58,7 @@
                         </div>
                     </div>
                 </div>
-                {include file='ModalFooter.tpl'|@vtemplate_path:$qualifiedName}
+                {include file='ModalFooter.tpl'|@vtemplate_path:{(isset($qualifiedName)) ? $qualifiedName : ''}}
             </form>
         </div>
     </div>

@@ -136,7 +136,7 @@ class Vtiger_Viewer extends Smarty {
 	 * @return <String> - Module specific template path if exists, otherwise default template path for the given template name
 	 */
 	public function getTemplatePath($templateName, $moduleName='') {
-		$moduleName = str_replace(':', '/', $moduleName);
+		$moduleName = isset($moduleName) ? str_replace(':', '/', $moduleName) : '';
 		$completeFilePath = $this->getTemplateDir(0). DIRECTORY_SEPARATOR . "modules/$moduleName/$templateName";
 		if(!empty($moduleName) && file_exists($completeFilePath)) {
 			return "modules/$moduleName/$templateName";
