@@ -58,7 +58,7 @@
 										</div>
 									{else}
 										<div class=" input-group inputElement"> 
-											<input type="text" class="inputElement "  name="{$FIELD_NAME}" data-rule-required="true" {if $FIELD_VALIDATION[$FIELD_NAME]} {$FIELD_VALIDATION[$FIELD_NAME]} {/if} value="{$FIELD_DATA[$FIELD_NAME]}" />
+											<input type="text" class="inputElement "  name="{$FIELD_NAME}" data-rule-required="true" {if isset($FIELD_VALIDATION[$FIELD_NAME]) && $FIELD_VALIDATION[$FIELD_NAME]} {$FIELD_VALIDATION[$FIELD_NAME]} {/if} value="{$FIELD_DATA[$FIELD_NAME]}" />
 											{if $FIELD_NAME == 'upload_maxsize'}
 												<div class="input-group-addon">{vtranslate('LBL_MB', $QUALIFIED_MODULE)}</div>
 											{/if}
