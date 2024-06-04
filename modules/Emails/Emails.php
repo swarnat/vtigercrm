@@ -65,6 +65,8 @@ class Emails extends CRMEntity {
 	// Refers to vtiger_field.fieldname values.
 	var $mandatory_fields = Array('subject', 'assigned_user_id');
 
+	public $moduleName;
+
 	/** This function will set the columnfields for Email module
 	 */
         function __construct() {

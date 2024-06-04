@@ -156,7 +156,7 @@ class Settings_MailConverter_RuleRecord_Model extends Settings_Vtiger_Record_Mod
 			$actions = $this->getActions();
 			$actionModel = '';
 			if ($actions) {
-				$actionModel = reset($this->getActions());
+				$actionModel = reset($actions);
 				$actionId = $actionModel->actionid;
 			}
 			//Svaing the Action info
