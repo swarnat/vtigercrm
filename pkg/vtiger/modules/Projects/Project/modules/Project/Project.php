@@ -447,7 +447,7 @@ class Project extends CRMEntity {
              parent::delete_related_module($module, $crmid, $with_module, $with_crmid);
              return;
          }
-        $destinationModule = vtlib_purify($_REQUEST['destination_module']);
+		 $destinationModule = isset($_REQUEST['destination_module']) ? vtlib_purify($_REQUEST['destination_module']) : '';
 		if(empty($destinationModule)) $destinationModule = $with_module;
         if (!is_array($with_crmid)) $with_crmid = Array($with_crmid);
         foreach($with_crmid as $relcrmid) {

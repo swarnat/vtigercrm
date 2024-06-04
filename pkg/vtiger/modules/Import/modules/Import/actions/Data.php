@@ -408,7 +408,7 @@ class Import_Data_Action extends Vtiger_Action_Controller {
 			}
 			if ($createRecord || $mergeType == Import_Utils_Helper::$AUTO_MERGE_MERGEFIELDS || $mergeType == Import_Utils_Helper::$AUTO_MERGE_OVERWRITE) {
 				$entityIdComponents = vtws_getIdComponents($entityInfo['id']);
-				$recordId = $entityIdComponents[1];
+				$recordId = isset($entityIdComponents[1]) ? $entityIdComponents[1] : '';
 				if (!empty($recordId)) {
 					$entityfields = getEntityFieldNames($this->module);
 					switch ($this->module) {
@@ -433,7 +433,7 @@ class Import_Data_Action extends Vtiger_Action_Controller {
 					$this->entityData[] = VTEntityData::fromCRMEntity($focus);
 				}
 
-				$label = trim($label);
+				$label = isset($label) ? trim($label) : '';
 				$adb->pquery('UPDATE vtiger_crmentity SET label=? WHERE crmid=?', array($label, $recordId));
 				//Creating entity data of updated records for post save events
 				if (in_array($entityInfo['status'], array(self::$IMPORT_RECORD_MERGED, self::$IMPORT_RECORD_UPDATED))) {
