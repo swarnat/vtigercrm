@@ -98,7 +98,7 @@ class Portal_List_View extends Vtiger_Index_View {
 		}
 
 		// preProcess is already loading this, we can reuse
-		if(!$this->pagingModel){
+		if(!property_exists($this, 'pagingModel') || !$this->pagingModel){
 			$pagingModel = new Vtiger_Paging_Model();
 			$pagingModel->set('page', $pageNumber);
 			$pagingModel->set('viewid', $request->get('viewname'));
@@ -109,7 +109,7 @@ class Portal_List_View extends Vtiger_Index_View {
 		$listviewEntries = $listViewModel->getListViewEntries($pagingModel);
 
 		//if list view entries restricted to show, paging should not fail
-		if(!$this->noOfEntries) {
+		if(!property_exists($this, 'noOfEntries') || !$this->noOfEntries) {
 			$noOfEntries = php7_count($listviewEntries);
 		}
 

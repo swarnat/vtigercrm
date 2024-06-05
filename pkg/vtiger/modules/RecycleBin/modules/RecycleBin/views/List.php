@@ -85,6 +85,7 @@ class RecycleBin_List_View extends Vtiger_Index_View {
 			$operator = $request->get('operator');
 			$searchParams = $request->get('search_params');
 			$listHeaders = $request->get('list_headers', array());
+			$starFilterMode = $request->get('starFilterMode');
 
 			$orderParams = Vtiger_ListView_Model::getSortParamsSession($moduleName . '_' . $sourceModule);
 		if ($request->get('mode') == 'removeSorting') {
@@ -92,7 +93,7 @@ class RecycleBin_List_View extends Vtiger_Index_View {
 			$orderBy = '';
 			$sortOrder = '';
 		}
-		if (empty($listHeaders)) {
+		if(empty($listHeaders) && $orderParams && isset($orderParams['list_headers'])) {
 			$listHeaders = $orderParams['list_headers'];
 		}
 		if (empty($orderBy) && empty($searchValue) && empty($pageNumber) && empty($searchParams)) {
@@ -143,7 +144,7 @@ class RecycleBin_List_View extends Vtiger_Index_View {
 		$linkModels = $moduleModel->getListViewMassActions($linkParams);
 
 		 // preProcess is already loading this, we can reuse
-		if (!$this->pagingModel) {
+		if (!property_exists($this, 'pagingModel') || !$this->pagingModel) {
 			$pagingModel = new Vtiger_Paging_Model();
 			$pagingModel->set('page', $pageNumber);
 		} else {
@@ -171,14 +172,14 @@ class RecycleBin_List_View extends Vtiger_Index_View {
 			}
 		}
 
-		if(!$this->listViewHeaders){
+		if(!property_exists($this, 'listViewHeaders') || !$this->listViewHeaders){
 			$this->listViewHeaders = $listViewModel->getListViewHeaders();
 		}
-		if(!$this->listViewEntries){
+		if(!property_exists($this, 'listViewEntries') || !$this->listViewEntries){
 			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
 		}
 
-		if(!$this->pagingModel){
+		if(!property_exists($this, 'pagingModel') || !$this->pagingModel){
 			$this->pagingModel = $pagingModel;
 		}
 
