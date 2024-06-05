@@ -62,7 +62,7 @@ class CustomerPortal_Utils {
 			$sqlResult = $adb->pquery($sql, array(0, 1));
 
 			for ($i = 0; $i < $adb->num_rows($sqlResult); $i++) {
-				if(!is_array($activeModules))$activeModules = [];
+				if(!is_array($activeModules))$activeModules = array();
 				$activeModules[] = $adb->query_result($sqlResult, $i, 'name');
 			}
 			//Checking if module is active at Module Manager 
