@@ -12,6 +12,7 @@ class Settings_Potentials_Mapping_Model extends Settings_Leads_Mapping_Model {
     
     var $name = 'Potentials';
 
+	public $mapping;
 	/**
 	 * Function to get headers for detail view
 	 * @return <Array> headers list
@@ -51,7 +52,7 @@ class Settings_Potentials_Mapping_Model extends Settings_Leads_Mapping_Model {
 	 * @return <Array> list of mapping details
 	 */
 	public function getMapping($editable = false) {
-		if (!property_exists($this,'mapping') || !$this->mapping) {
+		if (!$this->mapping) {
 			$db = PearDatabase::getInstance();
 			$query = 'SELECT * FROM vtiger_convertpotentialmapping';
 			if ($editable) {
