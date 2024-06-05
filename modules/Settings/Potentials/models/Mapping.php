@@ -51,7 +51,7 @@ class Settings_Potentials_Mapping_Model extends Settings_Leads_Mapping_Model {
 	 * @return <Array> list of mapping details
 	 */
 	public function getMapping($editable = false) {
-		if (!$this->mapping) {
+		if (!property_exists($this,'mapping') || !$this->mapping) {
 			$db = PearDatabase::getInstance();
 			$query = 'SELECT * FROM vtiger_convertpotentialmapping';
 			if ($editable) {
@@ -95,7 +95,7 @@ class Settings_Potentials_Mapping_Model extends Settings_Leads_Mapping_Model {
 		$db = PearDatabase::getInstance();
 		$deleteMappingsList = $updateMappingsList = $createMappingsList = array();
 		foreach ($mapping as $mappingDetails) {
-			$mappingId = $mappingDetails['mappingId'];
+			$mappingId = isset($mappingDetails['mappingId']) ? $mappingDetails['mappingId'] : '';
 			if ($mappingDetails['potential']) {
 				if ($mappingId) {
 					if ((array_key_exists('deletable', $mappingDetails)) || (!$mappingDetails['project'])) {
