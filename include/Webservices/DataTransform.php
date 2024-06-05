@@ -156,7 +156,7 @@
 			$allFields = $meta->getFieldColumnMapping();
 			$newRow = array();
 			foreach($allFields as $field=>$col){
-				$newRow[$field] = $row[$field];
+				$newRow[$field] = isset($row[$field]) ? $row[$field] : null;
 			}
 			if(isset($row[$recordString])){
 				$newRow[$recordString] = $row[$recordString];
@@ -215,7 +215,7 @@
 						list($row['parent_id'], $fieldId) = explode('@', $row['parent_id']);
 					}
 				}
-				if($row[$field]){
+				if(isset($row[$field]) && $row[$field]){
 					$found = false;
 					foreach ($typeList as $entity) {
 						$webserviceObject = VtigerWebserviceObject::fromName($adb,$entity);

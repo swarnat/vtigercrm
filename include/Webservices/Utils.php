@@ -1272,7 +1272,7 @@ function vtws_getCompanyId() {
 
 function vtws_recordExists($recordId) {
 	$ids = vtws_getIdComponents($recordId);
-	return !Vtiger_Util_Helper::CheckRecordExistance($ids[1]);
+	return isset($ids[1]) ? !Vtiger_Util_Helper::CheckRecordExistance($ids[1]) : null;
 }
 
 function vtws_isDuplicatesAllowed($webserviceObject){
