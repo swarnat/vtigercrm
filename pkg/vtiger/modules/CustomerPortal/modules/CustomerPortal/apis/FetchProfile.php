@@ -21,8 +21,8 @@ class CustomerPortal_FetchProfile extends CustomerPortal_API_Abstract {
 
 			$contact = vtws_retrieve($contactId, $current_user);
 			$contact = CustomerPortal_Utils::resolveRecordValues($contact);
-			$contact['imagedata'] = $encodedContactImage['imagedata'];
-			$contact['imagetype'] = $encodedContactImage['imagetype'];
+			$contact['imagedata'] = isset($encodedContactImage['imagedata']) ? $encodedContactImage['imagedata'] : '';
+			$contact['imagetype'] = isset($encodedContactImage['imagetype']) ? $encodedContactImage['imagetype'] : '';
 			$response->addToResult('customer_details', $contact);
 
 			if (!empty($accountId)) {

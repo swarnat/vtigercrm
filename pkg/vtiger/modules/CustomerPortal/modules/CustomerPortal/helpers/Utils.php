@@ -23,14 +23,14 @@ class CustomerPortal_Utils {
 		$imagePath = $adb->query_result($result, 0, 'path');
 		$imageName = $adb->query_result($result, 0, 'name');
 		$imageType = $adb->query_result($result, 0, 'type');
-		$imageOriginalName = urlencode(decode_html($imageName));
+		$imageOriginalName = isset($imageName) ? urlencode(decode_html($imageName)) : '';
 
 		if (!empty($imageName)) {
 			$imageDetails[] = array(
-				'id' => $imageId,
-				'orgname' => $imageOriginalName,
+				'id' => isset($imageId) ? $imageId : '',
+				'orgname' => isset($imageOriginalName) ? $imageOriginalName : '',
 				'path' => $imagePath.$imageId,
-				'name' => $imageName,
+				'name' => isset($imageName) ? $imageName : '',
 				'type' => $imageType
 			);
 		}
@@ -62,6 +62,7 @@ class CustomerPortal_Utils {
 			$sqlResult = $adb->pquery($sql, array(0, 1));
 
 			for ($i = 0; $i < $adb->num_rows($sqlResult); $i++) {
+				if(!is_array($activeModules))$activeModules = [];
 				$activeModules[] = $adb->query_result($sqlResult, $i, 'name');
 			}
 			//Checking if module is active at Module Manager 
@@ -91,7 +92,7 @@ class CustomerPortal_Utils {
 	static function resolveRecordValues(&$record, $user = null, $ignoreUnsetFields = false) {
 		$userTypeFields = array('assigned_user_id', 'creator', 'userid', 'created_user_id', 'modifiedby', 'folderid');
 
-		if (empty($record))
+		if (empty($record) || empty($user))
 			return $record;
 
 		$module = Vtiger_Util_Helper::detectModulenameFromRecordId($record['id']);
@@ -158,12 +159,13 @@ class CustomerPortal_Utils {
 			for ($i = 0; $i < $num_rows; $i++) {
 				$retrievedModule = $adb->query_result($sqlResult, $i, 'name');
 				$fieldInfo = $adb->query_result($sqlResult, $i, 'fieldinfo');
+				if(!is_array($activeFields))$activeFields = array();
 				$activeFields[$retrievedModule] = $fieldInfo;
 			}
 			Vtiger_Cache::set('CustomerPortal', 'activeFields', $activeFields);
 		}
 
-		$fieldsJSON = $activeFields[$module];
+		$fieldsJSON = isset($activeFields[$module]) ? $activeFields[$module] : '';
 		$data = Zend_Json::decode(decode_html($fieldsJSON));
 		$fields = array();
 

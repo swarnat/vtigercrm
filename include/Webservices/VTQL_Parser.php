@@ -1241,6 +1241,7 @@ $this->out['where_condition']['column_values'][php7_sizeof($this->out['where_con
 #line 1240 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.php"
 #line 82 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.y"
     function yy_r17(){
+        $this->out['where_condition']['column_values'] = isset($this->out['where_condition']['column_values']) ? $this->out['where_condition']['column_values'] : [];
 $length = ($this->out['where_condition']['column_values'])? php7_sizeof($this->out['where_condition']['column_values']):0;
 $pos = $length - 1;
 if($pos < 0){
