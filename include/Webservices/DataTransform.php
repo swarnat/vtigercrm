@@ -156,7 +156,7 @@
 			$allFields = $meta->getFieldColumnMapping();
 			$newRow = array();
 			foreach($allFields as $field=>$col){
-				$newRow[$field] = isset($row[$field]) ? $row[$field] : '';
+				$newRow[$field] = isset($row[$field]) ? $row[$field] : null;
 			}
 			if(isset($row[$recordString])){
 				$newRow[$recordString] = $row[$recordString];
