@@ -526,7 +526,7 @@ class Vtiger_Module_Model extends Vtiger_Module {
 			$query = "SELECT fieldname, tablename, entityidfield FROM vtiger_entityname WHERE tabid = ?";
 			$result = $adb->pquery($query, array($this->getId()));
 			$this->nameFields = array();
-			$fieldNames = ''; //adding to avoid "undefined variable" warning
+			$fieldNames = '';
 			if($result){
 				$rowCount = $adb->num_rows($result);
 				if($rowCount > 0){
