@@ -87,7 +87,7 @@
                     {foreach key=TARGET_VALUE item=TRANSLATED_TARGET_VALUE from=$TARGET_PICKLIST_VALUES}
                         <tr>
                             {foreach key=SOURCE_PICKLIST_VALUE item=TRANSLATED_SOURCE_PICKLIST_VALUE from=$SOURCE_PICKLIST_VALUES}
-                                {assign var=targetValues value=$MAPPED_TARGET_PICKLIST_VALUES[$SAFEHTML_SOURCE_PICKLIST_VALUES[$SOURCE_PICKLIST_VALUE]]}
+                                {assign var=targetValues value=(isset($MAPPED_TARGET_PICKLIST_VALUES[$SAFEHTML_SOURCE_PICKLIST_VALUES[$SOURCE_PICKLIST_VALUE]])) ? $MAPPED_TARGET_PICKLIST_VALUES[$SAFEHTML_SOURCE_PICKLIST_VALUES[$SOURCE_PICKLIST_VALUE]] : array()}
                                 {assign var=IS_SELECTED value=false}
                                 {if empty($targetValues) || in_array($TARGET_VALUE, $targetValues)}
                                     {assign var=IS_SELECTED value=true}

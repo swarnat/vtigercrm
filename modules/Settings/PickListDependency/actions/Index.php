@@ -21,6 +21,7 @@ class Settings_PickListDependency_Index_Action extends Settings_Vtiger_Basic_Act
         $moduleModel = Vtiger_Module_Model::getInstance($module);
         $sourceField = $request->get('sourcefield');
         $targetField = $request->get('targetfield');
+        $message='';
         $result = Vtiger_DependencyPicklist::checkCyclicDependency($module, $sourceField, $targetField);
         if($result) {
             $currentSourceField = Vtiger_DependencyPicklist::getPicklistSourceField($module, $sourceField, $targetField);
