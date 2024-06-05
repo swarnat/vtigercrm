@@ -12,6 +12,7 @@ class Settings_Potentials_Mapping_Model extends Settings_Leads_Mapping_Model {
     
     var $name = 'Potentials';
 
+	public $mapping;
 	/**
 	 * Function to get headers for detail view
 	 * @return <Array> headers list
@@ -95,7 +96,7 @@ class Settings_Potentials_Mapping_Model extends Settings_Leads_Mapping_Model {
 		$db = PearDatabase::getInstance();
 		$deleteMappingsList = $updateMappingsList = $createMappingsList = array();
 		foreach ($mapping as $mappingDetails) {
-			$mappingId = $mappingDetails['mappingId'];
+			$mappingId = isset($mappingDetails['mappingId']) ? $mappingDetails['mappingId'] : '';
 			if ($mappingDetails['potential']) {
 				if ($mappingId) {
 					if ((array_key_exists('deletable', $mappingDetails)) || (!$mappingDetails['project'])) {
