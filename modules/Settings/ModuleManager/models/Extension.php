@@ -19,6 +19,7 @@ class Settings_ModuleManager_Extension_Model extends Vtiger_Base_Model {
 	var $fileName;
 
 	public static function getUploadDirectory($isChild = false) {
+		if(!isset($uploadDir ))$uploadDir ='';
 		$uploadDir .= 'test/vtlib';
 		if ($isChild) {
 			$uploadDir = '../'.$uploadDir;
