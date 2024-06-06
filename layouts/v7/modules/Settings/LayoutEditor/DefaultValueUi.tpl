@@ -15,10 +15,10 @@
 			</label>
 			<div class="controls col-sm-7">
 				<div class="defaultValueUi">
-					{if !$NAME_ATTR}
+					{if !isset($NAME_ATTR) || !$NAME_ATTR}
 						{assign var=NAME_ATTR value="fieldDefaultValue"}
 					{/if}
-					{if $DEFAULT_VALUE eq false && !$IS_SET}
+					{if (!isset($DEFAULT_VALUE) || $DEFAULT_VALUE eq false) && (!isset($IS_SET) || !$IS_SET)}
 						{assign var=DEFAULT_VALUE value=$FIELD_MODEL->get('defaultvalue')}
 					{/if}
 
@@ -83,7 +83,7 @@
 					{else if $FIELD_MODEL->getFieldDataType() eq "text"}
 						<textarea class="input-lg col-sm-4" name="{$NAME_ATTR}"  style="resize: vertical">{$DEFAULT_VALUE}</textarea>
 					{else}
-						<input type="text" class="inputElement col-sm-3" name="{$NAME_ATTR}" value="{$DEFAULT_VALUE}" style='width: 75%'/>
+						<input type="text" class="inputElement col-sm-3" name="{$NAME_ATTR}" value="{(isset($DEFAULT_VALUE)) ? $DEFAULT_VALUE : ''}" style='width: 75%'/>
 					{/if}
 				</div>
 			</div>

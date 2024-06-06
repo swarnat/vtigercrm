@@ -10,7 +10,7 @@
 {strip}
 	<div class="duplicateHandlingDiv padding20">
 		<form class="duplicateHandlingForm">
-			<input type="hidden" name="_source" value="{$SOURCE}" />
+			<input type="hidden" name="_source" value="{(isset($SOURCE)) ? $SOURCE : ''}" />
 			<input type="hidden" name="sourceModule" value="{$SOURCE_MODULE}" id="sourceModule" />
 			<input type="hidden" name="parent" value="Settings" />
 			<input type="hidden" name="module" value="LayoutEditor" />
