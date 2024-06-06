@@ -1054,15 +1054,4 @@ function php7_htmlentities($str) {
 	return $str == null ? $str : htmlentities($str);
 }
 
-function vtlib_chmod($filepath,$mode){
-	$result = chmod($filepath, $mode);
-
-	if($result){
-		echo "Permission of $filepath have been changed";
-	}
-	else{
-		echo "Failed to change permission of $filepath";
-	}
-}
-
 

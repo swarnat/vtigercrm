@@ -226,7 +226,7 @@ class dUnzip2{
 			);
 		if($applyChmod && $targetFileName) {
 			// TODO: check if this warning supression if its not working.
-			vtlib_chmod($targetFileName, $applyChmod == 0755? 0644 : $applyChmod);
+			@chmod($targetFileName, $applyChmod == 0755? 0644 : $applyChmod);
 		}
 		
 		return $ret;
