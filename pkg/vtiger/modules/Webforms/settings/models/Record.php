@@ -10,6 +10,7 @@
 
 class Settings_Webforms_Record_Model extends Settings_Vtiger_Record_Model {
 
+	public $selectedFields;
 	/**
 	 * Function to get Id of this record instance
 	 * @return <Integer> Id
@@ -267,7 +268,7 @@ class Settings_Webforms_Record_Model extends Settings_Vtiger_Record_Model {
 	public function save() {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$mode = $this->get('mode');
-
+		$roundrobinUsersList = '';
 		$db = PearDatabase::getInstance();		
 		$this->setCheckBoxValue('enabled');
 		$this->setCheckBoxValue('captcha');
