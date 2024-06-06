@@ -14,6 +14,8 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 	 * Function to get focus of this object
 	 * @return <type>
 	 */
+	public $focus;
+
 	public function getFocus() {
 		if (!$this->focus) {
 			$this->focus = CRMEntity::getInstance($this->getName());
