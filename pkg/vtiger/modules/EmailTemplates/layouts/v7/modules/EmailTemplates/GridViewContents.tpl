@@ -22,12 +22,12 @@
 	<input type='hidden' name="pageNumber" value="{$PAGE_NUMBER}" id='pageNumber'>
 	<input type='hidden' name="pageLimit" value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 	<input type="hidden" name="noOfEntries" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
-	<input type="hidden" name="currentSearchParams" value="{Vtiger_Util_Helper::toSafeHTML(Zend_JSON::encode($SEARCH_DETAILS))}" id="currentSearchParams" />
-	<input type="hidden" name="noFilterCache" value="{$NO_SEARCH_PARAMS_CACHE}" id="noFilterCache" >
+	<input type="hidden" name="currentSearchParams" value="{(isset($SEARCH_DETAILS)) ? Vtiger_Util_Helper::toSafeHTML(Zend_JSON::encode($SEARCH_DETAILS)) : ''}" id="currentSearchParams" />
+	<input type="hidden" name="noFilterCache" value="{(isset($NO_SEARCH_PARAMS_CACHE)) ? $NO_SEARCH_PARAMS_CACHE : ''}" id="noFilterCache" >
 	<input type="hidden" name="orderBy" value="{$ORDER_BY}" id="orderBy">
 	<input type="hidden" name="sortOrder" value="{$SORT_ORDER}" id="sortOrder">
-	<input type="hidden" name="list_headers" value='{$LIST_HEADER_FIELDS}'/>
-	<input type="hidden" name="tag" value="{$CURRENT_TAG}" />
+	<input type="hidden" name="list_headers" value='{(isset($LIST_HEADER_FIELDS)) ? $LIST_HEADER_FIELDS :''}'/>
+	<input type="hidden" name="tag" value="{(isset($CURRENT_TAG)) ? $CURRENT_TAG : ''}" />
 	<input type="hidden" name="folder_id" value="{$FOLDER_ID}" />
 	<input type="hidden" name="folder_value" value="{$FOLDER_VALUE}" />
         <input type="hidden" name="viewType" value="{$VIEWTYPE}" />

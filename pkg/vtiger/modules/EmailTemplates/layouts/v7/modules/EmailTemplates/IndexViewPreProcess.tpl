@@ -12,7 +12,7 @@
     <div class="row">
         {include file="modules/Settings/Vtiger/SidebarHeader.tpl"}
         {assign var=ACTIVE_BLOCK value=['block' => 'Templates',
-                                        'menu' => $smary.request.module]}
+                                        'menu' => $REQ->get('module')]}
         {include file="modules/Settings/Vtiger/ModuleHeader.tpl"}
     </div>
 </div>

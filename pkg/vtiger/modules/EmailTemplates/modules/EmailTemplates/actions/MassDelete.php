@@ -33,7 +33,7 @@ class EmailTemplates_MassDelete_Action extends Vtiger_Mass_Action {
 
 	public function process(Vtiger_Request $request) {
 		$moduleName = $request->getModule();
-
+		$systemTemplate = false;
 		$recordModel = new EmailTemplates_Record_Model();
 		$recordModel->setModule($moduleName);
 		$selectedIds = $request->get('selected_ids');
