@@ -19,6 +19,7 @@ class Settings_LayoutEditor_Block_Action extends Settings_Vtiger_Index_Action {
     
     public function save(Vtiger_Request $request) {
         $blockId = $request->get('blockid');
+        $beforeBlockId ='';
         $sourceModule = $request->get('sourceModule');
         $modueInstance = Vtiger_Module_Model::getInstance($sourceModule);
 

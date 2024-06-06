@@ -518,6 +518,7 @@ class Vtiger_Module_Model extends Vtiger_Module {
 
 		$nameFieldObject = Vtiger_Cache::get('EntityField',$this->getName());
 		$moduleName = $this->getName();
+		$fieldNames = '';
 		if($nameFieldObject && $nameFieldObject->fieldname) {
 			$this->nameFields = explode(',', $nameFieldObject->fieldname);
 		} else {
