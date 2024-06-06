@@ -41,7 +41,6 @@ require_once 'vtlib/Vtiger/Runtime.php';
 include_once 'includes/runtime/Viewer.php';
 include_once 'includes/runtime/Theme.php';
 include_once 'includes/http/Request.php';
-include_once 'libraries/Smarty/libs/sysplugins/smarty_security.php';
 include_once dirname(__FILE__).'/helpers/Request.php';
 include_once dirname(__FILE__).'/helpers/Response.php';
 include_once dirname(__FILE__).'/helpers/Utils.php';

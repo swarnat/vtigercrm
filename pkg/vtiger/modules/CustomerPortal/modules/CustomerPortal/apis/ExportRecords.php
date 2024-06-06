@@ -32,6 +32,7 @@ class CustomerPortal_ExportRecords extends CustomerPortal_API_Abstract {
 			//validate filter fields with portal settings
 			$activeFields = CustomerPortal_Utils::getActiveFields($module);
 			if ($fieldsArray !== null) {
+				if(!is_array($fieldsArray))$fieldsArray=array();
 				foreach ($fieldsArray as $key => $value) {
 					if (!in_array($key, $activeFields)) {
 						throw new Exception($key." is not accessible.", 1412);
@@ -78,7 +79,7 @@ class CustomerPortal_ExportRecords extends CustomerPortal_API_Abstract {
 				}
 				$moduleLabel = CustomerPortal_Utils::getRelatedModuleLabel($module);
 				$countResult = vtws_query_related($countSql, $parentId, $moduleLabel, $current_user);
-				$count = $countResult[0]['count'];
+				$count = isset($countResult[0]) ? $countResult[0]['count'] : 0;
 			}
 			//vtws_query gives max of 100 records per request.loop for records if more than 100
 			$pageLimit = 100;

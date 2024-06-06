@@ -16,6 +16,7 @@ class VtigerModuleOperation extends WebserviceEntityOperation {
 	public function __construct($webserviceObject,$user,$adb,$log)
 	{
 		parent::__construct($webserviceObject,$user,$adb,$log);
+		
 		$this->meta = $this->getMetaInstance();
 		$this->tabId = $this->meta->getTabId();
 	}
@@ -80,6 +81,7 @@ class VtigerModuleOperation extends WebserviceEntityOperation {
 	}
 	
     public function relatedIds($id, $relatedModule, $relatedLabel, $relatedHandler=null) {
+		global $adb;
 		$ids = vtws_getIdComponents($id);
         $sourceModule = $this->webserviceObject->getEntityName();		
         global $currentModule;
@@ -195,7 +197,7 @@ class VtigerModuleOperation extends WebserviceEntityOperation {
 		$output = array();
 		for($i=0; $i<$noofrows; $i++){
 			$row = $this->pearDB->fetchByAssoc($result,$i);
-			if(!$meta->hasPermission(EntityMeta::$RETRIEVE,$row[$tableIdColumn])){
+			if(!isset($row[$tableIdColumn]) || !$meta->hasPermission(EntityMeta::$RETRIEVE,$row[$tableIdColumn])){
 				continue;
 			}
 			$output[$row[$tableIdColumn]] = DataTransform::sanitizeDataWithColumn($row,$meta);
