@@ -57,7 +57,7 @@ class Settings_Webforms_Field_Model extends Vtiger_Field_Model {
 	 */
     public function get($propertyName) {
 		if($propertyName == 'fieldvalue' && $this->name == 'roundrobin_userid') {
-            $value = str_replace('&quot;', '"', $this->$propertyName);
+            $value = isset($this->$propertyName) ? str_replace('&quot;', '"', $this->$propertyName) : '';
 			return json_decode($value,true);
 		}
 		return parent::get($propertyName);
