@@ -264,7 +264,7 @@ class Activity extends CRMEntity {
 	{
 		global $log;
 		$log->info("in insertIntoReminderTable  ".$table_name."    module is  ".$module);
-		if($_REQUEST['set_reminder'] == 'Yes')
+		if(isset($_REQUEST['set_reminder']) && $_REQUEST['set_reminder'] == 'Yes')
 		{
 			unset($_SESSION['next_reminder_time']);
 			$log->debug("set reminder is set");
@@ -292,7 +292,7 @@ class Activity extends CRMEntity {
 				$this->activity_reminder($this->id,$reminder_time,0,$recurid,'');
 			}
 		}
-		elseif($_REQUEST['set_reminder'] == 'No')
+		elseif(isset($_REQUEST['set_reminder']) && $_REQUEST['set_reminder'] == 'No')
 		{
 			$this->activity_reminder($this->id,'0',0,$recurid,'delete');
 		}

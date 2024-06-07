@@ -36,6 +36,7 @@ class VTCreateTodoTask extends VTTask{
 
 	public function doTask($entityData){
 		$moduleName = 'Calendar';
+		$baseTime = '';
 		if(!vtlib_isModuleActive($moduleName)) {
 			return;
 		}
@@ -47,7 +48,7 @@ class VTCreateTodoTask extends VTTask{
 
 		$baseDate = $entityData->get($this->datefield);
 		$dateTime = explode(' ', $baseDate);
-		if($dateTime[1]){
+		if(isset($dateTime[1]) && $dateTime[1]){
 			$userFormatDate = DateTimeField::convertToUserTimeZone($baseDate);
 			$baseDate = $userFormatDate->format('Y-m-d H:i:s');
 			$baseTime = $userFormatDate->format('H:i:s');
@@ -63,7 +64,9 @@ class VTCreateTodoTask extends VTTask{
 		}
 		preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDate, $match);
 		$baseDate = strtotime($match[0]);
-		$date = strftime('%Y-%m-%d', $baseDate+$days*24*60*60*(strtolower($this->direction)=='before'?-1:1));
+		$daysOffset = $days*24*60*60*(strtolower($this->direction)=='before'?-1:1);
+		$newTimestamp = $baseDate + $daysOffset;
+		$date = date('Y-m-d', $newTimestamp);
 		// Added to check if the user/group is active
 		if(!empty($this->assigned_user_id)) {
 			$userExists = $adb->pquery('SELECT 1 FROM vtiger_users WHERE id = ? AND status = ?', array($this->assigned_user_id, 'Active'));
