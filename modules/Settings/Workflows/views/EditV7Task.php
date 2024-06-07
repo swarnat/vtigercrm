@@ -176,7 +176,6 @@ class Settings_Workflows_EditV7Task_View extends Settings_Vtiger_Index_View {
 			$metakeys = explode(' ', $metaKey);
 			$relationFieldName = isset($metakeys[0]) ? $metakeys[0] : '';
 			$rest = isset($metakeys[1]) ? $metakeys[1] : '';
-			list($relationFieldName, $rest) = 
 			$value = '<$'.$metaKey.'>';
 
 			if ($nameFields) {
