@@ -40,7 +40,7 @@
 							<label class="pull-right">{vtranslate('LBL_BOOKMARK_URL', $MODULE)}&nbsp;<span class="redColor">*</span></label>
 						</div>
 						<div class="col-lg-5">
-							<input type="text" class="inputElement" name="bookmarkUrl" id="bookmarkUrl" {if isset($RECORD)} value="{$BOOKMARK_NAME}" {else} value="" {/if} placeholder="{vtranslate('LBL_ENTER_URL', $MODULE)}" data-rule-required="true" data-rule-url="true"/>
+							<input type="text" class="inputElement" name="bookmarkUrl" id="bookmarkUrl" {if isset($RECORD)} value="{$BOOKMARK_URL}" {else} value="" {/if} placeholder="{vtranslate('LBL_ENTER_URL', $MODULE)}" data-rule-required="true" data-rule-url="true"/>
 						</div>
 						<div class="col-lg-2"></div>
 					</div>
