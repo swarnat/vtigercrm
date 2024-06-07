@@ -50,7 +50,7 @@
 							{assign var=FIELD_VALUE value=($VALUES[0]*60)+$VALUES[1]}
 						{/if}
 						<div class="controls fieldValue col-xs-2">
-							<input type="text" class="inputElement" value="{$FIELD_VALUE}" {if $FIELD_INFO["mandatory"] eq true} data-rule-required="true" {/if} id="frequencyValue"/>&nbsp;
+							<input type="text" class="inputElement" value="{$FIELD_VALUE}" {if isset($FIELD_INFO["mandatory"]) && $FIELD_INFO["mandatory"] eq true} data-rule-required="true" {/if} id="frequencyValue"/>&nbsp;
 						</div>
 						<div class="controls fieldValue col-xs-3" style="padding-left: 0px;">
 							<select class="select2 inputElement" id="time_format">
