@@ -464,6 +464,8 @@ class Reports extends CRMEntity{
 		global $log;
 		global $mod_strings,$current_user;
 		$returndata = Array();
+		$current_user_parent_role_seq = '';
+		$is_admin = false;
 		
 		require_once('include/utils/UserInfoUtil.php');
 

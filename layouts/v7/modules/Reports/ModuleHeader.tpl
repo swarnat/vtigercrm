@@ -48,7 +48,7 @@
 						{assign var=FOLDERNAME value=vtranslate('LBL_ALL_REPORTS', $MODULE)}
 					{/if}
 					<span>
-						<p class="current-filter-name filter-name pull-left"><span class="fa fa-angle-right" aria-hidden="true"></span>&nbsp;{$FOLDERNAME}&nbsp;</p>
+						<p class="current-filter-name filter-name pull-left"><span class="fa fa-angle-right" aria-hidden="true"></span>&nbsp;{if isset($FOLDERNAME)}{$FOLDERNAME}{else}''{/if}&nbsp;</p>
 					</span>
 				{/if}
 			</span>
@@ -71,8 +71,9 @@
 										{elseif $childLink->getLabel() eq 'LBL_DETAIL_REPORT'}
 											{assign var="ICON_CLASS" value='vicon-detailreport'}
 										{/if}
-										<li id="{$MODULE}_listView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($childLink->getLabel())}" data-edition-disable="{$childLink->disabled}" data-edition-message="{$childLink->message}">
-											<a {if $childLink->disabled neq '1'} {if stripos($childLink->getUrl(), 'javascript:') === 0} onclick='{$childLink->getUrl()|substr:strlen("javascript:")};' {else} href='{$childLink->getUrl()}' {/if} {else} href="javascript:void(0);" {/if}><i class='{$ICON_CLASS}' style="font-size:13px;"></i>&nbsp; {vtranslate($childLink->getLabel(), $MODULE)}</a>
+										<li id="{$MODULE}_listView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($childLink->getLabel())}" {if isset($childLink->disabled)} data-edition-disable="{$childLink->disabled}" {/if} 
+											{if isset($childLink->message)} data-edition-message="{$childLink->message}" {/if}>
+											<a {if isset($childLink->disabled) && $childLink->disabled neq '1'} {if stripos($childLink->getUrl(), 'javascript:') === 0} onclick='{$childLink->getUrl()|substr:strlen("javascript:")};' {else} href='{$childLink->getUrl()}' {/if} {else} href="javascript:void(0);" {/if}><i class='{$ICON_CLASS}' style="font-size:13px;"></i>&nbsp; {vtranslate($childLink->getLabel(), $MODULE)}</a>
 										</li>
 									{/foreach}
 								</ul>
