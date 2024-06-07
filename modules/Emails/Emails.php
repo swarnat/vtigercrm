@@ -85,7 +85,7 @@ class Emails extends CRMEntity {
 		$insertion_mode = '';
 		//Inserting into seactivityrel
 		//modified by Richie as raju's implementation broke the feature for addition of webmail to vtiger_crmentity.need to be more careful in future while integrating code
-		if ($_REQUEST['module'] == "Emails" && $_REQUEST['module'] != 'webmails' && (!$this->plugin_save)) {
+		if (isset($_REQUEST['module']) && $_REQUEST['module'] == "Emails" && $_REQUEST['module'] != 'webmails' && (!$this->plugin_save)) {
 			if ($_REQUEST['currentid'] != '') {
 				$actid = $_REQUEST['currentid'];
 			} else {
