@@ -78,12 +78,13 @@
                         {foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
                             <th>
                                 {assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
+                                {assign var=FIELD_SEARCH_INFO value=array("searchValue" => "", "comparator" => "")}
                                 {if isset($SEARCH_DETAILS[$LISTVIEW_HEADER->getName()])}
-                                    {assign var=SEARCH_INFO value=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()]}
-                                    {include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$SOURCE_MODULE)
-                                        FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()] USER_MODEL=$CURRENT_USER_MODEL}
+                                    {assign var=FIELD_SEARCH_INFO value=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()]}
                                 {/if}
-                                <input type="hidden" class="operatorValue" value="{(isset($SEARCH_DETAILS[$LISTVIEW_HEADER->getName()])) ? $SEARCH_DETAILS[$LISTVIEW_HEADER->getName()]['comparator'] : ''}">
+                                {include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$SOURCE_MODULE)
+                                            FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$FIELD_SEARCH_INFO USER_MODEL=$CURRENT_USER_MODEL}
+                                <input type="hidden" class="operatorValue" value="{$FIELD_SEARCH_INFO['comparator']}">
                             </th>
                         {/foreach}
                         </tr>
