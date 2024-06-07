@@ -80,7 +80,7 @@
                         {if $TASK_OBJECT->time neq ''}
                             {assign var=TIME value=$TASK_OBJECT->time}
                         {/if}
-                        <input type="text" class="timepicker-default inputElement" data-format="{$timeFormat}" value="{$START_TIME}" name="startTime" />
+                        <input type="text" class="timepicker-default inputElement" data-format="{$timeFormat}" value="{(isset($START_TIME)) ? $START_TIME : ''}" name="startTime" />
                         <span  class="input-group-addon">
                             <i  class="fa fa-clock-o"></i>
                         </span>
@@ -123,7 +123,7 @@
                         {if $TASK_OBJECT->time neq ''}
                             {assign var=TIME value=$TASK_OBJECT->time}
                         {/if}
-                        <input type="text" class="timepicker-default inputElement" value="{$END_TIME}" name="endTime" />
+                        <input type="text" class="timepicker-default inputElement" value="{(isset($END_TIME)) ? $END_TIME : ''}" name="endTime" />
                         <span  class="input-group-addon">
                             <i  class="fa fa-clock-o"></i>
                         </span>

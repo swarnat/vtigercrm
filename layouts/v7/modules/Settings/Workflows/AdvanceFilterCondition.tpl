@@ -26,7 +26,7 @@
 						{assign var=columnNameApi value=getCustomViewColumnName}
 					{/if}
 					<option value="{$FIELD_MODEL->$columnNameApi()}" data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_NAME}"
-					{if decode_html($FIELD_MODEL->$columnNameApi()) eq $CONDITION_INFO['columnname']}
+					{if isset($CONDITION_INFO['columnname']) && decode_html($FIELD_MODEL->$columnNameApi()) eq $CONDITION_INFO['columnname']}
 						{assign var=FIELD_TYPE value=$FIELD_MODEL->getFieldDataType()}
 						{assign var=SELECTED_FIELD_MODEL value=$FIELD_MODEL}
 						{$FIELD_INFO['value'] = decode_html($CONDITION_INFO['value'])}
@@ -68,18 +68,27 @@
 	<span class="conditionComparator col-lg-3 col-md-3 col-sm-3">
 		<select class="{if empty($NOCHOSEN)}select2{/if} col-lg-12" name="comparator" data-placeholder="{vtranslate('LBL_NONE',$QUALIFIED_MODULE)}">
 			 <option value="none">{vtranslate('LBL_NONE',$MODULE)}</option>
-			{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
-			{foreach item=ADVANCE_FILTER_OPTION from=$ADVANCE_FILTER_OPTIONS}
+			 {if isset($FIELD_TYPE)}
+				{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
+				{foreach item=ADVANCE_FILTER_OPTION from=$ADVANCE_FILTER_OPTIONS}
 				<option value="{$ADVANCE_FILTER_OPTION}"
                                 {if $ADVANCE_FILTER_OPTION === $CONDITION_INFO['comparator']}
                                         selected
                                 {/if}
                                 >{vtranslate($ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION])}</option>
 			{/foreach}
+			 {/if}
+			
 		</select>
 	</span>
 	<span class="col-lg-4 col-md-4 col-sm-4  fieldUiHolder">
-		<input name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}" data-value="value" class="inputElement col-lg-12" type="text" value="{$CONDITION_INFO['value']|escape}" />
+	{if isset($CONDITION_INFO['value'])}
+		{assign var=CONDITIONINFO value=$CONDITION_INFO['value'] }
+		
+		{else}
+			{assign var=CONDITIONINFO value=''}
+	{/if}
+		<input name="{if isset($SELECTED_FIELD_MODEL) && $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}" data-value="value" class="inputElement col-lg-12" type="text" value="{$CONDITIONINFO|escape}" />
 	</span>
 	<span class="hide">
 		<!-- TODO : see if you need to respect CONDITION_INFO condition or / and  -->
