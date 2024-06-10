@@ -53,7 +53,7 @@
 				<button type="button" class="btn btn-default">{vtranslate('LBL_ADD_CONDITION',$MODULE)}</button>
 			</div>
 			<div class="groupCondition">
-				{assign var=GROUP_CONDITION value=$ALL_CONDITION_CRITERIA['condition']}
+				{assign var=GROUP_CONDITION value=(isset($ALL_CONDITION_CRITERIA['condition'])) ? $ALL_CONDITION_CRITERIA['condition'] : ''}
 				{if empty($GROUP_CONDITION)}
 					{assign var=GROUP_CONDITION value="and"}
 				{/if}

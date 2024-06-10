@@ -146,7 +146,7 @@
 					</div>
 				</div>
 				<div class="row from-group">
-					{if $EMAIL_TEMPLATES}
+					{if isset($EMAIL_TEMPLATES) && $EMAIL_TEMPLATES}
 						<div class="col-sm-6 col-xs-6">
 							<div class="row">
 								<div class="col-sm-3 col-xs-3">{vtranslate('LBL_EMAIL_TEMPLATES','EmailTemplates')}</div>

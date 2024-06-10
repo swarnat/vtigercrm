@@ -12,7 +12,7 @@
 		<div>
 			<div class="row">
 				<div id="vtlib_modulemanager_import_div">
-					{if $MODULEIMPORT_FAILED neq ''}
+					{if isset ($MODULEIMPORT_FAILED) && $MODULEIMPORT_FAILED neq ''}
 						<div class="col-lg-2"></div>
 						<div class="col-lg-10">
 							<b>{vtranslate('LBL_FAILED', $QUALIFIED_MODULE)}</b>
@@ -87,10 +87,10 @@
 		<div class="modal-overlay-footer clearfix">
 			<div class="row clearfix">
 				<div class="textAlignCenter col-lg-12 col-md-12 col-sm-12">
-					{if $MODULEIMPORT_FAILED neq ''}
+					{if isset($MODULEIMPORT_FAILED) && $MODULEIMPORT_FAILED neq ''}
 						<button class="btn btn-success finishButton" type="submit"><strong>{vtranslate('LBL_FINISH', $QUALIFIED_MODULE)}</strong></button>
 					{else if $MODULEIMPORT_EXISTS eq 'true' || $MODULEIMPORT_DIR_EXISTS eq 'true'}
-						<button class="btn btn-success updateModule" name="saveButton" {if $need_license_agreement eq 'true'} disabled {/if}>{vtranslate('LBL_UPDATE_NOW', $QUALIFIED_MODULE)}</button>
+						<button class="btn btn-success updateModule" name="saveButton" {if isset($need_license_agreement) && $need_license_agreement eq 'true'} disabled {/if}>{vtranslate('LBL_UPDATE_NOW', $QUALIFIED_MODULE)}</button>
 					{else}
 						<button class="btn btn-success importModule" name="saveButton" {if $need_license_agreement eq 'true'} disabled {/if}><strong>{vtranslate('LBL_IMPORT_NOW', $QUALIFIED_MODULE)}</strong></button>
 					{/if}

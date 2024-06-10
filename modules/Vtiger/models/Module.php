@@ -518,6 +518,7 @@ class Vtiger_Module_Model extends Vtiger_Module {
 
 		$nameFieldObject = Vtiger_Cache::get('EntityField',$this->getName());
 		$moduleName = $this->getName();
+		$fieldNames = '';
 		if($nameFieldObject && $nameFieldObject->fieldname) {
 			$this->nameFields = explode(',', $nameFieldObject->fieldname);
 		} else {
@@ -526,6 +527,7 @@ class Vtiger_Module_Model extends Vtiger_Module {
 			$query = "SELECT fieldname, tablename, entityidfield FROM vtiger_entityname WHERE tabid = ?";
 			$result = $adb->pquery($query, array($this->getId()));
 			$this->nameFields = array();
+			$fieldNames = '';
 			if($result){
 				$rowCount = $adb->num_rows($result);
 				if($rowCount > 0){

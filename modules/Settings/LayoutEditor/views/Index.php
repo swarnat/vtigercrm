@@ -84,7 +84,8 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View {
 		}
 
 		foreach($blockModels as $blockLabel => $blockModel) {
-			$fieldModelList = $blockIdFieldMap[$blockModel->get('id')];
+			$id=$blockModel->get('id');
+			$fieldModelList = isset($blockIdFieldMap[$id]) ? $blockIdFieldMap[$id] : '';
 			$blockModel->setFields($fieldModelList);
 		}
 

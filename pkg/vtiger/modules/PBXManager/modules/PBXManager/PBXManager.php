@@ -21,7 +21,7 @@ class PBXManager extends CRMEntity {
     protected $tabId = 0;
     protected $headerScriptLinkType = 'HEADERSCRIPT';
     protected $dependentModules = array('Contacts', 'Leads','Accounts');
-
+    public $mandatory_fields;
 
     var $db;
     var $table_name = 'vtiger_pbxmanager';

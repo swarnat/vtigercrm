@@ -1502,6 +1502,7 @@ function constructTwoDimensionalArray($var)
        		foreach ($var as $key => $secarr)
 		{
            		$code .= $key.'=>array(';
+				if(!is_iterable($secarr))continue;
 			foreach($secarr as $seckey => $secvalue)
 			{
 				$code .= $seckey.'=>'.$secvalue.',';

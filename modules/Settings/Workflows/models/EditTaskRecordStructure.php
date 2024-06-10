@@ -32,6 +32,7 @@ class Settings_Workflows_EditTaskRecordStructure_Model extends Settings_Workflow
 
 		$taskTypeModel = $this->getTaskRecordModel()->getTaskType();
 		$taskTypeName = $taskTypeModel->getName();
+		$moduleName = '';
 		if($taskTypeName == 'VTUpdateFieldsTask' || $taskTypeName == "VTCreateEntityTask"){
 			return parent::getStructure();
 		}

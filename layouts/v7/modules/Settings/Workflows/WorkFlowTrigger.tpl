@@ -98,10 +98,10 @@
                             <div class='col-sm-3 controls'>
                                 <div class="input-group" style="margin-bottom: 3px">
                                     {assign var=specificDate value=Zend_Json::decode($WORKFLOW_MODEL_OBJ->schannualdates)}
-                                    {if $specificDate[0] neq ''} 
+                                    {if isset($specificDate[0]) && $specificDate[0] neq ''} 
                                         {assign var=specificDate1 value=DateTimeField::convertToUserFormat($specificDate[0])} 
                                     {/if}
-                                    <input type="text" class="dateField form-control" name="schdate" value="{$specificDate1}" data-date-format="{$CURRENT_USER->date_format}" data-rule-required="true"/>
+                                    <input type="text" class="dateField form-control" name="schdate" value="{(isset($specificDate1)) ? $specificDate1 : ''}" data-date-format="{$CURRENT_USER->date_format}" data-rule-required="true"/>
                                     <span class="input-group-addon"><i class="fa fa-calendar "></i></span>
                                 </div>
                             </div>
@@ -118,9 +118,12 @@
                                 <div>
                                     <input type=hidden id=hiddenAnnualDates value='{$WORKFLOW_MODEL_OBJ->schannualdates}' />
                                     <select multiple class="select2" id='annualDates' name='schannualdates[]' data-rule-required="true" style="min-width: 100px;">
+                                    {if isset($ANNUAL_DATES)}
                                         {foreach item=DATES from=$ANNUAL_DATES}
                                             <option value="{$DATES}" selected>{$DATES}</option>
                                         {/foreach}
+                                    {/if}
+                                        
                                     </select>
                                 </div>
                             </div>

@@ -28,7 +28,7 @@ class EmailTemplates_Detail_View extends Vtiger_Index_View {
 
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
-		if(!$this->record){
+		if(!property_exists($this, 'record') || !$this->record){
 			$this->record = EmailTemplates_DetailView_Model::getInstance($moduleName, $recordId);
 		}
 		$recordModel = $this->record->getRecord();

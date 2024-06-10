@@ -15,8 +15,8 @@
 		{assign var=HEADER_TITLE value={vtranslate('LBL_SETUP_CARD', $QUALIFIED_MODULE)}}
 		{include file="ModalHeader.tpl"|vtemplate_path:$MODULE TITLE=$HEADER_TITLE}
 		<form class="form-horizontal setUpCardForm">
-			<input type="hidden" name="customerId" value="{$CUSTOMER_PROFILE['id']}" />
-			<input type="hidden" name="customerCardId" value="{$CUSTOMER_PROFILE['CustomerCardId']}" />
+			<input type="hidden" name="customerId" value="{(isset($CUSTOMER_PROFILE['id'])) ? $CUSTOMER_PROFILE['id'] : ''}" />
+			<input type="hidden" name="customerCardId" value="{(isset($CUSTOMER_PROFILE['CustomerCardId'])) ? $CUSTOMER_PROFILE['CustomerCardId'] : ''}" />
 			<input type="hidden" name="module" value="ExtensionStore" />
 			<input type="hidden" name="parent" value="Settings" />
 			<input type="hidden" name="action" value="Basic" />
@@ -84,13 +84,13 @@
 				<div class="col-sm-3 col-xs-3">
 					{vtranslate('LBL_CARD_NUMBER', $QUALIFIED_MODULE)}
 				</div>
-				<div class="col-sm-4 col-xs-4 cardNumber">{$CUSTOMER_CARD_INFO['number']}</div>
+				<div class="col-sm-4 col-xs-4 cardNumber">{(isset($CUSTOMER_CARD_INFO['number'])) ? $CUSTOMER_CARD_INFO['number'] : ''}</div>
 			</div>
 			<div class="row marginBottom10px">
 				<div class="col-sm-3 col-xs-3">
 					{vtranslate('LBL_EXPIRY_DATE', $QUALIFIED_MODULE)}
 				</div>
-				<div class="col-sm-4 col-xs-4 expiryDate">{$CUSTOMER_CARD_INFO['expmonth']}&nbsp;-&nbsp;{$CUSTOMER_CARD_INFO['expyear']}</div>
+				<div class="col-sm-4 col-xs-4 expiryDate">{(isset($CUSTOMER_CARD_INFO['expmonth'])) ? $CUSTOMER_CARD_INFO['expmonth'] : ''}&nbsp;-&nbsp;{(isset($CUSTOMER_CARD_INFO['expyear'])) ? $CUSTOMER_CARD_INFO['expyear'] : ''}</div>
 			</div>
 			<div class="row marginBottom10px">
 				<div class="col-sm-3 col-xs-3 securityCode">

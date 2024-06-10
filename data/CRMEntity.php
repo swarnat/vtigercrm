@@ -411,6 +411,7 @@ class CRMEntity {
 		global $current_user, $app_strings;
 		$log->info("function insertIntoEntityTable " . $module . ' vtiger_table name ' . $table_name);
 		global $adb;
+		global $_FILES;
 		$insertion_mode = $this->mode;
         $table_name = Vtiger_Util_Helper::validateStringForSql($table_name);
 		$tablekey = $this->tab_name_index[$table_name];

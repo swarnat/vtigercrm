@@ -77,7 +77,7 @@
                         {if $TASK_OBJECT->time neq ''}
                             {assign var=TIME value=$TASK_OBJECT->time}
                         {/if}
-                        <input type="text" class="timepicker-default inputElement" value="{$TIME}" name="time" />
+                        <input type="text" class="timepicker-default inputElement" value="{(isset($TIME)) ? $TIME : ''}" name="time" />
                         <span  class="input-group-addon">
                             <i  class="fa fa-clock-o"></i>
                         </span>
