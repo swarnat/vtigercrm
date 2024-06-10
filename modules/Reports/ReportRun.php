@@ -3072,6 +3072,10 @@ class ReportRun extends CRMEntity {
 		global $adb, $current_user, $php_max_execution_time;
 		global $modules, $app_strings;
 		global $mod_strings, $current_language;
+
+		// local-function cache
+		static $mod_query_details = array();
+		
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		$modules_selected = array();
 		$modules_selected[] = $this->primarymodule;
@@ -3185,7 +3189,6 @@ class ReportRun extends CRMEntity {
 					$y = $adb->num_fields($result);
 					$custom_field_values = $adb->fetch_array($result);
 
-					static $mod_query_details = array();
 					foreach ($this->totallist as $key => $value) {
 						$fieldlist = explode(":", $key);
 						$key = $fieldlist[1] . '_' . $fieldlist[2];
@@ -3360,7 +3363,6 @@ class ReportRun extends CRMEntity {
 					$y = $adb->num_fields($result);
 					$custom_field_values = $adb->fetch_array($result);
 
-					static $mod_query_details = array();
 					foreach ($this->totallist as $key => $value) {
 						$fieldlist = explode(':', $key);
 						$key = $fieldlist[1].'_'.$fieldlist[2];
@@ -3577,7 +3579,6 @@ class ReportRun extends CRMEntity {
 					$y = $adb->num_fields($result);
 					$custom_field_values = $adb->fetch_array($result);
 
-					static $mod_query_details = array();
 					foreach ($this->totallist as $key => $value) {
 						$fieldlist = explode(':', $key);
 						$key = $fieldlist[1] . '_' . $fieldlist[2];
@@ -4029,7 +4030,6 @@ class ReportRun extends CRMEntity {
 					}
 					// END
 
-					static $mod_query_details = array();
 					foreach ($this->totallist as $key => $value) {
 						$fieldlist = explode(":", $key);
 						$detailsKey = implode('_', array($fieldlist[1], $fieldlist[2]));
