@@ -16,7 +16,7 @@
     {if isset($SEARCH_INFO['searchValue']) && $SEARCH_INFO['searchValue'] !== null}
         {assign var=SEARCH_VALUES value=explode(',', $SEARCH_INFO['searchValue'])}
     {else}
-        {assign var=SEARCH_VALUES value=[]}
+        {assign var=SEARCH_VALUES value=array()}
     {/if}
     <div class="select2_search_div">
         <input type="text" class="listSearchContributor inputElement select2_input_element"/>
