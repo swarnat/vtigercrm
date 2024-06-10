@@ -90,7 +90,7 @@ class MonologLoggerEx extends MonologLogger {
     function isDebugEnabled() {
         $debugLevel = false;
         foreach ($this->getHandlers() as $handler) {
-            if ($handler->getLogLevel() == static::DEBUG) {
+            if ($handler->getLevel() == static::DEBUG) {
                 $debugLevel = true;
                 break;
             }
