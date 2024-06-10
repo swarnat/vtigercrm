@@ -55,7 +55,7 @@
 											<span class='muted'>{vtranslate($tax.taxlabel, $MODULE)}(%)</span>
 										</td>
 										<td class="fieldValue {$WIDTHTYPE}">
-											<span class="value textOverflowEllipsis" data-field-type="{$FIELD_MODEL->getFieldDataType()}" >
+											<span class="value textOverflowEllipsis" data-field-type="{$fieldDataType}" >
 												{if $tax.check_value eq 1}
 													{$tax.percentage}
 												{else}
@@ -115,7 +115,7 @@
 											{assign var=FIELD_DISPLAY_VALUE value=Vtiger_Util_Helper::toSafeHTML($FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue')))}
 										{/if}
 
-										<span class="value" data-field-type="{$FIELD_MODEL->getFieldDataType()}" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '21'} style="white-space:normal;" {/if}>
+										<span class="value" data-field-type="{$fieldDataType}" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '21'} style="white-space:normal;" {/if}>
 											{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
 										</span>
 										{if isset($IS_AJAX_ENABLED) && $IS_AJAX_ENABLED && $FIELD_MODEL->isEditable() eq 'true' && $FIELD_MODEL->isAjaxEditable() eq 'true'}
