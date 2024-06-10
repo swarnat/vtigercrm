@@ -474,7 +474,7 @@ class ProjectTask extends CRMEntity {
 		require_once "modules/$relModuleName/$relModuleName.php";
 		$relModuleFocus = new $relModuleName();
 		vtlib_setup_modulevars($relModuleName, $relModuleFocus);
-
+		$button = '';
 
 		$returnSet = '&return_module='.$currentModule.'&return_action=CallRelatedList&return_id='.$recordId;
 

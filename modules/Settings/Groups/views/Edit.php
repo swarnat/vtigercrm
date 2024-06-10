@@ -63,7 +63,7 @@ Class Settings_Groups_Edit_View extends Settings_Vtiger_Index_View {
 			$listViewModel = Settings_Vtiger_ListView_Model::getInstance($request->getModule(false));
 			$linkParams = array('MODULE'=>$request->getModule(false), 'ACTION'=>$request->get('view'));
 
-			if(!$this->listViewLinks){
+			if(!property_exists($this,'listViewLinks') || !$this->listViewLinks){
 				$this->listViewLinks = $listViewModel->getListViewLinks($linkParams);
 			}
 			$viewer->assign('LISTVIEW_LINKS', $this->listViewLinks);

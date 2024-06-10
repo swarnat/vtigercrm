@@ -145,7 +145,7 @@ class Activity extends CRMEntity {
 				}
 			}
 			$adb->pquery($sql, $params);
-		} else if ($_REQUEST['contactidlist'] == '' && $insertion_mode == "edit") {
+		} else if (isset($_REQUEST['contactidlist'] ) && $_REQUEST['contactidlist'] == '' && $insertion_mode == "edit") {
 			$adb->pquery('DELETE FROM vtiger_cntactivityrel WHERE activityid = ?', array($recordId));
 		}
 
@@ -180,7 +180,7 @@ class Activity extends CRMEntity {
 			$this->insertIntoReminderTable('vtiger_activity_reminder',$module,"");
 
 		//Handling for invitees
-			$selected_users_string =  $_REQUEST['inviteesid'];
+			$selected_users_string = isset($_REQUEST['inviteesid'])?$_REQUEST['inviteesid']:'';
 			$invitees_array = explode(';',$selected_users_string);
 			$this->insertIntoInviteeTable($module,$invitees_array);
 
@@ -242,7 +242,7 @@ class Activity extends CRMEntity {
 			} else {
 				$status = 1;
 			}
-
+			$callback_query='';
 			if(isset($reminderid)) {
 				$callback_query = "UPDATE vtiger_activity_reminder_popup set status = ?, date_start = ?, time_start = ? WHERE reminderid = ?";
 				$callback_params = array($status, $cbdate, $cbtime, $reminderid);
@@ -264,7 +264,7 @@ class Activity extends CRMEntity {
 	{
 		global $log;
 		$log->info("in insertIntoReminderTable  ".$table_name."    module is  ".$module);
-		if($_REQUEST['set_reminder'] == 'Yes')
+		if(isset($_REQUEST['set_reminder']) && $_REQUEST['set_reminder'] == 'Yes')
 		{
 			unset($_SESSION['next_reminder_time']);
 			$log->debug("set reminder is set");
@@ -292,7 +292,7 @@ class Activity extends CRMEntity {
 				$this->activity_reminder($this->id,$reminder_time,0,$recurid,'');
 			}
 		}
-		elseif($_REQUEST['set_reminder'] == 'No')
+		elseif(isset($_REQUEST['set_reminder']) && $_REQUEST['set_reminder'] == 'No')
 		{
 			$this->activity_reminder($this->id,'0',0,$recurid,'delete');
 		}
@@ -386,7 +386,7 @@ function insertIntoRecurringTable(& $recurObj)
 	function insertIntoInviteeTable($module,$invitees_array)
 	{
 		global $log,$adb;
-		$log->debug("Entering insertIntoInviteeTable(".$module.",".$invitees_array.") method ...");
+		$log->debug("Entering insertIntoInviteeTable(".$module.",".implode(',',$invitees_array).") method ...");
 		if($this->mode == 'edit'){
 			$sql = "DELETE FROM vtiger_invitees WHERE activityid=?";
 			$adb->pquery($sql, array($this->id));
@@ -730,7 +730,7 @@ function insertIntoRecurringTable(& $recurObj)
 	 * @param  integer   $recurid         - recuring eventid
 	 * @param  string    $remindermode    - string like 'edit'
 	 */
-	function activity_reminder($activity_id,$reminder_time,$reminder_sent=0,$recurid,$remindermode='')
+	function activity_reminder($activity_id,$reminder_time,$reminder_sent=0,$recurid=0,$remindermode='')
 	{
 		global $log;
 		$log->debug("Entering vtiger_activity_reminder(".$activity_id.",".$reminder_time.",".$reminder_sent.",".$recurid.",".$remindermode.") method ...");

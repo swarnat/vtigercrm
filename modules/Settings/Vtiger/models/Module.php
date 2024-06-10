@@ -18,6 +18,7 @@ class Settings_Vtiger_Module_Model extends Vtiger_Base_Model {
 	var $listFields = array('name' => 'Name', 'description' => 'Description');
 	var $nameFields = array('name');
 	var $name = 'Vtiger';
+	var $listFieldModels = null;
 
 	public function getName($includeParentIfExists = false) {
 		if($includeParentIfExists) {
@@ -105,7 +106,7 @@ class Settings_Vtiger_Module_Model extends Vtiger_Base_Model {
 	 * @return Settings_Vtiger_Module_Model instance
 	 */
 	public static function getInstance() {
-            list($name) = func_get_args();
+            list($name) = func_num_args() > 0 ? func_get_args() : "";
             if(empty($name)){
                 $name='Settings:Vtiger';
             }
@@ -155,7 +156,7 @@ class Settings_Vtiger_Module_Model extends Vtiger_Base_Model {
 		$qualifiedModuleName = $request->getModule(false);
 
 		$arrayParams = array();
-		$whereCondition .= "linkto LIKE ?  ";
+		$whereCondition = "linkto LIKE ?  ";
         $arrayParams[] = "%$moduleName%";
  		if ($moduleName != 'LanguageEditor') {
  			$whereCondition .= "AND (linkto LIKE '%parent=Settings%' OR linkto LIKE '%parenttab=Settings%')";
@@ -194,7 +195,7 @@ class Settings_Vtiger_Module_Model extends Vtiger_Base_Model {
 
 	public function getSettingsActiveBlock($viewName) {
 		$blocksList = array('OutgoingServerEdit' => array('block' => 'LBL_CONFIGURATION', 'menu' => 'LBL_MAIL_SERVER_SETTINGS'));
-		return $blocksList[$viewName];
+		return isset($blocksList[$viewName]) ? $blocksList[$viewName] : null;
 	}
 
 	public function getModuleIcon() {

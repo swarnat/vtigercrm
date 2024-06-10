@@ -78,9 +78,13 @@
                         {foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
                             <th>
                                 {assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
+                                {assign var=FIELD_SEARCH_INFO value=array("searchValue" => "", "comparator" => "")}
+                                {if isset($SEARCH_DETAILS[$LISTVIEW_HEADER->getName()])}
+                                    {assign var=FIELD_SEARCH_INFO value=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()]}
+                                {/if}
                                 {include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$SOURCE_MODULE)
-                                            FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()] USER_MODEL=$CURRENT_USER_MODEL}
-                                <input type="hidden" class="operatorValue" value="{$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()]['comparator']}">
+                                            FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$FIELD_SEARCH_INFO USER_MODEL=$CURRENT_USER_MODEL}
+                                <input type="hidden" class="operatorValue" value="{$FIELD_SEARCH_INFO['comparator']}">
                             </th>
                         {/foreach}
                         </tr>
@@ -137,7 +141,7 @@
                                     <div class="emptyRecordsContent" style="padding-top:15%;">
                                         {assign var=SINGLE_MODULE value="SINGLE_$MODULE"}
                                         {vtranslate('LBL_NO_RECORDS_FOUND', $MODULE)} {vtranslate($SOURCE_MODULE, $SOURCE_MODULE)}.
-                                        {if $IS_MODULE_EDITABLE}
+                                        {if isset($IS_MODULE_EDITABLE) && $IS_MODULE_EDITABLE}
                                             <a style="color:blue" href="{$MODULE_MODEL->getCreateRecordUrl()}"> {vtranslate('LBL_CREATE')}</a>
                                             {if Users_Privileges_Model::isPermitted($MODULE, 'Import') && $LIST_VIEW_MODEL->isImportEnabled()}
                                                 {vtranslate('LBL_OR', $MODULE)}

@@ -447,7 +447,7 @@ class Project extends CRMEntity {
              parent::delete_related_module($module, $crmid, $with_module, $with_crmid);
              return;
          }
-        $destinationModule = vtlib_purify($_REQUEST['destination_module']);
+		 $destinationModule = isset($_REQUEST['destination_module']) ? vtlib_purify($_REQUEST['destination_module']) : '';
 		if(empty($destinationModule)) $destinationModule = $with_module;
         if (!is_array($with_crmid)) $with_crmid = Array($with_crmid);
         foreach($with_crmid as $relcrmid) {
@@ -637,6 +637,7 @@ class Project extends CRMEntity {
 	}
 	
 	function get_emails($recordId, $currentTabId, $relTabId, $actions=false) {
+		$button = '';
 		global $currentModule,$single_pane_view;
 		$relModuleName = vtlib_getModuleNameById($relTabId);
 		$singularRelModuleName = vtlib_tosingular($relModuleName);
@@ -693,6 +694,7 @@ class Project extends CRMEntity {
 	 * @return <Array> - $projectTasks
 	 */
 	public function getProjectTasks($recordId) {
+		$projectTasks = array();
 		$db = PearDatabase::getInstance();
 		$sql = "SELECT projecttaskid FROM vtiger_projecttask 
 				INNER JOIN vtiger_crmentity ON vtiger_projecttask.projecttaskid = vtiger_crmentity.crmid

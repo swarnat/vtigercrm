@@ -26,13 +26,15 @@
 						{assign var=columnNameApi value=getCustomViewColumnName}
 					{/if}
 					<option value="{$FIELD_MODEL->$columnNameApi()}" data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_NAME}"
-					{if decode_html($FIELD_MODEL->$columnNameApi()) eq decode_html($CONDITION_INFO['columnname'])}
+					{if isset($CONDITION_INFO['columnname']) && decode_html($FIELD_MODEL->$columnNameApi()) eq decode_html($CONDITION_INFO['columnname'])}
 						{assign var=FIELD_TYPE value=$FIELD_MODEL->getFieldType()}
 						{assign var=SELECTED_FIELD_MODEL value=$FIELD_MODEL}
 						{if $FIELD_MODEL->getFieldDataType() == 'reference'  ||  $FIELD_MODEL->getFieldDataType() == 'multireference'}
 							{$FIELD_TYPE='V'}
 						{/if}
+						{if isset($CONDITION_INFO['value'])}
 						{$FIELD_INFO['value'] = decode_html($CONDITION_INFO['value'])}
+						{/if}
 						selected="selected"
 					{/if}
 					{if ($MODULE_MODEL->get('name') eq 'Calendar' || $MODULE_MODEL->get('name') eq 'Events') && ($FIELD_NAME eq 'recurringtype')}
@@ -67,6 +69,7 @@
 				</optgroup>
 			{/foreach}
 			{* Required to display event fields also while adding conditions *}
+			{if isset($EVENT_RECORD_STRUCTURE) && is_array($EVENT_RECORD_STRUCTURE)}
             {foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$EVENT_RECORD_STRUCTURE}
 				<optgroup label='{vtranslate($BLOCK_LABEL, 'Events')}'>
 				{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
@@ -114,27 +117,30 @@
 				{/foreach}
 				</optgroup>
 			{/foreach}
+			{/if}
 		</select>
 	</div>
 	<div class="conditionComparator col-lg-3 col-md-3 col-sm-3">
 		<select class="{if empty($NOCHOSEN)}select2{/if} col-lg-12" name="comparator">
 			 <option value="none">{vtranslate('LBL_NONE',$MODULE)}</option>
-			{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
-            {if $FIELD_TYPE eq 'D' || $FIELD_TYPE eq 'DT'}
-                {assign var=DATE_FILTER_CONDITIONS value=array_keys($DATE_FILTERS)}
-                {assign var=ADVANCE_FILTER_OPTIONS value=array_merge($ADVANCE_FILTER_OPTIONS,$DATE_FILTER_CONDITIONS)}
-            {/if}
-			{foreach item=ADVANCE_FILTER_OPTION from=$ADVANCE_FILTER_OPTIONS}
-				<option value="{$ADVANCE_FILTER_OPTION}"
-				{if $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}
-						selected
+			{if isset($FIELD_TYPE) && isset($ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE])}
+					{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
+				{if $FIELD_TYPE eq 'D' || $FIELD_TYPE eq 'DT'}
+					{assign var=DATE_FILTER_CONDITIONS value=array_keys($DATE_FILTERS)}
+					{assign var=ADVANCE_FILTER_OPTIONS value=array_merge($ADVANCE_FILTER_OPTIONS,$DATE_FILTER_CONDITIONS)}
 				{/if}
-				>{vtranslate($ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION])}</option>
-			{/foreach}
+				{foreach item=ADVANCE_FILTER_OPTION from=$ADVANCE_FILTER_OPTIONS}
+					<option value="{$ADVANCE_FILTER_OPTION}"
+					{if $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}
+							selected
+					{/if}
+					>{vtranslate($ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION])}</option>
+				{/foreach}
+			{/if}
 		</select>
 	</div>
 	<div class="col-lg-4 col-md-4 col-sm-4  fieldUiHolder">
-		<input name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}" data-value="value" class=" inputElement col-lg-12" type="text" value="{$CONDITION_INFO['value']|escape}" />
+		<input name="{if isset($SELECTED_FIELD_MODEL)}{$SELECTED_FIELD_MODEL->get('name')}{/if}" data-value="value" class=" inputElement col-lg-12" type="text" value="{if isset($CONDITION_INFO['value'])}{$CONDITION_INFO['value']|escape}{/if}" />
 	</div>
 	<span class="hide">
 		<!-- TODO : see if you need to respect CONDITION_INFO condition or / and  -->

@@ -28,7 +28,8 @@
 					{/if}
 					{if $MODULE neq 'Vtiger'}
 						{assign var=ALLOWED_MODULES value=","|explode:'Users,Profiles,Groups,Roles,Webforms,Workflows'}
-						{if $MODULE_MODEL and $MODULE|in_array:$ALLOWED_MODULES}
+						{assign var=URL value=""}
+						{if isset($MODULE_MODEL) and $MODULE|in_array:$ALLOWED_MODULES}
 							{if $MODULE eq 'Webforms'}
 								{assign var=URL value=$MODULE_MODEL->getListViewUrl()}
 							{else}
@@ -67,7 +68,7 @@
                                                                         <a href="">
                                                                             <span class="fa fa-angle-right" aria-hidden="true"></span>&nbsp;
                                                                             {if $REQ->get('view') eq 'Edit'}
-                                                                                    {if $RECORD}
+                                                                                    {if isset($RECORD) && $RECORD}
                                                                                             {vtranslate('LBL_EDITING', $MODULE)} :&nbsp;{$RECORD->getName()}
                                                                                     {else}
                                                                                             {vtranslate('LBL_ADDING_NEW', $MODULE)}
@@ -202,7 +203,7 @@
 				</div>
 			</div>
 		</div>
-		{if $FIELDS_INFO neq null}
+		{if isset($FIELDS_INFO) && $FIELDS_INFO neq null}
 			<script type="text/javascript">
 				var uimeta = (function () {
 					var fieldInfo = {$FIELDS_INFO};

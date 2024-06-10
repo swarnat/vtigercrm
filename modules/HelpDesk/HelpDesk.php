@@ -96,6 +96,7 @@ class HelpDesk extends CRMEntity {
 	// For Alphabetical search
 	var $def_basicsearch_col = 'ticket_title';
 
+
 	//var $groupTable = Array('vtiger_ticketgrouprelation','ticketid');
 
 	/**	Constructor which will set the column_fields in this object
@@ -122,9 +123,9 @@ class HelpDesk extends CRMEntity {
 		$this->insertIntoAttachment($this->id,$module);
 
 		//service contract update
-		$return_action = $_REQUEST['return_action'];
-		$for_module = $_REQUEST['return_module'];
-		$for_crmid  = $_REQUEST['return_id'];
+		$return_action = isset($_REQUEST['return_action']) ? $_REQUEST['return_action'] : "";
+		$for_module = isset($_REQUEST['return_module']) ? $_REQUEST['return_module'] : "";
+		$for_crmid  = isset($_REQUEST['return_id']) ? $_REQUEST['return_id'] : "";
 		if ($return_action && $for_module && $for_crmid) {
 			if ($for_module == 'ServiceContracts') {
 				$on_focus = CRMEntity::getInstance($for_module);

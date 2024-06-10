@@ -24,7 +24,7 @@
         <div class="modal-dialog">
         </div>
     </div>
-{if $FIELDS_INFO neq null}
+{if isset($FIELDS_INFO) && $FIELDS_INFO neq null}
     <script type="text/javascript">
         var uimeta = (function() {
             var fieldInfo  = {$FIELDS_INFO};

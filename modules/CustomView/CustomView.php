@@ -226,7 +226,7 @@ class CustomView extends CRMEntity {
 		$result = $adb->pquery($ssql, $sparams);
 		while ($cvrow = $adb->fetch_array($result)) {
 			if ($cvrow['viewname'] == 'All') {
-				$cvrow['viewname'] = $app_strings['COMBO_ALL'];
+				$cvrow['viewname'] = isset($app_strings['COMBO_ALL'])?$app_strings['COMBO_ALL']:'';
 			}
 
 			$option = '';
@@ -433,6 +433,7 @@ class CustomView extends CRMEntity {
 			$sSQL .= " inner join vtiger_customview on vtiger_customview.cvid = vtiger_cvcolumnlist.cvid";
 			$sSQL .= " where vtiger_customview.cvid =? order by vtiger_cvcolumnlist.columnindex";
 			$result = $adb->pquery($sSQL, array($cvid));
+			$columnlist = array();
 			while ($columnrow = $adb->fetch_array($result)) {
 				$columnlist[$columnrow['columnindex']] = $columnrow['columnname'];
 			}
@@ -915,6 +916,8 @@ class CustomView extends CRMEntity {
 
 			$advft_criteria = Vtiger_Cache::get('advftCriteria',$cvid);
 			if(!$advft_criteria){
+				$advft_criteria = array();
+				
 				// Not a good approach to get all the fields if not required(May leads to Performance issue)
 				$sql = 'SELECT groupid,group_condition FROM vtiger_cvadvfilter_grouping WHERE cvid = ? ORDER BY groupid';
 				$groupsresult = $adb->pquery($sql, array($cvid));
@@ -1018,6 +1021,9 @@ class CustomView extends CRMEntity {
 							}
 						}
 						$advfilterval = implode(",", $val);
+					}
+					if(!is_array($criteria)) {
+						$criteria = [];
 					}
 					$criteria['value'] = $advfilterval;
 					$criteria['column_condition'] = $relcriteriarow["column_condition"];

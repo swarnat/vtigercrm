@@ -12,6 +12,7 @@ require_once("VTJsonCondition.inc");
 require_once 'include/utils/ConfigReader.php';
 require_once 'includes/runtime/Cache.php';
 
+#[\AllowDynamicProperties]
 class VTWorkflowManager{
 
 	static $ON_FIRST_SAVE = 1;
@@ -341,6 +342,7 @@ class VTWorkflowManager{
 	}
 }
 
+#[\AllowDynamicProperties]
 class Workflow{
 	static $SCHEDULED_HOURLY = 1;
 	static $SCHEDULED_DAILY = 2;
@@ -354,7 +356,13 @@ class Workflow{
 		$this->conditionStrategy = new VTJsonCondition();
 	}
 
+	function __get($name) {
+		return property_exists($this, $name) ? $this->$name : null;
+	}
+
 	function setup($row) {
+		$row = vtlib_array($row);
+		
 		$this->id = $row['workflow_id'];
 		$this->moduleName = $row['module_name'];
 		$this->description = to_html($row['summary']);
@@ -427,7 +435,7 @@ class Workflow{
 				//Check whether task is VTEmailTask and then check emailoptout value
 				//if enabled don't queue the email
 				if($taskClassName == 'VTEmailTask'){
-					if($data['emailoptout'] == 1) continue;
+					if(isset($data['emailoptout']) && $data['emailoptout'] == 1) continue;
 				}
 				$delay = 0;
 				$trigger = $task->trigger;

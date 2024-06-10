@@ -97,7 +97,7 @@ class Vtiger_Util_Helper {
 	 * @return <String>
 	 */
 	public static function pluralize($count, $text) {
-		return $count ." ". (($count == 1) ? vtranslate("$text") : vtranslate("${text}S"));
+		return $count ." ". (($count == 1) ? vtranslate("$text") : vtranslate("{$text}S"));
 	}
 
 	/**
@@ -105,7 +105,7 @@ class Vtiger_Util_Helper {
 	 */
 	public static function toSafeHTML($input) {
 		global $default_charset;
-		return htmlentities($input, ENT_QUOTES, $default_charset);
+		return $input ? htmlentities($input, ENT_QUOTES, $default_charset) : $input;
 	}
 
 	/**
@@ -115,7 +115,7 @@ class Vtiger_Util_Helper {
 	 */
 	public static function toVtiger6SafeHTML($input) {
 		$allowableTags = '<a><br>';
-		return strip_tags($input, $allowableTags);
+		return strip_tags((string) $input, $allowableTags);
 	}
 	/**
 	 * Function to validate the input with given pattern.
@@ -269,6 +269,7 @@ class Vtiger_Util_Helper {
 			$dateTimeInUserFormat = Vtiger_Datetime_UIType::getDisplayDateTimeValue($dateTime);
 		}
 
+		if (substr_count($dateTimeInUserFormat,' ') == 1) $dateTimeInUserFormat .= ' '; // init for meridiem if not present
 		list($dateInUserFormat, $timeInUserFormat, $meridiem) = explode(' ', $dateTimeInUserFormat);
 		if($meridiem && $currentUser->get('hour_format') === '12' ){
 			$displayTime = $timeInUserFormat.' '.$meridiem;

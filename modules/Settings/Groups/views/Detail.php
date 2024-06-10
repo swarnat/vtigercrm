@@ -17,7 +17,7 @@ Class Settings_Groups_Detail_View extends Settings_Vtiger_Index_View {
         $qualifiedModuleName = $request->getModule(false);
         
         $recordModel = Settings_Groups_Record_Model::getInstance($groupId);
-        
+        $record='';
         $viewer = $this->getViewer($request);
 
 		$viewer->assign('RECORD_MODEL', $recordModel);
@@ -59,7 +59,7 @@ Class Settings_Groups_Detail_View extends Settings_Vtiger_Index_View {
         $listViewModel = Settings_Vtiger_ListView_Model::getInstance($request->getModule(false));
         $linkParams = array('MODULE'=>$request->getModule(false), 'ACTION'=>$request->get('view'));
 
-        if(!$this->listViewLinks){
+        if(!property_exists($this,'listViewLinks') || !$this->listViewLinks){
             $this->listViewLinks = $listViewModel->getListViewLinks($linkParams);
         }
         $viewer->assign('LISTVIEW_LINKS', $this->listViewLinks);

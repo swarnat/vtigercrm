@@ -219,9 +219,12 @@ class Vtiger_MailRecord {
 
 		$this->_from = $this->__getEmailIdList($mailheader->from);
                 $this->_fromname = self::__mime_decode($mailheader->from[0]->personal);
-		$this->_to   = $this->__getEmailIdList($mailheader->to);
-		$this->_cc   = $this->__getEmailIdList($mailheader->cc);
-		$this->_bcc  = $this->__getEmailIdList($mailheader->bcc);
+
+				if(!property_exists($mailheader,'to') && !property_exists($mailheader,'cc') && !property_exists($mailheader,'bcc')){
+					$this->_to   = $this->__getEmailIdList($mailheader->to);
+					$this->_cc   = $this->__getEmailIdList($mailheader->cc);
+					$this->_bcc  = $this->__getEmailIdList($mailheader->bcc);
+				}
 
 		$this->_date = $mailheader->udate;
 
@@ -291,14 +294,14 @@ class Vtiger_MailRecord {
 	    if ($p->parameters) {
 			foreach ($p->parameters as $x) $params[ strtolower( $x->attribute ) ] = $x->value;
 		}
-	    if ($p->dparameters) {
+	    if (property_exists($p,'dparameters') && $p->dparameters) {
 			foreach ($p->dparameters as $x) $params[ strtolower( $x->attribute ) ] = $x->value;
 		}
 
 	    // ATTACHMENT
     	// Any part with a filename is an attachment,
 	    // so an attached text file (type 0) is not mistaken as the message.
-    	if ($params['filename'] || $params['name']) {
+    	if ((isset($params['filename']) && $params['filename']) || (isset($params['name']) && $params['name'])) {
         	// filename may be given as 'Filename' or 'Name' or both
 	        $filename = ($params['filename'])? $params['filename'] : $params['name'];
 			// filename may be encoded, so see imap_mime_header_decode()
@@ -327,7 +330,7 @@ class Vtiger_MailRecord {
 	    }
 
     	// SUBPART RECURSION
-	    if ($p->parts) {
+	    if (property_exists($p,'parts') && $p->parts) {
         	foreach ($p->parts as $partno0=>$p2)
             	$this->__getpart($imap,$messageid,$p2,$partno.'.'.($partno0+1));  // 1.2, 1.2.1, etc.
     	}

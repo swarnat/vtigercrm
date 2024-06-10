@@ -13,12 +13,12 @@
 	<input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
 	<input type="hidden" id="nextPageExist" value="{$PAGING_MODEL->isNextPageExists()}" />
 	<input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
-	<input type="hidden" value="{$ORDER_BY}" id="orderBy">
-	<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
+	<input type="hidden" value="{(isset($ORDER_BY)) ? $ORDER_BY : ''}" id="orderBy">
+	<input type="hidden" value="{(isset($SORT_ORDER)) ? $SORT_ORDER : ''}" id="sortOrder">
 	<input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
-	<input type='hidden' value="{$PAGE_NUMBER}" id='pageNumber'>
+	<input type='hidden' value="{(isset($PAGE_NUMBER)) ? $PAGE_NUMBER : ''}" id='pageNumber'>
 	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
-	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
+	<input type="hidden" value="{(isset($LISTVIEW_ENTRIES_COUNT)) ? $LISTVIEW_ENTRIES_COUNT : ''}" id="noOfEntries">
 
 	<div class="col-sm-12 col-xs-12 ">
 		<div id="listview-actions" class="listview-actions-container">
@@ -48,7 +48,7 @@
 											{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}
 										</th>
 									{else if $MODULE neq 'Currency'}
-										{if $SHOW_LISTVIEW_CHECKBOX eq true}
+										{if isset($SHOW_LISTVIEW_CHECKBOX) && $SHOW_LISTVIEW_CHECKBOX eq true}
 											<th>
 												<span class="input">
 													<input class="listViewEntriesMainCheckBox" type="checkbox">
@@ -56,15 +56,15 @@
 											</th>
 										{/if}
 									{/if}
-									{if $MODULE eq 'Tags' or $MODULE eq 'CronTasks' or $LISTVIEW_ACTIONS_ENABLED eq true}
+									{if $MODULE eq 'Tags' or $MODULE eq 'CronTasks' or isset($LISTVIEW_ACTIONS_ENABLED) && $LISTVIEW_ACTIONS_ENABLED eq true}
 										<th>
 											{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}
 										</th>
 									{/if}
 									{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 										<th nowrap>
-											<a {if !($LISTVIEW_HEADER->has('sort'))} class="listViewHeaderValues cursorPointer" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}" {/if}>{vtranslate($LISTVIEW_HEADER->get('label'), $QUALIFIED_MODULE)}
-												&nbsp;{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}<img class="{$SORT_IMAGE} icon-white">{/if}</a>&nbsp;
+											<a {if !($LISTVIEW_HEADER->has('sort'))} class="listViewHeaderValues cursorPointer" data-nextsortorderval="{if isset($COLUMN_NAME) && $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}" {/if}>{vtranslate($LISTVIEW_HEADER->get('label'), $QUALIFIED_MODULE)}
+												&nbsp;{if isset($COLUMN_NAME) && $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}<img class="{$SORT_IMAGE} icon-white">{/if}</a>&nbsp;
 										</th>
 									{/foreach}
 								</tr>
@@ -80,7 +80,7 @@
 										{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 											{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 											{assign var=LAST_COLUMN value=$LISTVIEW_HEADER@last}
-											<td class="listViewEntryValue textOverflowEllipsis {$WIDTHTYPE}" width="{$WIDTH}%" nowrap>
+											<td class="listViewEntryValue textOverflowEllipsis {$WIDTHTYPE}" width="{(isset($WIDTH)) ? $WIDTH : ''}%" nowrap>
 												{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
 												{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
 													</td>
@@ -89,7 +89,7 @@
 										{/foreach}
 									</tr>
 								{/foreach}
-								{if $LISTVIEW_ENTRIES_COUNT eq '0'}
+								{if isset($LISTVIEW_ENTRIES_COUNT) && $LISTVIEW_ENTRIES_COUNT eq '0'}
 									<tr class="emptyRecordsDiv">
 										{assign var=COLSPAN_WIDTH value={php7_count($LISTVIEW_HEADERS)+1}}
 										<td colspan="{$COLSPAN_WIDTH}" style="vertical-align:inherit !important;">

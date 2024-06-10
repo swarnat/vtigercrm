@@ -366,7 +366,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model {
 	 * @param <Boolean> $skipRecords - List of the RecordIds to be skipped
 	 * @return <Array> List of RecordsIds
 	 */
-	public function getRecordIds($skipRecords=false, $module, $searchParams = array()) {
+	public function getRecordIds($skipRecords=false, $module=null, $searchParams = array()) {
 		$db = PearDatabase::getInstance();
 		$baseTableName = "vtiger_report";
 		$baseTableId = "reportid";

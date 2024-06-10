@@ -223,11 +223,12 @@ class VtigerCRMObjectMeta extends EntityMeta {
 	function hasPermission($operation,$webserviceId){
 		
 		$idComponents = vtws_getIdComponents($webserviceId);
-		$id=$idComponents[1];
-		
-		$permitted = isPermitted($this->getTabName(),$operation,$id);
-		if(strcmp($permitted,"yes")===0){
-			return true;
+		$id=$idComponents ? array_pop($idComponents):null;
+		if ($id) {
+			$permitted = isPermitted($this->getTabName(),$operation,$id);
+			if(strcmp($permitted,"yes")===0){
+				return true;
+			}
 		}
 		return false;
 	}
@@ -371,7 +372,7 @@ class VtigerCRMObjectMeta extends EntityMeta {
 		
 		require_once('modules/CustomView/CustomView.php');
 		$current_user = vtws_preserveGlobal('current_user',$this->user);
-		$theme = vtws_preserveGlobal('theme',$this->user->theme);
+		$theme = vtws_preserveGlobal('theme', isset($this->user->theme) ? $this->user->theme : "");
 		$default_language = VTWS_PreserveGlobal::getGlobal('default_language');
 		global $current_language;
 		if(empty($current_language)) $current_language = $default_language;

@@ -11,6 +11,7 @@
 
 class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model {
 
+    public $uitype_instance;
 	public function delete() {
 		$adb = PearDatabase::getInstance();
 		parent::delete();
@@ -26,7 +27,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model {
 		$fieldtype =  explode("~",$typeofdata);
 
 		$focus = CRMEntity::getInstance($fld_module);
-
+		$oldfieldlabel = isset($oldfieldlabel) ? $oldfieldlabel : '';
 		$deletecolumnname =$tablename .":". $columnname .":".$fieldname.":".$fld_module. "_" .str_replace(" ","_",$oldfieldlabel).":".$fieldtype[0];
 		$column_cvstdfilter = 	$tablename .":". $columnname .":".$fieldname.":".$fld_module. "_" .str_replace(" ","_",$oldfieldlabel);
 		$select_columnname = $tablename.":".$columnname .":".$fld_module. "_" . str_replace(" ","_",$oldfieldlabel).":".$fieldname.":".$fieldtype[0];

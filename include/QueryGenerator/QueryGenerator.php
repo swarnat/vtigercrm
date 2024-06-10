@@ -19,6 +19,7 @@ require_once 'include/Webservices/RelatedModuleMeta.php';
  *
  * @author MAK
  */
+#[\AllowDynamicProperties]
 class QueryGenerator {
 	protected $module;
 	protected $customViewColumnList;
@@ -52,6 +53,7 @@ class QueryGenerator {
 	public static $AND = 'AND';
 	public static $OR = 'OR';
 	protected $customViewFields;
+	protected $referenceModuleField;
 	/**
 	 * Import Feature
 	 */
@@ -1338,7 +1340,7 @@ class QueryGenerator {
 
 	public function addUserSearchConditions($input) {
 		global $log,$default_charset;
-		if($input['searchtype']=='advance') {
+		if(isset($input['searchtype']) && $input['searchtype']=='advance') {
 
 			$json = new Zend_Json();
 			$advft_criteria = $_REQUEST['advft_criteria'];
@@ -1385,7 +1387,7 @@ class QueryGenerator {
 				}
 			}
 			$this->endGroup();
-		} elseif($input['type']=='dbrd') {
+		} elseif(isset($input['type']) && $input['type']=='dbrd') {
 			if($this->conditionInstanceCount > 0) {
 				$this->startGroup(self::$AND);
 			} else {

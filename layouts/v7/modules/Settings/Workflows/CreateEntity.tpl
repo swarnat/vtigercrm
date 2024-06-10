@@ -10,7 +10,7 @@
 
 {* START YOUR IMPLEMENTATION FROM BELOW. Use {debug} for information *}
 <input type="hidden" id="fieldValueMapping" name="field_value_mapping" value='{$TASK_OBJECT->field_value_mapping}' />
-<input type="hidden" value="{if $TASK_ID}{$TASK_OBJECT->reference_field}{else}{$REFERENCE_FIELD_NAME}{/if}" name='reference_field' id='reference_field' />
+<input type="hidden" value="{if $TASK_ID}{$TASK_OBJECT->reference_field}{else}{(isset($REFERENCE_FIELD_NAME)) ? $REFERENCE_FIELD_NAME : ''}{/if}" name='reference_field' id='reference_field' />
 <div class="conditionsContainer" id="save_fieldvaluemapping">
 	{if $RELATED_MODULE_MODEL_NAME neq '' && getTabid($RELATED_MODULE_MODEL_NAME)}
 		<div>
@@ -56,7 +56,7 @@
 
 		{include file="FieldExpressions.tpl"|@vtemplate_path:$QUALIFIED_MODULE RELATED_MODULE_MODEL=$RELATED_MODULE_MODEL MODULE_MODEL=$MODULE_MODEL FIELD_EXPRESSIONS=$FIELD_EXPRESSIONS}
 	{else}
-		{if $RELATED_MODULE_MODEL}
+		{if isset($RELATED_MODULE_MODEL) && $RELATED_MODULE_MODEL}
 			<div>
 				<button type="button" class="btn btn-default" id="addFieldBtn">{vtranslate('LBL_ADD_FIELD',$QUALIFIED_MODULE)}</button>
 			</div><br>
@@ -94,7 +94,7 @@
 		{/if}
 	{/if}
 </div><br>
-{if $RELATED_MODULE_MODEL}
+{if isset($RELATED_MODULE_MODEL) && $RELATED_MODULE_MODEL}
 	<div class="row form-group basicAddFieldContainer hide">
 		<span class="col-lg-4">
 			<select name="fieldname" style="min-width: 250px">

@@ -186,6 +186,7 @@ class Vtiger_MailBox {
 			$imapfolders = imap_list($this->_imap, $this->_imapurl, '*');
 			if($imapfolders) {
 				foreach($imapfolders as $imapfolder) {
+					if(!is_array($folders)) $folders = [];
 					$folders[] = substr($imapfolder, strlen($this->_imapurl));
 				}
 			} else {

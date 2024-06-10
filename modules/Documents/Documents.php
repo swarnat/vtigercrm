@@ -95,8 +95,10 @@ class Documents extends CRMEntity {
 		}
 		$filetype_fieldname = $this->getFileTypeFieldName();
 		$filename_fieldname = $this->getFile_FieldName();
+		$filedownloadcount = null;
+		$filename = null;
 		if($this->column_fields[$filetype_fieldname] == 'I' ){
-			if($_FILES[$filename_fieldname]['name'] != ''){
+			if(isset($_FILES[$filename_fieldname]) && $_FILES[$filename_fieldname]['name'] != ''){
 				$errCode=$_FILES[$filename_fieldname]['error'];
 					if($errCode == 0){
 						foreach($_FILES as $fileindex => $files)
@@ -178,9 +180,9 @@ class Documents extends CRMEntity {
 
 		foreach($_FILES as $fileindex => $files)
 		{
-			if($files['name'] != '' && $files['size'] > 0)
+			if($files['name'] != '' && $files['size'] > 0 && isset($_REQUEST[$fileindex.'_hidden']))
 			{
-				$files['original_name'] = vtlib_purify($_REQUEST[$fileindex.'_hidden']);
+				$files['original_name'] = isset($_REQUEST[$fileindex.'_hidden']) ? vtlib_purify($_REQUEST[$fileindex.'_hidden']) : "";
 				$file_saved = $this->uploadAndSaveFile($id,$module,$files);
                                 if(!$file_saved){
                                     $log->debug('file upload failed');
@@ -235,9 +237,8 @@ class Documents extends CRMEntity {
 	function getSortOrderForFolder($folderId) {
 		if(isset($_REQUEST['sorder']) && $_REQUEST['folderid'] == $folderId) {
 			$sorder = $this->db->sql_escape_string($_REQUEST['sorder']);
-		} elseif(is_array($_SESSION['NOTES_FOLDER_SORT_ORDER']) &&
-					!empty($_SESSION['NOTES_FOLDER_SORT_ORDER'][$folderId])) {
-				$sorder = $_SESSION['NOTES_FOLDER_SORT_ORDER'][$folderId];
+		} elseif(isset($_SESSION['NOTES_FOLDER_SORT_ORDER']) && is_array($_SESSION['NOTES_FOLDER_SORT_ORDER']) && isset($_SESSION['NOTES_FOLDER_SORT_ORDER'][$folderId]) && !empty($_SESSION['NOTES_FOLDER_SORT_ORDER'][$folderId])) {
+			$sorder = $_SESSION['NOTES_FOLDER_SORT_ORDER'][$folderId];
 		} else {
 			$sorder = $this->default_sort_order;
 		}
@@ -255,8 +256,7 @@ class Documents extends CRMEntity {
 		}
 		if (isset($_REQUEST['order_by'])  && $_REQUEST['folderid'] == $folderId) {
 			$order_by = $this->db->sql_escape_string($_REQUEST['order_by']);
-		} elseif(is_array($_SESSION['NOTES_FOLDER_ORDER_BY']) &&
-				!empty($_SESSION['NOTES_FOLDER_ORDER_BY'][$folderId])) {
+		} elseif(isset($_SESSION['NOTES_FOLDER_ORDER_BY']) && is_array($_SESSION['NOTES_FOLDER_ORDER_BY']) && isset($_SESSION['NOTES_FOLDER_ORDER_BY'][$folderId]) && !empty($_SESSION['NOTES_FOLDER_ORDER_BY'][$folderId])) {
 			$order_by = $_SESSION['NOTES_FOLDER_ORDER_BY'][$folderId];
 		} else {
 			$order_by = ($use_default_order_by);
@@ -550,6 +550,7 @@ class Documents extends CRMEntity {
 	function get_related_list($id, $cur_tab_id, $rel_tab_id,$actions = false) {
 		$related_module = vtlib_getModuleNameById($rel_tab_id);
 		$other = CRMEntity::getInstance($related_module);
+		$more_relation='';
 		vtlib_setup_modulevars('Documents', $this);
 		vtlib_setup_modulevars($related_module, $other);
 

@@ -27,15 +27,15 @@
 
             <div class='modal-body'>
 				{assign var=LABELS value=[]}
-                {if $FORMAT eq 'vcf'}
+                {if isset($FORMAT) eq 'vcf'}
                     {$LABELS["step1"] = 'LBL_UPLOAD_VCF'}
-                {else if $FORMAT eq 'ics'}
+                {else if isset($FORMAT) eq 'ics'}
 					{$LABELS["step1"] = 'LBL_UPLOAD_ICS'}
 				{else}
                     {$LABELS["step1"] = 'LBL_UPLOAD_CSV'}
                 {/if}
 
-                {if $DUPLICATE_HANDLING_NOT_SUPPORTED eq 'true'}
+                {if isset($DUPLICATE_HANDLING_NOT_SUPPORTED) eq 'true'}
                     {$LABELS["step3"] = 'LBL_FIELD_MAPPING'}
                 {else}
                     {$LABELS["step2"] = 'LBL_DUPLICATE_HANDLING'}
@@ -45,7 +45,7 @@
                          ACTIVESTEP=3 BREADCRUMB_LABELS=$LABELS MODULE=$MODULE}
                 <div class = "importBlockContainer">
                     <table class = "table table-borderless">
-                        {if $ERROR_MESSAGE neq ''}
+                        {if isset($ERROR_MESSAGE) && $ERROR_MESSAGE neq ''}
                             <tr>
                                 <td align="left">
                                     {$ERROR_MESSAGE}

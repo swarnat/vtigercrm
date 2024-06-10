@@ -24,7 +24,7 @@
     {assign var="subprod_names" value="subprod_names"|cat:$row_no}
 	{assign var="subprod_qty_list" value="subprod_qty_list"|cat:$row_no}
     {assign var="entityIdentifier" value="entityType"|cat:$row_no}
-    {assign var="entityType" value=$data.$entityIdentifier}
+    {assign var="entityType" value=(isset($data.$entityIdentifier)) ? $data.$entityIdentifier : ""}
 
     {assign var="discount_type" value="discount_type"|cat:$row_no}
     {assign var="discount_percent" value="discount_percent"|cat:$row_no}
@@ -39,14 +39,14 @@
     {assign var="totalAfterDiscount" value="totalAfterDiscount"|cat:$row_no}
     {assign var="taxTotal" value="taxTotal"|cat:$row_no}
     {assign var="netPrice" value="netPrice"|cat:$row_no}
-    {assign var="FINAL" value=$RELATED_PRODUCTS.1.final_details}
+    {assign var="FINAL" value=(isset($RELATED_PRODUCTS.1.final_details)) ? $RELATED_PRODUCTS.1.final_details : ""}
 
 	{assign var="productDeleted" value="productDeleted"|cat:$row_no}
-	{assign var="productId" value=$data[$hdnProductId]}
+	{assign var="productId" value=(isset($data[$hdnProductId])) ? $data[$hdnProductId] : ""}
 	{assign var="listPriceValues" value=Products_Record_Model::getListPriceValues($productId)}
 	{if $MODULE eq 'PurchaseOrder'}
 		{assign var="listPriceValues" value=array()}
-		{assign var="purchaseCost" value="{if $data.$purchaseCost && $RECORD_CURRENCY_RATE && $data.$qty}{((float)$data.$purchaseCost) / ((float)$data.$qty * (float){$RECORD_CURRENCY_RATE})}{else}0{/if}"}
+		{assign var="purchaseCost" value="{if isset($data.$purchaseCost) && isset($data.$qty) && $data.$purchaseCost && $RECORD_CURRENCY_RATE && $data.$qty}{((float)$data.$purchaseCost) / ((float)$data.$qty * (float){$RECORD_CURRENCY_RATE})}{else}0{/if}"}
 		{foreach item=currency_details from=$CURRENCIES}
 			{append var='listPriceValues' value=$currency_details.conversionrate * $purchaseCost index=$currency_details.currency_id}
 		{/foreach}
@@ -57,7 +57,7 @@
 		&nbsp;<a><img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$MODULE)}"/></a>
 		<input type="hidden" class="rowNumber" value="{$row_no}" />
 	</td>
-	{if $IMAGE_EDITABLE}
+	{if isset($IMAGE_EDITABLE) && $IMAGE_EDITABLE}
 		<td class='lineItemImage' style="text-align:center;">
 			<img src='{$data.$image}' height="42" width="42">
 		</td>
@@ -66,20 +66,20 @@
 	{if $PRODUCT_EDITABLE}
 		<td>
 			<!-- Product Re-Ordering Feature Code Addition Starts -->
-			<input type="hidden" name="hidtax_row_no{$row_no}" id="hidtax_row_no{$row_no}" value="{$tax_row_no}"/>
+			<input type="hidden" name="hidtax_row_no{$row_no}" id="hidtax_row_no{$row_no}" value="{(isset($tax_row_no)) ? $tax_row_no : ""}"/>
 			<!-- Product Re-Ordering Feature Code Addition ends -->
 			<div class="itemNameDiv form-inline">
 				<div class="row">
 					<div class="col-lg-10">
 						<div class="input-group" style="width:100%">
-							<input type="text" id="{$productName}" name="{$productName}" value="{$data.$productName}" class="productName form-control {if $row_no neq 0} autoComplete {/if} " placeholder="{vtranslate('LBL_TYPE_SEARCH',$MODULE)}"
+							<input type="text" id="{$productName}" name="{$productName}" value="{(isset($data.$productName)) ? $data.$productName : ""}" class="productName form-control {if $row_no neq 0} autoComplete {/if} " placeholder="{vtranslate('LBL_TYPE_SEARCH',$MODULE)}"
 								   data-rule-required=true {if !empty($data.$productName)} disabled="disabled" {/if}>
-							{if !$data.$productDeleted}
+							{if isset($data.$productDeleted) && !$data.$productDeleted}
 								<span class="input-group-addon cursorPointer clearLineItem" title="{vtranslate('LBL_CLEAR',$MODULE)}">
 									<i class="fa fa-times-circle"></i>
 								</span>
 							{/if}
-							<input type="hidden" id="{$hdnProductId}" name="{$hdnProductId}" value="{$data.$hdnProductId}" class="selectedModuleId"/>
+							<input type="hidden" id="{$hdnProductId}" name="{$hdnProductId}" value="{(isset($data.$hdnProductId)) ? $data.$hdnProductId : ""}" class="selectedModuleId"/>
 							<input type="hidden" id="lineItemType{$row_no}" name="lineItemType{$row_no}" value="{$entityType}" class="lineItemType"/>
 							<div class="col-lg-2">
 								{if $row_no eq 0}
@@ -90,7 +90,7 @@
 								{elseif $entityType eq '' and $SERVICE_ACTIVE eq 'true'}
 									<span class="lineItemPopup cursorPointer" data-popup="ServicesPopup" title="{vtranslate('Services',$MODULE)}" data-module-name="Services" data-field-name="serviceid">{Vtiger_Module_Model::getModuleIconPath('Services')}</span>
 								{else}
-									{if ($entityType eq 'Services') and (!$data.$productDeleted)}
+									{if ($entityType eq 'Services') and (isset($data.$productDeleted) && !$data.$productDeleted)}
 										<span class="lineItemPopup cursorPointer" data-popup="ServicesPopup" title="{vtranslate('Services',$MODULE)}" data-module-name="Services" data-field-name="serviceid">{Vtiger_Module_Model::getModuleIconPath('Services')}</span>
 									{elseif (!$data.$productDeleted)}
 										<span class="lineItemPopup cursorPointer" data-popup="ProductsPopup" title="{vtranslate('Products',$MODULE)}" data-module-name="Products" data-field-name="productid">{Vtiger_Module_Model::getModuleIconPath('Products')}</span>
@@ -101,9 +101,10 @@
 					</div>
 				</div>
 			</div>
-			<input type="hidden" value="{$data.$subproduct_ids}" id="{$subproduct_ids}" name="{$subproduct_ids}" class="subProductIds" />
+			<input type="hidden" value="{(isset($data.$subproduct_ids)) ? $data.$subproduct_ids : ""}" id="{$subproduct_ids}" name="{$subproduct_ids}" class="subProductIds" />
 			<div id="{$subprod_names}" name="{$subprod_names}" class="subInformation">
 				<span class="subProductsContainer">
+				{if isset($data.$subprod_qty_list)}
 					{foreach key=SUB_PRODUCT_ID item=SUB_PRODUCT_INFO from=$data.$subprod_qty_list}
 						<em> - {$SUB_PRODUCT_INFO.name} ({$SUB_PRODUCT_INFO.qty})
 							{if $SUB_PRODUCT_INFO.qty > getProductQtyInStock($SUB_PRODUCT_ID)}
@@ -111,9 +112,11 @@
 							{/if}
 						</em><br>
 					{/foreach}
+				{/if}
+					
 				</span>
 			</div>
-			{if $data.$productDeleted}
+			{if isset($data.$productDeleted) && $data.$productDeleted}
 				<div class="row-fluid deletedItem redColor">
 					{if empty($data.$productName)}
 						{vtranslate('LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM',$MODULE)}
@@ -123,7 +126,7 @@
 				</div>
 			{else}
 				{if $COMMENT_EDITABLE}
-					<div><br><textarea id="{$comment}" name="{$comment}" class="lineItemCommentBox">{decode_html($data.$comment)}</textarea></div>
+					<div><br><textarea id="{$comment}" name="{$comment}" class="lineItemCommentBox">{(isset($data.$comment)) ? decode_html($data.$comment):""}</textarea></div>
 				{/if}
 			{/if}
 		</td>
@@ -134,26 +137,26 @@
 			   data-rule-required=true data-rule-positive=true data-rule-greater_than_zero=true value="{if !empty($data.$qty)}{$data.$qty}{else}1{/if}"
 			   {if $QUANTITY_EDITABLE eq false} disabled=disabled {/if} />
 
-		{if $PURCHASE_COST_EDITABLE eq false and $MODULE neq 'PurchaseOrder'}
+		{if isset($PURCHASE_COST_EDITABLE) && $PURCHASE_COST_EDITABLE eq false and $MODULE neq 'PurchaseOrder'}
 			<input id="{$purchaseCost}" type="hidden" value="{if ((float)$data.$purchaseCost)}{((float)$data.$purchaseCost) / ((float)$data.$qty)}{else}0{/if}" />
             <span style="display:none" class="purchaseCost">0</span>
 			<input name="{$purchaseCost}" type="hidden" value="{if $data.$purchaseCost}{$data.$purchaseCost}{else}0{/if}" />
 		{/if}
-		{if $MARGIN_EDITABLE eq false}
+		{if isset($MARGIN_EDITABLE) && $MARGIN_EDITABLE eq false}
 			<input type="hidden" name="{$margin}" value="{if $data.$margin}{$data.$margin}{else}0{/if}"></span>
 			<span class="margin pull-right" style="display:none">{if $data.$margin}{$data.$margin}{else}0{/if}</span>
 		{/if}
 		{if $MODULE neq 'PurchaseOrder'}
 			<br>
-			<span class="stockAlert redColor {if $data.$qty <= $data.$qtyInStock}hide{/if}" >
+			<span class="stockAlert redColor {if isset($data.$qty) && $data.$qty <= $data.$qtyInStock}hide{/if}" >
 				{vtranslate('LBL_STOCK_NOT_ENOUGH',$MODULE)}
 				<br>
-				{vtranslate('LBL_MAX_QTY_SELECT',$MODULE)}&nbsp;<span class="maxQuantity">{$data.$qtyInStock}</span>
+				{vtranslate('LBL_MAX_QTY_SELECT',$MODULE)}&nbsp;<span class="maxQuantity">{(isset($data.$qtyInStock)) ? $data.$qtyInStock:""}</span>
 			</span>
 		{/if}
 	</td>
 
-	{if $PURCHASE_COST_EDITABLE}
+	{if isset($PURCHASE_COST_EDITABLE) && $PURCHASE_COST_EDITABLE}
 		<td>
 			<input id="{$purchaseCost}" type="hidden" value="{if $data.$purchaseCost}{((float)$data.$purchaseCost) / ((float)$data.$qty)}{else}0{/if}" />
 			<input name="{$purchaseCost}" type="hidden" value="{if $data.$purchaseCost}{$data.$purchaseCost}{else}0{/if}" />
@@ -178,9 +181,9 @@
 					<span>(-)&nbsp;
 						<strong><a href="javascript:void(0)" class="individualDiscount">{vtranslate('LBL_DISCOUNT',$MODULE)}
 								<span class="itemDiscount">
-									{if $ITEM_DISCOUNT_PERCENT_EDITABLE && $data.$discount_type eq 'percentage'}
+									{if isset($data.$discount_type) && $ITEM_DISCOUNT_PERCENT_EDITABLE && $data.$discount_type eq 'percentage'}
 										({$data.$discount_percent}%)
-									{else if $ITEM_DISCOUNT_AMOUNT_EDITABLE && $data.$discount_type eq 'amount'}
+									{else if isset($data.$discount_type) && $ITEM_DISCOUNT_AMOUNT_EDITABLE && $data.$discount_type eq 'amount'}
 										({$data.$discount_amount})
 									{else}
 										(0)
@@ -196,13 +199,13 @@
 					{/if}
 					<input type="hidden" id="discount_type{$row_no}" name="discount_type{$row_no}" value="{$DISCOUNT_TYPE}" class="discount_type" />
 					<p class="popover_title hide">
-						{vtranslate('LBL_SET_DISCOUNT_FOR',$MODULE)} : <span class="variable">{$data.$productTotal}</span>
+						{vtranslate('LBL_SET_DISCOUNT_FOR',$MODULE)} : <span class="variable">{isset($data.$productTotal) && $data.$productTotal}</span>
 					</p>
 					<table width="100%" border="0" cellpadding="5" cellspacing="0" class="table table-nobordered popupTable">
 						<!-- TODO : discount price and amount are hide by default we need to check id they are already selected if so we should not hide them  -->
 						<tr>
 							<td>
-								<input type="radio" name="discount{$row_no}" {$data.$checked_discount_zero} {if empty($data.$discount_type)}checked{/if} class="discounts" data-discount-type="zero" />
+								<input type="radio" name="discount{$row_no}" {(isset($data.$checked_discount_zero)) ? $data.$checked_discount_zero:""} {if empty($data.$discount_type)}checked{/if} class="discounts" data-discount-type="zero" />
 								&nbsp;
 								{vtranslate('LBL_ZERO_DISCOUNT',$MODULE)}
 							</td>
@@ -214,25 +217,25 @@
 						{if $ITEM_DISCOUNT_PERCENT_EDITABLE}
 							<tr>
 								<td>
-									<input type="radio" name="discount{$row_no}" {$data.$checked_discount_percent} class="discounts" data-discount-type="percentage" />
+									<input type="radio" name="discount{$row_no}" {(isset($data.$checked_discount_percent)) ? $data.$checked_discount_percent : ""} class="discounts" data-discount-type="percentage" />
 									&nbsp; %
 									{vtranslate('LBL_OF_PRICE',$MODULE)}
 								</td>
 								<td>
 									<span class="pull-right">&nbsp;%</span>
-									<input type="text" data-rule-positive=true data-rule-inventory_percentage=true id="discount_percentage{$row_no}" name="discount_percentage{$row_no}" value="{$data.$discount_percent}" class="discount_percentage span1 pull-right discountVal {if empty($data.$checked_discount_percent)}hide{/if}" />
+									<input type="text" data-rule-positive=true data-rule-inventory_percentage=true id="discount_percentage{$row_no}" name="discount_percentage{$row_no}" value="{(isset($data.$discount_percent)) ? $data.$discount_percent : ""}" class="discount_percentage span1 pull-right discountVal {if empty($data.$checked_discount_percent)}hide{/if}" />
 								</td>
 							</tr>
 						{/if}
 						{if $ITEM_DISCOUNT_AMOUNT_EDITABLE}
 							<tr>
 								<td class="LineItemDirectPriceReduction">
-									<input type="radio" name="discount{$row_no}" {$data.$checked_discount_amount} class="discounts" data-discount-type="amount" />
+									<input type="radio" name="discount{$row_no}" {(isset($data.$checked_discount_amount)) ? $data.$checked_discount_amount : ""} class="discounts" data-discount-type="amount" />
 									&nbsp;
 									{vtranslate('LBL_DIRECT_PRICE_REDUCTION',$MODULE)}
 								</td>
 								<td>
-									<input type="text" data-rule-positive=true id="discount_amount{$row_no}" name="discount_amount{$row_no}" value="{$data.$discount_amount}" class="span1 pull-right discount_amount discountVal {if empty($data.$checked_discount_amount)}hide{/if}"/>
+									<input type="text" data-rule-positive=true id="discount_amount{$row_no}" name="discount_amount{$row_no}" value="{(isset($data.$discount_amount)) ? $data.$discount_amount : ""}" class="span1 pull-right discount_amount discountVal {if empty($data.$checked_discount_amount)}hide{/if}"/>
 								</td>
 							</tr>
 						{/if}
@@ -249,9 +252,9 @@
 			<span class="taxDivContainer">
 				<div class="taxUI hide" id="tax_div{$row_no}">
 					<p class="popover_title hide">
-						{vtranslate('LBL_SET_TAX_FOR',$MODULE)} : <span class="variable">{$data.$totalAfterDiscount}</span>
+						{vtranslate('LBL_SET_TAX_FOR',$MODULE)} : <span class="variable">{(isset($data.$totalAfterDiscount)) ? $data.$totalAfterDiscount : ""}</span>
 					</p>
-					{if $data.taxes && php7_count($data.taxes) > 0}
+					{if isset($data.taxes) && $data.taxes && php7_count($data.taxes) > 0}
 						<div class="individualTaxDiv">
 							<!-- we will form the table with all taxes -->
 							<table width="100%" border="0" cellpadding="5" cellspacing="0" class="table table-nobordered popupTable" id="tax_table{$row_no}">
@@ -279,16 +282,16 @@
 	{/if}
 
 	<td>
-		<div id="productTotal{$row_no}" align="right" class="productTotal">{if $data.$productTotal}{$data.$productTotal}{else}0{/if}</div>
+		<div id="productTotal{$row_no}" align="right" class="productTotal">{if isset($data.$productTotal) && $data.$productTotal}{$data.$productTotal}{else}0{/if}</div>
 		{if $ITEM_DISCOUNT_AMOUNT_EDITABLE || $ITEM_DISCOUNT_PERCENT_EDITABLE}
-			<div id="discountTotal{$row_no}" align="right" class="discountTotal">{if $data.$discountTotal}{$data.$discountTotal}{else}0{/if}</div>
-			<div id="totalAfterDiscount{$row_no}" align="right" class="totalAfterDiscount">{if $data.$totalAfterDiscount}{$data.$totalAfterDiscount}{else}0{/if}</div>
+			<div id="discountTotal{$row_no}" align="right" class="discountTotal">{if isset($data.$discountTotal) && $data.$discountTotal}{$data.$discountTotal}{else}0{/if}</div>
+			<div id="totalAfterDiscount{$row_no}" align="right" class="totalAfterDiscount">{if isset($data.$totalAfterDiscount) && $data.$totalAfterDiscount}{$data.$totalAfterDiscount}{else}0{/if}</div>
 		{/if}
 
-		<div id="taxTotal{$row_no}" align="right" class="productTaxTotal {if $IS_GROUP_TAX_TYPE}hide{/if}">{if $data.$taxTotal}{$data.$taxTotal}{else}0{/if}</div>
+		<div id="taxTotal{$row_no}" align="right" class="productTaxTotal {if $IS_GROUP_TAX_TYPE}hide{/if}">{if isset($data.$taxTotal) && $data.$taxTotal}{$data.$taxTotal}{else}0{/if}</div>
 	</td>
 
-	{if $MARGIN_EDITABLE && $PURCHASE_COST_EDITABLE}
+	{if isset($MARGIN_EDITABLE) && $MARGIN_EDITABLE && $PURCHASE_COST_EDITABLE}
 		<td>
 			<input type="hidden" name="{$margin}" value="{if $data.$margin}{$data.$margin}{else}0{/if}"></span>
 		<span class="margin pull-right">{if $data.$margin}{$data.$margin}{else}0{/if}</span>
@@ -296,6 +299,6 @@
 	{/if}
 
 	<td>
-		<span id="netPrice{$row_no}" class="pull-right netPrice">{if $data.$netPrice}{$data.$netPrice}{else}0{/if}</span>
+		<span id="netPrice{$row_no}" class="pull-right netPrice">{if isset($data.$netPrice) && $data.$netPrice}{$data.$netPrice}{else}0{/if}</span>
 	</td>
 {/strip}

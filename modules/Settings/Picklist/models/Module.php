@@ -59,7 +59,8 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model {
 					   FROM vtiger_role2picklist left join vtiger_$pickListFieldName
 						   on vtiger_$pickListFieldName.picklist_valueid=vtiger_role2picklist.picklistvalueid
 					   WHERE roleid=? and picklistid=?";
-				$sortid = $db->query_result($db->pquery($sql, array($roleid, $picklistid)),0,'sortid');
+				$result = $db->pquery($sql, array($roleid, $picklistid));
+				$sortid = $db->query_result($result,0,'sortid');
 
 				$sql = "insert into vtiger_role2picklist values(?,?,?,?)";
 				$db->pquery($sql, array($roleid, $picklist_valueid, $picklistid, $sortid));
@@ -375,6 +376,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model {
 		}
 
 		$allLang = Vtiger_Language_Handler::getAllLanguages();
+		
 		foreach ($allLang as $langKey => $langName) {
 			$langDir = 'languages/' . $langKey . '/custom/';
 			if (!file_exists($langDir)) {
@@ -419,6 +421,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model {
 				}
 				fwrite($fp, ");");
 			}
+			$jsLanguageStrings = array();
 			if ($jsLanguageStrings) {
 				fwrite($fp, "\n\$jsLanguageStrings = array(\n");
 				foreach ($jsLanguageStrings as $key => $value) {
@@ -499,6 +502,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model {
 		$db = PearDatabase::getInstance();
 		$primaryKey = Vtiger_Util_Helper::getPickListId($fieldName);
 		$columns = $db->getColumnNames("vtiger_$fieldName");
+		$pickListColorMap = array();
 		if(is_array($columns) && in_array('color',$columns)) {
 			$query = 'SELECT '.$primaryKey.',color,'.$fieldName.' FROM vtiger_'.$fieldName;
 			$result = $db->pquery($query, array());

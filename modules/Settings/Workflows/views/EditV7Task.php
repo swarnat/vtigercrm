@@ -16,10 +16,10 @@ class Settings_Workflows_EditV7Task_View extends Settings_Vtiger_Index_View {
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$taskData = $request->get('taskData');
-
+		$allFieldoptions = '';
 		$recordId = $request->get('task_id');
 		$workflowId = $request->get('for_workflow');
-
+		$emailFieldoptions = '' ;
 		if ($workflowId) {
 			$workflowModel = Settings_Workflows_Record_Model::getInstance($workflowId);
 			$selectedModule = $workflowModel->getModule();
@@ -155,6 +155,7 @@ class Settings_Workflows_EditV7Task_View extends Settings_Vtiger_Index_View {
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 
 		$emailFields = $recordStructureInstance->getAllEmailFields();
+
 		foreach($emailFields as $metaKey => $emailField) {
 			$emailFieldoptions .= '<option value=",$'.$metaKey.'">'.$emailField->get('workflow_columnlabel').'</option>';
 		}
@@ -172,12 +173,15 @@ class Settings_Workflows_EditV7Task_View extends Settings_Vtiger_Index_View {
 									'</option>';
 
 		foreach($emailFields as $metaKey => $emailField) {
-			list($relationFieldName, $rest) = explode(' ', $metaKey);
+			$metakeys = explode(' ', $metaKey);
+			$relationFieldName = isset($metakeys[0]) ? $metakeys[0] : '';
+			$rest = isset($metakeys[1]) ? $metakeys[1] : '';
 			$value = '<$'.$metaKey.'>';
 
 			if ($nameFields) {
 				$nameFieldValues = '';
 					foreach (array_keys($nameFields) as $fieldName) {
+					$relationFieldName = isset($relationFieldName) ? $relationFieldName : '';
 					if (strstr($fieldName, $relationFieldName) || (php7_count(explode(' ', $metaKey)) === 1 && php7_count(explode(' ', $fieldName)) === 1)) {
 						$fieldName = '$'.$fieldName;
 						$nameFieldValues .= ' '.$fieldName;

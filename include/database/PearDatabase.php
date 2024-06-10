@@ -21,6 +21,7 @@ $logsqltm = Logger::getLogger('SQLTIME');
 
 // Callback class useful to convert PreparedStatement Question Marks to SQL value
 // See function convertPS2Sql in PearDatabase below
+#[\AllowDynamicProperties]
 class PreparedQMark2SqlValue {
 	// Constructor
 	function __construct($vals){
@@ -306,7 +307,7 @@ class PearDatabase{
 	$this->executeSetNamesUTF8SQL();
 
 	$sql_start_time = microtime(true);
-	$result = & $this->database->Execute($sql);
+	$result = $this->database->Execute($sql);
 	$this->logSqlTiming($sql_start_time, microtime(true), $sql);
 
 	$this->lastmysqlrow = -1;
@@ -530,6 +531,7 @@ class PearDatabase{
 
     function getRowCount(&$result){
 		global $log;
+		$rows = 0;
 		if(isset($result) && !empty($result))
 		    $rows= $result->RecordCount();
 		return $rows;
@@ -950,7 +952,7 @@ class PearDatabase{
 		$schema = new adoSchema( $db );
 		
 		//Debug Adodb XML Schema
-		$schema->XMLS_DEBUG = TRUE;
+		// $schema->XMLS_DEBUG = TRUE; // adoSchema does not support AllowDynamicProperties
 		//Debug Adodb
 		$schema->debug = true;
 		$sql = $schema->ParseSchema( $schemaFile );
@@ -1060,7 +1062,7 @@ class PearDatabase{
 	function sql_escape_string($str)
 	{
 		if($this->isMySql()){
-			$result_data = ($this->dbType=='mysqli')?mysqli_real_escape_string($this->database->_connectionID,$str):mysql_real_escape_string($str);
+			$result_data = ($str === null) ? '' : (($this->dbType=='mysqli')?mysqli_real_escape_string($this->database->_connectionID,$str):mysql_real_escape_string($str));
                 }
 		elseif($this->isPostgres())
 			$result_data = pg_escape_string($str);

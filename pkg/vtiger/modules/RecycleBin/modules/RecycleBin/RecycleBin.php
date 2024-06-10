@@ -8,7 +8,8 @@
  * All Rights Reserved.
  *******************************************************************************/
  
-class RecycleBin {
+#[\AllowDynamicProperties]
+ class RecycleBin {
  	
  	/**
 	* Invoked when special actions are performed on the module.

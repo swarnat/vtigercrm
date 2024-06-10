@@ -11,6 +11,7 @@
 require_once 'includes/runtime/Cache.php';
 require_once 'vtlib/Vtiger/Runtime.php';
 
+#[\AllowDynamicProperties]
 class WebserviceField{
 	private $fieldId;
 	private $uitype;
@@ -48,6 +49,8 @@ class WebserviceField{
 	private $readOnly = 0;
 	private $isunique = 0;
 
+	public $parentReferenceField; //To avoid undefined property warning.
+
 	private function __construct($adb,$row){
 		$this->uitype = isset($row['uitype'])? $row['uitype'] : 0;
 		$this->blockId = isset($row['block'])? $row['block'] : 0;
@@ -62,7 +65,7 @@ class WebserviceField{
 		$this->isunique = isset($row['isunique']) && $row['isunique'] ? true : false;
 		$typeOfData = isset($row['typeofdata'])? $row['typeofdata'] : null;
 		$this->typeOfData = $typeOfData;
-		$typeOfData = explode("~",$typeOfData);
+		$typeOfData = explode("~",$typeOfData ? $typeOfData : "");
 		$this->mandatory = (php7_count($typeOfData) > 1 && $typeOfData[1] == 'M')? true: false;
 		if($this->uitype == 4){
 			$this->mandatory = false;

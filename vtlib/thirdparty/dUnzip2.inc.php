@@ -224,8 +224,10 @@ class dUnzip2{
 				$fdetails['uncompressed_size'],
 				$targetFileName
 			);
-		if($applyChmod && $targetFileName)
+		if($applyChmod && $targetFileName) {
+			// TODO: check if this warning supression if its not working.
 			@chmod($targetFileName, $applyChmod == 0755? 0644 : $applyChmod);
+		}
 		
 		return $ret;
 	}

@@ -27,6 +27,7 @@ class Vtiger_History_Dashboard extends Vtiger_IndexAjax_View {
 
 		$modifiedTime = $request->get('modifiedtime');
 		//Date conversion from user to database format
+		$dates = array();
 		if(!empty($modifiedTime)) {
 			$startDate = Vtiger_Date_UIType::getDBInsertedValue($modifiedTime['start']);
 			$dates['start'] = getValidDBInsertDateTimeValue($startDate . ' 00:00:00');

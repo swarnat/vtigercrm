@@ -210,11 +210,15 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View {
 			$viewer->assign('ALPHABET_VALUE',$searchValue);
             $viewer->assign('SEARCH_KEY',$searchKey);
 		}
+		else{
+			$viewer->assign('OPERATOR','');
+			$viewer->assign('ALPHABET_VALUE','');
+            $viewer->assign('SEARCH_KEY','');
+		}
         
-        $searchParams = $request->get('search_params');
-        if(!empty($searchParams)) {
-            $viewer->assign('SEARCH_PARAMS',$searchParams);
-        }
+        $searchParams = !empty($request->get('search_params'))?$request->get('search_params'):' ';
+		$viewer->assign('SEARCH_PARAMS',$searchParams);
+        
 
 		$to = $request->get('to');
 		if (!$to) {
@@ -244,10 +248,11 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View {
 		$emailFieldsInfo = array();
 		$moduleModel = Vtiger_Module_Model::getInstance($sourceModule);
 		$recipientPrefModel = Vtiger_RecipientPreference_Model::getInstance($sourceModule);
+		$recipientPrefs = array();
 		
 		if($recipientPrefModel)
 		$recipientPrefs = $recipientPrefModel->getPreferences();
-		$moduleEmailPrefs = $recipientPrefs[$moduleModel->getId()];
+		$moduleEmailPrefs = isset($recipientPrefs[$moduleModel->getId()]);
 		$emailFields = $moduleModel->getFieldsByType('email');
         $accesibleEmailFields = array();
 		

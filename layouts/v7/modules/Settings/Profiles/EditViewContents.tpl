@@ -8,7 +8,7 @@
 ************************************************************************************}
 {* modules/Settings/Profiles/views/EditAjax.php *}
 
-{if $SHOW_EXISTING_PROFILES}
+{if isset($SHOW_EXISTING_PROFILES) && $SHOW_EXISTING_PROFILES}
 	{foreach key=index item=jsModel from=$SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}

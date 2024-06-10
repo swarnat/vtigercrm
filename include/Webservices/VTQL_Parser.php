@@ -33,16 +33,19 @@ class VTQL_ParseryyToken implements ArrayAccess
         return $this->_string;
     }
 
+    #[\ReturnTypeWillChange]
     function offsetExists($offset)
     {
         return isset($this->metadata[$offset]);
     }
 
+    #[\ReturnTypeWillChange]
     function offsetGet($offset)
     {
         return $this->metadata[$offset];
     }
 
+    #[\ReturnTypeWillChange]
     function offsetSet($offset, $value)
     {
         if ($offset === null) {
@@ -66,6 +69,7 @@ class VTQL_ParseryyToken implements ArrayAccess
         }
     }
 
+    #[\ReturnTypeWillChange]
     function offsetUnset($offset)
     {
         unset($this->metadata[$offset]);
@@ -204,7 +208,7 @@ function buildSelectStmt($sqlDump){
 	$deletedQuery = $meta->getEntityDeletedQuery();
 	$accessControlQuery = $meta->getEntityAccessControlQuery();
 	$this->query = $this->query.' '.$accessControlQuery;
-	if($sqlDump['where_condition']){
+	if(isset($sqlDump['where_condition'])){
 		// ensure init before use
 		if(!isset($sqlDump['where_condition']['operators'])) $sqlDump['where_condition']['operators'] = array();
 
@@ -283,7 +287,7 @@ function buildSelectStmt($sqlDump){
 	
 	$this->query = $this->query.' '.$deletedQuery;
 	
-	if($sqlDump['orderby']){
+	if(isset($sqlDump['orderby'])){
 		$i=0;
 		$this->query = $this->query.' ORDER BY ';
 		foreach($sqlDump['orderby'] as $ind=>$field){
@@ -298,7 +302,7 @@ function buildSelectStmt($sqlDump){
 			$this->query .= ' '.$sqlDump['sortOrder'];
 		}
 	}
-	if($sqlDump['limit']){
+	if(isset($sqlDump['limit'])){
 		$i=0;
 		$offset =false;
 		if(php7_sizeof($sqlDump['limit'])>1){
@@ -1237,6 +1241,7 @@ $this->out['where_condition']['column_values'][php7_sizeof($this->out['where_con
 #line 1240 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.php"
 #line 82 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.y"
     function yy_r17(){
+        $this->out['where_condition']['column_values'] = isset($this->out['where_condition']['column_values']) ? $this->out['where_condition']['column_values'] : array();
 $length = ($this->out['where_condition']['column_values'])? php7_sizeof($this->out['where_condition']['column_values']):0;
 $pos = $length - 1;
 if($pos < 0){
@@ -1325,7 +1330,7 @@ $this->out['limit'][] = $this->yystack[$this->yyidx + 0]->minor;
 #line 151 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.y"
     function yy_r41(){
 global $adb;
-if(!$this->out['meta']){
+if(!isset($this->out['meta'])){
 $module = $this->out['moduleName'];
 $handler = vtws_getModuleHandlerFromName($module,$this->user);
 $objectMeta = $handler->getMeta();
@@ -1340,7 +1345,7 @@ foreach($this->out['column_list'] as $ind=>$field){
 $columns[] = $fieldcol[$field];
 }
 }
-if($this->out['where_condition']){
+if(isset($this->out['where_condition']) && isset($this->out['where_condition']['column_names'])){
 foreach($this->out['where_condition']['column_names'] as $ind=>$field){
 $columns[] = $fieldcol[$field];
 }
@@ -1358,6 +1363,7 @@ array_push($tables,$tableName);
 $firstTable = $objectMeta->getEntityBaseTable();
 $tabNameIndex = $objectMeta->getEntityTableIndexList();
 $firstIndex = $tabNameIndex[$firstTable];
+if (!isset($this->out['defaultJoinConditons'])) $this->out['defaultJoinConditions'] = '';
 foreach($tables as $ind=>$table){
 if($firstTable!=$table){
 	if(!isset($tabNameIndex[$table]) && $table == "vtiger_crmentity"){

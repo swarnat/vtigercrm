@@ -10,6 +10,7 @@
 require_once('include/events/include.inc');
 require_once 'modules/WSAPP/Utils.php';
 
+#[\AllowDynamicProperties]
 class WSAPP {
 
 	/**

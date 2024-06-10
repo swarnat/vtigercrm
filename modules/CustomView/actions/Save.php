@@ -16,6 +16,7 @@ class CustomView_Save_Action extends Vtiger_Action_Controller {
 	}
 
 	public function process(Vtiger_Request $request) {
+		$moduleName = $request->get('module');
         $sourceModuleName = $request->get('source_module');
         $moduleModel = Vtiger_Module_Model::getInstance($sourceModuleName);
 		$customViewModel = $this->getCVModelFromRequest($request);

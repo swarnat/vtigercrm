@@ -127,7 +127,9 @@ class Vtiger_LanguageImport extends Vtiger_LanguageExport {
 					// vtiger6 format
 					if ($vtiger6format) {
 						$targetdir = "languages/$prefix/" . str_replace("modules", "", $targetdir);
-						@mkdir($targetdir, 0777, true);
+						if (!file_exists($targetdir)) {
+							mkdir($targetdir, 0777, true);
+						}
 					}
 
 					if($unzip->unzip($filename, "$targetdir/$targetfile") !== false) {

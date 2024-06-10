@@ -17,6 +17,7 @@ class SalesOrder_SaveAjax_Action extends Inventory_SaveAjax_Action {
 	public function getRecordModelFromRequest(Vtiger_Request $request) {
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
+		$enableRecurrence = false;
 
 		if($request->get('field') == 'enable_recurring'){
 			$enableRecurrence = true;

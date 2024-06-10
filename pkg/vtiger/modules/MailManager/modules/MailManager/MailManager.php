@@ -9,6 +9,7 @@
  ************************************************************************************/
 require_once 'include/Webservices/Query.php';
 
+#[\AllowDynamicProperties]
 class MailManager {
 
 	static function updateMailAssociation($mailuid, $emailid, $crmid) {

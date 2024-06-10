@@ -110,7 +110,7 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action {
 		$fieldInstances = $this->moduleFieldInstances;
 
 		$orderBy = $request->get('orderby');
-		$orderByFieldModel = $fieldInstances[$orderBy];
+		$orderByFieldModel = isset($fieldInstances[$orderBy]) ? $fieldInstances[$orderBy] : "";
 		$sortOrder = $request->get('sortorder');
 
 		if ($mode !== 'ExportAllData') {
@@ -293,14 +293,16 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action {
 				continue;
 			}
 			//Track if the value had quotes at beginning
-			$beginsWithDoubleQuote = strpos($value, '"') === 0;
-			$endsWithDoubleQuote = substr($value,-1) === '"'?1:0;
+			if (is_string($value)) {
+				$beginsWithDoubleQuote = strpos($value, '"') === 0;
+				$endsWithDoubleQuote = substr($value,-1) === '"'?1:0;
+				$value = trim($value,"\"");
+			}
 
-			$value = trim($value,"\"");
 			$uitype = $fieldInfo->get('uitype');
 			$fieldname = $fieldInfo->get('name');
 
-			if(!$this->fieldDataTypeCache[$fieldName]) {
+			if(!isset($this->fieldDataTypeCache[$fieldName])) {
 				$this->fieldDataTypeCache[$fieldName] = $fieldInfo->getFieldDataType();
 			}
 			$type = $this->fieldDataTypeCache[$fieldName];
@@ -323,7 +325,7 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action {
 			} elseif($uitype == 52 || $type == 'owner') {
 				$value = Vtiger_Util_Helper::getOwnerName($value);
 			}elseif($type == 'reference'){
-				$value = trim($value);
+				$value = isset($value) ? trim($value) :'';
 				if(!empty($value)) {
 					$parent_module = getSalesEntityType($value);
 					$displayValueArray = getEntityName($parent_module, $value);

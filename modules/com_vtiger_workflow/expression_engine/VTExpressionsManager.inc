@@ -8,6 +8,9 @@
  * All Rights Reserved.
  ******************************************************************************/
 require_once("include/events/SqlResultIterator.inc");
+
+
+#[\AllowDynamicProperties]
 class VTExpressionsManager{
 	function __construct($adb){
 		$this->adb = $adb;

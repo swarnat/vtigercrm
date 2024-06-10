@@ -35,7 +35,7 @@
         {assign var=CURRENCY_SYMBOL value=$CURRENCY_INFO['symbol']}
     {/if}
     {if $SYMBOL_PLACEMENT eq '$1.0'}
-        {$CURRENCY_SYMBOL}&nbsp;<span class="currencyValue">{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}</span>
+        {(isset($CURRENCY_SYMBOL)) ? $CURRENCY_SYMBOL : ""}&nbsp;<span class="currencyValue">{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}</span>
     {else}
         <span class="currencyValue">{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}</span>&nbsp;{$CURRENCY_SYMBOL}
     {/if}

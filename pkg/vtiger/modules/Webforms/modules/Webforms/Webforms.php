@@ -10,6 +10,7 @@
 require_once 'modules/Webforms/model/WebformsModel.php';
 require_once 'include/Webservices/DescribeObject.php';
 
+#[\AllowDynamicProperties]
 class Webforms {
 
 	var $LBL_WEBFORMS='Webforms';

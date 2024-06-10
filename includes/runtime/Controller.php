@@ -11,6 +11,7 @@
 /**
  * Abstract Controller Class
  */
+#[\AllowDynamicProperties]
 abstract class Vtiger_Controller {
 
 	function __construct() { }
@@ -181,7 +182,10 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 			$viewer->assign('PARENT_MODULE', '');
 			$viewer->assign('EXTENSION_MODULE', '');
 			$viewer->assign('moduleName', '');
+			$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
 			$viewer->assign('CURRENT_USER_ID', $current_user ? $current_user->id : "");
+			$viewer->assign('USER_CURRENCY_SYMBOL', ''); // will be initialized later
+			$viewer->assign('INVENTORY_MODULES', array());
 
 			$viewer->assign('NOTIFIER_URL', '');
 			$viewer->assign('GLOBAL_SEARCH_VALUE', '');
@@ -204,6 +208,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 			$viewer->assign('PRINT_TEMPLATE', '');
 			$viewer->assign('CLASS_VIEW_ACTION', '');
 			$viewer->assign('RELATED_MODULE_NAME', '');
+			$viewer->assign('MODULE_BASIC_ACTIONS', array());
 
 			// Editview
 			$viewer->assign('LEFTPANELHIDE', false);
@@ -227,6 +232,11 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 
 			// Popupview
 			$viewer->assign('IS_MODULE_DISABLED', false);
+
+			// Widgets
+			$viewer->assign('SCRIPTS', array());
+			$viewer->assign('STYLES', array());
+			$viewer->assign('SETTING_EXIST', false);
 		}
 		return $this->viewer;
 	}

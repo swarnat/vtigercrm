@@ -8,7 +8,7 @@
  ************************************************************************************}
 
 {strip}
-	{if $IMAP_ERROR || $CONNECTION_ERROR}
+	{if (isset($IMAP_ERROR) && $IMAP_ERROR) || (isset($CONNECTION_ERROR) && $CONNECTION_ERROR)}
 		<div class="block">
 			<strong>
 				{if $IMAP_ERROR}

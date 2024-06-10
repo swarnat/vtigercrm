@@ -14,6 +14,7 @@ class Services extends CRMEntity {
 	var $table_name = 'vtiger_service';
 	var $table_index= 'serviceid';
 	var $column_fields = Array();
+	protected $isWorkFlowFieldUpdate = false;
 
 	/** Indicator if this is a custom module or standard module */
 	var $IsCustomModule = true;
@@ -112,16 +113,17 @@ class Services extends CRMEntity {
 	function save_module($module)
 	{
 		//Inserting into service_taxrel table
+		$_REQUEST['ajxaction'] = isset($_REQUEST['ajxaction']) ? $_REQUEST['ajxaction'] : '';
 		if($_REQUEST['ajxaction'] != 'DETAILVIEW'&& $_REQUEST['action'] != 'ProcessDuplicates' && !$this->isWorkFlowFieldUpdate)
 		{
 			$this->insertTaxInformation('vtiger_producttaxrel', 'Services');
 
-			if ($_REQUEST['action'] != 'MassEditSave' ) {
+			if (isset($_REQUEST['action']) && $_REQUEST['action'] != 'MassEditSave' ) {
 				$this->insertPriceInformation('vtiger_productcurrencyrel', 'Services');
 			}
 		}
 
-		if($_REQUEST['action'] == 'SaveAjax' && isset($_REQUEST['base_currency']) && isset($_REQUEST['unit_price'])){
+		if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'SaveAjax' && isset($_REQUEST['base_currency']) && isset($_REQUEST['unit_price'])){
 			$this->insertPriceInformation('vtiger_productcurrencyrel', 'Services');
 		}
 		// Update unit price value in vtiger_productcurrencyrel
@@ -138,7 +140,6 @@ class Services extends CRMEntity {
 		global $adb, $log;
 		$log->debug("Entering into insertTaxInformation($tablename, $module) method ...");
 		$tax_details = getAllTaxes();
-
 		$tax_per = '';
 		//Save the Product - tax relationship if corresponding tax check box is enabled
 		//Delete the existing tax if any
@@ -155,12 +156,13 @@ class Services extends CRMEntity {
 		{
 			$tax_name = $tax_details[$i]['taxname'];
 			$tax_checkname = $tax_details[$i]['taxname']."_check";
+			$_REQUEST[$tax_checkname]=isset($_REQUEST[$tax_checkname]) ? $_REQUEST[$tax_checkname] : '';
 			if($_REQUEST[$tax_checkname] == 'on' || $_REQUEST[$tax_checkname] == 1)
 			{
 				$taxid = getTaxId($tax_name);
 				$tax_per = $_REQUEST[$tax_name];
 
-				$taxRegions = $_REQUEST[$tax_name.'_regions'];
+				$taxRegions = isset($_REQUEST[$tax_name.'_regions']) ? $_REQUEST[$tax_name.'_regions'] : "";
 				if ($taxRegions) {
 					$tax_per = $_REQUEST[$tax_name.'_defaultPercentage'];
 				} else {
@@ -175,7 +177,7 @@ class Services extends CRMEntity {
 
 				$log->debug("Going to save the Product - $tax_name tax relationship");
 
-				if ($_REQUEST['action'] === 'MassEditSave') {
+				if (isset($_REQUEST['action']) && $_REQUEST['action'] === 'MassEditSave') {
 					$adb->pquery('DELETE FROM vtiger_producttaxrel WHERE productid=? AND taxid=?', array($this->id, $taxid));
 				}
 
@@ -226,7 +228,7 @@ class Services extends CRMEntity {
 			$requestPrice = CurrencyField::convertToDBFormat($_REQUEST['unit_price'], null, true);
 			$actualPrice = CurrencyField::convertToDBFormat($_REQUEST[$cur_valuename], null, true);
 			$isQuickCreate = false;
-			if($_REQUEST['action']=='SaveAjax' && isset($_REQUEST['base_currency']) && $_REQUEST['base_currency'] == $cur_valuename){
+			if(isset($_REQUEST['action']) && $_REQUEST['action']=='SaveAjax' && isset($_REQUEST['base_currency']) && $_REQUEST['base_currency'] == $cur_valuename){
 				$actualPrice = $requestPrice;
 				$isQuickCreate = true;
 			}

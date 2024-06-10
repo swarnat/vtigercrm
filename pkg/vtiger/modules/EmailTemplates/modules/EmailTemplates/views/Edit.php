@@ -100,7 +100,7 @@ Class EmailTemplates_Edit_View extends Vtiger_Index_View {
 			$recordModel->set('body', '');
 		}
 		$recordModel->setModule('EmailTemplates');
-		if (!$this->record) {
+		if (!property_exists($this, 'record') || !$this->record) {
 			//Default templates will be having {$site_URL} keyword 
 			//so replacing keyword with value
 			$body = $recordModel->get('body');

@@ -90,6 +90,7 @@ class EnhancedQueryGenerator extends QueryGenerator {
 		$dateSpecificConditions = $customView->getStdFilterConditions();
 		$specialDateTimeConditions = Vtiger_Functions::getSpecialDateTimeCondtions();
 		foreach ($advFilterList as $groupindex => $groupcolumns) {
+			if(! $groupcolumns)continue;
 			$filtercolumns = $groupcolumns['columns'];
 			if (php7_count($filtercolumns) > 0) {
 				$this->startGroup('');
@@ -196,7 +197,7 @@ class EnhancedQueryGenerator extends QueryGenerator {
 					}
 				}
 				$this->endGroup();
-				$groupConditionGlue = $groupcolumns['condition'];
+				$groupConditionGlue = isset($groupcolumns['condition']) ? $groupcolumns['condition'] : "";
 				if ($groupConditionGlue) {
 					$this->addConditionGlue($groupConditionGlue);
 				}
@@ -578,7 +579,7 @@ class EnhancedQueryGenerator extends QueryGenerator {
 
 		foreach ($tableJoinCondition as $fieldName => $conditionInfo) {
 			foreach ($conditionInfo as $tableName => $condition) {
-				if ($tableList[$tableName]) {
+				if (isset($tableList[$tableName])) {
 					$tableNameAlias = $tableName.'2';
 					$condition = str_replace($tableName, $tableNameAlias, $condition);
 				} else {

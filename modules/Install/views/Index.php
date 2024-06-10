@@ -28,9 +28,12 @@ class Install_Index_view extends Vtiger_View_Controller {
 	}
 
 	protected function applyInstallFriendlyEnv() {
-		// config.inc.php - will not be ready to control this yet.
-		version_compare(PHP_VERSION, '5.5.0') <= 0 ? error_reporting(E_ERROR & ~E_NOTICE & ~E_DEPRECATED) : error_reporting(E_ERROR & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);  // Production
-		//version_compare(PHP_VERSION, '7.0.0') >= 0 ? error_reporting(E_WARNING & ~E_NOTICE) : error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED  & E_ERROR & ~E_STRICT); // Debug
+		// config.inc.php - will not be ready to control this yet
+		// if overriden in dev mode skip changes.
+		if (error_reporting() != E_ALL) {
+			version_compare(PHP_VERSION, '5.5.0') <= 0 ? error_reporting(E_ERROR & ~E_NOTICE & ~E_DEPRECATED) : error_reporting(E_ERROR & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);  // Production
+			// version_compare(PHP_VERSION, '7.0.0') >= 0 ? error_reporting(E_WARNING & ~E_NOTICE) : error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED  & E_ERROR & ~E_STRICT); // Debug
+		}
 		set_time_limit(0); // override limits on execution time to allow install to finish
 	}
 
@@ -99,8 +102,7 @@ class Install_Index_view extends Vtiger_View_Controller {
 		$viewer->assign('CURRENCIES', Install_Utils_Model::getCurrencyList());
 
 		require_once 'modules/Users/UserTimeZonesArray.php';
-		$timeZone = new UserTimeZones();
-		$viewer->assign('TIMEZONES', $timeZone->userTimeZones());
+		$viewer->assign('TIMEZONES', UserTimeZones::getAll());
 
 		$defaultParameters = Install_Utils_Model::getDefaultPreInstallParameters();
 		$viewer->assign('DB_HOSTNAME', $defaultParameters['db_hostname']);
@@ -221,7 +223,7 @@ class Install_Index_view extends Vtiger_View_Controller {
 	// Helper function as configuration file is still not loaded.
 	protected function retrieveConfiguredAppUniqueKey() {
 		include 'config.inc.php';
-		return $application_unique_key;
+		return isset($application_unique_key) ? $application_unique_key : "";
 	}
 
 	public function getHeaderCss(Vtiger_Request $request) {

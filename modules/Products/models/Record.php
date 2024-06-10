@@ -178,14 +178,13 @@ class Products_Record_Model extends Vtiger_Record_Model {
 			}
 		}
 
-		$productTaxes = $productDetails[1]['taxes'];
+		$productTaxes = isset($productDetails[1]['taxes']) ? $productDetails[1]['taxes'] : array();
 		if (!empty ($productDetails)) {
 			$taxCount = php7_count($productTaxes);
 			$taxTotal = 0;
 
 			for($i=0; $i<$taxCount; $i++) {
-				$taxValue = $productTaxes[$i]['percentage'];
-
+				$taxValue = isset($productTaxes[$i]['percentage']) && is_numeric($productTaxes[$i]['percentage']) ? $productTaxes[$i]['percentage'] : 0;
 				$taxAmount = $totalAfterDiscount * $taxValue / 100;
 				$taxTotal = $taxTotal + $taxAmount;
 
@@ -355,6 +354,7 @@ class Products_Record_Model extends Vtiger_Record_Model {
 
 			$result = $db->pquery($sql, array($recordId));
 			$count = $db->num_rows($result);
+			$imageOriginalNamesList=array();
 
 			for($i=0; $i<$count; $i++) {
                 $imageId = $db->query_result($result, $i, 'attachmentsid');
@@ -370,7 +370,6 @@ class Products_Record_Model extends Vtiger_Record_Model {
 				$imageNamesList[] = $imageName;
                 $imageUrlsList[] = $url;
 			}
-
 			if(is_array($imageOriginalNamesList)) {
 				$countOfImages = php7_count($imageOriginalNamesList);
 				for($j=0; $j<$countOfImages; $j++) {

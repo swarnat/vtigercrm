@@ -92,12 +92,12 @@ class VTEntityDelta extends VTEventHandler {
 
 	function getOldValue($moduleName, $recordId, $fieldName) {
 		$entityDelta = self::$entityDelta[$moduleName][$recordId];
-		return $entityDelta[$fieldName]['oldValue'];
+		return isset($entityDelta[$fieldName]['oldValue']) ? $entityDelta[$fieldName]['oldValue'] : "";
 	}
 
 	function getCurrentValue($moduleName, $recordId, $fieldName) {
 		$entityDelta = self::$entityDelta[$moduleName][$recordId];
-		return $entityDelta[$fieldName]['currentValue'];
+		return isset($entityDelta[$fieldName]['currentValue']) ? $entityDelta[$fieldName]['currentValue'] : "";
 	}
 
 	function getOldEntity($moduleName, $recordId) {
@@ -109,19 +109,25 @@ class VTEntityDelta extends VTEventHandler {
 	}
 	
 	function hasChanged($moduleName, $recordId, $fieldName, $fieldValue = NULL) {
+		$result = false;
 		if(empty(self::$oldEntity[$moduleName][$recordId])) {
+			return false;
+		}
+		if (!array_key_exists($fieldName, self::$entityDelta[$moduleName][$recordId])) {
 			return false;
 		}
 		$fieldDelta = self::$entityDelta[$moduleName][$recordId][$fieldName];
 		if(is_array($fieldDelta)) {
 			$fieldDelta = array_map('decode_html', $fieldDelta);
 		}
-		$result = $fieldDelta['oldValue'] != $fieldDelta['currentValue'];
+		if(isset($fieldDelta['oldValue']) && isset($fieldDelta['currentValue'])) {
+			$result = $fieldDelta['oldValue'] != $fieldDelta['currentValue'];
+		}
 		if ($fieldValue !== NULL) {
 			$result = $result && ($fieldDelta['currentValue'] === $fieldValue);
 		}
 		return $result;
+		}
+	
 	}
-
-}
 ?>

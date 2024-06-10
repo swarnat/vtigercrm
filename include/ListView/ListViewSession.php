@@ -75,6 +75,8 @@ class ListViewSession {
 		}
 		$cv = new CustomView();
 		$viewId = $cv->getViewId($currentModule);
+		$recordNavigationInfo = array();
+		$searchKey = array();
 		if(!empty($_SESSION[$currentModule.'_DetailView_Navigation'.$viewId])){
 			$recordNavigationInfo = Zend_Json::decode($_SESSION[$currentModule.'_DetailView_Navigation'.$viewId]);
 			$pageNumber =0;
@@ -103,7 +105,7 @@ class ListViewSession {
 			}
 		}
 
-		$list_query = $_SESSION[$currentModule.'_listquery'];
+		$list_query = isset($_SESSION[$currentModule.'_listquery'])?$_SESSION[$currentModule.'_listquery']:'';
 
 		if($reUseData === false && !empty($list_query)){
 			$recordNavigationInfo = array();
@@ -166,7 +168,7 @@ class ListViewSession {
 			$recordNavigationInfo = array();
 			if($searchKey !== false){
 				foreach ($navigationRecordList as $index => $recordId) {
-					if(!is_array($recordNavigationInfo[$current])){
+					if(!isset($recordNavigationInfo[$current])){
 						$recordNavigationInfo[$current] = array();
 					}
 					if($index == $firstPageRecordCount  || $index == ($firstPageRecordCount+$pageCount * $list_max_entries_per_page)){

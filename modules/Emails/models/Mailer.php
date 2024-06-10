@@ -12,8 +12,11 @@ include_once 'include/simplehtmldom/simple_html_dom.php';
 include_once 'libraries/InStyle/InStyle.php';
 include_once 'libraries/ToAscii/ToAscii.php';
 include_once 'include/database/PearDatabase.php';
-
+#[\AllowDynamicProperties]
 class Emails_Mailer_Model extends Vtiger_Mailer {
+
+	private $dom = null;
+	public $Signature;
 
 	public static function getInstance() {
 		return new self();
@@ -34,10 +37,13 @@ class Emails_Mailer_Model extends Vtiger_Mailer {
 	 */
 	public static function makeImageURLValid($htmlContent) {
 		$doc = new DOMDocument();
+		// set error level
+ 		$internalErrors = libxml_use_internal_errors(true);
 		$imageUrls = array();
 		if (!empty($htmlContent)) {
 			@$doc->loadHTML($htmlContent);
 			$tags = $doc->getElementsByTagName('img');
+			libxml_use_internal_errors($internalErrors);
 			foreach ($tags as $tag) {
 				$imageUrl = $tag->getAttribute('src');
 				$imageUrls[$imageUrl] = str_replace(" ", "%20", $imageUrl);

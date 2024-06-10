@@ -14,7 +14,7 @@
 	{/if}
 
 	<div name='editContent'>
-		{if $DUPLICATE_RECORDS}
+		{if isset($DUPLICATE_RECORDS) && $DUPLICATE_RECORDS}
 			<div class="fieldBlockContainer duplicationMessageContainer">
 				<div class="duplicationMessageHeader"><b>{vtranslate('LBL_DUPLICATES_DETECTED', $MODULE)}</b></div>
 				<div>{getDuplicatesPreventionMessage($MODULE, $DUPLICATE_RECORDS)}</div>
@@ -59,7 +59,7 @@
 												{/if}
 												<select style="width: 140px;" class="select2 referenceModulesList">
 													{foreach key=index item=value from=$refrenceList}
-														<option value="{$value}" {if $value eq $REFERENCED_MODULE_NAME} selected {/if}>{vtranslate($value, $value)}</option>
+														<option value="{$value}" {if isset($REFERENCED_MODULE_NAME) && $value eq $REFERENCED_MODULE_NAME} selected {/if}>{vtranslate($value, $value)}</option>
 													{/foreach}
 												</select>
 											{else}

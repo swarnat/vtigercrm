@@ -27,6 +27,8 @@ class VTEmailTask extends VTTask{
 		global $current_user;
 		$util = new VTWorkflowUtils();
 		$admin = $util->adminUser();
+		$entityCache = null;
+		$path = '';
 		$module = $entity->getModuleName();
 		$taskContents = Zend_Json::decode($this->getContents($entity));
 		$relatedInfo = Zend_Json::decode($this->getRelatedInfo());

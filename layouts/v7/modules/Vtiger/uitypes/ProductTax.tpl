@@ -21,7 +21,7 @@
 		{/if}
 
 		{if $tax_count gt 1}
-			<td class="fieldLabel alignMiddle{if $PULL_RIGHT} pull-right{/if}">{*pull-right required in Quick create only*}
+			<td class="fieldLabel alignMiddle{if isset($PULL_RIGHT) && $PULL_RIGHT} pull-right{/if}">{*pull-right required in Quick create only*}
 				<label class="">
 				{/if}
 				<span class="taxLabel alignBottom">{vtranslate($tax.taxlabel, $MODULE)}<span class="paddingLeft10px">(%)</span></span>

@@ -11,6 +11,7 @@
 /**
  * Base Model Class
  */
+#[\AllowDynamicProperties]
 class Vtiger_Base_Model {
 	protected $valueMap;
 
@@ -37,7 +38,7 @@ class Vtiger_Base_Model {
 	* @return Raw Value for the given key
 	*/
 	public function getRaw($key){
-		return $this->rawData[$key];
+		return isset($this->rawData[$key]) ? $this->rawData[$key] : '';
 	}
 
 	/**
@@ -84,7 +85,7 @@ class Vtiger_Base_Model {
 	 * @param String $key
 	 */
 	public function has($key) {
-		return array_key_exists($key, $this->valueMap);
+		return array_key_exists($key, (array)$this->valueMap); // valueMap can be array or TrackableObject
 	}
 
 	/**

@@ -157,7 +157,7 @@ class Vtiger_Field_Model extends Vtiger_Field {
 
 	public function getModule() {
 		if(!isset($this->module) || !$this->module) {
-			$moduleObj = $this->block->module;
+			$moduleObj = isset($this->block->module) ? $this->block->module : "";
 			if(empty($moduleObj)) {
 				return false;
 			}
@@ -404,6 +404,7 @@ class Vtiger_Field_Model extends Vtiger_Field {
 	 * @return <Boolean> - true/false
 	 */
 	public function isMandatory() {
+		if(substr_count($this->get('typeofdata'),'~') == 0)  $this->set('typeofdata', $this->get('typeofdata') . '~');
 		list($type,$mandatory)= explode('~',$this->get('typeofdata'));
 		return $mandatory=='M' ? true:false;
 	}
@@ -1347,7 +1348,7 @@ class Vtiger_Field_Model extends Vtiger_Field {
 	}
 
 	public function hasDefaultValue() {
-		return trim($this->defaultvalue) == '' ? false : true;
+		return !$this->defaultvalue || trim($this->defaultvalue) == '' ? false : true;
 	}
 
 	public function isActiveField() {

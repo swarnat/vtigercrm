@@ -29,7 +29,7 @@
 		 <tbody {if $IS_HIDDEN} class="hide" {/if}>
 		{assign var=COUNTER value=0}
 		<tr>
-		{foreach item=FIELD_MODEL key=FIELD_NAME from=$FIELD_MODEL_LIST}
+		{foreach item=FIELD_MODEL key=FIELD_NAME from=$FIELD_MODEL_LIST name=DetailViewBlockViewLoop}
 			{if !$FIELD_MODEL->isViewableInDetailView()}
 				 {continue}
 			 {/if}
@@ -113,7 +113,7 @@
 		{/if}
 		{/foreach}
 		{* adding additional column for odd number of fields in a block *}
-		{if $FIELD_MODEL_LIST|@end eq true and $FIELD_MODEL_LIST|@count neq 1 and $COUNTER eq 1}
+		{if $smarty.foreach.DetailViewBlockViewLoop.last and $FIELD_MODEL_LIST|@count neq 1 and $COUNTER eq 1}
 			<td class="fieldLabel {$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td>
 		{/if}
 		</tr>

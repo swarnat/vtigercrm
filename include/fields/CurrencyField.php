@@ -125,6 +125,7 @@ class CurrencyField {
     public static function convertToUserFormat($value, $user=null, $skipConversion=false, $skipFormatting=false) {
 		// To support negative values
 		$negative = false;
+		if(!$value) return $value;
 		if(stripos($value, '-') === 0) {
 			$negative = true;
 			$value = substr($value, 1);
@@ -355,8 +356,8 @@ class CurrencyField {
         $decimalSeparator  = $this->decimalSeparator;
 		if(empty($currencySeparator)) $currencySeparator = ' ';
 		if(empty($decimalSeparator)) $decimalSeparator = ' ';
-        $value = str_replace("$currencySeparator", "", $value);
-        $value = str_replace("$decimalSeparator", ".", $value);
+        $value = isset($value) ? str_replace("$currencySeparator", "", $value) : '';
+        $value = isset($value) ? str_replace("$decimalSeparator", ".", $value) : '';
 
 		if($skipConversion == false) {
 			$value = self::convertToDollar($value,$this->conversionRate);
@@ -447,7 +448,7 @@ class CurrencyField {
 				$decimalSeparator = $user->currency_decimal_separator;
 			}
 
-			$fieldValue = explode(decode_html($decimalSeparator), $value);
+			$fieldValue = vtlib_array(explode(decode_html($decimalSeparator), $value));
 			if(strlen($fieldValue[1]) <= 1){
 				if(strlen($fieldValue[1]) == 1) {
 					return $value = $fieldValue[0].$decimalSeparator.$fieldValue[1];

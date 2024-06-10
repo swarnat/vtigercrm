@@ -203,7 +203,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 		return $arr[$executionCondition-1];
 	}
 
-	function getV7executionConditionAsLabel($executionCondition=null, $module_name) {
+	function getV7executionConditionAsLabel($executionCondition=null, $module_name=null) {
 		if($executionCondition == null) {
 			$executionCondition = $this->get('execution_condition');
 		}
@@ -232,7 +232,9 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 	function transformToAdvancedFilterCondition() {
 		$conditions = $this->get('conditions');
 		$transformedConditions = array();
-
+		$firstGroup = array();
+		$secondGroup = array();
+		$isTimeValue = false;
 		if(!empty($conditions)) {
 			foreach($conditions as $index => $info) {
 				$columnName = $info['fieldname'];
@@ -314,7 +316,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 					foreach($columns as $column) {
 						$wfCondition[] = array('fieldname'=>$column['columnname'], 'operation'=>$column['comparator'],
 							'value'=>$column['value'], 'valuetype'=>$column['valuetype'], 'joincondition'=>$column['column_condition'],
-							'groupjoin'=>$condition['condition'], 'groupid'=>$column['groupid']);
+							'groupjoin'=> isset($condition['condition']) ? $condition['condition'] : '', 'groupid'=>$column['groupid']);
 					}
 				}
 			}
@@ -468,7 +470,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 				}
 				$value = $wfCond[$k]['value'];
 				$operation = $wfCond[$k]['operation'];
-				if($wfCond[$k]['groupjoin'] == 'and') {
+				if(isset($wfCond[$k]['groupjoin']) && $wfCond[$k]['groupjoin'] == 'and') {
 					$conditionGroup = 'All';
 				} else {
 					$conditionGroup = 'Any';
@@ -489,7 +491,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 						$value = getUserFullName($value);
 					} else {
 						$groupNameList = getGroupName($value);
-						$value = $groupNameList[0];
+						$value = isset($groupNameList[0]) ? $groupNameList[0] : '';
 					}
 				}
 				if ($value) {
@@ -526,6 +528,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 		$tasks = Settings_Workflows_TaskRecord_Model::getAllForWorkflow($this, true);
 		foreach($tasks as $task) {
 			$taskName = $task->getTaskType()->get('tasktypename');
+			$actions[$taskName] = isset($actions[$taskName]) ? $actions[$taskName] : null;
 			$actions[$taskName] = $actions[$taskName] + 1;
 		}
 		return $actions;

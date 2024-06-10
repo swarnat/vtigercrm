@@ -64,7 +64,7 @@ class Inventory_Charges_Model extends Vtiger_Base_Model {
 	 * @return <Array> list of Inventory_TaxRecord_Model
 	 */
 	public function getSelectedTaxes($deleted = true) {
-		if (!$this->taxes) {
+		if (!isset($this->taxes)) {
 			$taxModelsList = array();
 			$isTaxable = $this->isTaxable();
 			if ($isTaxable) {

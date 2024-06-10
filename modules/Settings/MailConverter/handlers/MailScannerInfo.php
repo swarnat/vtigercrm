@@ -51,6 +51,8 @@ class Vtiger_MailScannerInfo {
 	// Rules associated with this mail scanner
 	var $rules = false;
 
+	public $debug;
+
 	/**
 	 * Constructor
 	 */
@@ -146,7 +148,7 @@ class Vtiger_MailScannerInfo {
 	function dateBasedOnMailServerTimezone($format='d-M-Y') {
 		$returnDate = NULL;
 		##--Fix for trac : http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/8051-## 
-                if ($this->timezone && trim($this->timezone)) { 
+                if (property_exists($this,'timezone') && $this->timezone && trim($this->timezone)) { 
 			$currentTZ = date_default_timezone_get();
 			list ($tzhours, $tzminutes) = explode(':', trim($this->time_zone));
 			$returnDate = date($format, strtotime(sprintf("%s hours %s minutes", $tzhours, $tzminutes)));

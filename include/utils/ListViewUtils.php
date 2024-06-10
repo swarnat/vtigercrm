@@ -674,12 +674,17 @@ function decode_emptyspace_html($str){
 }
 
 function decode_html($str) {
+	// null or blank
+	if (!$str) return $str;
+
 	global $default_charset;
 	// Direct Popup action or Ajax Popup action should be treated the same.
 	if ((isset($_REQUEST['action']) && $_REQUEST['action'] == 'Popup') || (isset($_REQUEST['file']) && $_REQUEST['file'] == 'Popup'))
 		return html_entity_decode($str);
-	else
+	else if ($str)
 		return html_entity_decode($str, ENT_QUOTES, $default_charset);
+	else
+		return $str;
 }
 
 function popup_decode_html($str) {
@@ -692,7 +697,7 @@ function popup_decode_html($str) {
 //function added to check the text length in the listview.
 function textlength_check($field_val) {
 	global $listview_max_textlength, $default_charset;
-	if ($listview_max_textlength && $listview_max_textlength > 0) {
+	if ($field_val && $listview_max_textlength && $listview_max_textlength > 0) {
 		$temp_val = preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", $field_val);
 		if (function_exists('mb_strlen')) {
 			if (mb_strlen(decode_html($temp_val)) > $listview_max_textlength) {

@@ -24,7 +24,7 @@ class Vtiger_SaveWidgetPositions_Action extends Vtiger_IndexAjax_View {
 	public function process(Vtiger_Request $request) {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		
-		$positionsMap = $request->get('positionsmap');
+		$positionsMap = vtlib_array($request->get('positionsmap'));
 		
 		if ($positionsMap) {
 			foreach ($positionsMap as $id => $position) {

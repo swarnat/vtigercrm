@@ -18,6 +18,8 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model {
 
 	const TASK_STATUS_ACTIVE = 1;
 
+	public $task_type;
+
 	public function getId() {
 		return $this->get('task_id');
 	}
@@ -96,7 +98,9 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model {
 	}
 
 	public static function getInstance() {
-                list($taskId, $workflowModel) = func_get_args();
+		$args = func_get_args();
+		$taskId = $args[0];
+		$workflowModel = $args[1];
 		$db = PearDatabase::getInstance();
 		$tm = new VTTaskManager($db);
 		$task = $tm->retrieveTask($taskId);

@@ -221,22 +221,62 @@ if (!defined('_ADODB_LAYER')) {
 	// CLASS ADOFieldObject
 	//==============================================================================================
 	/**
-	 * Helper class for FetchFields -- holds info on a column
+	 * Helper class for FetchFields -- holds info on a column.
+	 *
+	 * Note: Dynamic properties are required here, as some drivers may require
+	 * the object to hold database-specific field metadata.
 	 */
+	#[\AllowDynamicProperties]
 	class ADOFieldObject {
-		var $name = '';
-		var $max_length=0;
-		var $type="";
-/*
-		// additional fields by dannym... (danny_milo@yahoo.com)
-		var $not_null = false;
-		// actually, this has already been built-in in the postgres, fbsql AND mysql module? ^-^
-		// so we can as well make not_null standard (leaving it at "false" does not harm anyways)
+		/**
+		 * @var string Field name
+		 */
+		public $name = '';
 
-		var $has_default = false; // this one I have done only in mysql and postgres for now ...
-			// others to come (dannym)
-		var $default_value; // default, if any, and supported. Check has_default first.
-*/
+		/**
+		 * @var int Field size
+		 */
+		public $max_length = 0;
+
+		/**
+		 * @var string Field type.
+		 */
+		public $type = '';
+
+		/**
+		 * @var int|null Numeric field scale.
+		 */
+		public $scale;
+
+		/**
+		 * @var bool True if field can be NULL
+		 */
+		public $not_null = false;
+
+		/**
+		 * @var bool True if field is a primary key
+		 */
+		public $primary_key = false;
+
+		/**
+		 * @var bool True if field is unique key
+		 */
+		public $unique = false;
+
+		/**
+		 * @var bool True if field is automatically incremented
+		 */
+		public $auto_increment = false;
+
+		/**
+		 * @var bool True if field has a default value
+		 */
+		public $has_default = false;
+
+		/**
+		 * @var mixed Default value, if any and supported; check {@see $has_default} first.
+		 */
+		public $default_value;
 	}
 
 
@@ -1672,17 +1712,19 @@ if (!defined('_ADODB_LAYER')) {
 		// 0 to offset-1 which will be discarded anyway. So we disable $ADODB_COUNTRECS.
 		global $ADODB_COUNTRECS;
 
-		$savec = $ADODB_COUNTRECS;
-		$ADODB_COUNTRECS = false;
+		try {
+			$savec = $ADODB_COUNTRECS;
+			$ADODB_COUNTRECS = false;
 
-
-		if ($secs2cache != 0) {
-			$rs = $this->CacheExecute($secs2cache,$sql,$inputarr);
-		} else {
-			$rs = $this->Execute($sql,$inputarr);
+			if ($secs2cache != 0) {
+				$rs = $this->CacheExecute($secs2cache, $sql, $inputarr);
+			} else {
+				$rs = $this->Execute($sql, $inputarr);
+			}
+		} finally {
+			$ADODB_COUNTRECS = $savec;
 		}
 
-		$ADODB_COUNTRECS = $savec;
 		if ($rs && !$rs->EOF) {
 			$rs = $this->_rs2rs($rs,$nrows,$offset);
 		}
@@ -1829,11 +1871,16 @@ if (!defined('_ADODB_LAYER')) {
 	public function GetOne($sql, $inputarr=false) {
 		global $ADODB_COUNTRECS,$ADODB_GETONE_EOF;
 
-		$crecs = $ADODB_COUNTRECS;
-		$ADODB_COUNTRECS = false;
+		$rs = null;
+		try {
+			$crecs = $ADODB_COUNTRECS;
+			$ADODB_COUNTRECS = false;
+			$rs = $this->Execute($sql, $inputarr);
+		} finally {
+			$ADODB_COUNTRECS = $crecs;
+		}
 
 		$ret = false;
-		$rs = $this->Execute($sql,$inputarr);
 		if ($rs) {
 			if ($rs->EOF) {
 				$ret = $ADODB_GETONE_EOF;
@@ -1843,7 +1890,6 @@ if (!defined('_ADODB_LAYER')) {
 
 			$rs->Close();
 		}
-		$ADODB_COUNTRECS = $crecs;
 		return $ret;
 	}
 
@@ -1972,10 +2018,15 @@ if (!defined('_ADODB_LAYER')) {
 	function GetArray($sql,$inputarr=false) {
 		global $ADODB_COUNTRECS;
 
-		$savec = $ADODB_COUNTRECS;
-		$ADODB_COUNTRECS = false;
-		$rs = $this->Execute($sql,$inputarr);
-		$ADODB_COUNTRECS = $savec;
+		$rs = null;
+		try {
+			$savec = $ADODB_COUNTRECS;
+			$ADODB_COUNTRECS = false;
+			$rs = $this->Execute($sql, $inputarr);
+		} finally {
+			$ADODB_COUNTRECS = $savec;
+		}
+
 		if (!$rs)
 			if (defined('ADODB_PEAR')) {
 				return ADODB_PEAR_Error();
@@ -1994,10 +2045,14 @@ if (!defined('_ADODB_LAYER')) {
 	function CacheGetArray($secs2cache,$sql=false,$inputarr=false) {
 		global $ADODB_COUNTRECS;
 
-		$savec = $ADODB_COUNTRECS;
-		$ADODB_COUNTRECS = false;
-		$rs = $this->CacheExecute($secs2cache,$sql,$inputarr);
-		$ADODB_COUNTRECS = $savec;
+		$rs = null;
+		try {
+			$savec = $ADODB_COUNTRECS;
+			$ADODB_COUNTRECS = false;
+			$rs = $this->CacheExecute($secs2cache, $sql, $inputarr);
+		} finally {
+			$ADODB_COUNTRECS = $savec;
+		}
 
 		if (!$rs)
 			if (defined('ADODB_PEAR')) {
@@ -2028,12 +2083,15 @@ if (!defined('_ADODB_LAYER')) {
 	function GetRow($sql,$inputarr=false) {
 		global $ADODB_COUNTRECS;
 
-		$crecs = $ADODB_COUNTRECS;
-		$ADODB_COUNTRECS = false;
+		$rs = null;
+		try {
+			$crecs = $ADODB_COUNTRECS;
+			$ADODB_COUNTRECS = false;
+			$rs = $this->Execute($sql, $inputarr);
+		} finally {
+			$ADODB_COUNTRECS = $crecs;
+		}
 
-		$rs = $this->Execute($sql,$inputarr);
-
-		$ADODB_COUNTRECS = $crecs;
 		if ($rs) {
 			if (!$rs->EOF) {
 				$arr = $rs->fields;
@@ -3405,22 +3463,59 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 
 } // end class ADOConnection
 
+	/**
+	 * RecordSet fields data as object.
+	 *
+	 * @see ADORecordSet::fetchObj(), ADORecordSet::fetchObject(),
+	 * @see ADORecordSet::fetchNextObj(), ADORecordSet::fetchNextObject()
+	 */
+	class ADOFetchObj {
+		/** @var array The RecordSet's fields */
+		protected $data;
 
+		/**
+		 * Constructor.
+		 *
+		 * @param array $fields Associative array with RecordSet's fields (name => value)
+		 */
+		public function __construct(array $fields = [])
+		{
+			$this->data = $fields;
+		}
 
-	//==============================================================================================
-	// CLASS ADOFetchObj
-	//==============================================================================================
+		public function __set(string $name, $value)
+		{
+			$this->data[$name] = $value;
+		}
+
+		public function __get(string $name)
+		{
+			if (isset($this->data[$name])) {
+				return $this->data[$name];
+			}
+			ADOConnection::outp("Unknown field: $name");
+			return null;
+		}
+
+		public function __isset($name)
+		{
+			return isset($this->data[$name]);
+		}
+
+		public function __debugInfo()
+		{
+			return $this->data;
+		}
+
+		public static function __set_state(array $data)
+		{
+			return new self($data['data']);
+		}
+	}
 
 	/**
-	* Internal placeholder for record objects. Used by ADORecordSet->FetchObj().
-	*/
-	class ADOFetchObj {
-	};
-
-	//==============================================================================================
-	// CLASS ADORecordSet_empty
-	//==============================================================================================
-
+	 * Class ADODB_Iterator_empty
+	 */
 	class ADODB_Iterator_empty implements Iterator {
 
 		private $rs;
@@ -3429,26 +3524,32 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 			$this->rs = $rs;
 		}
 
+		#[\ReturnTypeWillChange]
 		function rewind() {}
 
+		#[\ReturnTypeWillChange]
 		function valid() {
 			return !$this->rs->EOF;
 		}
 
+		#[\ReturnTypeWillChange]
 		function key() {
 			return false;
 		}
 
+		#[\ReturnTypeWillChange]
 		function current() {
 			return false;
 		}
 
+		#[\ReturnTypeWillChange]
 		function next() {}
 
 		function __call($func, $params) {
 			return call_user_func_array(array($this->rs, $func), $params);
 		}
 
+		#[\ReturnTypeWillChange]
 		function hasMore() {
 			return false;
 		}
@@ -3495,6 +3596,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 
 		function Init() {}
 
+		#[\ReturnTypeWillChange]
 		function getIterator() {
 			return new ADODB_Iterator_empty($this);
 		}
@@ -3555,22 +3657,27 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 			$this->rs = $rs;
 		}
 
+		#[\ReturnTypeWillChange]
 		function rewind() {
 			$this->rs->MoveFirst();
 		}
 
+		#[\ReturnTypeWillChange]
 		function valid() {
 			return !$this->rs->EOF;
 		}
 
+		#[\ReturnTypeWillChange]
 		function key() {
 			return $this->rs->_currentRow;
 		}
 
+		#[\ReturnTypeWillChange]
 		function current() {
 			return $this->rs->fields;
 		}
 
+		#[\ReturnTypeWillChange]
 		function next() {
 			$this->rs->MoveNext();
 		}
@@ -3655,6 +3762,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 		$this->Close();
 	}
 
+	#[\ReturnTypeWillChange]
 	function getIterator() {
 		return new ADODB_Iterator($this);
 	}

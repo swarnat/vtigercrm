@@ -37,6 +37,7 @@
 // Net_URL Class
 
 
+#[\AllowDynamicProperties]
 class Net_URL
 {
     var $options = array('encode_query_keys' => false);

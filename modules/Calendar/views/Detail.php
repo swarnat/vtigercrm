@@ -144,7 +144,6 @@ class Calendar_Detail_View extends Vtiger_Detail_View {
 			$relatedContacts = array();
 		}
 
-
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
@@ -152,10 +151,13 @@ class Calendar_Detail_View extends Vtiger_Detail_View {
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStrucure);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('DAY_STARTS','');
 		$viewer->assign('RELATED_CONTACTS', $relatedContacts);
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('RECURRING_INFORMATION', $recordModel->getRecurringDetails());
 
+		$appName = !empty($request->get('app'))?$request->get('app'):'';
+		$viewer->assign('SELECTED_MENU_CATEGORY',$appName);
 		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', Vtiger_Functions::jsonEncode($picklistDependencyDatasource));
 

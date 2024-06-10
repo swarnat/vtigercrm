@@ -67,7 +67,7 @@ class EmailTemplates_List_View extends Vtiger_Index_View {
 		$orderParams = Vtiger_ListView_Model::getSortParamsSession($moduleName);
 		// TODO : need to remove this when vtiger6 is removed
 		$defaultLayout = Vtiger_Viewer::getDefaultLayoutName();
-		if($orderParams['viewType'] == 'grid' && $defaultLayout == 'v7'){
+		if(isset($orderParams['viewType']) && $orderParams['viewType'] == 'grid' && $defaultLayout == 'v7'){
 			$viewer->view('GridViewContents.tpl',$moduleName);
 		} else {
 			$viewer->view('ListViewContents.tpl', $moduleName);
@@ -149,7 +149,7 @@ class EmailTemplates_List_View extends Vtiger_Index_View {
 		$linkModels = $listViewModel->getListViewMassActions($linkParams);
 
 		// preProcess is already loading this, we can reuse
-		if (!$this->pagingModel) {
+		if (!property_exists($this, 'pagingModel') || !$this->pagingModel) {
 			$pagingModel = new Vtiger_Paging_Model();
 			$pagingModel->set('page', $pageNumber);
 		} else {
@@ -182,14 +182,14 @@ class EmailTemplates_List_View extends Vtiger_Index_View {
 
 		$listViewModel->set('viewType',$viewType);
 
-		if (!$this->listViewHeaders) {
+		if (!property_exists($this, 'listViewHeaders') || !$this->listViewHeaders) {
 			$this->listViewHeaders = $listViewModel->getListViewHeaders();
 		}
-		if (!$this->listViewEntries) {
+		if (!property_exists($this, 'listViewEntries') || !$this->listViewEntries) {
 			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
 		}
 
-		if (!$this->pagingModel) {
+		if (!property_exists($this, 'pagingModel') || !$this->pagingModel) {
 			$this->pagingModel = $pagingModel;
 		}
 
@@ -197,7 +197,7 @@ class EmailTemplates_List_View extends Vtiger_Index_View {
 		$viewer->assign('VIEWID', $cvId);
 		$viewer->assign('MODULE', $moduleName);
 
-		if (!$this->listViewLinks) {
+		if (!property_exists($this, 'listViewLinks') || !$this->listViewLinks) {
 			$this->listViewLinks = $listViewModel->getListViewLinks($linkParams);
 		}
 		$viewer->assign('LISTVIEW_LINKS', $this->listViewLinks);

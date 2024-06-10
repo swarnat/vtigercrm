@@ -149,7 +149,7 @@ if($handle)
                 	{
                         	$parTabId=$adb->query_result($result,$i,'tabid');
                         	$relTabId=$adb->query_result($result,$i,'relatedto_tabid');
-				if(is_array($relModSharArr[$relTabId]))
+				if(isset($relModSharArr[$relTabId]) && is_array($relModSharArr[$relTabId]))
 				{
 					$temArr=$relModSharArr[$relTabId];
 					$temArr[]=$parTabId;
@@ -1502,6 +1502,7 @@ function constructTwoDimensionalArray($var)
        		foreach ($var as $key => $secarr)
 		{
            		$code .= $key.'=>array(';
+				if(!is_iterable($secarr))continue;
 			foreach($secarr as $seckey => $secvalue)
 			{
 				$code .= $seckey.'=>'.$secvalue.',';

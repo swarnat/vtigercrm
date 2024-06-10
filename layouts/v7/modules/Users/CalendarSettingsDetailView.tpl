@@ -12,7 +12,7 @@
 {strip}
     <form id="detailView" data-name-fields='{ZEND_JSON::encode($MODULE_MODEL->getNameFields())}' method="POST">
         <div class="contents">
-            {foreach key=BLOCK_LABEL_KEY item=FIELD_MODEL_LIST from=$RECORD_STRUCTURE}
+            {foreach key=BLOCK_LABEL_KEY item=FIELD_MODEL_LIST from=$RECORD_STRUCTURE name=CalendarDetailViewBlockLevelLoop}
                 <div class="block block_{$BLOCK_LABEL_KEY}" data-block="{$BLOCK_LABEL_KEY}">
                     {assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL_KEY]}
                 {if $BLOCK eq null or $FIELD_MODEL_LIST|@count lte 0}{continue}{/if}
@@ -134,7 +134,7 @@
                                         {/if}
                                     {/foreach}
                                     {* adding additional column for odd number of fields in a block *}
-                                    {if $FIELD_MODEL_LIST|@end eq true and $FIELD_MODEL_LIST|@count neq 1 and $COUNTER eq 1}
+                                    {if $smarty.foreach.CalendarDetailViewBlockLevelLoop.last and $FIELD_MODEL_LIST|@count neq 1 and $COUNTER eq 1}
                                     <td class="fieldLabel {$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td>
                                     {/if}
                             </tr>

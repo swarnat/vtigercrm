@@ -84,6 +84,8 @@
                                             {assign var=FIELD_DATA_TYPE value=$FIELDMODEL->getFieldInstance()->getFieldDataType()}
                                             {assign var=PRE_DISPLAY_VALUE value=$FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('prevalue')))}
                                             {assign var=POST_DISPLAY_VALUE value=$FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('postvalue')))}
+                                            {assign var=TIME_PRE_DISPLAY_VALUE value=$FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('prevalue')))}
+                                            {assign var=TIME_POST_DISPLAY_VALUE value=$FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('postvalue')))}
                                             
                                             {if in_array($FIELD_NAME,array('time_start','time_end')) && in_array($MODULE_NAME,array('Events','Calendar'))}
                                                 {assign var=CALENDAR_RECORD_MODEL value =Vtiger_Record_Model::getInstanceById($RECORD_ID)}
@@ -92,8 +94,13 @@
                                                 {assign var=PRE_DISPLAY_VALUE value=$TIME_PRE_DISPLAY_VALUE}
                                                 {assign var=POST_DISPLAY_VALUE value=$TIME_POST_DISPLAY_VALUE}
                                             {/if}
+                                            {if isset($TIME_PRE_DISPLAY_VALUE)}
+                                                {assign var=PRE_DISPLAY_TITLE value=$TIME_PRE_DISPLAY_VALUE}
+
+                                            {else}
+                                                {assign var=PRE_DISPLAY_TITLE value=''}
+                                            {/if}
                                             
-                                            {assign var=PRE_DISPLAY_TITLE value=$TIME_PRE_DISPLAY_VALUE}
                                             
                                             
                                             {if $FIELDMODEL && $FIELDMODEL->getFieldInstance() && $FIELDMODEL->getFieldInstance()->isViewable() && $FIELDMODEL->getFieldInstance()->getDisplayType() neq '5'}

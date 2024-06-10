@@ -75,7 +75,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model {
 	 * @return <Array> list of mapping details
 	 */
 	public function getMapping($editable = false) {
-		if (!$this->mapping) {
+		if (!property_exists($this,'mapping') || !$this->mapping) {
 			$db = PearDatabase::getInstance();
 			$query = 'SELECT * FROM vtiger_convertleadmapping';
 			if ($editable) {
@@ -102,9 +102,9 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model {
 				$finalMapping[$mappingId] = array(
 						'editable'	=> $mappingDetails['editable'],
 						'Leads'		=> $fieldLabelsList[$mappingDetails['leadfid']],
-						'Accounts'	=> $fieldLabelsList[$mappingDetails['accountfid']],
-						'Contacts'	=> $fieldLabelsList[$mappingDetails['contactfid']],
-						'Potentials'=> $fieldLabelsList[$mappingDetails['potentialfid']]
+						'Accounts'	=> isset($fieldLabelsList[$mappingDetails['accountfid']]) ? $fieldLabelsList[$mappingDetails['accountfid']] : null,
+						'Contacts'	=> isset($fieldLabelsList[$mappingDetails['contactfid']]) ? $fieldLabelsList[$mappingDetails['contactfid']] : null,
+						'Potentials'=> isset($fieldLabelsList[$mappingDetails['potentialfid']]) ? $fieldLabelsList[$mappingDetails['potentialfid']] : null
 				);
 			}
 
@@ -154,8 +154,8 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model {
 		$db = PearDatabase::getInstance();
 		$deleteMappingsList = $updateMappingsList = $createMappingsList = array();
 		foreach ($mapping as $mappingDetails) {
-			$mappingId = $mappingDetails['mappingId'];
-			if ($mappingDetails['lead']) {
+			$mappingId = isset($mappingDetails['mappingId']) ? $mappingDetails['mappingId'] : null;
+			if (isset($mappingDetails['lead']) && $mappingDetails['lead']) {
 				if ($mappingId) {
 					if ((array_key_exists('deletable', $mappingDetails)) || (!$mappingDetails['account'] && !$mappingDetails['contact'] && !$mappingDetails['potential'])) {
 						$deleteMappingsList[] = $mappingId;

@@ -7,13 +7,13 @@
 * All Rights Reserved.
 *************************************************************************************}
 
-<div id="{$BREADCRUMB_ID}" class="breadcrumb">
+<div id="{(isset($BREADCRUMB_ID)) ? $BREADCRUMB_ID : ''}" class="breadcrumb">
 	<ul class="crumbs">
 		{assign var=ZINDEX value=9}
 		{foreach key=CRUMBID item=STEPTEXT from=$BREADCRUMB_LABELS name=breadcrumbLabels}
 			{assign var=INDEX value=$smarty.foreach.breadcrumbLabels.index}
 			{assign var=INDEX value=$INDEX+1}
-			<li class="step {if $smarty.foreach.breadcrumbLabels.first} first {$FIRSTBREADCRUMB} {else} {$ADDTIONALCLASS} {/if} {if $smarty.foreach.breadcrumbLabels.last} last {/if} {if $ACTIVESTEP eq $INDEX}active{/if}"
+			<li class="step {if $smarty.foreach.breadcrumbLabels.first} first {if isset($FIRSTBREADCRUMB)} {$FIRSTBREADCRUMB} {/if} {else} {if isset($ADDTIONALCLASS)} {$ADDTIONALCLASS} {/if}{/if} {if $smarty.foreach.breadcrumbLabels.last} last {/if} {if isset($ACTIVESTEP) && $ACTIVESTEP eq $INDEX}active{/if}"
 				id="{$CRUMBID}" data-value="{$INDEX}" style="z-index:{$ZINDEX}">
 				<a href="#">
 					<span class="stepNum">{$INDEX}</span>

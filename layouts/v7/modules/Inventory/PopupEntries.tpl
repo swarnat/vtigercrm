@@ -69,8 +69,12 @@
                         {foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
                             <td>
                                 {assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
+                                {assign var=FIELD_SEARCH_INFO value=array("searchValue" => "")}
+                                {if isset($SEARCH_DETAILS[$LISTVIEW_HEADER->getName()])}
+                                    {{assign var=FIELD_SEARCH_INFO value=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()]}}
+                                {/if}
                                 {include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$MODULE_NAME)
-                                FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()] USER_MODEL=$CURRENT_USER_MODEL}
+                                FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$FIELD_SEARCH_INFO USER_MODEL=$CURRENT_USER_MODEL}
                             </td>
                         {/foreach}
 						{if $RELATED_MODULE eq 'Products'}
@@ -79,7 +83,7 @@
                     </tr>
                 {/if}
                 {foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=popupListView}
-                    {assign var="RECORD_DATA" value="{$LISTVIEW_ENTRY->getRawData()}"}
+                    {assign var="RECORD_DATA" value="{implode(' ',$LISTVIEW_ENTRY->getRawData())}"}
                     <tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}" data-name='{$LISTVIEW_ENTRY->getName()}' data-info='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($LISTVIEW_ENTRY->getRawData()))}'
                         {if $GETURL neq '' } data-url="{$LISTVIEW_ENTRY->$GETURL()|cat:'&sourceModule='|cat:$SOURCE_MODULE}" {/if}  id="{$MODULE}_popUpListView_row_{$smarty.foreach.popupListView.index+1}">
                         {if $MULTI_SELECT}

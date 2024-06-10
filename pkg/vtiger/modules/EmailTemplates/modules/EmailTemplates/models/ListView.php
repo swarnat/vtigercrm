@@ -88,6 +88,7 @@ class EmailTemplates_ListView_Model extends Vtiger_ListView_Model {
 
 	public function getListViewEntries($pagingModel) {
 		$db = PearDatabase::getInstance();
+		$whereQuery = '';
 		$startIndex = $pagingModel->getStartIndex();
 		$pageLimit = $pagingModel->getPageLimit();
 		$orderBy = $this->getForSql('orderby');
@@ -211,7 +212,7 @@ class EmailTemplates_ListView_Model extends Vtiger_ListView_Model {
 		$searchKey = $this->getForSql('search_key');
 		$searchValue = $this->get('search_value');
 
-		$whereQuery .= " WHERE ";
+		$whereQuery = " WHERE ";
         $params = array();
 		if(!empty($searchKey) && !empty($searchValue)) {
 			$whereQuery .= "$searchKey LIKE ? AND ";

@@ -87,7 +87,7 @@ class Vtiger_MenuStructure_Model extends Vtiger_Base_Model {
 				$currentTopMenuCount++;
 			}
 
-			$parent = ucfirst(strtolower($menuModel->get('parent')));
+			$parent = ucfirst(strtolower($menuModel->get('parent') ? $menuModel->get('parent') : ""));
 			if($parent == 'Sales' || $parent == 'Marketing'){
 				$parent = 'MARKETING_AND_SALES';
 			}
@@ -202,7 +202,7 @@ class Vtiger_MenuStructure_Model extends Vtiger_Base_Model {
 						$regroupMenuByParent[$app][$moduleName] = $moduleModel;
 					}
 				} else {
-					if(!in_array($moduleName, $ignoredModules)) {
+					if(!in_array($moduleName, $ignoredModules) && isset($oldToNewAppMap[$appName])) {
 						$app = $oldToNewAppMap[$appName];
 						$regroupMenuByParent[$app][$moduleName] = $moduleModel;
 					}                

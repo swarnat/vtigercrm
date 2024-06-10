@@ -13,7 +13,7 @@
  * Contributor(s): ______________________________________.
  ********************************************************************************/
 class UserTimeZones{
-	function userTimeZones(){
+	static function getAll(){
 		$arrayOfSupportedTimeZones = array(
 										'Pacific/Midway',
 										'Pacific/Samoa',

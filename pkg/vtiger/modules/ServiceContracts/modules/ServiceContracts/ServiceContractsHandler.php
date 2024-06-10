@@ -44,7 +44,7 @@ class ServiceContractsHandler extends VTEventHandler {
 			$moduleName = $entityData->getModuleName();
 			
 			// Update Used Units for the Service Contract, everytime the status of a ticket related to the Service Contract changes
-			if ($moduleName == 'HelpDesk' && $_REQUEST['return_module'] != 'ServiceContracts') {
+			if (isset($_REQUEST['return_module']) && $moduleName == 'HelpDesk' && $_REQUEST['return_module'] != 'ServiceContracts') {
 				$ticketId = $entityData->getId();
 				$data = $entityData->getData();
 				if($data['ticketstatus'] != $entityData->oldStatus) {

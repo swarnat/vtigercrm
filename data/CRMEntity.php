@@ -28,12 +28,14 @@ require_once('include/utils/UserInfoUtil.php');
 require_once("include/Zend/Json.php");
 require_once 'include/RelatedListView.php';
 
+#[\AllowDynamicProperties]
 class CRMEntity {
 
 	var $ownedby;
 	var $recordSource = 'CRM';
 	var $mode;
 
+	public $moduleName;
 	/**
 	 * Detect if we are in bulk save mode, where some features can be turned-off
 	 * to improve performance.
@@ -158,7 +160,7 @@ class CRMEntity {
 	 */
 	function uploadAndSaveFile($id, $module, $file_details, $attachmentType='Attachment') {
 		global $log;
-		$log->debug("Entering into uploadAndSaveFile($id,$module,$file_details) method.");
+		$log->debug("Entering into uploadAndSaveFile($id,$module) method.");
 
 		global $adb, $current_user;
 		global $upload_badext;
@@ -268,6 +270,7 @@ class CRMEntity {
 
 		$ownerid = $this->column_fields['assigned_user_id'];
 		$groupid = $this->column_fields['group_id'];
+		$insertion_mode = $this->mode;
 
 		if (empty($groupid))
 			$groupid = 0;
@@ -408,6 +411,7 @@ class CRMEntity {
 		global $current_user, $app_strings;
 		$log->info("function insertIntoEntityTable " . $module . ' vtiger_table name ' . $table_name);
 		global $adb;
+		global $_FILES;
 		$insertion_mode = $this->mode;
         $table_name = Vtiger_Util_Helper::validateStringForSql($table_name);
 		$tablekey = $this->tab_name_index[$table_name];
@@ -598,7 +602,7 @@ class CRMEntity {
 						$fldvalue = decode_html($this->column_fields[$fieldname]);
 					}
 				} elseif ($uitype == 8) {
-					$this->column_fields[$fieldname] = rtrim($this->column_fields[$fieldname], ',');
+					$this->column_fields[$fieldname] = isset($this->column_fields[$fieldname]) ? rtrim($this->column_fields[$fieldname], ',') : '';
 					$ids = explode(',', $this->column_fields[$fieldname]);
 					$json = new Zend_Json();
 					$fldvalue = $json->encode($ids);
@@ -646,9 +650,9 @@ class CRMEntity {
 						if(php7_count($IMG_FILES)){
 							foreach($IMG_FILES as $fileIndex => $file) {
 								if($file['error'] == 0 && $file['name'] != '' && $file['size'] > 0) {
-									if($_REQUEST[$fileIndex.'_hidden'] != '')
-										$file['original_name'] = vtlib_purify($_REQUEST[$fileindex.'_hidden']);
-									else {
+									if(isset($_REQUEST[$fileIndex.'_hidden']) && $_REQUEST[$fileIndex] != '') {
+										$file['original_name'] = vtlib_purify($_REQUEST[$fileIndex.'_hidden']);
+									} else {
 										$file['original_name'] = stripslashes($file['name']);
 									}
 									$file['original_name'] = str_replace('"','',$file['original_name']);
@@ -665,7 +669,7 @@ class CRMEntity {
 							$skipUpdateForField = true;
 						}
 					}
-					if (($insertion_mode == 'edit' && $skipUpdateForField == false) || $_REQUEST['imgDeleted']) {
+					if (($insertion_mode == 'edit' && $skipUpdateForField == false) || (isset($_REQUEST['imgDeleted']) && $_REQUEST['imgDeleted'])) {
 						$skipUpdateForField = false;
 						$uploadedFileNames = array();
 						$getImageNamesSql = 'SELECT name FROM vtiger_seattachmentsrel INNER JOIN vtiger_attachments ON
@@ -685,8 +689,8 @@ class CRMEntity {
 						$uploadedFileNames = array();
 						foreach($UPLOADED_FILES as $fileIndex => $file) {
 							if($file['error'] == 0 && $file['name'] != '' && $file['size'] > 0) {
-								if($_REQUEST[$fileindex.'_hidden'] != '') {
-									$file['original_name'] = vtlib_purify($_REQUEST[$fileindex.'_hidden']);
+								if(isset($_REQUEST[$fileIndex.'_hidden']) && $_REQUEST[$fileIndex.'_hidden'] != '') {
+									$file['original_name'] = vtlib_purify($_REQUEST[$fileIndex.'_hidden']);
 								} else {
 									$file['original_name'] = stripslashes($file['name']);
 								}
@@ -744,8 +748,12 @@ class CRMEntity {
 				$update = array();
 				$update_params = array();
 				foreach($changedFields as $field) {
+					if (!array_key_exists($field, $updateFieldNameColumnNameMap)) {
+						continue;
+					}
+
 					$fieldColumn = $updateFieldNameColumnNameMap[$field];
-					if(@array_key_exists($fieldColumn, $updateFieldValues)) {
+					if(array_key_exists($fieldColumn, $updateFieldValues)) {
 						array_push($update, $fieldColumn.'=?');
 						array_push($update_params, $updateFieldValues[$fieldColumn]);
 					}
@@ -979,7 +987,7 @@ class CRMEntity {
 
 		//Event triggering code
 		require_once("include/events/include.inc");
-
+		$em = null;
 		//In Bulk mode stop triggering events
 		if(!self::isBulkSaveMode()) {
 			$em = new VTEventsManager($adb);
@@ -2033,7 +2041,7 @@ class CRMEntity {
 	 */
 	function transferRelatedRecords($module, $transferEntityIds, $entityId) {
 		global $adb, $log;
-		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+		$log->debug("Entering function transferRelatedRecords ($module, ".implode(',',$transferEntityIds).", $entityId)");
 		foreach ($transferEntityIds as $transferId) {
 
 			// Pick the records related to the entity to be transfered, but do not pick the once which are already related to the current entity.
@@ -3002,6 +3010,7 @@ class CRMEntity {
 	 * @return string
 	 */
 	function getQueryForDuplicates($module, $tableColumns, $selectedColumns = '', $ignoreEmpty = false,$requiredTables = array(),$columnTypes = null) {
+		$query='';
 		if(is_array($tableColumns)) {
 			$tableColumnsString = implode(',', $tableColumns);
 		}
@@ -3052,6 +3061,7 @@ class CRMEntity {
 		}
 
 		$i = 1;
+		$duplicateCheckClause='';
 		foreach($tableColumns as $tableColumn){
 			$tableInfo = explode('.', $tableColumn);
 			$duplicateCheckClause .= " ifnull($tableColumn,'null') = ifnull(temp.$tableInfo[1],'null')";
@@ -3116,6 +3126,7 @@ class CRMEntity {
 	}
 }
 
+#[\AllowDynamicProperties]
 class TrackableObject implements ArrayAccess, IteratorAggregate {
 	private $storage;
 	private $trackingEnabled = true;
@@ -3125,12 +3136,14 @@ class TrackableObject implements ArrayAccess, IteratorAggregate {
 		$this->storage = $value;
 	}
 
+	#[\ReturnTypeWillChange]
 	function offsetExists($key) {
 		return isset($this->storage[$key]) || array_key_exists($key, $this->storage);
 	}
 
+	#[\ReturnTypeWillChange]
 	function offsetSet($key, $value) {
-            if(is_array($value)) $value = empty($value) ? "" : $value[0];
+		if(is_array($value)) $value = empty($value) ? "" : (array_key_exists(0, $value) ? $value[0] : ""); //it is an associative (if array without a key 0) modified to prevent warning of Undefined array key 0 .
 		if($this->tracking && $this->trackingEnabled) {
 			$olderValue = $this->offsetGet($key);
 			// decode_html only expects string
@@ -3143,14 +3156,17 @@ class TrackableObject implements ArrayAccess, IteratorAggregate {
 		$this->storage[$key] = $value;
 	}
 
+	#[\ReturnTypeWillChange]
 	public function offsetUnset($key) {
 		unset($this->storage[$key]);
 	}
 
+	#[\ReturnTypeWillChange]
 	public function offsetGet($key) {
 		return isset($this->storage[$key]) || array_key_exists($key, $this->storage) ? $this->storage[$key] : null;
 	}
 
+	#[\ReturnTypeWillChange]
 	public function getIterator() {
 		$iterator = new ArrayObject($this->storage);
 		return $iterator->getIterator();

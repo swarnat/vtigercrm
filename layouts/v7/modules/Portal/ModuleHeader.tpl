@@ -25,7 +25,7 @@
 				<span>
 					<p class="current-filter-name pull-left">&nbsp;<span class="fa fa-angle-right" aria-hidden="true"></span>&nbsp;{$VIEW}&nbsp;</p>
 				</span>
-				{if $VIEWID}
+				{if isset($VIEWID) && $VIEWID}
 					{foreach item=FILTER_TYPES from=$CUSTOM_VIEWS}
 						{foreach item=FILTERS from=$FILTER_TYPES}
 							{if $FILTERS->get('cvid') eq $VIEWID}

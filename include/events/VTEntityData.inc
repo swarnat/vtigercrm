@@ -11,6 +11,7 @@
 /**
  * A wrapper around CRMEntity instances
  */
+#[\AllowDynamicProperties]
 class VTEntityData{
 	private $isNew = false;
 
@@ -84,7 +85,7 @@ class VTEntityData{
 
 		// added to compute label needed in event handlers
 		//TODO : need to make sure entity fields are cached
-		$entityFields = Vtiger_Functions::getEntityModuleInfo($crmEntity->moduleName);
+		$entityFields = isset($crmEntity->moduleName) ? Vtiger_Functions::getEntityModuleInfo($crmEntity->moduleName) : array("fieldname" => array());
 		if (!empty($entityFields['fieldname'])) {
 			$entityFieldNames = explode(',', $entityFields['fieldname']);
 			$label = '';
@@ -111,7 +112,7 @@ class VTEntityData{
 	 * @return The entity id.
 	 */
 	function getId(){
-		return $this->focus->id;
+		return is_object($this->focus) && property_exists($this->focus, "id") ? $this->focus->id : null;
 	}
 
 	/**

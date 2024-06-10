@@ -55,7 +55,10 @@ class Documents_FilePreview_View extends Vtiger_IndexAjax_View {
 				}
 			}
 		}
-
+		$fileDetails['path'] = isset($fileDetails['path']) ? $fileDetails['path'] : "";
+		$fileDetails['attachmentsid'] = isset($fileDetails['attachmentsid']) ? $fileDetails['attachmentsid'] : "";
+		$fileDetails['name'] = isset($fileDetails['name']) ? $fileDetails['name'] : "";
+		$fileDetails['type'] = isset($fileDetails['type']) ? $fileDetails['type'] : "";
 		$path = $fileDetails['path'].$fileDetails['attachmentsid'].'_'.$fileDetails['name'];
 		$type = $fileDetails['type'];
 		$contents = $fileContent;

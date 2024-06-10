@@ -50,7 +50,7 @@
                            {vtranslate('LBL_TARGET_MODULE', $QUALIFIED_MODULE)}
                         </label>
                      <div class="col-sm-5 controls">
-                         {if $MODE eq 'edit'}
+                         {if isset($MODE) && $MODE eq 'edit'}
                              <div class="pull-left">
                                 <input type='text' disabled='disabled' class="inputElement" value="{vtranslate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}" >
                                 <input type='hidden' id="module_name" name='module_name' value="{$MODULE_MODEL->get('name')}" >

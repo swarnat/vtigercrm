@@ -84,8 +84,8 @@ class Vtiger_DependencyPicklist {
 			$targetValues = $mapping['targetvalues'];
 			$serializedTargetValues = Zend_Json::encode($targetValues);
 
-			$optionalsourcefield = $mapping['optionalsourcefield'];
-			$optionalsourcevalues = $mapping['optionalsourcevalues'];
+			$optionalsourcefield = isset($mapping['optionalsourcefield']) ? $mapping['optionalsourcefield'] : '';
+			$optionalsourcevalues = isset($mapping['optionalsourcevalues']) ? $mapping['optionalsourcevalues'] : '';
 
 			if(!empty($optionalsourcefield)) {
 				$criteria = array();
@@ -170,7 +170,7 @@ class Vtiger_DependencyPicklist {
 			$targetValues = decode_html($adb->query_result($result, $i, 'targetvalues'));
 			$unserializedTargetValues = Zend_Json::decode(html_entity_decode($targetValues));
 			$criteria = decode_html($adb->query_result($result, $i, 'criteria'));
-			$unserializedCriteria = Zend_Json::decode(html_entity_decode($criteria));
+			$unserializedCriteria = isset($criteria) ? Zend_Json::decode(html_entity_decode($criteria)) : array();
 
 			if(!empty($unserializedCriteria) && $unserializedCriteria['fieldname'] != null) {
 				$conditionValue = array(

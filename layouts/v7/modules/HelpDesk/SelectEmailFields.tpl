@@ -62,7 +62,7 @@
             </div>
             <div class="preferenceDiv" style="padding: 0px 0px 10px 35px;">
                 <label class="checkbox displayInlineBlock">
-                    <input type="checkbox" name="saveRecipientPrefs" id="saveRecipientPrefs" {if $RECIPIENT_PREF_ENABLED}checked="true"{/if}/>&nbsp;&nbsp;&nbsp;
+                    <input type="checkbox" name="saveRecipientPrefs" id="saveRecipientPrefs" {if isset($RECIPIENT_PREF_ENABLED) &&  $RECIPIENT_PREF_ENABLED}checked="true"{/if}/>&nbsp;&nbsp;&nbsp;
                     {vtranslate('LBL_REMEMBER_MY_PREF',$MODULE)}&nbsp;&nbsp;
                 </label>
                 <i class="fa fa-info-circle" title="{vtranslate('LBL_EDIT_EMAIL_PREFERENCE_TOOLTIP', $MODULE)}"></i>

@@ -121,7 +121,7 @@ class Settings_SharingAccess_Rule_Model extends Vtiger_Base_Model {
 	}
 
 	protected function getRuleComponents() {
-		if(!$this->rule_details && $this->getId()) {
+		if((!property_exists($this,'rule_details') || !$this->rule_details) && $this->getId()) {
 			$db = PearDatabase::getInstance();
 
 			$relationTypeComponents = explode('::', $this->get('relationtype'));

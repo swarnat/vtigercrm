@@ -38,14 +38,15 @@
                 </div>
                 <div class="pull-right col-md-7 detailViewButtoncontainer">
                     <div class="btn-group pull-right">
-                        {foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}
+                    {if isset($DETAILVIEW_LINKS)}
+                            {foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}
                             <button class="btn btn-default {if $DETAIL_VIEW_BASIC_LINK->getLabel() eq 'LBL_EDIT'}{/if}" id="{$MODULE}_detailView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_BASIC_LINK->getLabel())}"
                                     {if $DETAIL_VIEW_BASIC_LINK->isPageLoadLink()}
                                         onclick="window.location.href='{$DETAIL_VIEW_BASIC_LINK->getUrl()}'"
                                     {else}
                                         onclick="{$DETAIL_VIEW_BASIC_LINK->getUrl()}"
                                     {/if}>
-                               {vtranslate($DETAIL_VIEW_BASIC_LINK->getLabel(), $MODULE)}
+                            {vtranslate($DETAIL_VIEW_BASIC_LINK->getLabel(), $MODULE)}
                             </button>
                         {/foreach}
                         {if $DETAILVIEW_LINKS['DETAILVIEW']|@count gt 0}
@@ -67,6 +68,7 @@
                                 {/foreach}
                             </ul>
                         {/if}
+                    {/if}
                     </div>
                 </div>
             </div>

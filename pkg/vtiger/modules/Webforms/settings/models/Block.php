@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-
+#[\AllowDynamicProperties]
 class Settings_Webforms_Block_Model extends Vtiger_Block_Model {
 
 	/**

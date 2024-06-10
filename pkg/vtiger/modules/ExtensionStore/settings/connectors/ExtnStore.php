@@ -163,7 +163,7 @@ class Settings_ExtensionStore_ExtnStore_Connector {
 	/**
 	 * Function to get max created on for promotions
 	 */
-	public function getMaxCreatedOn($type = 'Extension', $function, $field) {
+	public function getMaxCreatedOn($type = 'Extension', $function = null, $field = null) {
 		$q = array('type' => $type);
 		try {
 			$response = $this->api('/app/listings', 'GET', $q ? array('q' => Zend_Json::encode($q), 'fn' => $function, 'max' => $field) : null, false);

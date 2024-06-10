@@ -398,7 +398,8 @@ class Users_Record_Model extends Vtiger_Record_Model {
             $url = \Vtiger_Functions::getFilePublicURL($imageId, $imageName);
 
 			//decode_html - added to handle UTF-8 characters in file names
-			$imageOriginalName = urlencode(decode_html($imageName));
+			$imageNameDecoded =decode_html($imageName);
+			$imageOriginalName = urlencode($imageNameDecoded ? $imageNameDecoded : "");
             if($url) {
                 $url = $site_URL.$url;
             }
@@ -598,7 +599,8 @@ class Users_Record_Model extends Vtiger_Record_Model {
 	function getTagCloudStatus() {
 		$db = PearDatabase::getInstance();
 		$query = "SELECT visible FROM vtiger_homestuff WHERE userid=? AND stufftype='Tag Cloud'";
-		$visibility = $db->query_result($db->pquery($query, array($this->getId())), 0, 'visible');
+		$rs = $db->pquery($query, array($this->getId()));
+		$visibility = $db->query_result($rs, 0, 'visible');
 		if($visibility == 0) {
 			return true;
 		} 
@@ -730,7 +732,8 @@ class Users_Record_Model extends Vtiger_Record_Model {
 	public function isAccountOwner() {
 		$db = PearDatabase::getInstance();
 		$query = 'SELECT is_owner FROM vtiger_users WHERE id = ?';
-		$isOwner = $db->query_result($db->pquery($query, array($this->getId())), 0, 'is_owner');
+		$rs = $db->pquery($query, array($this->getId()));
+		$isOwner = $db->query_result($rs, 0, 'is_owner');
 		if($isOwner == 1) {
 			return true;
 		} 

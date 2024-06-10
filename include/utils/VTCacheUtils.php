@@ -131,6 +131,7 @@ class VTCacheUtils {
         if(!$modulefields){
             $fieldInfo = Vtiger_Cache::get('ModuleFields',$tabid);
             if($fieldInfo){
+                $modulefields = array();
                 foreach($fieldInfo as $block => $blockFields){
                     foreach ($blockFields as $field){
                     if(in_array($field->get('presence'), $presencein)) {
@@ -427,7 +428,7 @@ class VTCacheUtils {
         self::$_userSignature[$userName] = $signature;
     }
     public static function getUserSignature($userName) {
-        return self::$_userSignature[$userName];
+        return isset($_userSignature[$userName]) ? self::$_userSignature[$userName] : null;
     }
 
     static $_userFullName = array();

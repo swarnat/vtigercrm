@@ -52,9 +52,21 @@
                                 </td>
                                 <td width="10%">{vtranslate({$MAPPING['Leads']['label']}, 'Leads')}</td>
                                 <td width="10%">{vtranslate({$MAPPING['Leads']['fieldDataType']}, $QUALIFIED_MODULE)}</td>
-                                <td width="10%">{vtranslate({$MAPPING['Accounts']['label']}, 'Accounts')}</td>
-                                <td width="10%">{vtranslate({$MAPPING['Contacts']['label']}, 'Contacts')}</td>
-                                <td width="10%">{vtranslate({$MAPPING['Potentials']['label']}, 'Potentials')}</td>
+                                <td width="10%">
+                                {if isset($MAPPING['Accounts']['label'])}
+                                    {vtranslate({$MAPPING['Accounts']['label']}, 'Accounts')}
+                                {/if}
+                                </td>
+                                <td width="10%">
+                                {if isset($MAPPING['Contacts']['label'])}
+                                    {vtranslate({$MAPPING['Contacts']['label']}, 'Contacts')}</td>
+                                {/if}
+                                </td>
+                                <td width="10%">
+                                {if isset($MAPPING['Potentials']['label'])}
+                                    {vtranslate({$MAPPING['Potentials']['label']}, 'Potentials')}</td>
+                                {/if}
+                                </td>
                             </tr>
                         {/foreach}
                     </tbody>
