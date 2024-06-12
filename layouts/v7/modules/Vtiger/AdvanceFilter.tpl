@@ -10,8 +10,8 @@
  ********************************************************************************/
 -->*}
 {strip}
-	{assign var=ALL_CONDITION_CRITERIA value=(isset($ADVANCE_CRITERIA[1])?$ADVANCE_CRITERIA[1]:[])}
-	{assign var=ANY_CONDITION_CRITERIA value=(isset($ADVANCE_CRITERIA[2])?$ADVANCE_CRITERIA[2]:[])}
+	{assign var=ALL_CONDITION_CRITERIA value=(isset($ADVANCE_CRITERIA[1]))?$ADVANCE_CRITERIA[1]:[]}
+	{assign var=ANY_CONDITION_CRITERIA value=(isset($ADVANCE_CRITERIA[2]))?$ADVANCE_CRITERIA[2]:[]}
 
 	{if empty($ALL_CONDITION_CRITERIA) }
 		{assign var=ALL_CONDITION_CRITERIA value=array()}

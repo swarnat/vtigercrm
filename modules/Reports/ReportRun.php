@@ -341,6 +341,9 @@ class ReportRun extends CRMEntity {
 	}
 
 	public static function getInstance($reportid) {
+		if (self::$instances === false || !is_array(self::$instances)) {
+            self::$instances = array();
+        }
 		if (!isset(self::$instances[$reportid])) {
 			self::$instances[$reportid] = new ReportRun($reportid);
 		}
@@ -732,7 +735,7 @@ class ReportRun extends CRMEntity {
 	 *  returns the case query for the escaped columns
 	 */
 	function getEscapedColumns($selectedfields) {
-
+		$queryColumn = '';
 		$tableName = $selectedfields[0];
 		$columnName = $selectedfields[1];
 		$moduleFieldLabel = $selectedfields[2];
@@ -2999,7 +3002,7 @@ class ReportRun extends CRMEntity {
 		$allColumnsRestricted = false;
 
 		if ($type == 'COLUMNSTOTOTAL') {
-			if ($columnstotalsql != '') {
+			if (isset($columnstotalsql) && $columnstotalsql != '') {
 				$reportquery = "select " . $columnstotalsql . " " . $reportquery . " " . $wheresql;
 			}
 		} else {
@@ -3074,6 +3077,7 @@ class ReportRun extends CRMEntity {
 		global $mod_strings, $current_language;
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		$modules_selected = array();
+		$picklistarray = array();
 		static $mod_query_details = array();
 		$modules_selected[] = $this->primarymodule;
 		if (!empty($this->secondarymodule)) {

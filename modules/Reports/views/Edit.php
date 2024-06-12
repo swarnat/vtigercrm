@@ -198,7 +198,7 @@ Class Reports_Edit_View extends Vtiger_Edit_View {
 			foreach($secondaryModuleFields as $module => $blockFields){
 				if($module == 'HelpDesk'){
 					foreach($blockFields as $key => $value){
-						if(isset($value)){
+						if(isset($value) && is_array($value)){
 							foreach($value as $key1 => $value1){
 								if($key1 == 'vtiger_troubletickets:update_log:HelpDesk_Update_History:update_log:V'){
 									unset($secondaryModuleFields[$module][$key][$key1]);

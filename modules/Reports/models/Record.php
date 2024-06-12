@@ -51,7 +51,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 	 * @return type
 	 */
 	public function getMembers() {
-		if($this->members == false) {
+		if(!property_exists($this, 'members') || $this->members == false) {
 			$this->members = Settings_Groups_Member_Model::getAllByGroup($this, Settings_Groups_Member_Model::REPORTS_VIEW_MODE);
 		}
 		return $this->members;

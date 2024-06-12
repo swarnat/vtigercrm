@@ -80,6 +80,9 @@ class Reports_RecordStructure_Model extends Vtiger_RecordStructure_Model {
 				}
 			}
 		}
+		if ($this->structuredValues === false) {
+			$this->structuredValues = array();
+		}
 		$this->structuredValues[$moduleName] = $moduleRecordStructure;
 		return $moduleRecordStructure;
 	}
