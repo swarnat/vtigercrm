@@ -51,14 +51,14 @@
                     <label class="col-lg-3 control-label textAlignLeft">{vtranslate('PRIMARY_MODULE',$MODULE)}<span class="redColor">*</span></label>
                     <div class="col-lg-4">
                         <select class="select2-container select2 col-lg-12 inputElement" id="primary_module" name="primary_module" data-rule-required="true"
-                                {if $RECORD_ID and $REPORT_MODEL->getPrimaryModule() and $IS_DUPLICATE neq true and $REPORT_TYPE eq "ChartEdit"} disabled="disabled"{/if}>
+                                {if $RECORD_ID and $REPORT_MODEL->getPrimaryModule() and isset($IS_DUPLICATE) && $IS_DUPLICATE neq true and $REPORT_TYPE eq "ChartEdit"} disabled="disabled"{/if}>
                             {foreach key=RELATED_MODULE_KEY item=RELATED_MODULE from=$MODULELIST}
                                 <option value="{$RELATED_MODULE_KEY}" {if $REPORT_MODEL->getPrimaryModule() eq $RELATED_MODULE_KEY } selected="selected" {/if}>
                                     {vtranslate($RELATED_MODULE_KEY,$RELATED_MODULE_KEY)}
                                 </option>
                             {/foreach}
                         </select>
-                        {if $RECORD_ID and $REPORT_MODEL->getPrimaryModule() and $IS_DUPLICATE neq true and $REPORT_TYPE eq "ChartEdit"}
+                        {if $RECORD_ID and $REPORT_MODEL->getPrimaryModule() and isset($IS_DUPLICATE) && $IS_DUPLICATE neq true and $REPORT_TYPE eq "ChartEdit"}
                             <input type="hidden" name="primary_module" value="{$REPORT_MODEL->getPrimaryModule()}" />
                         {/if}
                     </div>

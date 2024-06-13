@@ -140,6 +140,7 @@ Class Reports_Edit_View extends Vtiger_Edit_View {
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
+		$secondaryModuleFields = '';
 
 		$reportModel = Reports_Record_Model::getCleanInstance($record);
 		if(!empty($record)) {

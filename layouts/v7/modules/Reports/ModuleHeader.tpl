@@ -72,9 +72,9 @@
 										{elseif $childLink->getLabel() eq 'LBL_DETAIL_REPORT'}
 											{assign var="ICON_CLASS" value='vicon-detailreport'}
 										{/if}
-										<li id="{$MODULE}_listView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($childLink->getLabel())}" data-edition-disable="{$childLink->disabled}" 
-											data-edition-message="{$childLink->message}">
-											<a {if $childLink->disabled neq '1'} {if stripos($childLink->getUrl(), 'javascript:') === 0} onclick='{$childLink->getUrl()|substr:strlen("javascript:")};' {else} href='{$childLink->getUrl()}' {/if} {else} href="javascript:void(0);" {/if}><i class='{$ICON_CLASS}' style="font-size:13px;"></i>&nbsp; {vtranslate($childLink->getLabel(), $MODULE)}</a>
+										<li id="{$MODULE}_listView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($childLink->getLabel())}" data-edition-disable="{if isset($childLink->disabled)} {$childLink->disabled} {/if}" 
+											data-edition-message="{if isset($childLink->message)} {$childLink->message} {/if}">
+											<a {if ($childLink) && !isset($childLink->disabled) || $childLink->disabled neq '1'} {if stripos($childLink->getUrl(), 'javascript:') === 0} onclick='{$childLink->getUrl()|substr:strlen("javascript:")};' {else} href='{$childLink->getUrl()}' {/if} {else} href="javascript:void(0);" {/if}><i class='{$ICON_CLASS}' style="font-size:13px;"></i>&nbsp; {vtranslate($childLink->getLabel(), $MODULE)}</a>
 										</li>
 									{/foreach}
 								</ul>

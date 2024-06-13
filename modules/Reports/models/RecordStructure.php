@@ -19,6 +19,7 @@ class Reports_RecordStructure_Model extends Vtiger_RecordStructure_Model {
 	 * @return <array> - values in structure array('block'=>array(fieldinfo));
 	 */
 	public function getStructure() {
+		$eventCustomFields = array();
             list($moduleName) = func_get_args();
 		if (!empty($this->structuredValues[$moduleName])) {
 			return $this->structuredValues[$moduleName];
