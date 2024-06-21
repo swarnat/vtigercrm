@@ -65,7 +65,7 @@ class Vtiger_Theme extends Vtiger_Viewer {
 	 * @return <string> - theme folder
 	 */
 	public static function getBaseThemePath(){
-		return 'layouts'. '/' . self::getLayoutName(). self::DEFAULTSKIN;
+		return 'layouts'. '/' . self::getLayoutName(). '/'. self::DEFAULTSKIN;
 	}
 
 	/**
