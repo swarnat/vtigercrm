@@ -325,7 +325,7 @@ class VTUpdateFieldsTask extends VTTask {
 			// and save it. But it converts in database format only if that date & currency fields are
 			// changed(massedit) other wise they wont be converted thereby changing the values in user
 			// format, CRMEntity.php line 474 has the login to check wheather to convert to database format
-			$actionName = $_REQUEST['action'];
+			$actionName = isset($_REQUEST['action']) ? $_REQUEST['action'] : '';
 			$_REQUEST['action'] = '';
 
 			// For workflows update field tasks is deleted all the lineitems.

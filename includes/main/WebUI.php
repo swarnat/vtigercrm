@@ -24,7 +24,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint {
 	protected function checkLogin (Vtiger_Request $request) {
 		if (!$this->hasLogin()) {
 			$return_params = $_SERVER['QUERY_STRING'];
-			if($return_params && !$_SESSION['return_params']) {
+			if(isset($return_params) && $return_params && !$_SESSION['return_params']) {
 				//Take the url that user would like to redirect after they have successfully logged in.
 				$return_params = urlencode($return_params);
 				Vtiger_Session::set('return_params', $return_params);
