@@ -92,7 +92,7 @@ class VtigerWebserviceObject{
 			}
 		}
 		
-		$rowData = self::$_fromIdCache[$entityId];
+		$rowData = isset($_fromIdCache[$entityId]) ? self::$_fromIdCache[$entityId] : '';
 		
 		if($rowData) {
 			return new VtigerWebserviceObject($rowData['id'],$rowData['name'],

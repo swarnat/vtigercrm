@@ -20,6 +20,7 @@ class VtigerCRMObjectMeta extends EntityMeta {
 	private $hasWriteAccess;//Edit Access
 	private $hasDeleteAccess;
 	private $assignUsers;
+	private $allowDuplicates;
 	
 	function __construct($webserviceObject,$user)
 	{
@@ -39,6 +40,7 @@ class VtigerCRMObjectMeta extends EntityMeta {
 		$this->hasCreateAccess = false;
 		$this->hasWriteAccess = false;
 		$this->hasDeleteAccess = false;
+		$this->allowDuplicates = null;
 		$instance = vtws_getModuleInstance($this->webserviceObject);
 		$this->idColumn = $instance->tab_name_index[$instance->table_name];
 		$this->baseTable = $instance->table_name;
@@ -567,7 +569,7 @@ class VtigerCRMObjectMeta extends EntityMeta {
 	}
 
 	public function isDuplicatesAllowed() {
-		if (!isset($this->allowDuplicates)) {
+		if (is_null($this->allowDuplicates) || $this->allowDuplicates === null) {
 			$this->allowDuplicates = vtws_isDuplicatesAllowed($this->webserviceObject);
 		}
 		return $this->allowDuplicates;

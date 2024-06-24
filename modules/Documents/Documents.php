@@ -97,6 +97,9 @@ class Documents extends CRMEntity {
 		$filename_fieldname = $this->getFile_FieldName();
 		$filedownloadcount = null;
 		$filename = null;
+		$filetype = '';
+		$filesize = '';
+		$filelocationtype = '';
 		if($this->column_fields[$filetype_fieldname] == 'I' ){
 			if(isset($_FILES[$filename_fieldname]) && $_FILES[$filename_fieldname]['name'] != ''){
 				$errCode=$_FILES[$filename_fieldname]['error'];
@@ -151,7 +154,7 @@ class Documents extends CRMEntity {
 		$query = "UPDATE vtiger_notes SET filename = ? ,filesize = ?, filetype = ? , filelocationtype = ? , filedownloadcount = ? WHERE notesid = ?";
 		$re=$adb->pquery($query,array(decode_html($filename),$filesize,$filetype,$filelocationtype,$filedownloadcount,$this->id));
 		//Inserting into attachments table
-		if($filelocationtype == 'I') {
+		if(isset($filelocationtype) && $filelocationtype == 'I') {
 			$this->insertIntoAttachment($this->id,'Documents');
 		}else{
 			$query = "delete from vtiger_seattachmentsrel where crmid = ?";

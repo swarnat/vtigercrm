@@ -298,7 +298,7 @@ function buildSelectStmt($sqlDump){
 				$this->query = $this->query.','.$columnTable[$fieldcol[$field]].".".$fieldcol[$field];
 			}
 		}
-		if($sqlDump['sortOrder']) {
+		if(isset($sqlDump['sortOrder'])) {
 			$this->query .= ' '.$sqlDump['sortOrder'];
 		}
 	}
