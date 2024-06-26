@@ -998,7 +998,7 @@ function vtlib_addSettingsLink($linkName, $linkURL, $blockName = false) {
 /**
  * PHP Strict helpers.
  */
-require_once "vtlib/Vtiger/Utils/GuardedArray.php";
+require_once __DIR__ . "/../../vtlib/Vtiger/Utils/GuardedArray.php"; /* absolute path used to overcome need of chdir in subpaths */
 function vtlib_array($data = null) {
 	return new Vtiger_GuardedArray($data);
 }
