@@ -82,7 +82,7 @@ class MailManager_Message_Model extends Vtiger_MailRecord  {
 
 		if($partno) {
 			$maxDownLoadLimit = MailManager_Config_Model::get('MAXDOWNLOADLIMIT');
-			if($p->bytes < $maxDownLoadLimit) {
+			if(property_exists($p, 'bytes') && $p->bytes < $maxDownLoadLimit) {
 				$data = imap_fetchbody($imap,$messageid,$partno, FT_PEEK);  // multipart
 			}
 		} else {
@@ -99,14 +99,14 @@ class MailManager_Message_Model extends Vtiger_MailRecord  {
 	    if ($p->parameters) {
 			foreach ($p->parameters as $x) $params[ strtolower( $x->attribute ) ] = $x->value;
 		}
-	    if ($p->dparameters) {
+	    if (property_exists($p, 'dparameters') && $p->dparameters) {
 			foreach ($p->dparameters as $x) $params[ strtolower( $x->attribute ) ] = $x->value;
 		}
 
 		// ATTACHMENT
     	// Any part with a filename is an attachment,
 	    // so an attached text file (type 0) is not mistaken as the message.
-    	if (($params['filename'] || $params['name']) && strtolower($p->disposition) == "attachment") {
+    	if ((isset($params['filename']) || isset($params['name'])) && strtolower($p->disposition) == "attachment") {
         	// filename may be given as 'Filename' or 'Name' or both
 	        $filename = ($params['filename'])? $params['filename'] : $params['name'];
 			// filename may be encoded, so see imap_mime_header_decode()
@@ -121,13 +121,13 @@ class MailManager_Message_Model extends Vtiger_MailRecord  {
 				$filename = $id;
 			}
 			$this->_inline_attachments[] = array('cid'=>$id, 'filename'=>@self::__mime_decode($filename), 'data' => $data);
-		} elseif(($params['filename'] || $params['name']) && $p->bytes > 0) {
+		} elseif((isset($params['filename']) || isset($params['name'])) && $p->bytes > 0) {
 			$filename = ($params['filename'])? $params['filename'] : $params['name'];
 			$this->_attachments[] = array('filename' => @self::__mime_decode($filename), 'data' => $data);
 		}
 	    // TEXT
     	elseif ($p->type==0 && $data) {
-    		$this->_charset = $params['charset'];  // assume all parts are same charset
+    		$this->_charset = isset($params['charset']) ? $params['charset'] : '';  // assume all parts are same charset
     		$data = self::__convert_encoding($data, 'UTF-8', $this->_charset);
 
         	// Messages may be split in different parts because of inline attachments,
@@ -146,7 +146,7 @@ class MailManager_Message_Model extends Vtiger_MailRecord  {
 	    }
 
     	// SUBPART RECURSION
-	    if ($p->parts) {
+	    if (property_exists($p, 'parts') && $p->parts) {
         	foreach ($p->parts as $partno0=>$p2)
             	$this->__getpart($imap,$messageid,$p2,$partno.'.'.($partno0+1));  // 1.2, 1.2.1, etc.
     	}
@@ -352,7 +352,7 @@ class MailManager_Message_Model extends Vtiger_MailRecord  {
 				$db->pquery("INSERT INTO vtiger_mailmanager_mailattachments
 				(userid, muid, attachid, aname, path, lastsavedtime, cid) VALUES (?, ?, ?, ?, ?, ?, ?)",
 				array($currentUserModel->getId(), $uid, $attachInfo['attachid'], @self::__mime_decode($attachInfo['name']), $attachInfo['path'], $savedtime, $info['cid']));
-				
+				if ($this->_attachments === false) $this->_attachments = array();
 				$this->_attachments[] = array('filename' => @self::__mime_decode($info['filename']), 'data' => $info['data']); // so the file name has to renamed.
 			}
 			unset($aValue['data']);
@@ -425,7 +425,7 @@ class MailManager_Message_Model extends Vtiger_MailRecord  {
 	 * @return String
 	 */
 	public function subject($safehtml=true) {
-		$mailSubject = str_replace("_", " ", $this->_subject);
+		$mailSubject = str_replace("_", " ", isset($this->_subject) ? $this->_subject : '');
 		if ($safehtml==true) {
 			return MailManager_Utils_Helper::safe_html_string($mailSubject);
 		}
@@ -616,12 +616,16 @@ class MailManager_Message_Model extends Vtiger_MailRecord  {
 		} else {
 			$instance = new self();
 		}
-		$instance->setSubject($result->subject);
+		if (property_exists($result, 'subject')) {
+			$instance->setSubject($result->subject);
+		}
 		$instance->setFrom($result->from);
 		$instance->setDate($result->date);
 		$instance->setRead($result->seen);
 		$instance->setMsgNo($result->msgno);
-		$instance->setTo($result->to);
+		if (property_exists($result, 'to')) {
+			$instance->setTo($result->to);
+		}
 		return $instance;
 	}
 	

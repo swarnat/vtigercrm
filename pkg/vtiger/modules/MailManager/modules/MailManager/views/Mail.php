@@ -37,6 +37,7 @@ class MailManager_Mail_View extends MailManager_Abstract_View {
 			$viewer->assign('ATTACHMENTS', $mail->attachments(false));
 			$body = $mail->body();
 			$inlineAttachments = $mail->inlineAttachments();
+			$inline_cid = array();
 			if(is_array($inlineAttachments)) {
 				foreach($inlineAttachments as $index => $att) {
 					$cid = $att['cid'];

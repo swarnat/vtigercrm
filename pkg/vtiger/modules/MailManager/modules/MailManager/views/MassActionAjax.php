@@ -16,6 +16,9 @@ class MailManager_MassActionAjax_View extends Vtiger_MassActionAjax_View {
     
     protected function getEmailFieldsInfo(Vtiger_Request $request) {
 		$sourceModules = Array();
+		$emailFieldsInfo = array();
+		$recipientPrefModel = null;
+		$emailFields = '';
 		$linkToModule = $request->get('linktomodule');
 		if (!empty($linkToModule)) {
 			$selectedIds = $request->get('selected_ids');
@@ -31,13 +34,13 @@ class MailManager_MassActionAjax_View extends Vtiger_MassActionAjax_View {
 		$totalRecordCount = 0;
 
 		foreach ($sourceModules as $sourceModule) {
-			$emailFieldsInfo = array();
 			$moduleModel = Vtiger_Module_Model::getInstance($sourceModule);
 			$recipientPrefModel = Vtiger_RecipientPreference_Model::getInstance($sourceModule);
+			$recipientPrefs = array();
 
 			if ($recipientPrefModel)
 				$recipientPrefs = $recipientPrefModel->getPreferences();
-			$moduleEmailPrefs = $recipientPrefs[$moduleModel->getId()];
+			$moduleEmailPrefs = isset($recipientPrefs[$moduleModel->getId()]) ? $recipientPrefs[$moduleModel->getId()] : '';
 			$emailFields = $moduleModel->getFieldsByType('email');
 			$accesibleEmailFields = array();
 
@@ -52,6 +55,7 @@ class MailManager_MassActionAjax_View extends Vtiger_MassActionAjax_View {
 			}
 
 			$emailFields = $accesibleEmailFields;
+			$recordIds = '';
 			if (php7_count($emailFields) > 0) {
 				$recordIds = $this->getRecordsListFromRequest($request);
 				global $current_user;

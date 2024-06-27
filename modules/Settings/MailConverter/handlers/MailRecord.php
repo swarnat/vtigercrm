@@ -41,6 +41,8 @@ class Vtiger_MailRecord {
 	var $_htmlmessage = false;
 	// ATTACHMENTS list of the email
 	var $_attachments = false;
+	// INLINE ATTACHMENTS list of the email
+	var $_inline_attachments = false;
 	// UNIQUEID associated with the email
 	var $_uniqueid = false;
 
@@ -161,7 +163,7 @@ class Vtiger_MailRecord {
 	static function __mime_decode($input, &$words=null, $targetEncoding='UTF-8') {
 		if(is_null($words)) $words = array();
 		$returnvalue = $input;
-		
+		if(is_null($input)) $input = '';
 		preg_match_all('/=\?([^\?]+)\?([^\?]+)\?([^\?]+)\?=/', $input, $matches);
                 if($matches) array_filter($matches);
                 if(php7_count($matches[0])>0){
@@ -218,9 +220,9 @@ class Vtiger_MailRecord {
 		$this->_uniqueid = $mailheader->message_id;
 
 		$this->_from = $this->__getEmailIdList($mailheader->from);
-                $this->_fromname = self::__mime_decode($mailheader->from[0]->personal);
+		$this->_fromname = property_exists($mailheader->from[0], 'personal') ? self::__mime_decode($mailheader->from[0]->personal) : '';
 
-				if(!property_exists($mailheader,'to') && !property_exists($mailheader,'cc') && !property_exists($mailheader,'bcc')){
+				if(property_exists($mailheader,'to') && property_exists($mailheader,'cc') && property_exists($mailheader,'bcc')){
 					$this->_to   = $this->__getEmailIdList($mailheader->to);
 					$this->_cc   = $this->__getEmailIdList($mailheader->cc);
 					$this->_bcc  = $this->__getEmailIdList($mailheader->bcc);
@@ -228,7 +230,7 @@ class Vtiger_MailRecord {
 
 		$this->_date = $mailheader->udate;
 
-		$this->_subject = self::__mime_decode($mailheader->subject);
+		$this->_subject = property_exists($mailheader, 'subject') ? self::__mime_decode($mailheader->subject) : '';
 		if(!$this->_subject) $this->_subject = 'Untitled';
 	}
 	// Modified: http://in2.php.net/manual/en/function.imap-fetchstructure.php#85685
@@ -240,7 +242,7 @@ class Vtiger_MailRecord {
 		$this->_body = '';
 		$this->_isbodyhtml = false;
 
-		if($structure->parts) { /* multipart */
+		if(property_exists($structure, 'parts') && is_array($structure->parts)) { /* multipart */
 			foreach($structure->parts as $partno0=>$p) {
 				$this->__getpart($imap, $messageid, $p, $partno0+1);
 			}

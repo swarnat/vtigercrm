@@ -27,7 +27,7 @@
                     {if isset($ALPHABET_VALUE)}
                         <input type="hidden" name="search_value" value="{$ALPHABET_VALUE}" />
                     {/if}
-                    <input type="hidden" name="tag_params" value={ZEND_JSON::encode($TAG_PARAMS)}>
+                    <input type="hidden" name="tag_params" value={if isset($TAG_PARAMS)}{ZEND_JSON::encode($TAG_PARAMS)}{else}''{/if}>
                     {if isset($SEARCH_PARAMS)}
                         <input type="hidden" name="search_params" value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($SEARCH_PARAMS))}' />
                     {/if}
