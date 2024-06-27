@@ -14,7 +14,7 @@
         <input type="hidden" id="mmMsgUid" value="{$MAIL->uniqueid()}">
         <input type="hidden" id="mmFolder" value="{$FOLDER->name()}">
         <input type="hidden" id="mmTo" value='{implode(',', $MAIL->to())}'>
-        <input type="hidden" id="mmCc" value='{implode(',', $MAIL->cc())}'>
+        <input type="hidden" id="mmCc" value="{if is_array($MAIL->cc())}{implode(',', $MAIL->cc())}{else}{$MAIL->cc()|escape:'html'}{/if}">
         <input type="hidden" id="mmDate" value="{$MAIL->date()}">
         <input type="hidden" id="mmUserName" value="{$USERNAME}">
         {assign var=ATTACHMENT_COUNT value=(php7_count($ATTACHMENTS) - php7_count($INLINE_ATT))}
@@ -49,7 +49,11 @@
                     {assign var=FIRST_CHAR value=strtoupper(substr($NAME[0], 0, 1))}
                     {if $FOLDER->isSentFolder()}
                         {assign var=NAME value=$MAIL->to()}
-                        {assign var=FIRST_CHAR value=strtoupper(substr($NAME[0], 0, 1))}
+                        {if $NAME|@count > 0}
+                            {assign var=FIRST_CHAR value=strtoupper(substr($NAME[0], 0, 1))}
+                        {else}
+                            {assign var=FIRST_CHAR value=''}
+                        {/if}
                     {/if}
                     <strong>{$FIRST_CHAR}</strong>
                 </center>

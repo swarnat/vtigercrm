@@ -7,7 +7,7 @@
  * All Rights Reserved.
  ************************************************************************************}
 {strip}
-    {if $LINKEDTO}
+    {if isset($LINKEDTO) && $LINKEDTO}
         <div class='col-lg-12 padding0px'>
             <div class="col-lg-7 padding0px recordScroll" >
                 <span class="col-lg-12 padding0px">
@@ -99,7 +99,7 @@
             </div>
         </div>
     {else}
-        {if $LINKEDTO eq ""}
+        {if isset($LINKEDTO) && $LINKEDTO eq ""}
             <div class="col-lg-12 padding0px">
                 <div class="col-lg-7 padding0px recordScroll" >&nbsp;</div>
                 <div class="pull-left col-lg-5">

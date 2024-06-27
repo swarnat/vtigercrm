@@ -237,7 +237,7 @@ class Vtiger_ComposeEmail_View extends Vtiger_Footer_View {
 		$viewer = $this->getViewer($request);
 		$attachment = array();
 
-		if(!$this->record) {
+		if(!property_exists($this, 'record') || !$this->record) {
 			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
 		}
 		$recordModel = $this->record->getRecord();
@@ -417,7 +417,7 @@ class Vtiger_ComposeEmail_View extends Vtiger_Footer_View {
 	function emailEdit($request){
 		$viewer = $this->getViewer($request);
 		$this->emailActionsData($request);
-
+		$parentRecordModel = null;
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
