@@ -23,14 +23,14 @@ class CustomerPortal_Utils {
 		$imagePath = $adb->query_result($result, 0, 'path');
 		$imageName = $adb->query_result($result, 0, 'name');
 		$imageType = $adb->query_result($result, 0, 'type');
-		$imageOriginalName = isset($imageName) ? urlencode(decode_html($imageName)) : '';
+		$imageOriginalName = $imageName ? urlencode(decode_html($imageName)) : '';
 
 		if (!empty($imageName)) {
 			$imageDetails[] = array(
-				'id' => isset($imageId) ? $imageId : '',
-				'orgname' => isset($imageOriginalName) ? $imageOriginalName : '',
+				'id' => $imageId ? $imageId : '',
+				'orgname' => $imageOriginalName ? $imageOriginalName : '',
 				'path' => $imagePath.$imageId,
-				'name' => isset($imageName) ? $imageName : '',
+				'name' => $imageName ? $imageName : '',
 				'type' => $imageType
 			);
 		}
@@ -92,7 +92,7 @@ class CustomerPortal_Utils {
 	static function resolveRecordValues(&$record, $user = null, $ignoreUnsetFields = false) {
 		$userTypeFields = array('assigned_user_id', 'creator', 'userid', 'created_user_id', 'modifiedby', 'folderid');
 
-		if (empty($record) || empty($user))
+		if (empty($record) || !$user)
 			return $record;
 
 		$module = Vtiger_Util_Helper::detectModulenameFromRecordId($record['id']);

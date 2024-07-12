@@ -81,7 +81,7 @@ class Documents_QuickCreateAjax_View extends Vtiger_IndexAjax_View {
 			$viewer->assign('RELATION_OPERATOR', $relationOperation);
 			$viewer->assign('PARENT_MODULE', $request->get('sourceModule'));
 			$viewer->assign('PARENT_ID', $request->get('sourceRecord'));
-			if (isset($relationFieldName)) {
+			if (isset($relationFieldName) && $relationFieldName) {
 				$viewer->assign('RELATION_FIELD_NAME', $relationFieldName);
 			}
 		}

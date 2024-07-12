@@ -461,7 +461,7 @@ class ReportRun extends CRMEntity {
 			if ($this->secondarymodule) {
 				$secondaryModules = explode(':', $this->secondarymodule);
 				foreach ($secondaryModules as $secondaryModule) {
-                    $columnsSelected = isset($selectedModuleFields[$secondaryModule]) ? (array)$selectedModuleFields[$secondaryModule] : [];
+                    $columnsSelected = isset($selectedModuleFields[$secondaryModule]) ? (array)$selectedModuleFields[$secondaryModule] : array();
 					$moduleModel = Vtiger_Module_Model::getInstance($secondaryModule);
                     /**
                      * To check whether any column is selected from secondary module. If so, then only add 
@@ -3931,13 +3931,14 @@ class ReportRun extends CRMEntity {
 		} elseif ($outputformat == "PRINT") {
 			$reportData = $this->GenerateReport('PDF', $filtersql);
 			$header = '';
+			$valtemplate = '';
 			if (is_array($reportData) && $reportData['count'] > 0) {
 				$data = $reportData['data'];
 				$noofrows = $reportData['count'];
 				$firstRow = reset($data);
 				$headers = array_keys($firstRow);
 				foreach ($headers as $headerName) {
-					if ($headerName == 'ACTION' || $headerName == vtranslate('LBL_ACTION', $this->primarymodule) || $headerName == vtranslate($this->primarymodule, $this->primarymodule) . " " . vtranslate('LBL_ACTION', $this->primarymodule) || $headerName == vtranslate('LBL ACTION', $this->primarymodule) || isset($key) && $key == vtranslate($this->primarymodule, $this->primarymodule) . " " . vtranslate('LBL ACTION', $this->primarymodule)) {
+					if ($headerName == 'ACTION' || $headerName == vtranslate('LBL_ACTION', $this->primarymodule) || $headerName == vtranslate($this->primarymodule, $this->primarymodule) . " " . vtranslate('LBL_ACTION', $this->primarymodule) || $headerName == vtranslate('LBL ACTION', $this->primarymodule) || (isset($key) && $key == vtranslate($this->primarymodule, $this->primarymodule) . " " . vtranslate('LBL ACTION', $this->primarymodule))) {
 						continue;
 					}
 					$header .= '<th>' . $headerName . '</th>';
@@ -4011,7 +4012,7 @@ class ReportRun extends CRMEntity {
 					}
 				} else {
 					foreach ($data as $key => $values) {
-						$valtemplate = '<tr>';
+						$valtemplate .= '<tr>';
 						foreach ($values as $fieldName => $value) {
 							if ($fieldName == 'ACTION' || $fieldName == vtranslate('LBL_ACTION', $this->primarymodule) || $fieldName == vtranslate($this->primarymodule, $this->primarymodule) . " " . vtranslate('LBL_ACTION', $this->primarymodule) || $fieldName == vtranslate('LBL ACTION', $this->primarymodule) || $fieldName == vtranslate($this->primarymodule, $this->primarymodule) . " " . vtranslate('LBL ACTION', $this->primarymodule)) {
 								continue;

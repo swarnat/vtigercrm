@@ -33,7 +33,7 @@
 		<div class="input-group">
 			<input id="{$FIELD_NAME}_display" name="{$FIELD_NAME}_display" data-fieldname="{$FIELD_NAME}" data-fieldtype="reference" type="text" 
 				class="marginLeftZero autoComplete inputElement" 
-				value="{(isset($displayId))?$FIELD_MODEL->getEditViewDisplayValue($displayId):""}" 
+				value="{(isset($displayId))?$FIELD_MODEL->getEditViewDisplayValue($displayId):''}" 
 				data-fieldinfo='{json_encode($FIELD_INFO)}' data-fieldtype="multireference" placeholder="{vtranslate('LBL_TYPE_SEARCH',$MODULE)}"
 				{if $FIELD_INFO["mandatory"] eq true} data-rule-required="true" {/if}
 				/>

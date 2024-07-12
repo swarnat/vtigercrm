@@ -55,7 +55,7 @@ class MailManager_MassActionAjax_View extends Vtiger_MassActionAjax_View {
 			}
 
 			$emailFields = $accesibleEmailFields;
-			$recordIds = '';
+			$recordIds = array();
 			if (php7_count($emailFields) > 0) {
 				$recordIds = $this->getRecordsListFromRequest($request);
 				global $current_user;

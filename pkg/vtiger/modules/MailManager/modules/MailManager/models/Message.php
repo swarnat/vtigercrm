@@ -106,7 +106,7 @@ class MailManager_Message_Model extends Vtiger_MailRecord  {
 		// ATTACHMENT
     	// Any part with a filename is an attachment,
 	    // so an attached text file (type 0) is not mistaken as the message.
-    	if ((isset($params['filename']) || isset($params['name'])) && strtolower($p->disposition) == "attachment") {
+    	if (((isset($params['filename']) && $params['filename']) || (isset($params['name']) && $params['name'])) && strtolower($p->disposition) == "attachment") {
         	// filename may be given as 'Filename' or 'Name' or both
 	        $filename = ($params['filename'])? $params['filename'] : $params['name'];
 			// filename may be encoded, so see imap_mime_header_decode()
@@ -121,7 +121,7 @@ class MailManager_Message_Model extends Vtiger_MailRecord  {
 				$filename = $id;
 			}
 			$this->_inline_attachments[] = array('cid'=>$id, 'filename'=>@self::__mime_decode($filename), 'data' => $data);
-		} elseif((isset($params['filename']) || isset($params['name'])) && $p->bytes > 0) {
+		} elseif(( (isset($params['filename']) && $params['filename']) || (isset($params['name']) && $params['name'])) && $p->bytes > 0) {
 			$filename = ($params['filename'])? $params['filename'] : $params['name'];
 			$this->_attachments[] = array('filename' => @self::__mime_decode($filename), 'data' => $data);
 		}

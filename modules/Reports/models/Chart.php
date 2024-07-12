@@ -124,6 +124,7 @@ abstract class Base_Chart extends Vtiger_Base_Model{
 		if (property_exists($this, 'fieldModels')) {
 			return $this->fieldModels;
 		}
+		return array();
 	}
 
 	function setQueryColumns($columns) {

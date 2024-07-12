@@ -152,7 +152,7 @@
             <div class="menu-scroller scrollContainer" style="position:relative; top:0; left:0;">
                         <div class="list-menu-content">
                             <div id="listViewTagContainer" class="multiLevelTagList" 
-                            {if isset($ALL_CUSTOMVIEW_MODEL)} data-view-id="{$ALL_CUSTOMVIEW_MODEL->getId()}" {/if}
+                            {if isset($ALL_CUSTOMVIEW_MODEL) && $ALL_CUSTOMVIEW_MODEL} data-view-id="{$ALL_CUSTOMVIEW_MODEL->getId()}" {/if}
                             data-list-tag-count="{Vtiger_Tag_Model::NUM_OF_TAGS_LIST}">
                                 {foreach item=TAG_MODEL from=$TAGS name=tagCounter}
                                     {assign var=TAG_LABEL value=$TAG_MODEL->getName()}

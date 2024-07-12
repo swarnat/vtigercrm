@@ -27,7 +27,7 @@
     <input type="hidden" name="noFilterCache" value="{(isset($NO_SEARCH_PARAMS_CACHE)) ? $NO_SEARCH_PARAMS_CACHE : ''}" id="noFilterCache" >
     <input type="hidden" name="orderBy" value="{(isset($ORDER_BY)) ? $ORDER_BY : ''}" id="orderBy">
     <input type="hidden" name="sortOrder" value="{(isset($SORT_ORDER)) ? $SORT_ORDER : ''}" id="sortOrder">
-    <input type="hidden" name="list_headers" value='{(isset($LIST_HEADER_FIELDS)) ? $LIST_HEADER_FIELDS : ''}'/>
+    <input type="hidden" name="list_headers" value='{(isset($LIST_HEADER_FIELDS)) ? $LIST_HEADER_FIELDS : ""}'/>
     <input type="hidden" name="tag" value="{(isset($CURRENT_TAG)) ? $CURRENT_TAG : ''}" />
     <input type="hidden" name="folder_id" value="{$FOLDER_ID}" />
     <input type="hidden" name="folder_value" value="{$FOLDER_VALUE}" />
@@ -115,7 +115,7 @@
                                 {assign var=DATA_URL value=$RELATED_TO->getDetailViewUrl()}
                             {/if}
                         {/if}
-                        <tr class="listViewEntries" data-id='{$DATA_ID}' data-recordUrl='{$DATA_URL}&app={(isset($SELECTED_MENU_CATEGORY)) ? $SELECTED_MENU_CATEGORY : ''}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}" {if $MODULE eq 'Calendar'}data-recurring-enabled='{$LISTVIEW_ENTRY->isRecurringEnabled()}'{/if}>
+                        <tr class="listViewEntries" data-id='{$DATA_ID}' data-recordUrl='{$DATA_URL}&app={(isset($SELECTED_MENU_CATEGORY)) ? $SELECTED_MENU_CATEGORY : ""}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}" {if $MODULE eq 'Calendar'}data-recurring-enabled='{$LISTVIEW_ENTRY->isRecurringEnabled()}'{/if}>
                             <td class = "listViewRecordActions">&nbsp;</td>
                             {foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
                                 {assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}

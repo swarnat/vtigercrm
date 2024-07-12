@@ -32,7 +32,7 @@ class Settings_Workflows_EditTaskRecordStructure_Model extends Settings_Workflow
 
 		$taskTypeModel = $this->getTaskRecordModel()->getTaskType();
 		$taskTypeName = $taskTypeModel->getName();
-		$moduleName = '';
+
 		if($taskTypeName == 'VTUpdateFieldsTask' || $taskTypeName == "VTCreateEntityTask"){
 			return parent::getStructure();
 		}
@@ -43,6 +43,7 @@ class Settings_Workflows_EditTaskRecordStructure_Model extends Settings_Workflow
 
 		$baseModuleModel = $moduleModel = $this->getModule();
 		$blockModelList = $moduleModel->getBlocks();
+		$moduleName = $moduleModel->getName();
 		foreach($blockModelList as $blockLabel=>$blockModel) {
 			$fieldModelList = $blockModel->getFields();
 			if (!empty ($fieldModelList)) {

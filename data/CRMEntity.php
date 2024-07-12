@@ -650,7 +650,7 @@ class CRMEntity {
 						if(php7_count($IMG_FILES)){
 							foreach($IMG_FILES as $fileIndex => $file) {
 								if($file['error'] == 0 && $file['name'] != '' && $file['size'] > 0) {
-									if(isset($_REQUEST[$fileIndex.'_hidden']) && $_REQUEST[$fileIndex] != '') {
+									if(isset($_REQUEST[$fileIndex.'_hidden']) && $_REQUEST[$fileIndex.'_hidden'] != '') {
 										$file['original_name'] = vtlib_purify($_REQUEST[$fileIndex.'_hidden']);
 									} else {
 										$file['original_name'] = stripslashes($file['name']);

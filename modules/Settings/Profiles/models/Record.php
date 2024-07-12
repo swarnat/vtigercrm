@@ -511,11 +511,11 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model {
 				$availableActionIds = array_keys($actionIdsList);
 
 				foreach ($availableActionIds as $actionId) {
-					if ($actionId === 0 && isset($actionPermissions[1]) && isset($actionPermissions[7])) {
+					if ($actionId === 0) {
 						//Save action permissions = Permissions of Create/Editview action
-						$actionPermissions[$actionId] = $actionPermissions[1] || $actionPermissions[7];
+						$actionPermissions[$actionId] = (isset($actionPermissions[1]) && $actionPermissions[1]) || isset($actionPermissions[7] && $actionPermissions[7]);
 					} else {
-						$actionPermissions[$actionId] = isset($actionPermissions[$actionId]) ? $actionPermissions[$actionId] : null;
+						$actionPermissions[$actionId] = isset($actionPermissions[$actionId]) ? $actionPermissions[$actionId] : 0;
 					}
 				}
                 
@@ -624,7 +624,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model {
 		$params = array($profileId, $tabId, $isModulePermitted);
 		$db->pquery($sql, $params);
 
-		$fieldPermissions = isset($permissions['fields']) ? $permissions['fields'] : '';
+		$fieldPermissions = isset($permissions['fields']) ? $permissions['fields'] : array();
 		if(is_array($fieldPermissions)) {
 			foreach($fieldPermissions as $fieldId => $stateValue) {
 				$db->pquery('DELETE FROM vtiger_profile2field WHERE profileid=? AND tabid=? AND fieldid=?',

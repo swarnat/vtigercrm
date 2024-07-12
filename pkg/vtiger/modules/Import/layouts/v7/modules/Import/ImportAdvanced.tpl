@@ -27,9 +27,9 @@
 
             <div class='modal-body'>
 				{assign var=LABELS value=[]}
-                {if isset($FORMAT) eq 'vcf'}
+                {if isset($FORMAT) && $FORMAT eq 'vcf'}
                     {$LABELS["step1"] = 'LBL_UPLOAD_VCF'}
-                {else if isset($FORMAT) eq 'ics'}
+                {else if isset($FORMAT) && $FORMAT eq 'ics'}
 					{$LABELS["step1"] = 'LBL_UPLOAD_ICS'}
 				{else}
                     {$LABELS["step1"] = 'LBL_UPLOAD_CSV'}

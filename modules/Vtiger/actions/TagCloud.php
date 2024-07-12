@@ -95,14 +95,8 @@ class Vtiger_TagCloud_Action extends Vtiger_Mass_Action {
 		if(empty($newTags)) {
 			$newTags = array();
 		}
-		$existingTags = isset($tagsList['existing']);
-		if(empty($existingTags)) {
-			$existingTags = array();
-		}
-		$deletedTags = isset($tagsList['deleted']);
-		if(empty($deletedTags)) {
-			$deletedTags = array();
-		}
+		$existingTags = isset($tagsList['existing']) && $tagsList['existing'] ? $tagsList['existing'] : array();
+		$deletedTags = isset($tagsList['deleted']) && $tagsList['deleted'] ? $tagsList['deleted'] : array();
 		$newTagType = $request->get('newTagType');
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userId = $currentUser->getId();

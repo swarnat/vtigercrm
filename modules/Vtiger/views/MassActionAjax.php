@@ -216,7 +216,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View {
             $viewer->assign('SEARCH_KEY','');
 		}
         
-        $searchParams = !empty($request->get('search_params'))?$request->get('search_params'):' ';
+        $searchParams = !empty($request->get('search_params'))?$request->get('search_params'):'';
 		$viewer->assign('SEARCH_PARAMS',$searchParams);
         
 
@@ -252,7 +252,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View {
 		
 		if($recipientPrefModel)
 		$recipientPrefs = $recipientPrefModel->getPreferences();
-		$moduleEmailPrefs = isset($recipientPrefs[$moduleModel->getId()]);
+		$moduleEmailPrefs = isset($recipientPrefs[$moduleModel->getId()]) ? $recipientPrefs[$moduleModel->getId()]:false;
 		$emailFields = $moduleModel->getFieldsByType('email');
         $accesibleEmailFields = array();
 		

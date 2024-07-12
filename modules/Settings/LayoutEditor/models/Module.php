@@ -26,7 +26,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model {
 			$fieldList = array();
 			$blocks = $this->getBlocks();
 			$blockId = array();
-			$moduleModel='';
+			$moduleModel=null;
 			foreach ($blocks as $block) {
 				//to skip events hardcoded block id
 				if($block->get('id') == 'EVENT_INVITE_USER_BLOCK_ID') {

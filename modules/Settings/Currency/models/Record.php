@@ -109,9 +109,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model{
             $instance->setData($row);
             return $instance;
         }
-        else{
-            return null;
-        }
+	return null;
         
     }
     

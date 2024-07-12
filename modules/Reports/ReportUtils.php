@@ -72,6 +72,7 @@ function IsDateField($reportColDetails) {
 			return false;
 		}
 	}
+	return false;
 }
 
 /**

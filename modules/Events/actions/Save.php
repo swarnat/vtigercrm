@@ -80,7 +80,7 @@ class Events_Save_Action extends Calendar_Save_Action {
 		$recurObj = getrecurringObjValue();
 		$recurringDataChanged = Calendar_RepeatEvents::checkRecurringDataChanged($recurObj, $recurObjDb);
 		//TODO: remove the dependency on $_REQUEST
-		if((isset($_REQUEST['recurringtype']))&&($_REQUEST['recurringtype'] != '' && $_REQUEST['recurringtype'] != '--None--' && $recurringEditMode != 'current') || ($recurringDataChanged && empty($recurObj))) {
+		if((isset($_REQUEST['recurringtype']) &&($_REQUEST['recurringtype'] != '' && $_REQUEST['recurringtype'] != '--None--' && $recurringEditMode != 'current')) || ($recurringDataChanged && empty($recurObj))) {
 			$focus =  CRMEntity::getInstance('Events');
 			//get all the stored data to this object
 			$focus->column_fields = new TrackableObject($recordModel->getData());

@@ -528,7 +528,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 		$tasks = Settings_Workflows_TaskRecord_Model::getAllForWorkflow($this, true);
 		foreach($tasks as $task) {
 			$taskName = $task->getTaskType()->get('tasktypename');
-			$actions[$taskName] = isset($actions[$taskName]) ? $actions[$taskName] : null;
+			$actions[$taskName] = isset($actions[$taskName]) ? $actions[$taskName] : 0;
 			$actions[$taskName] = $actions[$taskName] + 1;
 		}
 		return $actions;

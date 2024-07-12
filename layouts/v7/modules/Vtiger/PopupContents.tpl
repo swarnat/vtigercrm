@@ -84,7 +84,7 @@
                     {assign var="RECORD_DATA" value=$LISTVIEW_ENTRY->getRawData()}
                     <tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}" {if $MODULE eq 'EmailTemplates'} data-name="{$RECORD_DATA['subject']}" data-info="{$LISTVIEW_ENTRY->get('body')}" {else} data-name="{$LISTVIEW_ENTRY->getName()}" data-info='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($LISTVIEW_ENTRY->getRawData()))}' {/if}
                     {if isset($GETURL) && $GETURL neq ''} data-url='{$LISTVIEW_ENTRY->$GETURL()}' {/if}  id="{$MODULE}_popUpListView_row_{$smarty.foreach.popupListView.index+1}">
-                    {if isset($MULTI_SELECT)}
+                    {if isset($MULTI_SELECT) && $MULTI_SELECT}
                         <td class="{$WIDTHTYPE}">
                             <input class="entryCheckBox" type="checkbox" />
                         </td>

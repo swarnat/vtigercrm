@@ -222,11 +222,9 @@ class Vtiger_MailRecord {
 		$this->_from = $this->__getEmailIdList($mailheader->from);
 		$this->_fromname = property_exists($mailheader->from[0], 'personal') ? self::__mime_decode($mailheader->from[0]->personal) : '';
 
-				if(property_exists($mailheader,'to') && property_exists($mailheader,'cc') && property_exists($mailheader,'bcc')){
-					$this->_to   = $this->__getEmailIdList($mailheader->to);
-					$this->_cc   = $this->__getEmailIdList($mailheader->cc);
-					$this->_bcc  = $this->__getEmailIdList($mailheader->bcc);
-				}
+		$this->_to = property_exists($mailheader, 'to') ? $this->__getEmailIdList($mailheader->to) : array();
+		$this->_cc = property_exists($mailheader, 'cc') ? $this->__getEmailIdList($mailheader->cc) : array();
+		$this->_bcc = property_exists($mailheader, 'bcc') ? $this->__getEmailIdList($mailheader->bcc) : array();
 
 		$this->_date = $mailheader->udate;
 

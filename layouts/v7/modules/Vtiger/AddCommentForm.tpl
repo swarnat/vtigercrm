@@ -21,7 +21,7 @@
             <input type="hidden" name="search_key" value= "{(isset($SEARCH_KEY)) ? $SEARCH_KEY : ''}" />
             <input type="hidden" name="operator" value="{$OPERATOR}" />
             <input type="hidden" name="search_value" value="{(isset($ALPHABET_VALUE)) ? $ALPHABET_VALUE : ''}" />
-            <input type="hidden" name="search_params" value='{(isset($SEARCH_PARAMS)) ? Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($SEARCH_PARAMS)) : ''}' />
+            <input type="hidden" name="search_params" value='{(isset($SEARCH_PARAMS)) ? Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($SEARCH_PARAMS)) : ""}' />
             <input type="hidden" name="tag_params" value={ZEND_JSON::encode($TAG_PARAMS)}>
 
             {assign var=HEADER_TITLE value={vtranslate('LBL_ADDING_COMMENT', $MODULE)}}

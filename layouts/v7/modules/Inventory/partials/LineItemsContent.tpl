@@ -66,20 +66,20 @@
 	{if $PRODUCT_EDITABLE}
 		<td>
 			<!-- Product Re-Ordering Feature Code Addition Starts -->
-			<input type="hidden" name="hidtax_row_no{$row_no}" id="hidtax_row_no{$row_no}" value="{(isset($tax_row_no)) ? $tax_row_no : ""}"/>
+			<input type="hidden" name="hidtax_row_no{$row_no}" id="hidtax_row_no{$row_no}" value="{(isset($tax_row_no)) ? $tax_row_no : ''}"/>
 			<!-- Product Re-Ordering Feature Code Addition ends -->
 			<div class="itemNameDiv form-inline">
 				<div class="row">
 					<div class="col-lg-10">
 						<div class="input-group" style="width:100%">
-							<input type="text" id="{$productName}" name="{$productName}" value="{(isset($data.$productName)) ? $data.$productName : ""}" class="productName form-control {if $row_no neq 0} autoComplete {/if} " placeholder="{vtranslate('LBL_TYPE_SEARCH',$MODULE)}"
+							<input type="text" id="{$productName}" name="{$productName}" value="{(isset($data.$productName)) ? $data.$productName : ''}" class="productName form-control {if $row_no neq 0} autoComplete {/if} " placeholder="{vtranslate('LBL_TYPE_SEARCH',$MODULE)}"
 								   data-rule-required=true {if !empty($data.$productName)} disabled="disabled" {/if}>
 							{if isset($data.$productDeleted) && !$data.$productDeleted}
 								<span class="input-group-addon cursorPointer clearLineItem" title="{vtranslate('LBL_CLEAR',$MODULE)}">
 									<i class="fa fa-times-circle"></i>
 								</span>
 							{/if}
-							<input type="hidden" id="{$hdnProductId}" name="{$hdnProductId}" value="{(isset($data.$hdnProductId)) ? $data.$hdnProductId : ""}" class="selectedModuleId"/>
+							<input type="hidden" id="{$hdnProductId}" name="{$hdnProductId}" value="{(isset($data.$hdnProductId)) ? $data.$hdnProductId : ''}" class="selectedModuleId"/>
 							<input type="hidden" id="lineItemType{$row_no}" name="lineItemType{$row_no}" value="{$entityType}" class="lineItemType"/>
 						</div>
 					</div>
@@ -101,7 +101,7 @@
 					</div>
 				</div>
 			</div>
-			<input type="hidden" value="{(isset($data.$subproduct_ids)) ? $data.$subproduct_ids : ""}" id="{$subproduct_ids}" name="{$subproduct_ids}" class="subProductIds" />
+			<input type="hidden" value="{(isset($data.$subproduct_ids)) ? $data.$subproduct_ids : ''}" id="{$subproduct_ids}" name="{$subproduct_ids}" class="subProductIds" />
 			<div id="{$subprod_names}" name="{$subprod_names}" class="subInformation">
 				<span class="subProductsContainer">
 				{if isset($data.$subprod_qty_list)}
@@ -223,19 +223,19 @@
 								</td>
 								<td>
 									<span class="pull-right">&nbsp;%</span>
-									<input type="text" data-rule-positive=true data-rule-inventory_percentage=true id="discount_percentage{$row_no}" name="discount_percentage{$row_no}" value="{(isset($data.$discount_percent)) ? $data.$discount_percent : ""}" class="discount_percentage span1 pull-right discountVal {if empty($data.$checked_discount_percent)}hide{/if}" />
+									<input type="text" data-rule-positive=true data-rule-inventory_percentage=true id="discount_percentage{$row_no}" name="discount_percentage{$row_no}" value="{(isset($data.$discount_percent)) ? $data.$discount_percent : ''}" class="discount_percentage span1 pull-right discountVal {if empty($data.$checked_discount_percent)}hide{/if}" />
 								</td>
 							</tr>
 						{/if}
 						{if $ITEM_DISCOUNT_AMOUNT_EDITABLE}
 							<tr>
 								<td class="LineItemDirectPriceReduction">
-									<input type="radio" name="discount{$row_no}" {(isset($data.$checked_discount_amount)) ? $data.$checked_discount_amount : ""} class="discounts" data-discount-type="amount" />
+									<input type="radio" name="discount{$row_no}" {(isset($data.$checked_discount_amount)) ? $data.$checked_discount_amount : ''} class="discounts" data-discount-type="amount" />
 									&nbsp;
 									{vtranslate('LBL_DIRECT_PRICE_REDUCTION',$MODULE)}
 								</td>
 								<td>
-									<input type="text" data-rule-positive=true id="discount_amount{$row_no}" name="discount_amount{$row_no}" value="{(isset($data.$discount_amount)) ? $data.$discount_amount : ""}" class="span1 pull-right discount_amount discountVal {if empty($data.$checked_discount_amount)}hide{/if}"/>
+									<input type="text" data-rule-positive=true id="discount_amount{$row_no}" name="discount_amount{$row_no}" value="{(isset($data.$discount_amount)) ? $data.$discount_amount : ''}" class="span1 pull-right discount_amount discountVal {if empty($data.$checked_discount_amount)}hide{/if}"/>
 								</td>
 							</tr>
 						{/if}

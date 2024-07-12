@@ -96,7 +96,7 @@ class CustomerPortal_FetchRecords extends CustomerPortal_API_Abstract {
 					$sql = sprintf('SELECT %s FROM Faq WHERE faqstatus=\'Published\'', $fields);
 				}
 				$countResult = vtws_query($countSql, $current_user);
-				$count = isset($countResult[0]['count']) ? $countResult[0]['count'] : '';
+				$count = $countResult && isset($countResult[0]['count']) ? $countResult[0]['count'] : '';
 
 				$sql = sprintf('%s ORDER BY %s %s LIMIT %s,%s ;', $sql, $orderBy, $order, ($page * $pageLimit), $pageLimit);
 				$result = vtws_query($sql, $current_user);
@@ -126,7 +126,7 @@ class CustomerPortal_FetchRecords extends CustomerPortal_API_Abstract {
 				if ($mode == 'mine') {
 					$relatedId = $contactWebserviceId;
 					$countResult = vtws_query_related($countSql, $relatedId, $moduleLabel, $current_user);
-					$count = isset($countResult[0]['count']) ? $countResult[0]['count'] : '';
+					$count = $countResult && isset($countResult[0]['count']) ? $countResult[0]['count'] : '';
 
 					$limitClause = sprintf('ORDER BY %s %s LIMIT %s,%s', $orderBy, $order, ($page * $pageLimit), $pageLimit);
 					$result = vtws_query_related($sql, $relatedId, $moduleLabel, $current_user, $limitClause);
@@ -138,7 +138,7 @@ class CustomerPortal_FetchRecords extends CustomerPortal_API_Abstract {
 						$sql = $sql.' '.$limitClause;
 						$result = vtws_query($sql, $current_user);
 						$countResult = vtws_query($countSql, $current_user);
-						$count = isset($countResult[0]['count']) ? $countResult[0]['count'] : '';
+						$count = $countResult && isset($countResult[0]['count']) ? $countResult[0]['count'] : '';
 					} else {
 						if (!empty($accountId)) {
 							if ($defaultMode == 'all')
@@ -151,7 +151,7 @@ class CustomerPortal_FetchRecords extends CustomerPortal_API_Abstract {
 						}
 
 						$countResult = vtws_query_related($countSql, $relatedId, $moduleLabel, $current_user);
-						$count = isset($countResult[0]['count']) ? $countResult[0]['count'] : '';
+						$count = $countResult && isset($countResult[0]['count']) ? $countResult[0]['count'] : '';
 
 						$limitClause = sprintf('ORDER BY %s %s LIMIT %s,%s', $orderBy, $order, ($page * $pageLimit), $pageLimit);
 						$result = vtws_query_related($sql, $relatedId, $moduleLabel, $current_user, $limitClause);

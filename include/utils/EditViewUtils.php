@@ -236,7 +236,7 @@ function getAssociatedProducts($module, $focus, $seid = '', $refModuleName = fal
 			$product_Detail[$i]['delRow'.$i]="Del";
 		}
 
-		if (in_array($module, $lineItemSupportedModules) || $module === 'Vendors' || isset($focus->mode) && (!$focus->mode && $seid)) {
+		if (in_array($module, $lineItemSupportedModules) || $module === 'Vendors' || (!isset($focus->mode) && $seid) || (!$focus->mode && $seid)) {
 			$subProductsQuery = 'SELECT vtiger_seproductsrel.crmid AS prod_id, quantity FROM vtiger_seproductsrel
 								 INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_seproductsrel.crmid
 								 INNER JOIN vtiger_products ON vtiger_products.productid = vtiger_seproductsrel.crmid

@@ -67,7 +67,7 @@
 {/if}
 
 <input type="hidden" class="numberOfCurrencyDecimal" value="{$USER_MODEL->get('no_of_currency_decimals')}" />
-<input type="hidden" name="totalProductCount" id="totalProductCount" value="{(isset($row_no)) ? $row_no : ""}" />
+<input type="hidden" name="totalProductCount" id="totalProductCount" value="{(isset($row_no)) ? $row_no : ''}" />
 <input type="hidden" name="subtotal" id="subtotal" value="" />
 <input type="hidden" name="total" id="total" value="" />
 
@@ -281,13 +281,13 @@
 										{if $DISCOUNT_PERCENT_EDITABLE}
 											<tr>
 												<td><input type="radio" name="discount_final" class="finalDiscounts" data-discount-type="percentage" {if $DISCOUNT_TYPE_FINAL eq 'percentage'}checked{/if} />&nbsp; % {vtranslate('LBL_OF_PRICE',$MODULE)}</td>
-												<td><span class="pull-right">&nbsp;%</span><input type="text" data-rule-positive=true data-rule-inventory_percentage=true id="discount_percentage_final" name="discount_percentage_final" value="{(isset($FINAL.discount_percentage_final)) ? $FINAL.discount_percentage_final : ""}" class="discount_percentage_final span1 pull-right discountVal {if $DISCOUNT_TYPE_FINAL neq 'percentage'}hide{/if}" /></td>
+												<td><span class="pull-right">&nbsp;%</span><input type="text" data-rule-positive=true data-rule-inventory_percentage=true id="discount_percentage_final" name="discount_percentage_final" value="{(isset($FINAL.discount_percentage_final)) ? $FINAL.discount_percentage_final : ''}" class="discount_percentage_final span1 pull-right discountVal {if $DISCOUNT_TYPE_FINAL neq 'percentage'}hide{/if}" /></td>
 											</tr>
 										{/if}
 										{if $DISCOUNT_AMOUNT_EDITABLE}
 											<tr>
 												<td><input type="radio" name="discount_final" class="finalDiscounts" data-discount-type="amount" {if $DISCOUNT_TYPE_FINAL eq 'amount'}checked{/if} />&nbsp;{vtranslate('LBL_DIRECT_PRICE_REDUCTION',$MODULE)}</td>
-												<td><input type="text" data-rule-positive=true id="discount_amount_final" name="discount_amount_final" value="{(isset($FINAL.discount_amount_final)) ? $FINAL.discount_amount_final : ""}" class="span1 pull-right discount_amount_final discountVal {if $DISCOUNT_TYPE_FINAL neq 'amount'}hide{/if}" /></td>
+												<td><input type="text" data-rule-positive=true id="discount_amount_final" name="discount_amount_final" value="{(isset($FINAL.discount_amount_final)) ? $FINAL.discount_amount_final : ''}" class="span1 pull-right discount_amount_final discountVal {if $DISCOUNT_TYPE_FINAL neq 'amount'}hide{/if}" /></td>
 											</tr>
 										{/if}
 									</tbody>
@@ -338,7 +338,7 @@
 					</td>
 					<td>
 					
-						{assign var=PRE_TAX_TOTAL value="{(isset($FINAL.preTaxTotal)) ? $FINAL.preTaxTotal:""}"}
+						{assign var=PRE_TAX_TOTAL value="{(isset($FINAL.preTaxTotal)) ? $FINAL.preTaxTotal:''}"}
 						<span class="pull-right" id="preTaxTotal">{if $PRE_TAX_TOTAL}{$PRE_TAX_TOTAL}{else}0{/if}</span>
 						<input type="hidden" id="pre_tax_total" name="pre_tax_total" value="{if $PRE_TAX_TOTAL}{$PRE_TAX_TOTAL}{else}0{/if}"/>
 					</td>

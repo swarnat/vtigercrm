@@ -12,7 +12,7 @@
 {strip}
 {assign var="FIELD_INFO" value=$FIELD_MODEL->getFieldInfo()}
 {assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
-{if !isset($FIELD_NAME)}
+{if !isset($FIELD_NAME) || !$FIELD_NAME}
   {assign var="FIELD_NAME" value=$FIELD_MODEL->getFieldName()}
 {/if}
 {assign var="fieldValue" value=purifyHtmlEventAttributes($FIELD_MODEL->get('fieldvalue'),true)}

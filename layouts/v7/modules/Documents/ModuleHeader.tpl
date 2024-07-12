@@ -41,7 +41,7 @@
 					<p  class="current-filter-name filter-name pull-left cursorPointer" title="{$CVNAME}">&nbsp;<span class="fa fa-angle-right pull-left" aria-hidden="true"></span><a  href='{$MODULE_MODEL->getListViewUrl()}&viewname={$VIEWID}'>&nbsp;{$CVNAME}&nbsp;</a> </p>
 				{/if}
 				{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
-				{if isset($RECORD) and $REQ->get('view') eq 'Edit'}
+				{if isset($RECORD) and $RECORD and $REQ->get('view') eq 'Edit'}
 					<p class="current-filter-name filter-name pull-left "><span class="fa fa-angle-right pull-left" aria-hidden="true"></span><a title="{$RECORD->get('label')}">&nbsp;{vtranslate('LBL_EDITING', $MODULE)} : {$RECORD->get('label')}&nbsp;</a></p>
 				{else if $REQ->get('view') eq 'Edit'}
 					<p class="current-filter-name filter-name pull-left "><span class="fa fa-angle-right pull-left" aria-hidden="true"></span><a>&nbsp;{vtranslate('LBL_ADDING_NEW', $MODULE)}&nbsp;</a></p>

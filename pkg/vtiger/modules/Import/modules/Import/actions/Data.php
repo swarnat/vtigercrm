@@ -652,7 +652,7 @@ class Import_Data_Action extends Vtiger_Action_Controller {
 						unset($this->allPicklistValues[$fieldName]);
 					}
 				} else {
-					$fieldData[$fieldName] = isset($picklistDetails[$picklistValueInLowerCase]);
+					$fieldData[$fieldName] = isset($picklistDetails[$picklistValueInLowerCase]) ? $picklistDetails[$picklistValueInLowerCase] : null;
 				}
 			} else if ($fieldDataType == 'currency') {
 				// While exporting we are exporting as user format, we should import as db format while importing

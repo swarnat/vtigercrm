@@ -325,7 +325,7 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action {
 			} elseif($uitype == 52 || $type == 'owner') {
 				$value = Vtiger_Util_Helper::getOwnerName($value);
 			}elseif($type == 'reference'){
-				$value = isset($value) ? trim($value) :'';
+				$value = isset($value) && $value ? trim($value) :'';
 				if(!empty($value)) {
 					$parent_module = getSalesEntityType($value);
 					$displayValueArray = getEntityName($parent_module, $value);

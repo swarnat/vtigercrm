@@ -614,8 +614,7 @@ class Reports extends CRMEntity{
 	function getPriModuleColumnsList($module)
 	{
 		//$this->updateModuleList($module);
-		$tempColumnsListByBlocks =$this->getColumnsListbyBlock($module, array_keys($this->module_list[$module]), true);
-		$allColumnsListByBlocks = & $tempColumnsListByBlocks;
+		$allColumnsListByBlocks = $this->getColumnsListbyBlock($module, array_keys($this->module_list[$module]), true);
 		foreach($this->module_list[$module] as $key=>$value) {
 			$temp = isset($allColumnsListByBlocks[$key]) ? $allColumnsListByBlocks[$key] : array();
 
@@ -699,8 +698,7 @@ class Reports extends CRMEntity{
 
 	public function getModuleFieldList($module) {
 		$ret_module_list = array();
-		$tempColumnsListByBlocks =$this->getColumnsListbyBlock($module, array_keys($this->module_list[$module]), true);
-		$allColumnsListByBlocks = & $tempColumnsListByBlocks;
+		$allColumnsListByBlocks =$this->getColumnsListbyBlock($module, array_keys($this->module_list[$module]), true);
 		foreach($this->module_list[$module] as $key=>$value) {
 			$ret_module_list[$module][$value] = $this->getBlockFieldList(
 					$module, $key, isset($ret_module_list[$module][$value]) ? $ret_module_list[$module][$value] : array(),$allColumnsListByBlocks);
