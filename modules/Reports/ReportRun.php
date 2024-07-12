@@ -3090,7 +3090,6 @@ class ReportRun extends CRMEntity {
 		$coltotalhtml = '';
 		$modules_selected = array();
 		$picklistarray = array();
-		static $mod_query_details = array();
 		$modules_selected[] = $this->primarymodule;
 		if (!empty($this->secondarymodule)) {
 			$sec_modules = explode(':', $this->secondarymodule);
