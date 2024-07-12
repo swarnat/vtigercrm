@@ -2144,7 +2144,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
                chargesTrigger.popover('show');
                popOverEle.css('opacity',1).css('z-index','');
            }else{
-			   chargesTrigger.popover('hide');
+			   // chargesTrigger.popover('hide'); /* disabled to avoid removal of input DOM elements. */
                popOverEle.css('opacity',0).css('z-index','-1');
            }
         });
@@ -2209,7 +2209,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 				finalTaxTriggerer.popover('show');
 				popOverEle.css('opacity',1).css('z-index','');
 			} else {
-				finalTaxTriggerer.popover('hide');
+				// finalTaxTriggerer.popover('hide'); /* disabled to avoid removal of input DOM elements. */
 				popOverEle.css('opacity',0).css('z-index','-1');
 			}
         });
@@ -2272,7 +2272,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 				popOverEle.find('.popover-title').text(popOverEle.find('.popover_title').text());
 				popOverEle.css('opacity',1).css('z-index','');
 			} else {
-				chargeTaxTriggerer.popover('hide');
+				// chargeTaxTriggerer.popover('hide'); /* disabled to avoid removal of input DOM elements. */
 				popOverEle.css('opacity',0).css('z-index','-1');
 			}
         });
@@ -2333,7 +2333,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js", {
 				deductTaxesTriggerer.popover('show');
 				popOverEle.css('opacity',1).css('z-index','');
 			} else {
-				deductTaxesTriggerer.popover('hide');
+				// deductTaxesTriggerer.popover('hide'); /* disabled to avoid removal of input DOM elements. */
 				popOverEle.css('opacity',0).css('z-index','-1');
 			}
         });
