@@ -160,24 +160,27 @@ class Events_SaveAjax_Action extends Events_Save_Action {
 			$this->setRecurrenceInfo($recordModel);
 		}
 
-		// Setting default values to save automatically with the record when it's saved from quick create.
-		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$fieldModelList = $moduleModel->getFields();
-		foreach ($fieldModelList as $fieldName => $fieldModel) {
-			
-			if ($request->has($fieldName)) {
-				$fieldValue = $request->get($fieldName, null);
-			} else {
-				$fieldValue = $fieldModel->getDefaultFieldValue();
-			}
-			$fieldValue = $this->purifyCkeditorField($fieldName, $fieldValue);
-			if ($fieldValue !== null) {
-				if (!is_array($fieldValue)) {
-					$fieldValue = trim($fieldValue);
+		// check for new/existing record.
+		if (!$recordModel->getId()) {
+			// Setting default values to save automatically with the record when it's saved from quick create.
+			$moduleName = $request->getModule();
+			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+			$fieldModelList = $moduleModel->getFields();
+			foreach ($fieldModelList as $fieldName => $fieldModel) {
+				
+				if ($request->has($fieldName)) {
+					$fieldValue = $request->get($fieldName, null);
+				} else {
+					$fieldValue = $fieldModel->getDefaultFieldValue();
 				}
-				$fieldValue = Vtiger_Util_Helper::validateFieldValue($fieldValue, $fieldModel);
-				$recordModel->set($fieldName, $fieldValue);
+				$fieldValue = $this->purifyCkeditorField($fieldName, $fieldValue);
+				if ($fieldValue !== null) {
+					if (!is_array($fieldValue)) {
+						$fieldValue = trim($fieldValue);
+					}
+					$fieldValue = Vtiger_Util_Helper::validateFieldValue($fieldValue, $fieldModel);
+					$recordModel->set($fieldName, $fieldValue);
+				}
 			}
 		}
 
