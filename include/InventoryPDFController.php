@@ -114,7 +114,7 @@ class Vtiger_InventoryPDFController {
 			$taxable_total = number_format($taxable_total, $no_of_decimal_places,'.','');
 			$producttotal = $taxable_total;
 			if($this->focus->column_fields["hdnTaxType"] == "individual") {
-				for($tax_count=0;$tax_count<php7_count($productLineItem['taxes']);$tax_count++) {
+				foreach($productLineItem['taxes'] as $tax_count => $productLinetItemTaxInfo) {
 					$tax_percent = $productLineItem['taxes'][$tax_count]['percentage'];
 					$total_tax_percent += $tax_percent;
 					$tax_amount = (($taxable_total*$tax_percent)/100);
@@ -201,14 +201,14 @@ class Vtiger_InventoryPDFController {
 		//To calculate the group tax amount
 		if($final_details['taxtype'] == 'group') {
 			$group_tax_details = $final_details['taxes'];
-			for($i=0;$i<php7_count($group_tax_details);$i++) {
+			foreach($group_tax_details as $i => $group_tax_info) {
 				$group_total_tax_percent += isset($group_tax_details[$i]['percentage']) ? $group_tax_details[$i]['percentage'] : 0.00;
 			}
 			$summaryModel->set(getTranslatedString("Tax:", $this->moduleName)."($group_total_tax_percent%)", $this->formatPrice($final_details['tax_totalamount']));
 		}
 		//Shipping & Handling taxes
 		$sh_tax_details = $final_details['sh_taxes'];
-		for($i=0;$i<php7_count($sh_tax_details);$i++) {
+		foreach($sh_tax_details as $i => $sh_tax_info) {
 			$sh_tax_percent = $sh_tax_percent + $sh_tax_details[$i]['percentage'];
 		}
 		//obtain the Currency Symbol
