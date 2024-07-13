@@ -183,9 +183,9 @@ class Documents extends CRMEntity {
 
 		foreach($_FILES as $fileindex => $files)
 		{
-			if($files['name'] != '' && $files['size'] > 0 && isset($_REQUEST[$fileindex.'_hidden']))
+			if($files['name'] != '' && $files['size'] > 0)
 			{
-				$files['original_name'] = isset($_REQUEST[$fileindex.'_hidden']) ? vtlib_purify($_REQUEST[$fileindex.'_hidden']) : "";
+				$files['original_name'] = isset($_REQUEST[$fileindex.'_hidden']) ? vtlib_purify($_REQUEST[$fileindex.'_hidden']) : stripslashes($files['name']);
 				$file_saved = $this->uploadAndSaveFile($id,$module,$files);
                                 if(!$file_saved){
                                     $log->debug('file upload failed');
