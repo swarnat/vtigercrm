@@ -23,7 +23,7 @@
         <input type="hidden" name="description" value="{$REPORT_MODEL->get('description')}" />
         <input type="hidden" name="primary_module" value="{$PRIMARY_MODULE}" />
         <input type="hidden" name="secondary_modules" value={ZEND_JSON::encode($SECONDARY_MODULES)} />
-        <input type="hidden" name="selected_fields" id="selected_fields" value='{if isset($SELECTED_FIELDS)}{ZEND_JSON::encode($SELECTED_FIELDS)}{/if}' />
+        <input type="hidden" name="selected_fields" id="selected_fields" value='{if isset($SELECTED_FIELDS)}{ZEND_JSON::encode($SELECTED_FIELDS)}{else}false{/if}' />
         <input type="hidden" name="selected_sort_fields" id="selected_sort_fields" value="" />
         <input type="hidden" name="calculation_fields" id="calculation_fields" value="" />
         <input type="hidden" name="isDuplicate" value="{$IS_DUPLICATE}" />

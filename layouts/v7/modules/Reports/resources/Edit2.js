@@ -55,7 +55,7 @@ Reports_Edit_Js("Reports_Edit2_Js",{},{
 	 */
 	getSelectedFields : function() {
 		if(this.selectedFields == false) {
-			this.selectedFields = jQuery('#seleted_fields');
+			this.selectedFields = jQuery('#selected_fields');
 		}
 		return this.selectedFields;
 	},
