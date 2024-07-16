@@ -183,7 +183,8 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 
 		$activityType = $request->get('activitytype');
 		$visibility = $request->get('visibility');
-		if(empty($activityType)) {
+		// set activity type as "Task" when creating or inline editing Task.
+		if(empty($activityType) || empty($recordModel->get('activitytype'))) {
 			$recordModel->set('activitytype', 'Task');
 			$visibility = 'Private';
 			$recordModel->set('visibility', $visibility);
