@@ -9,9 +9,6 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 
-// Include the Monolog library for logging functionality
-require 'vendor/autoload.php';
-
 // Import necessary classes from Monolog
 use Monolog\Logger as MonologLogger;
 use Monolog\Handler\StreamHandler;
