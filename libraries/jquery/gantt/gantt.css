@@ -286,7 +286,7 @@ input[readonly]{
   padding: 3px;
   z-index: 100;
 }
-.taskStatus{
+.taskEditRow .taskStatus{
   width:15px;
   height:15px;
   display:inline-block;
@@ -294,7 +294,7 @@ input[readonly]{
   position:relative;
 }
 
-.taskStatus.selected{
+.taskEditRow .taskStatus.selected{
   border:#666 2px solid;
 }
 
