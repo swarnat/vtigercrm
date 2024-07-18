@@ -133,6 +133,7 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 	 */
 	public function getRecordModelFromRequest(Vtiger_Request $request) {
 		$recordModel = parent::getRecordModelFromRequest($request);
+		$currentUser = Users_Record_Model::getCurrentUserModel();
 
 		$startDate = $request->get('date_start');
 		if(!empty($startDate)) {
@@ -144,12 +145,9 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 			$recordModel->set('date_start', $startDate);
 			$recordModel->set('time_start', $startTime);
 		} else {
-			$startTime = Vtiger_Time_UIType::getTimeValueWithSeconds($recordModel->get('time_start'));
-			$startDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($recordModel->get('date_start')." ".$startTime);
-			list($startDate, $startTime) = explode(' ', $startDateTime);
-
+			// Start Date from UserFormat to DBFormat.
+			$startDate = DateTimeField::__convertToDBFormat($recordModel->get('date_start'), $currentUser->get('date_format'));
 			$recordModel->set('date_start', $startDate);
-			$recordModel->set('time_start', $startTime);
 		}
 
 		$endDate = $request->get('due_date');
