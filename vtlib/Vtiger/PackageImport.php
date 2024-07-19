@@ -501,7 +501,10 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 		if(!empty($parenttab)) {
 			$parenttab = $parentTabs[0];
 			$menuInstance = Vtiger_Menu::getInstance($parenttab);
-			$menuInstance->addModule($moduleInstance);
+			if ($menuInstance) $menuInstance->addModule($moduleInstance);
+
+			$appMenuInstance = Vtiger_AppMenu::getInstance($parenttab);
+			if ($appMenuInstance) $appMenuInstance->addModule($moduleInstance);
 		}
 
 		$this->import_Tables($this->_modulexml, $moduleInstance);

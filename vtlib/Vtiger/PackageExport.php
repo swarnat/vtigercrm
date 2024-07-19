@@ -244,11 +244,19 @@ class Vtiger_PackageExport {
 		global $adb;
 
 		$moduleid = $moduleInstance->id;
+		$parent_name = '';
 
 		$sqlresult = $adb->pquery("SELECT * FROM vtiger_parenttabrel WHERE tabid = ?", array($moduleid));
 		$parenttabid = $adb->query_result($sqlresult, 0, 'parenttabid');
 		$menu = Vtiger_Menu::getInstance($parenttabid);
-		$parent_name = $menu->label;
+		if ($menu) {
+			$parent_name = $menu->label;
+		} else {
+			$sqlresult = $adb->pquery("SELECT * FROM vtiger_app2tab WHERE tabid = ? LIMIT 1", array($moduleid));
+			if ($adb->num_rows($sqlresult)) {
+				$parent_name = $adb->query_result($sqlresult, 0, 'appname');
+			}
+		}
 
 		$sqlresult = $adb->pquery("SELECT * FROM vtiger_tab WHERE tabid = ?", array($moduleid));
 		$tabresultrow = $adb->fetch_array($sqlresult);
@@ -261,7 +269,7 @@ class Vtiger_PackageExport {
 		$this->outputNode(date('Y-m-d H:i:s'),'exporttime');
 		$this->outputNode($tabname, 'name');
 		$this->outputNode($tablabel, 'label');
-		$this->outputNode($parent_name, 'parent');
+		if ($parent_name) $this->outputNode($parent_name, 'parent');
 
 		if(!$moduleInstance->isentitytype) {
 			$this->outputNode('extension', 'type');

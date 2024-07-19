@@ -13,6 +13,7 @@ include_once('vtlib/Vtiger/Field.php');
 include_once('vtlib/Vtiger/Filter.php');
 include_once('vtlib/Vtiger/Profile.php');
 include_once('vtlib/Vtiger/Menu.php');
+include_once('vtlib/Vtiger/AppMenu.php');
 include_once('vtlib/Vtiger/Link.php');
 include_once('vtlib/Vtiger/Event.php');
 include_once('vtlib/Vtiger/Webservice.php');
@@ -202,7 +203,10 @@ class Vtiger_ModuleBasic {
 
 		if (!empty($parentTab)) {
 			$menuInstance = Vtiger_Menu::getInstance($parentTab);
-			$menuInstance->addModule($moduleInstance);
+			if ($menuInstance) $menuInstance->addModule($moduleInstance);
+
+			$appmenuInstance = Vtiger_AppMenu::getInstance($parentTab);
+			if ($appmenuInstance) $appmenuInstance->addModule($moduleInstance);
 		}
 
 		self::log("Creating Module $this->name ... DONE");
@@ -273,6 +277,7 @@ class Vtiger_ModuleBasic {
 		Vtiger_Profile::deleteForModule($this);
 		Vtiger_Link::deleteAll($this->id);
 		Vtiger_Menu::detachModule($this);
+		Vtiger_AppMenu::detachModule($this);
 		self::syncfile();
         Vtiger_Cache::flushModuleCache($this->name);
 	}
