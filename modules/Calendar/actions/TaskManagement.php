@@ -35,6 +35,8 @@ class Calendar_TaskManagement_Action extends Calendar_SaveAjax_Action {
 				$dateObject = new DateTime();
 				$date_start = $dateObject->format('Y-m-d');
 				$request->set('date_start', $date_start);
+			} else if ($fieldName == 'time_start') {
+				$request->set('time_start', $user->get('start_hour')); /* use day-start as time */
 			} else {
 				if ($request->get($fieldName) == null) {
 					$fieldValue = Vtiger_Util_Helper::fillMandatoryFields($fieldName, $moduleName, 'CRM');
