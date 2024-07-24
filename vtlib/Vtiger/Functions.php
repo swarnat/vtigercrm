@@ -1594,7 +1594,7 @@ class Vtiger_Functions {
     protected static $type = array(
 	'record' => 'id',
 	'src_record' => 'id',
-	'parent_id' => 'id',
+	'parent_id' => 'keyword', // id or ref-label in filter
         '_mfrom' => 'email',
         '_mto' => 'email',
         'sequencesList' => 'idlist',
@@ -1624,7 +1624,7 @@ class Vtiger_Functions {
     public static function validateRequestParameter($type, $value) {
         $ok = true;
 		switch ($type) {
-			/* restricted set of (number / label text) for id */
+			/* restricted set of (number / wsid / uuid format) for id */
             case 'id' : $ok = (preg_match('/[^0-9xa-zA-Z\-]/', $value)) ? false : $ok;
                 break;
             case 'email' : $ok = self::validateTypeEmail($value);
