@@ -88,13 +88,14 @@ class Products extends CRMEntity {
 	function save_module($module)
 	{
 		//Inserting into product_taxrel table
-		if((isset($_REQUEST['ajxaction']) && $_REQUEST['ajxaction'] != 'DETAILVIEW') && (isset($_REQUEST['action']) && $_REQUEST['action'] != 'ProcessDuplicates') && !$this->isWorkFlowFieldUpdate)
+		if(((isset($_REQUEST['ajxaction']) && $_REQUEST['ajxaction'] != 'DETAILVIEW') || !isset($_REQUEST['ajxaction'])) && 
+		   ((isset($_REQUEST['action']) && $_REQUEST['action'] != 'ProcessDuplicates') || !isset($_REQUEST['action'])) && !$this->isWorkFlowFieldUpdate)
 		{
-			if (isset($_REQUEST['ajxaction']) && $_REQUEST['ajxaction'] != 'CurrencyUpdate') {
+			if ((isset($_REQUEST['ajxaction']) && $_REQUEST['ajxaction'] != 'CurrencyUpdate') || !isset($_REQUEST["ajxaction"])) {
 				$this->insertTaxInformation('vtiger_producttaxrel', 'Products');
 			}
 
-			if (isset($_REQUEST['action']) && $_REQUEST['action'] != 'MassEditSave' ) {
+			if ((isset($_REQUEST['action']) && $_REQUEST['action'] != 'MassEditSave') || !isset($_REQUEST['action'])) {
 				$this->insertPriceInformation('vtiger_productcurrencyrel', 'Products');
 			}
 		}
