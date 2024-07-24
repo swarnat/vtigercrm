@@ -58,6 +58,14 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 	}
 
 	/**
+	 * Function to check whether to allow excel like grid edit.
+	 * Disabled as there are more dependent fields.
+	 */
+	public function isExcelEditAllowed() {
+		return false;
+	}
+
+	/**
 	 * Function returns the URL for creating Events
 	 * @return <String>
 	 */
