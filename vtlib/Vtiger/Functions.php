@@ -1623,8 +1623,9 @@ class Vtiger_Functions {
      */
     public static function validateRequestParameter($type, $value) {
         $ok = true;
-        switch ($type) {
-            case 'id' : $ok = (preg_match('/[^0-9xH]/', $value)) ? false : $ok;
+		switch ($type) {
+			/* restricted set of (number / label text) for id */
+            case 'id' : $ok = (preg_match('/[^0-9xa-zA-Z\-]/', $value)) ? false : $ok;
                 break;
             case 'email' : $ok = self::validateTypeEmail($value);
                 break;
