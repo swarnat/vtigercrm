@@ -784,12 +784,12 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock='false
 				$taxName = $all_available_taxes[$taxCount]['taxname'];
 				$requestTaxName = $taxName.'_group_percentage';
 				$taxValue = 0;
-				if(isset($_REQUEST[$requestTaxName])) {
+				if(isset($_REQUEST[$requestTaxName]) && !empty($_REQUEST[$requestTaxName])) {
 					$taxValue = vtlib_purify($_REQUEST[$requestTaxName]);
 				}
 
 				$updatequery .= " $taxName = ?,";
-				array_push($updateparams, (-$taxValue));
+				array_push($updateparams, (-1 * $taxValue));
 			}
 		}
 
