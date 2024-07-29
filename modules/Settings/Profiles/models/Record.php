@@ -515,7 +515,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model {
 						//Save action permissions = Permissions of Create/Editview action
 						$actionPermissions[$actionId] = (isset($actionPermissions[1]) && $actionPermissions[1]) || (isset($actionPermissions[7]) && $actionPermissions[7]);
 					} else {
-						$actionPermissions[$actionId] = isset($actionPermissions[$actionId]) ? $actionPermissions[$actionId] : 0;
+						$actionPermissions[$actionId] = isset($actionPermissions[$actionId]) ? $actionPermissions[$actionId] : null;
 					}
 				}
                 
