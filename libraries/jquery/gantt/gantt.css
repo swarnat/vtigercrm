@@ -286,7 +286,7 @@ input[readonly]{
   padding: 3px;
   z-index: 100;
 }
-.taskEditRow .taskStatus{
+.taskEditRow .taskStatus, .cvcColorSquare.taskStatus {
   width:15px;
   height:15px;
   display:inline-block;
@@ -294,7 +294,7 @@ input[readonly]{
   position:relative;
 }
 
-.taskEditRow .taskStatus.selected{
+.taskEditRow .taskStatus.selected, .cvcColorSquare.taskStatus.selected{
   border:#666 2px solid;
 }
 
