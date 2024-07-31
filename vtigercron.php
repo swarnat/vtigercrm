@@ -61,6 +61,11 @@ if(vtigercron_detect_run_in_cli() || (isset($_SESSION["authenticated_user_id"]) 
 		try {
 			$cronTask->setBulkMode(true);
 
+			if ($cronTask->isRunning()) {
+			    echo sprintf("[INFO] %s - is already running. Skipping execution.\n", $cronTask->getName());
+			    continue;
+			}
+			
 			// Not ready to run yet?
 			if (!$cronTask->isRunnable()) {
 				echo sprintf("[INFO] %s - not ready to run as the time to run again is not completed\n", $cronTask->getName());
@@ -85,6 +90,7 @@ if(vtigercron_detect_run_in_cli() || (isset($_SESSION["authenticated_user_id"]) 
 			echo "\n".sprintf('[CRON],"%s",%s,%s,"%s","%s",[ENDS]',$cronRunId,$site_URL,$cronTask->getName(),date('Y-m-d H:i:s',$cronTask->getLastStart()),date('Y-m-d H:i:s',$cronTask->getLastEnd()))."\n";
 
 		} catch (Exception $e) {
+		    $cronTask->updateStatus(Vtiger_Cron::$STATUS_ERROR);
 			echo sprintf("[ERROR]: %s - cron task execution throwed exception.\n", $cronTask->getName());
 			echo $e->getMessage();
 			echo "\n";
