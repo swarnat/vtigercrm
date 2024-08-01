@@ -23,6 +23,7 @@ class Vtiger_Cron {
 	static $STATUS_ENABLED = 1;
 	static $STATUS_RUNNING = 2;
 	static $STATUS_COMPLETED = 3;
+	static $STATUS_ERROR = 4;
 	protected $data;
 	protected $bulkMode = false;
 
@@ -201,6 +202,7 @@ class Vtiger_Cron {
 			case self::$STATUS_DISABLED:
 			case self::$STATUS_ENABLED:
 			case self::$STATUS_RUNNING:
+			case self::$STATUS_ERROR:
 				break;
 			default:
 				throw new Exception('Invalid status');

@@ -24,4 +24,5 @@ $languageStrings = array(
 	'LBL_RUNNING' => 'Running',
 	'LBL_ACTIVE' => 'Active',
 	'LBL_INACTIVE' => 'In Active',
+    'LBL_ERROR' => 'ERROR',
 );
