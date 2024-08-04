@@ -1,0 +1,11 @@
+div.adminHeadline {
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+}
+div.adminHeadline h4 {
+    flex-grow:1;
+}
+div.adminHeadline .actionBar {
+    text-align:right;
+}

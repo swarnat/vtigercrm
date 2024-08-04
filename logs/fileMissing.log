@@ -1,0 +1,8 @@
+Traced on 2024-08-04 13:37:06
+FileAccessForInclusion - 
+/var/www/html/vtigercrm/moduledev/include/utils/CommonUtils.php::checkFileAccessForInclusion::388<br>
+/var/www/html/vtigercrm/moduledev/includes/Loader.php::checkFileAccessForInclusion::65<br>
+/var/www/html/vtigercrm/moduledev/includes/Loader.php::includeOnce::191<br>
+/var/www/html/vtigercrm/moduledev/includes/main/WebUI.php::vimport::15<br>
+/var/www/html/vtigercrm/moduledev/index.php::include_once::23<br>
+

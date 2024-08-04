@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <type>extension</type>
+    <name>SwVtTools</name>
+    <version>8.01.01</version>
+    <dependencies>
+        <vtiger_version>8.*</vtiger_version>
+    </dependencies>
+</module>
